@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/SobeyTV.iml" filepath="$PROJECT_DIR$/SobeyTV.iml" />
+      <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/easeui/easeui.iml" filepath="$PROJECT_DIR$/easeui/easeui.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tvcust/tvcust.iml" filepath="$PROJECT_DIR$/tvcust/tvcust.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tvserv/tvserv.iml" filepath="$PROJECT_DIR$/tvserv/tvserv.iml" />
+    </modules>
+  </component>
+</project>
