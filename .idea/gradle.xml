@@ -11,6 +11,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/common" />
             <option value="$PROJECT_DIR$/easeui" />
+            <option value="$PROJECT_DIR$/library_version" />
             <option value="$PROJECT_DIR$/tvcust" />
             <option value="$PROJECT_DIR$/tvserv" />
           </set>
@@ -20,6 +21,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/common" />
             <option value="$PROJECT_DIR$/easeui" />
+            <option value="$PROJECT_DIR$/library_version" />
             <option value="$PROJECT_DIR$/tvcust" />
             <option value="$PROJECT_DIR$/tvserv" />
           </set>

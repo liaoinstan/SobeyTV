@@ -53,4 +53,14 @@
         android:layout_marginLeft="24dp"
         android:layout_marginStart="24dp" />
 
+    <Button
+        android:id="@+id/version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onClick"
+        android:text="version"
+        android:layout_alignBottom="@+id/clear"
+        android:layout_alignLeft="@+id/acache"
+        android:layout_alignStart="@+id/acache" />
+
 </RelativeLayout>
