@@ -1,0 +1,48 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/text_pop_identy_camera"
+        style="@style/text_big_blank"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/hot_lay_item_dark"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="拍照" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/line" />
+
+    <TextView
+        android:id="@+id/text_pop_identy_photo"
+        style="@style/text_big_glod"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/hot_lay_item_dark"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="选择现有的" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/line" />
+
+    <TextView
+        android:id="@+id/text_pop_identy_cancel"
+        style="@style/text_big_blank"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/hot_lay_item_dark"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="取消" />
+
+</LinearLayout>

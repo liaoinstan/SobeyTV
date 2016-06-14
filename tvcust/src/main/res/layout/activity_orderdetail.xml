@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/sb_bk_dark"
+    android:fitsSystemWindows="true"
+    tools:context="com.sobey.tvcust.ui.activity.OrderDetailActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <com.liaoinstan.springview.widget.SpringView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:footer="@layout/header_common"
+        app:header="@layout/header_common"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:type="follow">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/sb_bk"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <ImageView
+                        android:id="@+id/img_order_detail_header"
+                        android:layout_width="63dp"
+                        android:layout_height="63dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/test" />
+
+                    <TextView
+                        android:id="@+id/text_order_detail_ip"
+                        style="@style/text_big_dark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/img_order_detail_header"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toEndOf="@+id/img_order_detail_header"
+                        android:layout_toRightOf="@+id/img_order_detail_header"
+                        android:text="IP:192.168.0.12" />
+
+                    <TextView
+                        android:id="@+id/text_order_detail_name"
+                        style="@style/text_big_dark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/text_order_detail_ip"
+                        android:layout_alignStart="@+id/text_order_detail_ip"
+                        android:layout_below="@+id/text_order_detail_ip"
+                        android:text="机器名:ENET-1" />
+
+                    <TextView
+                        android:id="@+id/text_order_detail_info"
+                        style="@style/text_subig_dark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/text_order_detail_name"
+                        android:layout_alignStart="@+id/text_order_detail_name"
+                        android:layout_below="@+id/text_order_detail_name"
+                        android:layout_marginTop="5dp"
+                        android:text="订单状态：已完成"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/sb_bk"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="10dp">
+
+                    <TextView
+                        style="@style/text_big_dark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="订单追踪" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        style="@style/text_nomal_glod"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/shape_rect_corner_glod_line"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:paddingTop="5dp"
+                        android:text="评价" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/sb_bk"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:src="@drawable/line_dark" />
+
+                <com.sobey.common.view.FullyListView
+                    android:id="@+id/listfull_ordertrack"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/sb_bk" />
+
+            </LinearLayout>
+        </ScrollView>
+
+    </com.liaoinstan.springview.widget.SpringView>
+
+</android.support.design.widget.CoordinatorLayout>

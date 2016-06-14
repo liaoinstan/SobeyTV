@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:orientation="vertical"
+    android:layout_marginTop="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/sb_bk">
+
+    <TextView
+        style="@style/text_big_dark"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="维修进度报告"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/sb_bk_dark"
+        android:paddingBottom="15dp"
+        android:paddingTop="15dp">
+
+        <ImageView
+            android:id="@+id/img_item_msg_header"
+            android:layout_width="63dp"
+            android:layout_height="63dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/test" />
+
+        <TextView
+            android:id="@+id/text_item_msg_ip"
+            style="@style/text_big_dark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/img_item_msg_header"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@+id/img_item_msg_header"
+            android:layout_toRightOf="@+id/img_item_msg_header"
+            android:text="IP:192.168.0.12" />
+
+        <TextView
+            android:id="@+id/text_item_msg_name"
+            style="@style/text_big_dark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/text_item_msg_ip"
+            android:layout_alignStart="@+id/text_item_msg_ip"
+            android:layout_below="@+id/text_item_msg_ip"
+            android:layout_marginTop="5dp"
+            android:text="机器名:ENET-1" />
+    </RelativeLayout>
+
+    <TextView
+        style="@style/text_big_dark"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="已派遣维修人员，请耐心等待"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:gravity="right">
+
+        <TextView
+            android:id="@+id/text_item_msg_delete"
+            style="@style/text_nomal_dark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/shape_rect_corner_none_line"
+            android:text="删除消息"/>
+
+        <TextView
+            android:id="@+id/text_item_msg_go"
+            style="@style/text_nomal_blank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_rect_corner_glod"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_marginRight="10dp"
+            android:text="查看订单"/>
+    </LinearLayout>
+
+</LinearLayout>
