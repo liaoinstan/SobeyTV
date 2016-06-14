@@ -1,10 +1,13 @@
 package com.sobey.tvcust.ui.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.shelwee.update.UpdateHelper;
@@ -27,6 +30,11 @@ public class TestActivity extends AppCompatActivity {
                         .isAutoInstall(false) //设置为false需在下载完手动点击安装;默认值为true，下载后自动安装。
 //                        .isHintNewVersion(false)
                 .build();
+
+
+        ImageView img = (ImageView) findViewById(R.id.img_test);
+        Bitmap bitmap = BitmapFactory.decodeFile("/storage/emulated/0/!croptest/mm.jpg");
+        img.setImageBitmap(bitmap);
     }
 
     public void onClick(View v){

@@ -3,8 +3,8 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/sb_bk</item>
+        <item name="colorPrimaryDark">@color/black</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
@@ -23,5 +23,96 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+    <style name="MyDialog" parent="@android:Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowBackground">@drawable/none</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="PopupDialog" parent="@style/MyDialog">
+        <item name="android:windowAnimationStyle">@style/AnimBottom</item>
+    </style>
+
+    <style name="LoadingDialog" parent="@style/MyDialog"></style>
+
+    <style name="MsgDialog" parent="@style/MyDialog"></style>
+
+
+    <style name="edit_hidden">
+        <item name="android:background">@color/none</item>
+        <item name="android:textColorHint">@color/sb_text_dark</item>
+        <item name="android:textColor">@color/sb_text_dark</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+
+    <style name="text_subig_glod">
+        <item name="android:textColor">@color/sb_glod</item>
+        <item name="android:textSize">@dimen/text_subig</item>
+    </style>
+
+    <style name="text_subig_dark">
+        <item name="android:textColor">@color/sb_text_dark</item>
+        <item name="android:textSize">@dimen/text_subig</item>
+    </style>
+
+    <style name="text_big_white">
+        <item name="android:textColor">@color/sb_text_white</item>
+        <item name="android:textSize">@dimen/text_big</item>
+    </style>
+
+    <style name="text_big_glod">
+        <item name="android:textColor">@color/sb_glod</item>
+        <item name="android:textSize">@dimen/text_big</item>
+    </style>
+
+    <style name="text_big_green">
+        <item name="android:textColor">@color/sb_green</item>
+        <item name="android:textSize">@dimen/text_big</item>
+    </style>
+
+    <style name="text_big_red">
+        <item name="android:textColor">@color/sb_red</item>
+        <item name="android:textSize">@dimen/text_big</item>
+    </style>
+
+    <style name="text_big_dark">
+        <item name="android:textColor">@color/sb_text_dark</item>
+        <item name="android:textSize">@dimen/text_big</item>
+    </style>
+
+    <style name="text_big_blank">
+        <item name="android:textColor">@color/sb_text_blank</item>
+        <item name="android:textSize">@dimen/text_big</item>
+    </style>
+
+    <style name="text_nomal_white">
+        <item name="android:textColor">@color/sb_text_white</item>
+        <item name="android:textSize">@dimen/text_nomal</item>
+    </style>
+
+    <style name="text_nomal_glod">
+        <item name="android:textColor">@color/sb_glod</item>
+        <item name="android:textSize">@dimen/text_nomal</item>
+    </style>
+
+    <style name="text_nomal_dark">
+        <item name="android:textColor">@color/sb_text_dark</item>
+        <item name="android:textSize">@dimen/text_nomal</item>
+    </style>
+
+    <style name="text_nomal_blank">
+        <item name="android:textColor">@color/sb_text_blank</item>
+        <item name="android:textSize">@dimen/text_nomal</item>
+    </style>
+
+    <style name="text_tiny_dark">
+        <item name="android:textColor">@color/sb_text_dark</item>
+        <item name="android:textSize">@dimen/text_tiny</item>
+    </style>
 
 </resources>

@@ -2,11 +2,30 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">@color/sb_glod</color>
 
 
-    <color name="home_tab_text">#2ea7e0</color>
-    <color name="home_tab_text_hot">#ffffff</color>
-    <color name="home_tab_bk">#000000</color>
-    <color name="home_tab_bk_hot">#999999</color>
+    <color name="none">#00000000</color>
+
+    <color name="sb_glod">#e7b744</color>
+    <color name="sb_glod_dark">#99e7b744</color>
+    <color name="sb_glod_hint">#22e7b744</color>
+    <color name="sb_text_white">#f1f1f1</color>
+    <color name="sb_text_light">#cccccc</color>
+    <color name="sb_text_dark">#999999</color>
+    <color name="sb_text_blank">#555555</color>
+
+    <color name="sb_tab_bk">#30383f</color>
+    <color name="sb_bk">#21272c</color>
+    <color name="sb_bk_dark">#181818</color>
+    <color name="sb_line">#55999999</color>
+    <color name="sb_line_dark">#99000000</color>
+
+    <color name="sb_lay_pressed">#07000000</color>
+
+    <color name="sb_green">#ff12b143</color>
+    <color name="sb_red">#fff03619</color>
+
+
+    <color name="sb_track">#cccccc</color>
 </resources>

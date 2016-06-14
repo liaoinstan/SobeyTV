@@ -298,6 +298,7 @@
     <string name="voice">声音</string>
     <string name="voice_call">[语音通话]</string>
     <string name="voice_prefix">[语音]</string>
+    <string name="were_mentioned">[有人@我]</string>
     <string name="yangshengqi">使用扬声器播放语音</string>
     <string name="you_are_group">你被群创建者从此群中移除</string>
 </resources>

@@ -358,6 +358,7 @@
     <string name="voice">Voice</string>
     <string name="voice_call">[Voice call]</string>
     <string name="voice_prefix">[Voice]</string>
+    <string name="were_mentioned">You were montioned</string>
     <string name="yangshengqi">Use speaker</string>
     <string name="you_are_group">You have been kicked off from the group</string>
     <style name="AnimBottom" parent="@android:style/Animation">

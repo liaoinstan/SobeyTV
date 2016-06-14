@@ -2,6 +2,7 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
@@ -17,84 +18,139 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <ImageView
+                android:id="@+id/img_msg_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/home_qw_msg_hot"/>
+
+        </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/mainLayout"
-
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/sb_bk"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:id="@+id/main_bottom"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_alignParentBottom="true"
+            android:background="@color/sb_tab_bk"
             android:gravity="center_vertical"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <RelativeLayout
-                android:id="@+id/btn_container_conversation"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <Button
-                    android:id="@+id/btn_conversation"
+                    android:id="@+id/btn_home_info"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/my_color_home_tab_bk"
-                    android:textColor="@drawable/my_color_home_tab_text"
+                    android:background="@null"
+                    android:drawableTop="@drawable/my_home_info"
                     android:onClick="onTabClicked"
                     android:paddingBottom="2dip"
                     android:paddingTop="7dip"
                     android:scaleType="matrix"
-                    android:text="session"
+                    android:text="资讯"
+                    android:textColor="@drawable/my_color_home_tab_text"
                     android:textSize="12sp" />
 
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/btn_container_address_list"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <Button
-                    android:id="@+id/btn_address_list"
+                    android:id="@+id/btn_home_server"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/my_color_home_tab_bk"
-                    android:textColor="@drawable/my_color_home_tab_text"
+                    android:background="@null"
+                    android:drawableTop="@drawable/my_home_server"
                     android:onClick="onTabClicked"
                     android:paddingBottom="2dip"
                     android:paddingTop="7dip"
                     android:scaleType="matrix"
-                    android:text="address_book"
+                    android:text="客服"
+                    android:textColor="@drawable/my_color_home_tab_text"
                     android:textSize="12sp" />
 
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/btn_container_setting"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <Button
-                    android:id="@+id/btn_setting"
+                    android:id="@+id/btn_home_qw"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/my_color_home_tab_bk"
-                    android:textColor="@drawable/my_color_home_tab_text"
+                    android:background="@null"
+                    android:drawableTop="@drawable/my_home_qw"
                     android:onClick="onTabClicked"
                     android:paddingBottom="2dip"
                     android:paddingTop="7dip"
                     android:scaleType="matrix"
-                    android:text="setting"
+                    android:text="全网"
+                    android:textColor="@drawable/my_color_home_tab_text"
                     android:textSize="12sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/btn_home_order"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:drawableTop="@drawable/my_home_order"
+                    android:onClick="onTabClicked"
+                    android:paddingBottom="2dip"
+                    android:paddingTop="7dip"
+                    android:scaleType="matrix"
+                    android:text="订单"
+                    android:textColor="@drawable/my_color_home_tab_text"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/btn_home_me"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:drawableTop="@drawable/my_home_me"
+                    android:onClick="onTabClicked"
+                    android:paddingBottom="2dip"
+                    android:paddingTop="7dip"
+                    android:scaleType="matrix"
+                    android:text="我的"
+                    android:textColor="@drawable/my_color_home_tab_text"
+                    android:textSize="12sp" />
+
             </RelativeLayout>
         </LinearLayout>
 

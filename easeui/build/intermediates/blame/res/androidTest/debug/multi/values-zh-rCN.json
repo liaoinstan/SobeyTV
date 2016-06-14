@@ -5688,8 +5688,8 @@
                     "startLine": 301,
                     "startColumn": 4,
                     "startOffset": 16143,
-                    "endColumn": 54,
-                    "endOffset": 16193
+                    "endColumn": 49,
+                    "endOffset": 16188
                 },
                 "from": {
                     "file": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\bundles\\debug\\res\\values-zh-rCN\\values-zh-rCN.xml",
@@ -5697,8 +5697,27 @@
                         "startLine": 301,
                         "startColumn": 4,
                         "startOffset": 16143,
+                        "endColumn": 49,
+                        "endOffset": 16188
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 302,
+                    "startColumn": 4,
+                    "startOffset": 16193,
+                    "endColumn": 54,
+                    "endOffset": 16243
+                },
+                "from": {
+                    "file": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\bundles\\debug\\res\\values-zh-rCN\\values-zh-rCN.xml",
+                    "position": {
+                        "startLine": 302,
+                        "startColumn": 4,
+                        "startOffset": 16193,
                         "endColumn": 54,
-                        "endOffset": 16193
+                        "endOffset": 16243
                     }
                 }
             }

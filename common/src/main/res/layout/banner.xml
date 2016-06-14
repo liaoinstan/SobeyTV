@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <com.test.huanxin.bannertest.view.DotView
+        <com.sobey.common.view.DotView
             android:id="@+id/dotView"
             android:gravity="right"
             android:layout_marginBottom="5dp"

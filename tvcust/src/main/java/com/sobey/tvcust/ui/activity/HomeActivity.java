@@ -6,23 +6,28 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.hyphenate.easeui.EaseConstant;
 import com.sobey.tvcust.R;
-import com.sobey.tvcust.im.ChatActivity;
-import com.sobey.tvcust.ui.fragment.HomeFragment;
+import com.sobey.tvcust.im.MyChatFragment;
+import com.sobey.tvcust.ui.fragment.BuildFragment;
+import com.sobey.tvcust.ui.fragment.HomeQwFragment;
+import com.sobey.tvcust.utils.PermissionsUtil;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements View.OnClickListener{
 
     private Fragment homeFragment0;
     private Fragment homeFragment1;
     private Fragment homeFragment2;
+    private Fragment homeFragment3;
+    private Fragment homeFragment4;
     private Fragment[] fragments;
     private Button[] mTabs;
+    private ImageView img_msg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,40 +36,64 @@ public class HomeActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        PermissionsUtil.checkAndRequestPermissions(this,R.id.coordinator);
 
-        mTabs = new Button[3];
-        mTabs[0] = (Button) findViewById(R.id.btn_conversation);
-        mTabs[1] = (Button) findViewById(R.id.btn_address_list);
-        mTabs[2] = (Button) findViewById(R.id.btn_setting);
-        mTabs[0].setSelected(true);
+        initBase();
+        initView();
+        initCtrl();
 
-        homeFragment0 = HomeFragment.newInstance(0);
-        homeFragment1 = HomeFragment.newInstance(1);
-        homeFragment2 = HomeFragment.newInstance(2);
-        fragments = new Fragment[] { homeFragment0, homeFragment1, homeFragment2 };
         // 添加显示第一个fragment
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, homeFragment1)
-                .add(R.id.fragment_container, homeFragment0).hide(homeFragment1).show(homeFragment0)
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, homeFragment2)
+                .show(homeFragment2)
                 .commit();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+    private void initBase() {
+        mTabs = new Button[5];
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent = new Intent();
-        switch (item.getItemId()) {
-            case R.id.action_chat:
-                intent.setClass(this, ChatActivity.class);
-                startActivity(intent);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
+    private void initView() {
+        mTabs[0] = (Button) findViewById(R.id.btn_home_info);
+        mTabs[1] = (Button) findViewById(R.id.btn_home_server);
+        mTabs[2] = (Button) findViewById(R.id.btn_home_qw);
+        mTabs[3] = (Button) findViewById(R.id.btn_home_order);
+        mTabs[4] = (Button) findViewById(R.id.btn_home_me);
+
+        img_msg = (ImageView) findViewById(R.id.img_msg_home);
     }
+
+    private void initCtrl() {
+        mTabs[2].setSelected(true);
+        currentTabIndex = 2;
+
+        homeFragment0 = BuildFragment.newInstance(0);
+        homeFragment1 = MyChatFragment.newInstance(1);
+        homeFragment2 = HomeQwFragment.newInstance(2);
+        homeFragment3 = BuildFragment.newInstance(3);
+        homeFragment4 = BuildFragment.newInstance(4);
+        fragments = new Fragment[] { homeFragment0, homeFragment1, homeFragment2,homeFragment3,homeFragment4 };
+
+        img_msg.setOnClickListener(this);
+    }
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        Intent intent = new Intent();
+//        switch (item.getItemId()) {
+//            case R.id.action_chat:
+//                intent.setClass(this, ChatActivity.class);
+//                startActivity(intent);
+//                return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
 
     /**
@@ -72,22 +101,33 @@ public class HomeActivity extends AppCompatActivity {
      */
     private int currentTabIndex;
     public void onTabClicked(View view) {
+        Bundle args = new Bundle();
         int index = 0;
         switch (view.getId()) {
-            case R.id.btn_conversation:
+            case R.id.btn_home_info:
                 index = 0;
                 break;
-            case R.id.btn_address_list:
+            case R.id.btn_home_server:
                 index = 1;
+                //传入参数
+                args.putInt(EaseConstant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
+                args.putString(EaseConstant.EXTRA_USER_ID, "liaoinstan");
                 break;
-            case R.id.btn_setting:
+            case R.id.btn_home_qw:
                 index = 2;
+                break;
+            case R.id.btn_home_order:
+                index = 3;
+                break;
+            case R.id.btn_home_me:
+                index = 4;
                 break;
         }
         if (currentTabIndex != index) {
             FragmentTransaction trx = getSupportFragmentManager().beginTransaction();
             trx.hide(fragments[currentTabIndex]);
             if (!fragments[index].isAdded()) {
+                fragments[index].setArguments(args);
                 trx.add(R.id.fragment_container, fragments[index]);
             }
             trx.show(fragments[index]).commit();
@@ -107,6 +147,16 @@ public class HomeActivity extends AppCompatActivity {
             exitTime = System.currentTimeMillis();
         } else{
             super.finish();
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.img_msg_home:
+                Intent intent = new Intent(this, MsgActivity.class);
+                startActivity(intent);
+                break;
         }
     }
 }

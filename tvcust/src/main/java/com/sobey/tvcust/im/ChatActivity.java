@@ -26,35 +26,7 @@ public class ChatActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-        EMClient.getInstance().login("liaozhen", "111111",new EMCallBack() {//回调
-            @Override
-            public void onSuccess() {
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        EMClient.getInstance().groupManager().loadAllGroups();
-                        EMClient.getInstance().chatManager().loadAllConversations();
-                        Log.d("main", "登录聊天服务器成功！");
-                        Toast.makeText(ChatActivity.this, "登录聊天服务器成功！", Toast.LENGTH_SHORT).show();
 
-                        setFragment();
-                    }
-                });
-            }
-
-            @Override
-            public void onProgress(int progress, String status) {
-            }
-
-            @Override
-            public void onError(int code, final String message) {
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        Log.d("main", "登录聊天服务器失败:" + message);
-                        Toast.makeText(ChatActivity.this, "登录聊天服务器失败:" + message, Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
     }
 
 

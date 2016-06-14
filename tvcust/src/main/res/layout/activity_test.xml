@@ -63,4 +63,13 @@
         android:layout_alignLeft="@+id/acache"
         android:layout_alignStart="@+id/acache" />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/img_test"
+        android:layout_below="@+id/clear"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="88dp" />
+
 </RelativeLayout>

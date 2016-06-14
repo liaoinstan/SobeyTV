@@ -1,6 +1,7 @@
 package com.sobey.common.view;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v4.view.ViewPager;
@@ -8,6 +9,8 @@ import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import com.sobey.common.R;
 
 /**
  * Created by Administrator on 2016/6/6 0006.
@@ -21,19 +24,45 @@ public class DotView extends LinearLayout{
     private int dot_size = 13;
     private GradientDrawable mUnSelectedGradientDrawable;
     private GradientDrawable mSelectedGradientDrawable;
+    private int mUnSelectedSrc;
+    private int mSelectedSrc;
+    private int selectedColor;
+    private int unSelectedColor;
+
     private int DEFAULT_BANNER_SIZE = -1;
 
     public DotView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
+
+        if (attrs != null) {
+            final TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.DotView, 0, 0);
+
+            selectedColor = attributes.getColor(R.styleable.DotView_myselected_color, Color.rgb(255, 255, 255));
+            unSelectedColor = attributes.getColor(R.styleable.DotView_myunselected_color, Color.argb(33, 255, 255, 255));
+
+            mSelectedSrc = attributes.getResourceId(R.styleable.DotView_myselected_drawable, 0);
+            mUnSelectedSrc = attributes.getResourceId(R.styleable.DotView_myunselected_drawable, 0);
+        }
+
         mSelectedGradientDrawable = new GradientDrawable();
         mUnSelectedGradientDrawable = new GradientDrawable();
         mSelectedGradientDrawable.setShape(GradientDrawable.OVAL);
         mUnSelectedGradientDrawable.setShape(GradientDrawable.OVAL);
         mSelectedGradientDrawable.setSize(dot_size, dot_size);
         mUnSelectedGradientDrawable.setSize(dot_size, dot_size);
-        mSelectedGradientDrawable.setColor(Color.rgb(255, 255, 255));
-        mUnSelectedGradientDrawable.setColor(Color.argb(33, 255, 255, 255));
+        if (selectedColor!=0){
+            mSelectedGradientDrawable.setColor(selectedColor);
+        }else {
+            mSelectedGradientDrawable.setColor(Color.rgb(255, 255, 255));
+        }
+        if (unSelectedColor!=0){
+            mUnSelectedGradientDrawable.setColor(unSelectedColor);
+        }else {
+            mUnSelectedGradientDrawable.setColor(Color.argb(33, 255, 255, 255));
+        }
+
+
     }
 
     @Override
@@ -53,9 +82,17 @@ public class DotView extends LinearLayout{
             lp.rightMargin = 10;
             imageView.setLayoutParams(lp);
             if (i==0){
-                imageView.setImageDrawable(mSelectedGradientDrawable);
+                if (mSelectedSrc!=0){
+                    imageView.setImageResource(mSelectedSrc);
+                }else{
+                    imageView.setImageDrawable(mSelectedGradientDrawable);
+                }
             }else {
-                imageView.setImageDrawable(mUnSelectedGradientDrawable);
+                if (mUnSelectedSrc!=0){
+                    imageView.setImageResource(mUnSelectedSrc);
+                }else {
+                    imageView.setImageDrawable(mUnSelectedGradientDrawable);
+                }
             }
 
             addView(imageView);
@@ -66,9 +103,17 @@ public class DotView extends LinearLayout{
         for (int i=0;i<getChildCount();i++){
             ImageView child = (ImageView)getChildAt(i);
             if (position == i){
-                child.setImageDrawable(mSelectedGradientDrawable);
+                if (mSelectedSrc!=0){
+                    child.setImageResource(mSelectedSrc);
+                }else {
+                    child.setImageDrawable(mSelectedGradientDrawable);
+                }
             }else {
-                child.setImageDrawable(mUnSelectedGradientDrawable);
+                if (mUnSelectedSrc!=0){
+                    child.setImageResource(mUnSelectedSrc);
+                }else {
+                    child.setImageDrawable(mUnSelectedGradientDrawable);
+                }
             }
         }
     }
@@ -113,7 +158,7 @@ public class DotView extends LinearLayout{
         notifyDataSetChanged();
     }
 
-    private void notifyDataSetChanged() {
+    public void notifyDataSetChanged() {
         removeAllViews();
         if (DEFAULT_BANNER_SIZE != -1) {
             tabCount =  DEFAULT_BANNER_SIZE;
@@ -121,5 +166,13 @@ public class DotView extends LinearLayout{
             tabCount = pager.getAdapter().getCount();
         }
         addDots(tabCount);
+    }
+
+    public void setSelectedDotResource(int mSelectedSrc){
+        this.mSelectedSrc = mSelectedSrc;
+    }
+
+    public void setUnSelectedDotResource(int mUnSelectedSrc){
+        this.mUnSelectedSrc = mUnSelectedSrc;
     }
 }

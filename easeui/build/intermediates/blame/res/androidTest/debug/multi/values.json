@@ -6676,8 +6676,8 @@
                     "startLine": 360,
                     "startColumn": 4,
                     "startOffset": 24916,
-                    "endColumn": 51,
-                    "endOffset": 24963
+                    "endColumn": 61,
+                    "endOffset": 24973
                 },
                 "from": {
                     "file": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
@@ -6685,8 +6685,8 @@
                         "startLine": 360,
                         "startColumn": 4,
                         "startOffset": 24916,
-                        "endColumn": 51,
-                        "endOffset": 24963
+                        "endColumn": 61,
+                        "endOffset": 24973
                     }
                 }
             },
@@ -6694,18 +6694,18 @@
                 "to": {
                     "startLine": 361,
                     "startColumn": 4,
-                    "startOffset": 24968,
-                    "endColumn": 81,
-                    "endOffset": 25045
+                    "startOffset": 24978,
+                    "endColumn": 51,
+                    "endOffset": 25025
                 },
                 "from": {
                     "file": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 361,
                         "startColumn": 4,
-                        "startOffset": 24968,
-                        "endColumn": 81,
-                        "endOffset": 25045
+                        "startOffset": 24978,
+                        "endColumn": 51,
+                        "endOffset": 25025
                     }
                 }
             },
@@ -6713,186 +6713,186 @@
                 "to": {
                     "startLine": 362,
                     "startColumn": 4,
-                    "startOffset": 25050,
-                    "endLine": 365,
-                    "endColumn": 12,
-                    "endOffset": 25278
+                    "startOffset": 25030,
+                    "endColumn": 81,
+                    "endOffset": 25107
                 },
                 "from": {
                     "file": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 362,
                         "startColumn": 4,
-                        "startOffset": 25050,
-                        "endLine": 365,
-                        "endColumn": 12,
-                        "endOffset": 25278
+                        "startOffset": 25030,
+                        "endColumn": 81,
+                        "endOffset": 25107
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 366,
+                    "startLine": 363,
                     "startColumn": 4,
-                    "startOffset": 25283,
-                    "endLine": 370,
+                    "startOffset": 25112,
+                    "endLine": 366,
                     "endColumn": 12,
-                    "endOffset": 25590
+                    "endOffset": 25340
                 },
                 "from": {
                     "file": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
-                        "startLine": 366,
+                        "startLine": 363,
                         "startColumn": 4,
-                        "startOffset": 25283,
-                        "endLine": 370,
+                        "startOffset": 25112,
+                        "endLine": 366,
                         "endColumn": 12,
-                        "endOffset": 25590
+                        "endOffset": 25340
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 371,
+                    "startLine": 367,
                     "startColumn": 4,
-                    "startOffset": 25595,
-                    "endLine": 376,
+                    "startOffset": 25345,
+                    "endLine": 371,
                     "endColumn": 12,
-                    "endOffset": 26027
+                    "endOffset": 25652
                 },
                 "from": {
                     "file": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
-                        "startLine": 371,
+                        "startLine": 367,
                         "startColumn": 4,
-                        "startOffset": 25595,
-                        "endLine": 376,
+                        "startOffset": 25345,
+                        "endLine": 371,
                         "endColumn": 12,
-                        "endOffset": 26027
+                        "endOffset": 25652
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 377,
+                    "startLine": 372,
                     "startColumn": 4,
-                    "startOffset": 26032,
-                    "endLine": 380,
+                    "startOffset": 25657,
+                    "endLine": 377,
                     "endColumn": 12,
-                    "endOffset": 26244
+                    "endOffset": 26089
                 },
                 "from": {
                     "file": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
-                        "startLine": 377,
+                        "startLine": 372,
                         "startColumn": 4,
-                        "startOffset": 26032,
-                        "endLine": 380,
+                        "startOffset": 25657,
+                        "endLine": 377,
                         "endColumn": 12,
-                        "endOffset": 26244
+                        "endOffset": 26089
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 381,
+                    "startLine": 378,
                     "startColumn": 4,
-                    "startOffset": 26249,
-                    "endLine": 384,
+                    "startOffset": 26094,
+                    "endLine": 381,
                     "endColumn": 12,
-                    "endOffset": 26468
+                    "endOffset": 26306
                 },
                 "from": {
                     "file": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
-                        "startLine": 381,
+                        "startLine": 378,
                         "startColumn": 4,
-                        "startOffset": 26249,
-                        "endLine": 384,
+                        "startOffset": 26094,
+                        "endLine": 381,
                         "endColumn": 12,
-                        "endOffset": 26468
+                        "endOffset": 26306
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 385,
+                    "startLine": 382,
                     "startColumn": 4,
-                    "startOffset": 26473,
-                    "endLine": 388,
+                    "startOffset": 26311,
+                    "endLine": 385,
                     "endColumn": 12,
-                    "endOffset": 26695
+                    "endOffset": 26530
                 },
                 "from": {
                     "file": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
-                        "startLine": 385,
+                        "startLine": 382,
                         "startColumn": 4,
-                        "startOffset": 26473,
-                        "endLine": 388,
+                        "startOffset": 26311,
+                        "endLine": 385,
                         "endColumn": 12,
-                        "endOffset": 26695
+                        "endOffset": 26530
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 389,
+                    "startLine": 386,
                     "startColumn": 4,
-                    "startOffset": 26700,
-                    "endLine": 391,
+                    "startOffset": 26535,
+                    "endLine": 389,
                     "endColumn": 12,
-                    "endOffset": 26856
+                    "endOffset": 26757
                 },
                 "from": {
                     "file": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
-                        "startLine": 389,
+                        "startLine": 386,
                         "startColumn": 4,
-                        "startOffset": 26700,
-                        "endLine": 391,
+                        "startOffset": 26535,
+                        "endLine": 389,
                         "endColumn": 12,
-                        "endOffset": 26856
+                        "endOffset": 26757
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 392,
+                    "startLine": 390,
                     "startColumn": 4,
-                    "startOffset": 26861,
-                    "endLine": 394,
+                    "startOffset": 26762,
+                    "endLine": 392,
                     "endColumn": 12,
-                    "endOffset": 27007
+                    "endOffset": 26918
                 },
                 "from": {
                     "file": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
-                        "startLine": 392,
+                        "startLine": 390,
                         "startColumn": 4,
-                        "startOffset": 26861,
-                        "endLine": 394,
+                        "startOffset": 26762,
+                        "endLine": 392,
                         "endColumn": 12,
-                        "endOffset": 27007
+                        "endOffset": 26918
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 395,
+                    "startLine": 393,
                     "startColumn": 4,
-                    "startOffset": 27012,
-                    "endColumn": 57,
-                    "endOffset": 27065
+                    "startOffset": 26923,
+                    "endLine": 395,
+                    "endColumn": 12,
+                    "endOffset": 27069
                 },
                 "from": {
                     "file": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
-                        "startLine": 395,
+                        "startLine": 393,
                         "startColumn": 4,
-                        "startOffset": 27012,
-                        "endColumn": 57,
-                        "endOffset": 27065
+                        "startOffset": 26923,
+                        "endLine": 395,
+                        "endColumn": 12,
+                        "endOffset": 27069
                     }
                 }
             },
@@ -6900,249 +6900,268 @@
                 "to": {
                     "startLine": 396,
                     "startColumn": 4,
-                    "startOffset": 27070,
-                    "endLine": 409,
-                    "endColumn": 12,
-                    "endOffset": 27690
+                    "startOffset": 27074,
+                    "endColumn": 57,
+                    "endOffset": 27127
                 },
                 "from": {
                     "file": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
                         "startLine": 396,
                         "startColumn": 4,
-                        "startOffset": 27070,
-                        "endLine": 409,
-                        "endColumn": 12,
-                        "endOffset": 27690
+                        "startOffset": 27074,
+                        "endColumn": 57,
+                        "endOffset": 27127
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 410,
+                    "startLine": 397,
                     "startColumn": 4,
-                    "startOffset": 27695,
-                    "endLine": 415,
+                    "startOffset": 27132,
+                    "endLine": 410,
                     "endColumn": 12,
-                    "endOffset": 28025
+                    "endOffset": 27752
                 },
                 "from": {
                     "file": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
-                        "startLine": 410,
+                        "startLine": 397,
                         "startColumn": 4,
-                        "startOffset": 27695,
-                        "endLine": 415,
+                        "startOffset": 27132,
+                        "endLine": 410,
                         "endColumn": 12,
-                        "endOffset": 28025
+                        "endOffset": 27752
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 416,
+                    "startLine": 411,
                     "startColumn": 4,
-                    "startOffset": 28030,
-                    "endLine": 425,
+                    "startOffset": 27757,
+                    "endLine": 416,
                     "endColumn": 12,
-                    "endOffset": 28593
+                    "endOffset": 28087
                 },
                 "from": {
                     "file": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
-                        "startLine": 416,
+                        "startLine": 411,
                         "startColumn": 4,
-                        "startOffset": 28030,
-                        "endLine": 425,
+                        "startOffset": 27757,
+                        "endLine": 416,
                         "endColumn": 12,
-                        "endOffset": 28593
+                        "endOffset": 28087
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 426,
+                    "startLine": 417,
                     "startColumn": 4,
-                    "startOffset": 28598,
-                    "endLine": 440,
+                    "startOffset": 28092,
+                    "endLine": 426,
                     "endColumn": 12,
-                    "endOffset": 29257
+                    "endOffset": 28655
                 },
                 "from": {
                     "file": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
-                        "startLine": 426,
+                        "startLine": 417,
                         "startColumn": 4,
-                        "startOffset": 28598,
-                        "endLine": 440,
+                        "startOffset": 28092,
+                        "endLine": 426,
                         "endColumn": 12,
-                        "endOffset": 29257
+                        "endOffset": 28655
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 441,
+                    "startLine": 427,
                     "startColumn": 4,
-                    "startOffset": 29262,
-                    "endLine": 455,
+                    "startOffset": 28660,
+                    "endLine": 441,
                     "endColumn": 12,
-                    "endOffset": 29917
+                    "endOffset": 29319
                 },
                 "from": {
                     "file": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
-                        "startLine": 441,
+                        "startLine": 427,
                         "startColumn": 4,
-                        "startOffset": 29262,
-                        "endLine": 455,
+                        "startOffset": 28660,
+                        "endLine": 441,
                         "endColumn": 12,
-                        "endOffset": 29917
+                        "endOffset": 29319
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 456,
+                    "startLine": 442,
                     "startColumn": 4,
-                    "startOffset": 29922,
-                    "endLine": 464,
+                    "startOffset": 29324,
+                    "endLine": 456,
                     "endColumn": 12,
-                    "endOffset": 30435
+                    "endOffset": 29979
                 },
                 "from": {
                     "file": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
-                        "startLine": 456,
+                        "startLine": 442,
                         "startColumn": 4,
-                        "startOffset": 29922,
-                        "endLine": 464,
+                        "startOffset": 29324,
+                        "endLine": 456,
                         "endColumn": 12,
-                        "endOffset": 30435
+                        "endOffset": 29979
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 465,
+                    "startLine": 457,
                     "startColumn": 4,
-                    "startOffset": 30440,
-                    "endLine": 472,
+                    "startOffset": 29984,
+                    "endLine": 465,
                     "endColumn": 12,
-                    "endOffset": 30809
+                    "endOffset": 30497
                 },
                 "from": {
                     "file": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
-                        "startLine": 465,
+                        "startLine": 457,
                         "startColumn": 4,
-                        "startOffset": 30440,
-                        "endLine": 472,
+                        "startOffset": 29984,
+                        "endLine": 465,
                         "endColumn": 12,
-                        "endOffset": 30809
+                        "endOffset": 30497
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 473,
+                    "startLine": 466,
                     "startColumn": 4,
-                    "startOffset": 30814,
-                    "endLine": 482,
+                    "startOffset": 30502,
+                    "endLine": 473,
                     "endColumn": 12,
-                    "endOffset": 31321
+                    "endOffset": 30871
                 },
                 "from": {
                     "file": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
-                        "startLine": 473,
+                        "startLine": 466,
                         "startColumn": 4,
-                        "startOffset": 30814,
-                        "endLine": 482,
+                        "startOffset": 30502,
+                        "endLine": 473,
                         "endColumn": 12,
-                        "endOffset": 31321
+                        "endOffset": 30871
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 483,
+                    "startLine": 474,
                     "startColumn": 4,
-                    "startOffset": 31326,
-                    "endLine": 487,
+                    "startOffset": 30876,
+                    "endLine": 483,
                     "endColumn": 12,
-                    "endOffset": 31529
+                    "endOffset": 31383
                 },
                 "from": {
                     "file": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
-                        "startLine": 483,
+                        "startLine": 474,
                         "startColumn": 4,
-                        "startOffset": 31326,
-                        "endLine": 487,
+                        "startOffset": 30876,
+                        "endLine": 483,
                         "endColumn": 12,
-                        "endOffset": 31529
+                        "endOffset": 31383
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 488,
+                    "startLine": 484,
                     "startColumn": 4,
-                    "startOffset": 31534,
-                    "endLine": 492,
+                    "startOffset": 31388,
+                    "endLine": 488,
                     "endColumn": 12,
-                    "endOffset": 31747
+                    "endOffset": 31591
                 },
                 "from": {
                     "file": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
-                        "startLine": 488,
+                        "startLine": 484,
                         "startColumn": 4,
-                        "startOffset": 31534,
-                        "endLine": 492,
+                        "startOffset": 31388,
+                        "endLine": 488,
                         "endColumn": 12,
-                        "endOffset": 31747
+                        "endOffset": 31591
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 493,
+                    "startLine": 489,
                     "startColumn": 4,
-                    "startOffset": 31752,
-                    "endLine": 495,
+                    "startOffset": 31596,
+                    "endLine": 493,
                     "endColumn": 12,
-                    "endOffset": 31904
+                    "endOffset": 31809
                 },
                 "from": {
                     "file": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
-                        "startLine": 493,
+                        "startLine": 489,
                         "startColumn": 4,
-                        "startOffset": 31752,
-                        "endLine": 495,
+                        "startOffset": 31596,
+                        "endLine": 493,
                         "endColumn": 12,
-                        "endOffset": 31904
+                        "endOffset": 31809
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 496,
+                    "startLine": 494,
                     "startColumn": 4,
-                    "startOffset": 31909,
+                    "startOffset": 31814,
+                    "endLine": 496,
+                    "endColumn": 12,
+                    "endOffset": 31966
+                },
+                "from": {
+                    "file": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 494,
+                        "startColumn": 4,
+                        "startOffset": 31814,
+                        "endLine": 496,
+                        "endColumn": 12,
+                        "endOffset": 31966
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 497,
+                    "startColumn": 4,
+                    "startOffset": 31971,
                     "endColumn": 66,
-                    "endOffset": 31971
+                    "endOffset": 32033
                 },
                 "from": {
                     "file": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
-                        "startLine": 496,
+                        "startLine": 497,
                         "startColumn": 4,
-                        "startOffset": 31909,
+                        "startOffset": 31971,
                         "endColumn": 66,
-                        "endOffset": 31971
+                        "endOffset": 32033
                     }
                 }
             }

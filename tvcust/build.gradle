@@ -27,4 +27,6 @@ dependencies {
     compile project(':easeui')
     compile project(':common')
     compile project(':library_version')
+
+    compile 'com.liaoinstan.springview:library:1.2.5'
 }

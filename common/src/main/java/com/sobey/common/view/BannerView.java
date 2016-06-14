@@ -1,6 +1,7 @@
 package com.sobey.common.view;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Handler;
@@ -40,6 +41,11 @@ public class BannerView extends FrameLayout implements Runnable{
     private BannerAdapter mBannerAdapter;
     private List<Images> images;
 
+    private int mUnSelectedSrc;
+    private int mSelectedSrc;
+    private int selectedColor;
+    private int unSelectedColor;
+
     private int mBannerPosition = 0;
     private final int FAKE_BANNER_SIZE = 100;
     private final int DEFAULT_BANNER_SIZE = 5;
@@ -49,8 +55,6 @@ public class BannerView extends FrameLayout implements Runnable{
     private final static int AUTO_SCROLL_WHAT = 0;
     private long    mDelayTimeInMills = 3000;
 
-    private GradientDrawable mUnSelectedGradientDrawable;
-    private GradientDrawable mSelectedGradientDrawable;
     private int dot_size = 13;
 
     public BannerView(Context context, AttributeSet attrs) {
@@ -58,14 +62,15 @@ public class BannerView extends FrameLayout implements Runnable{
         this.context = context;
         inflater = LayoutInflater.from(context);
 
-        mSelectedGradientDrawable = new GradientDrawable();
-        mUnSelectedGradientDrawable = new GradientDrawable();
-        mSelectedGradientDrawable.setShape(GradientDrawable.OVAL);
-        mUnSelectedGradientDrawable.setShape(GradientDrawable.OVAL);
-        mSelectedGradientDrawable.setSize(dot_size, dot_size);
-        mUnSelectedGradientDrawable.setSize(dot_size, dot_size);
-        mSelectedGradientDrawable.setColor(Color.rgb(255, 255, 255));
-        mUnSelectedGradientDrawable.setColor(Color.argb(33, 255, 255, 255));
+        if (attrs != null) {
+            final TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.BannerView, 0, 0);
+
+            selectedColor = attributes.getColor(R.styleable.BannerView_banner_selected_color, Color.rgb(255, 255, 255));
+            unSelectedColor = attributes.getColor(R.styleable.BannerView_banner_unselected_color, Color.argb(33, 255, 255, 255));
+
+            mSelectedSrc = attributes.getResourceId(R.styleable.BannerView_banner_selected_drawable, 0);
+            mUnSelectedSrc = attributes.getResourceId(R.styleable.BannerView_banner_unselected_drawable, 0);
+        }
     }
 
     @Override
@@ -73,6 +78,12 @@ public class BannerView extends FrameLayout implements Runnable{
         inflater.inflate(R.layout.banner, this, true);
         super.onFinishInflate();
         initCtrl();
+        if (mSelectedSrc!=0) {
+            dotView.setSelectedDotResource(mSelectedSrc);
+        }
+        if (mUnSelectedSrc!=0) {
+            dotView.setUnSelectedDotResource(mUnSelectedSrc);
+        }
     }
 
     private void sendScrollMessage() {

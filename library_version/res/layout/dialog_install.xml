@@ -20,7 +20,6 @@
 
         <TextView
             android:id="@+id/text_version_title"
-            style="@style/text_title_blank"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -31,7 +30,6 @@
 
     <TextView
         android:id="@+id/text_version_log"
-        style="@style/text_nomal_blank"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
@@ -58,7 +56,6 @@
 
         <TextView
             android:id="@+id/negativeButton"
-            style="@style/text_nomal_darklight"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:paddingTop="15dp"
@@ -75,7 +72,6 @@
 
         <TextView
             android:id="@+id/positiveButton"
-            style="@style/text_nomal_orage"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:paddingLeft="23dp"
