@@ -1,0 +1,11 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <com.sobey.common.view.BundleView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"/>
+
+</LinearLayout>

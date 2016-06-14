@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:background="#99000000">
+
+    <LinearLayout
+        android:id="@+id/lay_bundle_choose"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/img_reqfix_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/reqfix_photo" />
+
+        <ImageView
+            android:id="@+id/img_reqfix_vidio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/reqfix_video" />
+
+        <ImageView
+            android:id="@+id/img_reqfix_voice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/reqfix_voice" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:visibility="invisible"
+        android:id="@+id/lay_bundle_photo"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:padding="5dp"
+        android:layout_gravity="center"
+        android:background="@drawable/shape_rect_corner_glod">
+
+        <ImageView
+            android:id="@+id/img_bundle_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:src="@drawable/test"/>
+
+        <ImageView
+            android:id="@+id/img_bundle_delete_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:padding="7dp"
+            android:background="@drawable/shape_rect_corner_glod_small"
+            android:src="@drawable/icon_delete"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:visibility="invisible"
+        android:id="@+id/lay_bundle_video"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:padding="5dp"
+        android:layout_gravity="center"
+        android:background="@drawable/shape_rect_corner_glod">
+
+        <ImageView
+            android:id="@+id/img_bundle_video"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:src="@drawable/test"/>
+
+        <ImageView
+            android:id="@+id/img_bundle_delete_video"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:padding="7dp"
+            android:background="@drawable/shape_rect_corner_glod_small"
+            android:src="@drawable/icon_delete"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:visibility="invisible"
+        android:id="@+id/lay_bundle_voice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:id="@+id/img_bundle_voice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_gravity="center"
+            android:src="@drawable/reqfix_voice_in"/>
+
+        <ImageView
+            android:id="@+id/img_bundle_delete_voice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:padding="7dp"
+            android:background="@drawable/shape_rect_corner_glod_small"
+            android:src="@drawable/icon_delete"/>
+
+    </FrameLayout>
+</FrameLayout>
