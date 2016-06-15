@@ -29,9 +29,20 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private Button[] mTabs;
     private ImageView img_msg;
 
+    private int currentTabIndex;
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("currentTabIndex", currentTabIndex);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState!=null) {
+            currentTabIndex = savedInstanceState.getInt("currentTabIndex");
+        }
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -42,10 +53,14 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         initView();
         initCtrl();
 
+        if (currentTabIndex==0){
+            currentTabIndex = 2;
+        }
+        mTabs[currentTabIndex].setSelected(true);
         // 添加显示第一个fragment
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, homeFragment2)
-                .show(homeFragment2)
+                .add(R.id.fragment_container, fragments[currentTabIndex])
+                .show(fragments[currentTabIndex])
                 .commit();
     }
 
@@ -64,9 +79,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initCtrl() {
-        mTabs[2].setSelected(true);
-        currentTabIndex = 2;
-
         homeFragment0 = BuildFragment.newInstance(0);
         homeFragment1 = MyChatFragment.newInstance(1);
         homeFragment2 = HomeQwFragment.newInstance(2);
@@ -99,7 +111,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * tab点击事件
      */
-    private int currentTabIndex;
     public void onTabClicked(View view) {
         Bundle args = new Bundle();
         int index = 0;

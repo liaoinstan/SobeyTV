@@ -181,7 +181,10 @@ public class BannerView extends FrameLayout implements Runnable{
             imageView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "click banner item :" + pos, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, "click banner item :" + pos, Toast.LENGTH_SHORT).show();
+                    if (onBannerClickListener!=null){
+                        onBannerClickListener.onBannerClick(pos);
+                    }
                 }
             });
 
@@ -226,6 +229,14 @@ public class BannerView extends FrameLayout implements Runnable{
 
 
     //#######################对外方法
+    private OnBannerClickListener onBannerClickListener;
+    public void setOnBannerClickListener(OnBannerClickListener onBannerClickListener) {
+        this.onBannerClickListener = onBannerClickListener;
+    }
+    public interface OnBannerClickListener{
+        void onBannerClick(int position);
+    }
+
     public void setDatas(List<Images> images){
         this.images = images;
         initView();

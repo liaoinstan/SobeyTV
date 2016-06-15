@@ -9,4 +9,7 @@
     <string name="title_activity_msg">消息</string>
     <string name="title_activity_order_detail">订单详情</string>
     <string name="title_activity_video_recorder">拍摄</string>
+    <string name="title_activity_photo">PhotoActivity</string>
+    <string name="title_activity_video">VideoActivity</string>
+    <string name="title_activity_web">WebActivity</string>
 </resources>

@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.hyphenate.easeui.widget.EaseVoiceRecorderView;
+import com.sobey.common.common.MyPlayer;
+import com.sobey.common.common.Player;
 import com.sobey.common.helper.CropHelper;
 import com.sobey.common.utils.VideoUtils;
 import com.sobey.common.view.BundleView;
@@ -30,10 +32,28 @@ public class ReqfixActicity extends AppCompatActivity implements View.OnClickLis
     private DialogPopupPhoto popup;
     private BundleView bundleView;
     private EaseVoiceRecorderView voice_recorder;
+    private MyPlayer player = new MyPlayer();
+
+    private String pathphoto;
+    private String pathvideo;
+    private String pathvoice;
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("pathphoto", pathphoto);
+        outState.putString("pathvideo", pathvideo);
+        outState.putString("pathvoice", pathvoice);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState!=null) {
+            pathphoto = savedInstanceState.getString("pathphoto");
+            pathvideo = savedInstanceState.getString("pathvideo");
+            pathvoice = savedInstanceState.getString("pathvoice");
+        }
         setContentView(R.layout.activity_reqfix);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -44,7 +64,11 @@ public class ReqfixActicity extends AppCompatActivity implements View.OnClickLis
         initCtrl();
     }
 
-    private final int TAKE_PHOTO = 101;
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        player.onDestory();
+    }
 
     private void initBase() {
         dialog = new DialogReqfixChoose(this);
@@ -94,7 +118,6 @@ public class ReqfixActicity extends AppCompatActivity implements View.OnClickLis
         bundleView.setOnBundleClickListener(new BundleView.OnBundleClickListener() {
             @Override
             public void onPhotoClick(View v) {
-                Log.e("liao","onPhotoClick");
                 popup.show();
             }
 
@@ -106,7 +129,27 @@ public class ReqfixActicity extends AppCompatActivity implements View.OnClickLis
 
             @Override
             public void onVoiceClick(View v) {
-                bundleView.setVoice();
+                bundleView.setRecordVoice();
+            }
+
+            @Override
+            public void onPhotoShowClick(View v) {
+                Intent intent = new Intent(ReqfixActicity.this,PhotoActivity.class);
+                intent.putExtra("url",pathphoto);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onVideoShowClick(View v) {
+                Intent intent = new Intent(ReqfixActicity.this,VideoActivity.class);
+                intent.putExtra("url",pathvideo);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onVoiceShowClick(View v) {
+                player.setUrl(pathvoice);
+                player.play();
             }
         });
         bundleView.setVoiceTouchListenner(new View.OnTouchListener(){
@@ -118,10 +161,25 @@ public class ReqfixActicity extends AppCompatActivity implements View.OnClickLis
                     public void onVoiceRecordComplete(String voiceFilePath, int voiceTimeLength) {
                         // 发送语音消息
                         //sendVoiceMessage(voiceFilePath, voiceTimeLength);
-                        Toast.makeText(ReqfixActicity.this,"complete:"+voiceFilePath+"  length:"+voiceTimeLength,Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(ReqfixActicity.this,"complete:"+voiceFilePath+"  length:"+voiceTimeLength,Toast.LENGTH_SHORT).show();
                         Log.e("liao","complete:"+voiceFilePath+"  length:"+voiceTimeLength);
+                        pathvoice = voiceFilePath;
+                        bundleView.setVoice();
                     }
                 });
+            }
+        });
+        player.setOnPlayerListener(new MyPlayer.OnPlayerListener() {
+            @Override
+            public void onStart() {
+                Log.e("liao","start");
+                bundleView.setStartVoiceAnim();
+            }
+
+            @Override
+            public void onCompleted() {
+                Log.e("liao","stop");
+                bundleView.setStopVoiceAnim();
             }
         });
     }
@@ -157,10 +215,11 @@ public class ReqfixActicity extends AppCompatActivity implements View.OnClickLis
             case CODE_VIDEO_RECORDER:
                 if (resultCode == RESULT_OK) {
                     // 成功
-                    String path = data.getStringExtra("path");
-                    Toast.makeText(this, "存储路径为:" + path, Toast.LENGTH_SHORT).show();
+                    pathvideo = data.getStringExtra("path");
+                    Log.e("liao",pathvideo);
+//                    Toast.makeText(this, "存储路径为:" + pathvideo, Toast.LENGTH_SHORT).show();
                     // 通过路径获取第一帧的缩略图并显示
-                    Bitmap bitmap = VideoUtils.createVideoThumbnail(path);
+                    Bitmap bitmap = VideoUtils.createVideoThumbnail(pathvideo);
                     bundleView.setVideo(bitmap);
                 } else {
                     // 失败
@@ -172,6 +231,7 @@ public class ReqfixActicity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void cropResult(String path) {
         Log.e("liao", path);
+        this.pathphoto = path;
 //        Toast.makeText(this, path, Toast.LENGTH_SHORT).show();
 
 //        try {

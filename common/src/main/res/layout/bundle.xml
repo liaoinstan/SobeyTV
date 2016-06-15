@@ -39,6 +39,14 @@
 
     </LinearLayout>
 
+    <ImageView
+        android:visibility="invisible"
+        android:id="@+id/img_bundle_startrecord"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/reqfix_voice"/>
+
     <FrameLayout
         android:visibility="invisible"
         android:id="@+id/lay_bundle_photo"

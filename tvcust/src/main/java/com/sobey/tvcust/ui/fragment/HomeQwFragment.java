@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -18,6 +19,8 @@ import com.sobey.tvcust.R;
 import com.sobey.tvcust.entity.TestEntity;
 import com.sobey.tvcust.ui.activity.DeviceDetailActivity;
 import com.sobey.tvcust.ui.activity.ReqfixActicity;
+import com.sobey.tvcust.ui.activity.VideoActivity;
+import com.sobey.tvcust.ui.activity.WebActivity;
 import com.sobey.tvcust.ui.adapter.ListAdapterHomeQW;
 
 import java.util.ArrayList;
@@ -26,7 +29,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/6/2 0002.
  */
-public class HomeQwFragment extends BaseFragment implements View.OnClickListener,AdapterView.OnItemClickListener {
+public class HomeQwFragment extends BaseFragment implements View.OnClickListener,AdapterView.OnItemClickListener,BannerView.OnBannerClickListener {
 
     private BannerView banner;
     private TextView text_reqfix;
@@ -80,6 +83,7 @@ public class HomeQwFragment extends BaseFragment implements View.OnClickListener
     private void initCtrl() {
         banner.showTitle(false);
         banner.setDatas(images);
+        banner.setOnBannerClickListener(this);
         text_reqfix.setOnClickListener(this);
 
         adapter = new ListAdapterHomeQW(getActivity(),R.layout.item_list_home_qw,results);
@@ -117,6 +121,14 @@ public class HomeQwFragment extends BaseFragment implements View.OnClickListener
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(getActivity(), DeviceDetailActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onBannerClick(int position) {
+        Intent intent = new Intent(getActivity(),WebActivity.class);
+        intent.putExtra("title","资讯");
+        intent.putExtra("url","http://cn.bing.com");//https://github.com    //http://cn.bing.com
         startActivity(intent);
     }
 }

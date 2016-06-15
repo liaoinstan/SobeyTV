@@ -29,4 +29,5 @@ dependencies {
     compile project(':library_version')
 
     compile 'com.liaoinstan.springview:library:1.2.5'
+    compile 'com.github.chrisbanes:PhotoView:1.2.6'
 }
