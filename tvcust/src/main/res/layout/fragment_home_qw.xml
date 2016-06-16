@@ -1,140 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<com.liaoinstan.springview.widget.SpringView  xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:header="@layout/header_common"
-    app:footer="@layout/header_common"
-    app:type="follow">
-
-<ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <com.liaoinstan.springview.widget.SpringView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/sb_bk"
-        android:orientation="vertical">
+        app:footer="@layout/header_common"
+        app:header="@layout/header_common"
+        app:type="follow">
 
-        <com.sobey.common.view.BannerView
-            android:id="@+id/banner_home_qw"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            app:banner_selected_drawable="@drawable/shape_oval_dot_glod"
-            app:banner_unselected_drawable="@drawable/shape_oval_dot_line" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
             <LinearLayout
+                android:id="@+id/showingroup"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:background="@color/sb_bk"
+                android:orientation="vertical">
+
+                <com.sobey.common.view.BannerView
+                    android:id="@+id/banner_home_qw"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    app:banner_selected_drawable="@drawable/shape_oval_dot_glod"
+                    app:banner_unselected_drawable="@drawable/shape_oval_dot_line" />
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="37dp"
-                    android:layout_weight="1"
                     android:orientation="vertical">
 
-                    <TextView
-                        style="@style/text_nomal_glod"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:drawablePadding="11dp"
-                        android:drawableTop="@drawable/home_qw_weihu"
-                        android:text="持续维护"/>
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="37dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                style="@style/text_nomal_glod"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:drawablePadding="11dp"
+                                android:drawableTop="@drawable/home_qw_weihu"
+                                android:text="持续维护" />
+
+                            <TextView
+                                style="@style/text_subig_glod"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="7dp"
+                                android:text="30天" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="37dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                style="@style/text_nomal_glod"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:drawablePadding="11dp"
+                                android:drawableTop="@drawable/home_qw_fuwuqi"
+                                android:text="服务器" />
+
+                            <TextView
+                                style="@style/text_subig_glod"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="7dp"
+                                android:text="68台" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="37dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                style="@style/text_nomal_glod"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:drawablePadding="11dp"
+                                android:drawableTop="@drawable/home_qw_shichang"
+                                android:text="在线时长" />
+
+                            <TextView
+                                style="@style/text_subig_glod"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="7dp"
+                                android:text="168小时" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
 
                     <TextView
-                        style="@style/text_subig_glod"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:id="@+id/text_home_qw_reqfix"
+                        style="@style/text_big_glod"
+                        android:layout_width="150dp"
+                        android:layout_height="43dp"
                         android:layout_gravity="center"
-                        android:layout_marginTop="7dp"
-                        android:text="30天"/>
+                        android:layout_marginBottom="31dp"
+                        android:layout_marginTop="31dp"
+                        android:background="@drawable/hot_btn_line_glod"
+                        android:gravity="center"
+                        android:text="维修申报" />
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="0dp"
+                <com.sobey.common.view.FullyListView
+                    android:id="@+id/listfull_home_qw"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <TextView
+                    android:id="@+id/text_home_qw_more"
+                    style="@style/text_nomal_dark"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="20dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="37dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/text_nomal_glod"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:drawablePadding="11dp"
-                        android:drawableTop="@drawable/home_qw_fuwuqi"
-                        android:text="服务器"/>
-
-                    <TextView
-                        style="@style/text_subig_glod"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="7dp"
-                        android:text="68台"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="37dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/text_nomal_glod"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:drawablePadding="11dp"
-                        android:drawableTop="@drawable/home_qw_shichang"
-                        android:text="在线时长"/>
-
-                    <TextView
-                        style="@style/text_subig_glod"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="7dp"
-                        android:text="168小时"/>
-
-                </LinearLayout>
+                    android:gravity="center"
+                    android:text="查看更多"/>
 
             </LinearLayout>
 
-            <TextView
-                style="@style/text_big_glod"
-                android:id="@+id/text_home_qw_reqfix"
-                android:layout_width="150dp"
-                android:layout_height="43dp"
-                android:layout_gravity="center"
-                android:layout_marginBottom="31dp"
-                android:layout_marginTop="31dp"
-                android:background="@drawable/hot_btn_line_glod"
-                android:gravity="center"
-                android:text="维修申报"/>
-
-        </LinearLayout>
-
-        <com.sobey.common.view.FullyListView
-            android:id="@+id/listfull_home_qw"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </LinearLayout>
-
-</ScrollView>
-</com.liaoinstan.springview.widget.SpringView>
+        </ScrollView>
+    </com.liaoinstan.springview.widget.SpringView>
+</RelativeLayout>

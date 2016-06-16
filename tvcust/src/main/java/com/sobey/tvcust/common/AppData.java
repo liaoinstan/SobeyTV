@@ -3,6 +3,9 @@ package com.sobey.tvcust.common;
 
 import com.sobey.common.utils.ACache;
 import com.sobey.common.utils.ApplicationHelp;
+import com.sobey.common.utils.PreferenceUtil;
+
+import java.util.ArrayList;
 
 /**
  * 该类封装了app中所有静态数据和持久化数据的读写操作
@@ -12,19 +15,40 @@ import com.sobey.common.utils.ApplicationHelp;
  *
  */
 public class AppData {
-	
-	public static boolean getStartUp(){
-		String startup = ACache.get(ApplicationHelp.getApplicationContext()).getAsString("startup");
-		if (startup == null || "".equals(startup)){
-			return false;
+
+	public static class App{
+		public static boolean getStartUp(){
+			String cards = PreferenceUtil.getString(ApplicationHelp.getApplicationContext(), "cards");
+			if (cards==null || "".equals(cards)) {
+				return true;
+			}else {
+				return Boolean.parseBoolean(cards);
+			}
 		}
-		return Boolean.parseBoolean(startup);
+
+		public static void saveStartUp(boolean startup){
+			PreferenceUtil.saveString(ApplicationHelp.getApplicationContext(), "startup", startup+"");
+		}
+
+		public static void removeStartUp(){
+			PreferenceUtil.remove(ApplicationHelp.getApplicationContext(),"startup");
+		}
 	}
 
-	public static void saveStartUp(boolean startup){
-		ACache.get(ApplicationHelp.getApplicationContext()).put("startup",startup);
+	public static class Cache{
+		public static boolean getXX(){
+			String xx = ACache.get(ApplicationHelp.getApplicationContext()).getAsString("xx");
+			if (xx == null || "".equals(xx)){
+				return false;
+			}
+			return Boolean.parseBoolean(xx);
+		}
+
+		public static void saveXX(boolean xx){
+			ACache.get(ApplicationHelp.getApplicationContext()).put("xx",xx);
+		}
 	}
-	
+
 	/**
 	 * 记录了app中所有的请求连接地址
 	 * @author Administrator

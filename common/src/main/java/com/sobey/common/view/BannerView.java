@@ -48,7 +48,7 @@ public class BannerView extends FrameLayout implements Runnable{
 
     private int mBannerPosition = 0;
     private final int FAKE_BANNER_SIZE = 100;
-    private final int DEFAULT_BANNER_SIZE = 5;
+    private int DEFAULT_BANNER_SIZE = 5;
     private boolean mIsUserTouched = false;
 
     private boolean isAutoScroll = true;
@@ -87,7 +87,7 @@ public class BannerView extends FrameLayout implements Runnable{
     }
 
     private void sendScrollMessage() {
-        if (mHandler != null) {
+        if (mHandler != null && images!=null && images.size()!=0) {
             mHandler.removeMessages(AUTO_SCROLL_WHAT);
             if (isAutoScroll && mViewPager.getAdapter().getCount() > 1) {
                 mHandler.sendEmptyMessageDelayed(AUTO_SCROLL_WHAT, mDelayTimeInMills);
@@ -102,6 +102,9 @@ public class BannerView extends FrameLayout implements Runnable{
     }
 
     private void initView() {
+        if (images!=null && images.size()==0){
+            return;
+        }
         mBannerAdapter = new BannerAdapter(context);
         mViewPager.setAdapter(mBannerAdapter);
         mViewPager.addOnPageChangeListener(mBannerAdapter);
@@ -120,6 +123,7 @@ public class BannerView extends FrameLayout implements Runnable{
             }
         });
 
+        DEFAULT_BANNER_SIZE = images.size();
         dotView.setViewPager(mViewPager, DEFAULT_BANNER_SIZE);
     }
 
@@ -239,9 +243,13 @@ public class BannerView extends FrameLayout implements Runnable{
 
     public void setDatas(List<Images> images){
         this.images = images;
+        notifyDataSetChanged();
+    }
+    public void notifyDataSetChanged(){
         initView();
         sendScrollMessage();
     }
+
     public void showTitle(boolean needShow){
         if (needShow){
             text_banner.setVisibility(VISIBLE);

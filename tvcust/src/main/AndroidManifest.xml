@@ -109,6 +109,14 @@
         <activity
             android:name=".ui.activity.WebActivity"
             android:label="@string/title_activity_web"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.activity.CountOrderActivity"
+            android:label="@string/title_activity_count_order"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.activity.DeviceListActivity"
+            android:label="@string/title_activity_device_list"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

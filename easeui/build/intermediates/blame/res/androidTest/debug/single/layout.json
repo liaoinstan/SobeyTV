@@ -60,12 +60,12 @@
         "source": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\bundles\\debug\\res\\layout\\ease_fragment_conversation_list.xml"
     },
     {
-        "merged": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\ease_widget_switch_button.xml",
-        "source": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\bundles\\debug\\res\\layout\\ease_widget_switch_button.xml"
-    },
-    {
         "merged": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\ease_row_sent_bigexpression.xml",
         "source": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\bundles\\debug\\res\\layout\\ease_row_sent_bigexpression.xml"
+    },
+    {
+        "merged": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\ease_widget_switch_button.xml",
+        "source": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\bundles\\debug\\res\\layout\\ease_widget_switch_button.xml"
     },
     {
         "merged": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\ease_row_sent_file.xml",

@@ -132,12 +132,12 @@
         "source": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ee_34.png"
     },
     {
-        "merged": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\ease_settings_normal.png",
-        "source": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ease_settings_normal.png"
-    },
-    {
         "merged": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\ease_record_animate_05.png",
         "source": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ease_record_animate_05.png"
+    },
+    {
+        "merged": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\ease_settings_normal.png",
+        "source": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ease_settings_normal.png"
     },
     {
         "merged": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\ease_dx_checkbox_gray_on.png",

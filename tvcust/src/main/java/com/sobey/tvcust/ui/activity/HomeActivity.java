@@ -3,12 +3,15 @@ package com.sobey.tvcust.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.hyphenate.easeui.EaseConstant;
@@ -17,6 +20,8 @@ import com.sobey.tvcust.im.MyChatFragment;
 import com.sobey.tvcust.ui.fragment.BuildFragment;
 import com.sobey.tvcust.ui.fragment.HomeQwFragment;
 import com.sobey.tvcust.utils.PermissionsUtil;
+
+import java.util.List;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -29,7 +34,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private Button[] mTabs;
     private ImageView img_msg;
 
-    private int currentTabIndex;
+    private int currentTabIndex = -1;
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -53,15 +58,30 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         initView();
         initCtrl();
 
-        if (currentTabIndex==0){
+        if (currentTabIndex==-1){
             currentTabIndex = 2;
         }
         mTabs[currentTabIndex].setSelected(true);
         // 添加显示第一个fragment
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, fragments[currentTabIndex])
-                .show(fragments[currentTabIndex])
-                .commit();
+        FragmentTransaction ftx = getSupportFragmentManager().beginTransaction();
+        hideAllFragment(ftx);
+        if (!fragments[currentTabIndex].isAdded()) {
+            ftx.add(R.id.fragment_container, fragments[currentTabIndex],currentTabIndex+"");
+        }else {
+            ftx.show(fragments[currentTabIndex]);
+        }
+        ftx.commit();
+        List fragmentss =getSupportFragmentManager().getFragments();
+        if (fragmentss!=null)
+        Log.e("liao",fragmentss.size()+"");
+    }
+
+    private void hideAllFragment(FragmentTransaction ftx){
+        for (int i=0;i<fragments.length;i++){
+            if (fragments[i].isAdded()){
+                ftx.hide(fragments[i]);
+            }
+        }
     }
 
     private void initBase() {
@@ -79,11 +99,28 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initCtrl() {
-        homeFragment0 = BuildFragment.newInstance(0);
-        homeFragment1 = MyChatFragment.newInstance(1);
-        homeFragment2 = HomeQwFragment.newInstance(2);
-        homeFragment3 = BuildFragment.newInstance(3);
-        homeFragment4 = BuildFragment.newInstance(4);
+        FragmentManager fm= getSupportFragmentManager();
+        //从回退栈获取，防止fragment重复创建
+        homeFragment0 = fm.findFragmentByTag("0");
+        if (homeFragment0 == null){
+            homeFragment0 = BuildFragment.newInstance(0);
+        }
+        homeFragment1 = fm.findFragmentByTag("1");
+        if (homeFragment1 == null){
+            homeFragment1 = MyChatFragment.newInstance(1);
+        }
+        homeFragment2 = fm.findFragmentByTag("2");
+        if (homeFragment2 == null){
+            homeFragment2 = HomeQwFragment.newInstance(2);
+        }
+        homeFragment3 = fm.findFragmentByTag("3");
+        if (homeFragment3 == null){
+            homeFragment3 = BuildFragment.newInstance(3);
+        }
+        homeFragment4 = fm.findFragmentByTag("4");
+        if (homeFragment4 == null){
+            homeFragment4 = BuildFragment.newInstance(4);
+        }
         fragments = new Fragment[] { homeFragment0, homeFragment1, homeFragment2,homeFragment3,homeFragment4 };
 
         img_msg.setOnClickListener(this);
@@ -139,7 +176,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             trx.hide(fragments[currentTabIndex]);
             if (!fragments[index].isAdded()) {
                 fragments[index].setArguments(args);
-                trx.add(R.id.fragment_container, fragments[index]);
+                trx.add(R.id.fragment_container, fragments[index],index+"");
             }
             trx.show(fragments[index]).commit();
         }
@@ -147,6 +184,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         // 把当前tab设为选中状态
         mTabs[index].setSelected(true);
         currentTabIndex = index;
+
+        List fragmentss =getSupportFragmentManager().getFragments();
+        if (fragmentss!=null)
+            Log.e("liao",fragmentss.size()+"");
     }
 
     private long exitTime;
@@ -166,6 +207,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()){
             case R.id.img_msg_home:
                 Intent intent = new Intent(this, MsgActivity.class);
+//                Intent intent = new Intent(this, CountOrderActivity.class);
                 startActivity(intent);
                 break;
         }

@@ -13,37 +13,11 @@ import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
 
 public class PreferenceUtil {
-	/**
-	 * desc:保存对象
-	 * 
-	 * @param context
-	 * @param key
-	 * @param obj
-	 *            要保存的对象，只能保存实现了serializable的对象 modified:
-	 */
-	public static void saveObject(Context context, String key, Object obj) {
-		try {
-			// 保存对象
-			SharedPreferences.Editor sharedata = context.getSharedPreferences("user", Context.MODE_PRIVATE).edit();
-			// 先将序列化结果写到byte缓存中，其实就分配一个内存空间
-			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			ObjectOutputStream os = new ObjectOutputStream(bos);
-			// 将对象序列化写入byte缓存
-			os.writeObject(obj);
-			// 将序列化的数据转为16进制保存
-			String bytesToHexString = bytesToHexString(bos.toByteArray());
-			// 保存该16进制数组
-			sharedata.putString(key, bytesToHexString);
-			sharedata.commit();
-		} catch (IOException e) {
-			e.printStackTrace();
-			Log.e("", "保存obj失败");
-		}
-	}
 
+	public static String PREFERENCE_KEY = "user";
 	/**
 	 * desc:将数组转为16进制
-	 * 
+	 *
 	 * @param bArray
 	 * @return modified:
 	 */
@@ -66,44 +40,8 @@ public class PreferenceUtil {
 	}
 
 	/**
-	 * desc:获取保存的Object对象
-	 * 
-	 * @param context
-	 * @param key
-	 * @return modified:
-	 */
-	public static Object readObject(Context context, String key) {
-		try {
-			SharedPreferences sharedata = context.getSharedPreferences("user", Context.MODE_PRIVATE);
-			if (sharedata.contains(key)) {
-				String string = sharedata.getString(key, "");
-				if (TextUtils.isEmpty(string)) {
-					return null;
-				} else {
-					// 将16进制的数据转为数组，准备反序列化
-					byte[] stringToBytes = StringToBytes(string);
-					ByteArrayInputStream bis = new ByteArrayInputStream(
-							stringToBytes);
-					ObjectInputStream is = new ObjectInputStream(bis);
-					// 返回反序列化得到的对象
-					Object readObject = is.readObject();
-					return readObject;
-				}
-			}
-		} catch (StreamCorruptedException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		// 所有异常返回null
-		return null;
-	}
-
-	/**
 	 * desc:将16进制的数据转为数组
-	 * 
+	 *
 	 * @param data
 	 * @return modified:
 	 */
@@ -136,5 +74,96 @@ public class PreferenceUtil {
 			retData[i / 2] = (byte) int_ch;// 将转化后的数放入Byte里
 		}
 		return retData;
+	}
+
+	/**
+	 * desc:保存对象
+	 *
+	 * @param context
+	 * @param key
+	 * @param obj
+	 *            要保存的对象，只能保存实现了serializable的对象 modified:
+	 */
+	public static void saveObject(Context context, String key, Object obj) {
+		try {
+			// 保存对象
+			SharedPreferences.Editor sharedata = context.getSharedPreferences(PREFERENCE_KEY, Context.MODE_PRIVATE).edit();
+			// 先将序列化结果写到byte缓存中，其实就分配一个内存空间
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			ObjectOutputStream os = new ObjectOutputStream(bos);
+			// 将对象序列化写入byte缓存
+			os.writeObject(obj);
+			// 将序列化的数据转为16进制保存
+			String bytesToHexString = bytesToHexString(bos.toByteArray());
+			// 保存该16进制数组
+			sharedata.putString(key, bytesToHexString);
+			sharedata.commit();
+		} catch (IOException e) {
+			e.printStackTrace();
+			Log.e("", "保存obj失败");
+		}
+	}
+
+	/**
+	 * desc:获取保存的Object对象
+	 *
+	 * @param context
+	 * @param key
+	 * @return modified:
+	 */
+	public static Object readObject(Context context, String key) {
+		try {
+			SharedPreferences sharedata = context.getSharedPreferences(PREFERENCE_KEY, Context.MODE_PRIVATE);
+			if (sharedata.contains(key)) {
+				String string = sharedata.getString(key, "");
+				if (TextUtils.isEmpty(string)) {
+					return null;
+				} else {
+					// 将16进制的数据转为数组，准备反序列化
+					byte[] stringToBytes = StringToBytes(string);
+					ByteArrayInputStream bis = new ByteArrayInputStream(
+							stringToBytes);
+					ObjectInputStream is = new ObjectInputStream(bis);
+					// 返回反序列化得到的对象
+					Object readObject = is.readObject();
+					return readObject;
+				}
+			}
+		} catch (StreamCorruptedException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		// 所有异常返回null
+		return null;
+	}
+
+
+	public static void saveString(Context context,String key,String value) {
+		//SharedPreferences 保存数据的实现代码
+		SharedPreferences sharedPreferences = context.getSharedPreferences(PREFERENCE_KEY, Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPreferences.edit();
+		//如果不能找到Editor接口。尝试使用 SharedPreferences.Editor
+		editor.putString(key, value);
+
+		//我将用户信息保存到其中，你也可以保存登录状态
+		editor.commit();
+	}
+
+	public static String getString(Context context,String key) {
+		//取sharedpreferences中数据的代码
+		SharedPreferences sharedPreferences = context.getSharedPreferences(PREFERENCE_KEY, Context.MODE_PRIVATE);
+
+		return sharedPreferences.getString(key, "");
+	}
+
+	public static void remove(Context context,String key) {
+		SharedPreferences sharedPreferences = context.getSharedPreferences(PREFERENCE_KEY, Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPreferences.edit();
+		editor.remove(key);
+
+		editor.commit();
 	}
 }

@@ -39,7 +39,7 @@ public class LoadUpActivity extends AppCompatActivity {
 
     private void goNext(){
         final Intent intent = new Intent();
-        if (AppData.getStartUp()) {
+        if (AppData.App.getStartUp()) {
             intent.setClass(LoadUpActivity.this, HomeActivity.class);
         }else {
             intent.setClass(LoadUpActivity.this, StartUpActivity.class);

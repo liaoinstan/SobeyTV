@@ -1,15 +1,17 @@
 <resources>
     <string name="app_name">SobeyTV</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_chat">ChatActivity</string>
-    <string name="title_activity_start_up">StartUpActivity</string>
+    <string name="action_settings">设置</string>
+    <string name="title_activity_chat">客服</string>
+    <string name="title_activity_start_up">启动页</string>
     <string name="title_activity_reqfix">维修申报</string>
-    <string name="title_activity_question">QuestionActivity</string>
+    <string name="title_activity_question">问题</string>
     <string name="title_activity_device_detail">设备详情</string>
     <string name="title_activity_msg">消息</string>
     <string name="title_activity_order_detail">订单详情</string>
     <string name="title_activity_video_recorder">拍摄</string>
-    <string name="title_activity_photo">PhotoActivity</string>
-    <string name="title_activity_video">VideoActivity</string>
-    <string name="title_activity_web">WebActivity</string>
+    <string name="title_activity_photo">图片浏览</string>
+    <string name="title_activity_video">视频浏览</string>
+    <string name="title_activity_web">资讯</string>
+    <string name="title_activity_count_order">派单统计</string>
+    <string name="title_activity_device_list">设备</string>
 </resources>

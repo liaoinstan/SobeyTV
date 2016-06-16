@@ -2,20 +2,24 @@ package com.sobey.common.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.sobey.common.R;
 
 /**
  * Created by Administrator on 2016/6/12 0012.
  */
-public class BundleView extends LinearLayout implements View.OnClickListener{
+public class BundleView extends FrameLayout implements View.OnClickListener{
 
     private ImageView img_reqfix_photo;
     private ImageView img_reqfix_vidio;
@@ -52,8 +56,9 @@ public class BundleView extends LinearLayout implements View.OnClickListener{
 
     @Override
     protected void onFinishInflate() {
-        inflater.inflate(R.layout.bundle, this, true);
         super.onFinishInflate();
+        inflater.inflate(R.layout.bundle,this,true);
+        setBackgroundColor(Color.parseColor("#99000000"));
         initView();
         initCtrl();
     }
@@ -139,42 +144,47 @@ public class BundleView extends LinearLayout implements View.OnClickListener{
         void onVoiceShowClick(View v);
     }
 
+    private void invisibleAllChild(){
+        int count = getChildCount();
+        for (int i=0;i<count;i++){
+            View child = getChildAt(i);
+            if (child.getVisibility() == VISIBLE){
+                child.setVisibility(INVISIBLE);
+            }
+        }
+    }
+
     public void setChoose(){
+        invisibleAllChild();
         lay_bundle_choose.setVisibility(VISIBLE);
-        lay_bundle_photo.setVisibility(INVISIBLE);
-        lay_bundle_video.setVisibility(INVISIBLE);
-        img_bundle_startrecord.setVisibility(INVISIBLE);
-        lay_bundle_voice.setVisibility(INVISIBLE);
+
+        YoYo.with(Techniques.Landing)
+                .duration(700)
+                .playOn(lay_bundle_choose);
     }
     public void setPhoto(Bitmap bitmap){
-        lay_bundle_choose.setVisibility(INVISIBLE);
+        invisibleAllChild();
         lay_bundle_photo.setVisibility(VISIBLE);
-        lay_bundle_video.setVisibility(INVISIBLE);
-        img_bundle_startrecord.setVisibility(INVISIBLE);
-        lay_bundle_voice.setVisibility(INVISIBLE);
         img_bundle_photo.setImageBitmap(bitmap);
     }
     public void setVideo(Bitmap bitmap){
-        lay_bundle_choose.setVisibility(INVISIBLE);
-        lay_bundle_photo.setVisibility(INVISIBLE);
+        invisibleAllChild();
         lay_bundle_video.setVisibility(VISIBLE);
-        img_bundle_startrecord.setVisibility(INVISIBLE);
-        lay_bundle_voice.setVisibility(INVISIBLE);
         img_bundle_video.setImageBitmap(bitmap);
     }
     public void setRecordVoice(){
-        lay_bundle_choose.setVisibility(INVISIBLE);
-        lay_bundle_photo.setVisibility(INVISIBLE);
-        lay_bundle_video.setVisibility(INVISIBLE);
+        invisibleAllChild();
         img_bundle_startrecord.setVisibility(VISIBLE);
-        lay_bundle_voice.setVisibility(INVISIBLE);
+        YoYo.with(Techniques.Landing)
+                .duration(700)
+                .playOn(img_bundle_startrecord);
     }
     public void setVoice(){
-        lay_bundle_choose.setVisibility(INVISIBLE);
-        lay_bundle_photo.setVisibility(INVISIBLE);
-        lay_bundle_video.setVisibility(INVISIBLE);
-        img_bundle_startrecord.setVisibility(INVISIBLE);
+        invisibleAllChild();
         lay_bundle_voice.setVisibility(VISIBLE);
+        YoYo.with(Techniques.Landing)
+                .duration(700)
+                .playOn(lay_bundle_voice);
     }
     public void setStartVoiceAnim(){
         animationVoice.start();

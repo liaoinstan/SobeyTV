@@ -22,19 +22,25 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <com.liaoinstan.springview.widget.SpringView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:footer="@layout/header_common"
-        app:header="@layout/header_common"
+    <RelativeLayout
+        android:id="@+id/showingroup"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:type="follow">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycle_msg"
+        <com.liaoinstan.springview.widget.SpringView
+            android:id="@+id/spring_msg"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            app:type="follow">
 
-    </com.liaoinstan.springview.widget.SpringView>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycle_msg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </com.liaoinstan.springview.widget.SpringView>
+
+    </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

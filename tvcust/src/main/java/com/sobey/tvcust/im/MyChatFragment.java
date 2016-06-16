@@ -71,7 +71,7 @@ public class MyChatFragment extends EaseChatFragment implements EaseChatFragment
                         EMClient.getInstance().groupManager().loadAllGroups();
                         EMClient.getInstance().chatManager().loadAllConversations();
                         Log.d("main", "登录聊天服务器成功！");
-                        Toast.makeText(getActivity(), "登录聊天服务器成功！", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getActivity(), "登录聊天服务器成功！", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
