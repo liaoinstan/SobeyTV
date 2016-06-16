@@ -1,1 +1,1 @@
-include ':tvcust', ':tvserv', ':common', ':library_version', ':easeui'
+include ':tvcust', ':tvserv', ':common', ':library_version', ':easeui', ':jpush'

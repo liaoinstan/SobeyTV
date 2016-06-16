@@ -22,6 +22,8 @@ import com.sobey.tvcust.BuildConfig;
 
 import org.xutils.x;
 
+import cn.jpush.android.api.JPushInterface;
+
 public class TVDemoApplication extends Application {
 
 
@@ -36,6 +38,7 @@ public class TVDemoApplication extends Application {
 		super.onCreate();
 		ApplicationHelp.getApplicationContext(this);
 
+		initJpush();
 		initXutils();
 		initHuanxin();
 	}
@@ -46,11 +49,16 @@ public class TVDemoApplication extends Application {
 		MultiDex.install(this);
 	}
 
-	private void initHuanxin(){
-		TVHelper.getInstance().init(this);
+	private void initJpush() {
+		JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
+		JPushInterface.init(this);     		// 初始化 JPush
 	}
+
 	private void initXutils(){
 		x.Ext.init(this);
 		x.Ext.setDebug(BuildConfig.DEBUG); // 是否输出debug日志, 开启debug会影响性能.
+	}
+	private void initHuanxin(){
+		TVHelper.getInstance().init(this);
 	}
 }

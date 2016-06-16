@@ -2,23 +2,27 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.sobey.tvcust">
 
-    <uses-permission android:name="android.permission.VIBRATE" />
+    <!--
+    ######################################################################## 修改必读 ########################################################################
+    ## 这个AndroidManifest.xml并不是完整的主配置文件，在关联的module中也分包配置了相应权限、服务、activity等配置信息，在编译时会合并到主配置文件中
+    ## 这个主配置文件中只配置了该工程相关的项目，不用担心配置了重复的权限、属性等，合并时会自动去重
+    ## 之所以分开配置是为了不让工程主配置文件过长，不便于维护。每个libray都配置自己需要的属性，便于管理，比如：
+    ## module:easeui 中配置了环信及时聊天的所有属性和权限及相关资源
+    ## module:jpush  中配置了极光推送的所有属性和权限及相关资源
+    ##########################################################################################################################################################
+    -->
+
+    <!--xutils3-->
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!--调用相册、相机-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.GET_TASKS" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <!--录视频-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name=".app.TVDemoApplication"
@@ -27,28 +31,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <!-- 设置环信应用的AppKey -->
-        <meta-data
-            android:name="EASEMOB_APPKEY"
-            android:value="liaoinstan#mytest" />
-        <!-- 声明SDK所需的service SDK核心功能 -->
-        <service
-            android:name="com.hyphenate.chat.EMChatService"
-            android:exported="true" />
-        <!-- 声明SDK所需的receiver -->
-        <receiver android:name="com.hyphenate.chat.EMMonitorReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_REMOVED" />
-
-                <data android:scheme="package" />
-            </intent-filter>
-            <!-- 可选filter -->
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.USER_PRESENT" />
-            </intent-filter>
-        </receiver>
 
         <activity
             android:name=".ui.activity.HomeActivity"

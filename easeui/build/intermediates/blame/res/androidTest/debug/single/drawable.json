@@ -56,12 +56,12 @@
         "source": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable\\ease_chat_press_speak_btn.xml"
     },
     {
-        "merged": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\ease_btn_cancel_pressed_shape.xml",
-        "source": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable\\ease_btn_cancel_pressed_shape.xml"
-    },
-    {
         "merged": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\ease_chat_location_selector.xml",
         "source": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable\\ease_chat_location_selector.xml"
+    },
+    {
+        "merged": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\ease_btn_cancel_pressed_shape.xml",
+        "source": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable\\ease_btn_cancel_pressed_shape.xml"
     },
     {
         "merged": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\ease_chat_takepic_selector.xml",
