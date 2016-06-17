@@ -41,6 +41,8 @@
 
     <style name="MsgDialog" parent="@style/MyDialog"></style>
 
+    <style name="KnowDialog" parent="@style/MyDialog"></style>
+
 
     <style name="edit_hidden">
         <item name="android:background">@color/none</item>
