@@ -6,7 +6,7 @@
     <!-- 描边 -->
     <stroke
         android:width="1px"
-        android:color="@color/sb_glod"/>
+        android:color="@color/sb_blue"/>
 
     <corners
         android:topLeftRadius="5dp"

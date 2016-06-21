@@ -2,7 +2,7 @@
     android:shape="oval" >
 
     <!-- 填充 -->
-    <solid android:color="@color/sb_glod" />
+    <solid android:color="@color/sb_blue" />
 
     <size
         android:width="8dp"

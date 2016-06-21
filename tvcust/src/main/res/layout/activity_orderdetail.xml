@@ -114,7 +114,7 @@
                         android:layout_weight="1" />
 
                     <TextView
-                        style="@style/text_nomal_glod"
+                        style="@style/text_nomal_blue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="10dp"

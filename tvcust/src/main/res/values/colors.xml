@@ -2,13 +2,11 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">@color/sb_glod</color>
+    <color name="colorAccent">@color/sb_blue</color>
 
 
     <color name="none">#00000000</color>
 
-    <color name="sb_glod">#e7b744</color>
-    <color name="sb_glod_dark">#99e7b744</color>
     <color name="sb_glod_hint">#22e7b744</color>
     <color name="sb_text_white">#f1f1f1</color>
     <color name="sb_text_light">#cccccc</color>

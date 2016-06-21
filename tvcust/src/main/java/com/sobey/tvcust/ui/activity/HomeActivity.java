@@ -11,12 +11,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.hyphenate.easeui.EaseConstant;
 import com.sobey.tvcust.R;
-import com.sobey.tvcust.im.MyChatFragment;
 import com.sobey.tvcust.ui.fragment.BuildFragment;
 import com.sobey.tvcust.ui.fragment.HomeQwFragment;
 import com.sobey.tvcust.utils.PermissionsUtil;
@@ -107,7 +104,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
         homeFragment1 = fm.findFragmentByTag("1");
         if (homeFragment1 == null){
-            homeFragment1 = MyChatFragment.newInstance(1);
+            homeFragment1 = BuildFragment.newInstance(1);
         }
         homeFragment2 = fm.findFragmentByTag("2");
         if (homeFragment2 == null){
@@ -158,8 +155,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_home_server:
                 index = 1;
                 //传入参数
-                args.putInt(EaseConstant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
-                args.putString(EaseConstant.EXTRA_USER_ID, "liaoinstan");
+//                args.putInt(EaseConstant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
+//                args.putString(EaseConstant.EXTRA_USER_ID, "liaoinstan");
                 break;
             case R.id.btn_home_qw:
                 index = 2;

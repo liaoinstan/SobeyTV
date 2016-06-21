@@ -2,12 +2,12 @@
     android:shape="oval" >
 
     <!-- 填充 -->
-    <solid android:color="@color/sb_glod" />
+    <solid android:color="@color/sb_blue" />
 
     <!-- 描边 -->
     <stroke
         android:width="2dp"
-        android:color="@color/sb_glod_dark" />
+        android:color="@color/sb_blue_hint" />
 
     <size
         android:width="18dp"

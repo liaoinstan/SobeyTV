@@ -58,7 +58,7 @@ public class TVDemoApplication extends Application {
 		x.Ext.init(this);
 		x.Ext.setDebug(BuildConfig.DEBUG); // 是否输出debug日志, 开启debug会影响性能.
 	}
-	private void initHuanxin(){
-		TVHelper.getInstance().init(this);
-	}
+//	private void initHuanxin(){
+//		TVHelper.getInstance().init(this);
+//	}
 }

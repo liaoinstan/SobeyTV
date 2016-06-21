@@ -46,10 +46,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".im.ChatActivity"
-            android:label="@string/title_activity_chat"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".ui.activity.StartUpActivity"
             android:label="@string/title_activity_start_up"
             android:theme="@style/AppTheme.NoTitleFullscreen" />

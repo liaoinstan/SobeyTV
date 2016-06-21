@@ -76,7 +76,7 @@
             app:rcMax="100"
             app:rcRadius="45dp"
             app:rcBackgroundPadding="0dp"
-            app:rcProgressColor="@color/sb_glod"
+            app:rcProgressColor="@color/sb_blue"
             app:rcBackgroundColor="@color/cc_blue" />
 
         <WebView

@@ -47,7 +47,7 @@
                             android:orientation="vertical">
 
                             <TextView
-                                style="@style/text_nomal_glod"
+                                style="@style/text_nomal_blue"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -56,7 +56,7 @@
                                 android:text="持续维护" />
 
                             <TextView
-                                style="@style/text_subig_glod"
+                                style="@style/text_subig_blue"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -73,7 +73,7 @@
                             android:orientation="vertical">
 
                             <TextView
-                                style="@style/text_nomal_glod"
+                                style="@style/text_nomal_blue"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -82,7 +82,7 @@
                                 android:text="服务器" />
 
                             <TextView
-                                style="@style/text_subig_glod"
+                                style="@style/text_subig_blue"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -99,7 +99,7 @@
                             android:orientation="vertical">
 
                             <TextView
-                                style="@style/text_nomal_glod"
+                                style="@style/text_nomal_blue"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -108,7 +108,7 @@
                                 android:text="在线时长" />
 
                             <TextView
-                                style="@style/text_subig_glod"
+                                style="@style/text_subig_blue"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -121,7 +121,7 @@
 
                     <TextView
                         android:id="@+id/text_home_qw_reqfix"
-                        style="@style/text_big_glod"
+                        style="@style/text_big_blue"
                         android:layout_width="150dp"
                         android:layout_height="43dp"
                         android:layout_gravity="center"
