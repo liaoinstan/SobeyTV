@@ -119,7 +119,7 @@
         </LinearLayout>
 
 
-        <com.hyphenate.easeui.widget.EaseVoiceRecorderView
+        <com.sobey.common.view.InsVoiceRecorderView
             android:id="@+id/voice_recorder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

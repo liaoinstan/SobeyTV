@@ -14,6 +14,12 @@
     <color name="sb_text_light">#cccccc</color>
     <color name="sb_text_dark">#999999</color>
     <color name="sb_text_blank">#555555</color>
+    <!---->
+    <color name="sb_text_login_title">#626466</color>
+    <color name="sb_blue">#5793e6</color>
+    <color name="sb_blue_hint">#cfe4fb</color>
+    <color name="sb_blue_hint_trans">#335793e6</color>
+    <color name="sb_bk_dark_trans">#55000000</color>
 
     <color name="sb_tab_bk">#30383f</color>
     <color name="sb_bk">#21272c</color>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_bk"
+    android:fitsSystemWindows="true"
+    tools:context="com.sobey.tvcust.ui.activity.ModifyPswActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/btn_bank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:src="@drawable/icon_bank"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="200dp"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <EditText
+                    style="@style/edit_hidden_login"
+                    android:id="@+id/edit_modifypsw_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:hint="手机号"
+                    android:inputType="textPersonName"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/line" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        style="@style/edit_hidden_login"
+                        android:id="@+id/edit_modifypsw_vali"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_marginLeft="20dp"
+                        android:hint="验证码"
+                        android:inputType="textPassword" />
+
+                    <TextView
+                        android:id="@+id/text_modifypsw_getvali"
+                        style="@style/text_nomal_small_blue"
+                        android:layout_width="102dp"
+                        android:layout_height="43dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:background="@drawable/shape_rect_corner_blue_full_line"
+                        android:text="获取验证码"/>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/line" />
+
+                <EditText
+                    android:id="@+id/edit_modifypsw_password_new"
+                    style="@style/edit_hidden_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:hint="新密码"
+                    android:inputType="textPersonName"/>
+
+            </LinearLayout>
+
+            <com.dd.CircularProgressButton
+                android:id="@+id/btn_go"
+                android:layout_width="246dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="36dp"
+                android:textColor="@color/sb_blue_hint"
+                android:textSize="16sp"
+                app:cpb_colorIndicator="@color/sb_blue"
+                app:cpb_colorIndicatorBackground="@color/sb_blue_hint_trans"
+                app:cpb_colorProgress="#00000000"
+                app:cpb_cornerRadius="48dp"
+                app:cpb_iconComplete="@drawable/ic_action_accept"
+                app:cpb_iconError="@drawable/ic_action_cancel"
+                app:cpb_textIdle="完成修改" />
+
+            <!--<TextView-->
+                <!--android:id="@+id/btn_go"-->
+                <!--android:layout_width="246dp"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:layout_gravity="center_horizontal"-->
+                <!--android:layout_marginTop="36dp"-->
+                <!--android:background="@drawable/shape_rect_corner_blue_full"-->
+                <!--android:gravity="center"-->
+                <!--android:text="完成修改"-->
+                <!--android:textColor="@color/sb_blue_hint"-->
+                <!--android:textSize="16dp" />-->
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>

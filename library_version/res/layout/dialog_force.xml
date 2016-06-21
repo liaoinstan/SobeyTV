@@ -27,7 +27,7 @@
             <TextView
                 android:id="@+id/text_version_title"
                 android:textColor="@color/cc_text_blank"
-                android:textSize="@dimen/text_title"
+                android:textSize="20sp"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"

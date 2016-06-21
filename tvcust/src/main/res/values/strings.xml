@@ -14,4 +14,6 @@
     <string name="title_activity_web">资讯</string>
     <string name="title_activity_count_order">派单统计</string>
     <string name="title_activity_device_list">设备</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_modify_psw">ModifyPswActivity</string>
 </resources>

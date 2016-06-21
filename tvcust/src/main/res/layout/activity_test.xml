@@ -75,4 +75,14 @@
         android:layout_marginLeft="31dp"
         android:layout_marginStart="31dp" />
 
+    <Button
+        android:id="@+id/login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onClick"
+        android:text="login"
+        android:layout_alignTop="@+id/version"
+        android:layout_alignRight="@+id/share"
+        android:layout_alignEnd="@+id/share" />
+
 </RelativeLayout>

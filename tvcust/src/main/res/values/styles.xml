@@ -51,6 +51,13 @@
         <item name="android:textSize">15sp</item>
     </style>
 
+    <style name="edit_hidden_login">
+        <item name="android:background">@color/none</item>
+        <item name="android:textColorHint">@color/sb_text_login_title</item>
+        <item name="android:textColor">@color/sb_blue</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
 
     <style name="text_subig_glod">
         <item name="android:textColor">@color/sb_glod</item>
@@ -64,6 +71,11 @@
 
     <style name="text_big_white">
         <item name="android:textColor">@color/sb_text_white</item>
+        <item name="android:textSize">@dimen/text_big</item>
+    </style>
+
+    <style name="text_big_blue">
+        <item name="android:textColor">@color/sb_blue</item>
         <item name="android:textSize">@dimen/text_big</item>
     </style>
 
@@ -110,6 +122,11 @@
     <style name="text_nomal_blank">
         <item name="android:textColor">@color/sb_text_blank</item>
         <item name="android:textSize">@dimen/text_nomal</item>
+    </style>
+
+    <style name="text_nomal_small_blue">
+        <item name="android:textColor">@color/sb_blue</item>
+        <item name="android:textSize">@dimen/text_nomal_small</item>
     </style>
 
     <style name="text_tiny_dark">

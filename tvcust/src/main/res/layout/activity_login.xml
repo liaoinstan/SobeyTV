@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@drawable/login_bk"
+    tools:context="com.sobey.tvcust.ui.activity.LoginActivity">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="110dp"
+            android:src="@drawable/logo"/>
+
+    <com.sobey.common.view.UnScrollViewPager
+        android:id="@+id/pager_login"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    </FrameLayout>
+
+</android.support.design.widget.CoordinatorLayout>

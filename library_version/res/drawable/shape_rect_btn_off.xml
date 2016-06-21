@@ -3,7 +3,7 @@
     <!-- 填充 -->
     <solid android:color="@color/cc_btn_off" />
     <!-- 圆角 -->
-    <corners android:radius="@dimen/nomal_corners" />
+    <corners android:radius="5dp" />
 
     <padding
         android:bottom="5dp"

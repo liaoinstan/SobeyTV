@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.sobey.tvcust.ui.activity.LoginActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="250dp"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/edit_login_name"
+                style="@style/edit_hidden_login"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:hint="账号"
+                android:inputType="textPersonName" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/line" />
+
+            <EditText
+                android:id="@+id/edit_login_password"
+                style="@style/edit_hidden_login"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:hint="密码"
+                android:inputType="textPassword" />
+
+        </LinearLayout>
+
+        <com.dd.CircularProgressButton
+            android:id="@+id/btn_go"
+            android:layout_width="246dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="36dp"
+            android:textColor="@color/sb_blue_hint"
+            android:textSize="16sp"
+            app:cpb_colorIndicator="@color/sb_blue"
+            app:cpb_colorIndicatorBackground="@color/sb_blue_hint_trans"
+            app:cpb_colorProgress="#00000000"
+            app:cpb_cornerRadius="48dp"
+            app:cpb_iconComplete="@drawable/ic_action_accept"
+            app:cpb_iconError="@drawable/ic_action_cancel"
+            app:cpb_textIdle="登录" />
+
+        <!--<TextView-->
+        <!--android:id="@+id/btn_go"-->
+        <!--android:layout_width="246dp"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:gravity="center"-->
+        <!--android:layout_marginTop="36dp"-->
+        <!--android:background="@drawable/shape_rect_corner_blue_full"-->
+        <!--android:textColor="@color/sb_blue_hint"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:textSize="16dp"-->
+        <!--android:text="登录"/>-->
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/sb_bk_dark_trans"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/text_login_regist"
+                style="@style/text_big_blue"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:paddingLeft="29dp"
+                android:paddingRight="29dp"
+                android:text="注册" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/text_login_modifypsw"
+                style="@style/text_big_blue"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:paddingLeft="29dp"
+                android:paddingRight="29dp"
+                android:text="修改密码" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

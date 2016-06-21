@@ -10,14 +10,12 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
 
-import com.hyphenate.easeui.widget.EaseVoiceRecorderView;
 import com.sobey.common.common.MyPlayer;
-import com.sobey.common.common.Player;
 import com.sobey.common.helper.CropHelper;
 import com.sobey.common.utils.VideoUtils;
 import com.sobey.common.view.BundleView;
+import com.sobey.common.view.InsVoiceRecorderView;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.ui.dialog.DialogPopupPhoto;
 import com.sobey.tvcust.ui.dialog.DialogReqfixChoose;
@@ -31,7 +29,7 @@ public class ReqfixActicity extends AppCompatActivity implements View.OnClickLis
     private DialogReqfixChoose dialog;
     private DialogPopupPhoto popup;
     private BundleView bundleView;
-    private EaseVoiceRecorderView voice_recorder;
+    private InsVoiceRecorderView voice_recorder;
     private MyPlayer player = new MyPlayer();
 
     private String pathphoto;
@@ -109,7 +107,7 @@ public class ReqfixActicity extends AppCompatActivity implements View.OnClickLis
         lay_reqfix_quekind = findViewById(R.id.lay_reqfix_quekind);
         lay_reqfix_location = findViewById(R.id.lay_reqfix_location);
         bundleView = (BundleView) findViewById(R.id.bundle_reqfix);
-        voice_recorder = (EaseVoiceRecorderView) findViewById(R.id.voice_recorder);
+        voice_recorder = (InsVoiceRecorderView) findViewById(R.id.voice_recorder);
     }
 
     private void initCtrl() {
@@ -155,7 +153,7 @@ public class ReqfixActicity extends AppCompatActivity implements View.OnClickLis
         bundleView.setVoiceTouchListenner(new View.OnTouchListener(){
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                return voice_recorder.onPressToSpeakBtnTouch(v, event, new EaseVoiceRecorderView.EaseVoiceRecorderCallback() {
+                return voice_recorder.onPressToSpeakBtnTouch(v, event, new InsVoiceRecorderView.InsVoiceRecorderCallback() {
 
                     @Override
                     public void onVoiceRecordComplete(String voiceFilePath, int voiceTimeLength) {

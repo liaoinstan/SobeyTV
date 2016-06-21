@@ -34,6 +34,7 @@ public class TestActivity extends AppCompatActivity {
     }
 
     public void onClick(View v){
+        Intent intent = new Intent();
         switch (v.getId()){
             case R.id.size:
                 String size = "null";
@@ -48,7 +49,7 @@ public class TestActivity extends AppCompatActivity {
                 ClearCacheUtil.clearExternalCache(this);
                 break;
             case R.id.go:
-                Intent intent = new Intent(this, LoadUpActivity.class);
+                intent.setClass(this, LoadUpActivity.class);
                 startActivity(intent);
                 finish();
                 break;
@@ -87,6 +88,11 @@ public class TestActivity extends AppCompatActivity {
 //                showShare();
                 ShareDialog shareDialog = new ShareDialog(this);
                 shareDialog.show();
+                break;
+            case R.id.login:
+                intent.setClass(this, LoginActivity.class);
+                startActivity(intent);
+                finish();
                 break;
         }
     }

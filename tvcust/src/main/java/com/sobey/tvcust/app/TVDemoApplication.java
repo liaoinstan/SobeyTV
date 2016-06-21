@@ -40,7 +40,7 @@ public class TVDemoApplication extends Application {
 
 		initJpush();
 		initXutils();
-		initHuanxin();
+//		initHuanxin();
 	}
 
 	@Override

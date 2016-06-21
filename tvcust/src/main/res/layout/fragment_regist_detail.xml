@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.sobey.tvcust.ui.activity.LoginActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="96dp"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="真实姓名"
+                        android:textColor="@color/sb_text_login_title"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/edit_registdetail_name"
+                        style="@style/edit_hidden_login"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginLeft="10dp"
+                        android:inputType="textPersonName" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/line" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="登录密码"
+                        android:textColor="@color/sb_text_login_title"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/edit_registdetail_password"
+                        style="@style/edit_hidden_login"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginLeft="10dp"
+                        android:inputType="textPassword" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/line" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="确认密码"
+                        android:textColor="@color/sb_text_login_title"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/edit_registdetail_password_repet"
+                        style="@style/edit_hidden_login"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginLeft="10dp"
+                        android:inputType="textPassword" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/line" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="电子邮箱"
+                        android:textColor="@color/sb_text_login_title"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/edit_registdetail_mail"
+                        style="@style/edit_hidden_login"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginLeft="10dp"
+                        android:inputType="textPersonName" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/line" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="所属单位"
+                        android:textColor="@color/sb_text_login_title"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/edit_registdetail_comp"
+                        style="@style/edit_hidden_login"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginLeft="10dp"
+                        android:inputType="textPersonName" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/line" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:gravity="center"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp">
+
+                    <TextView
+                        android:id="@+id/text_registdetail_select_customer"
+                        android:textSize="15sp"
+                        android:textColor="@drawable/color_registdetail_tab_text"
+                        android:background="@drawable/hot_rect_corner_blue"
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:gravity="center"
+                        android:text="客户注册"/>
+
+                    <TextView
+                        android:id="@+id/text_registdetail_select_employ"
+                        android:textSize="15sp"
+                        android:textColor="@drawable/color_registdetail_tab_text"
+                        android:background="@drawable/hot_rect_corner_blue"
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:gravity="center"
+                        android:text="员工注册"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <com.dd.CircularProgressButton
+                android:id="@+id/btn_go"
+                android:layout_width="246dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="36dp"
+                android:textColor="@color/sb_blue_hint"
+                android:textSize="16sp"
+                app:cpb_colorIndicator="@color/sb_blue"
+                app:cpb_colorIndicatorBackground="@color/sb_blue_hint_trans"
+                app:cpb_colorProgress="#00000000"
+                app:cpb_cornerRadius="48dp"
+                app:cpb_iconComplete="@drawable/ic_action_accept"
+                app:cpb_iconError="@drawable/ic_action_cancel"
+                app:cpb_textIdle="进入SOBEY ＞" />
+
+            <!--<LinearLayout-->
+                <!--android:id="@+id/btn_go"-->
+                <!--android:layout_width="246dp"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:layout_gravity="center_horizontal"-->
+                <!--android:layout_marginTop="36dp"-->
+                <!--android:background="@drawable/shape_rect_corner_blue_full"-->
+                <!--android:gravity="center"-->
+                <!--android:orientation="horizontal">-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="进入SOBEY"-->
+                    <!--android:textColor="@color/sb_blue_hint"-->
+                    <!--android:textSize="16dp" />-->
+
+                <!--<ImageView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="10dp"-->
+                    <!--android:src="@drawable/icon_next" />-->
+            <!--</LinearLayout>-->
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>
