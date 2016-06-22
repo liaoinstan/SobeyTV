@@ -19,7 +19,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/sb_bk_dark"
+        android:background="@color/sb_bk"
         android:paddingBottom="15dp"
         android:paddingTop="15dp">
 

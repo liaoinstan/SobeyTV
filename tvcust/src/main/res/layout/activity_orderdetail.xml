@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/sb_bk_dark"
+    android:background="@color/sb_bk"
     android:fitsSystemWindows="true"
     tools:context="com.sobey.tvcust.ui.activity.OrderDetailActivity">
 
@@ -41,15 +41,14 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/sb_bk"
-                    android:paddingBottom="15dp"
-                    android:paddingTop="15dp">
+                    android:layout_height="80dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white">
 
                     <ImageView
                         android:id="@+id/img_order_detail_header"
-                        android:layout_width="63dp"
-                        android:layout_height="63dp"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
@@ -59,28 +58,30 @@
 
                     <TextView
                         android:id="@+id/text_order_detail_ip"
-                        style="@style/text_big_dark"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@+id/img_order_detail_header"
                         android:layout_marginLeft="10dp"
                         android:layout_toEndOf="@+id/img_order_detail_header"
                         android:layout_toRightOf="@+id/img_order_detail_header"
-                        android:text="IP:192.168.0.12" />
+                        android:textSize="@dimen/text_small"
+                        android:textColor="@color/sb_text_blank"
+                        android:text="硬件问题：CPU过载警报" />
 
                     <TextView
                         android:id="@+id/text_order_detail_name"
-                        style="@style/text_big_dark"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
                         android:layout_alignLeft="@+id/text_order_detail_ip"
                         android:layout_alignStart="@+id/text_order_detail_ip"
                         android:layout_below="@+id/text_order_detail_ip"
-                        android:text="机器名:ENET-1" />
+                        android:textSize="@dimen/text_small"
+                        android:textColor="@color/sb_text_blank"
+                        android:text="订单号：658425912359" />
 
                     <TextView
                         android:id="@+id/text_order_detail_info"
-                        style="@style/text_subig_dark"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignLeft="@+id/text_order_detail_name"
@@ -88,14 +89,15 @@
                         android:layout_below="@+id/text_order_detail_name"
                         android:layout_marginTop="5dp"
                         android:text="订单状态：已完成"
-                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                        android:textSize="@dimen/text_big"
+                        android:textColor="@color/sb_blue"/>
                 </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:background="@color/sb_bk"
+                    android:background="@color/white"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:paddingBottom="10dp"
@@ -103,9 +105,10 @@
                     android:paddingTop="10dp">
 
                     <TextView
-                        style="@style/text_big_dark"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_big"
+                        android:textColor="@color/sb_text_blank"
                         android:text="订单追踪" />
 
                     <View
@@ -114,31 +117,43 @@
                         android:layout_weight="1" />
 
                     <TextView
+                        android:id="@+id/text_orderdetail_go1"
                         style="@style/text_nomal_blue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="10dp"
-                        android:background="@drawable/shape_rect_corner_glod_line"
-                        android:paddingBottom="5dp"
+                        android:background="@drawable/shape_rect_corner_blue"
+                        android:paddingBottom="8dp"
                         android:paddingLeft="15dp"
                         android:paddingRight="15dp"
-                        android:paddingTop="5dp"
-                        android:text="评价" />
+                        android:paddingTop="8dp"
+                        android:textSize="@dimen/text_nomal"
+                        android:textColor="@color/white"
+                        android:text="立即评价" />
+
+                    <TextView
+                        android:id="@+id/text_orderdetail_go"
+                        style="@style/text_nomal_blue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/shape_rect_corner_blue"
+                        android:paddingBottom="8dp"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:paddingTop="8dp"
+                        android:textSize="@dimen/text_nomal"
+                        android:textColor="@color/white"
+                        android:text="查看评价" />
 
                 </LinearLayout>
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/sb_bk"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:src="@drawable/line_dark" />
 
                 <com.sobey.common.view.FullyListView
                     android:id="@+id/listfull_ordertrack"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:divider="@null"
+                    android:dividerHeight="0dp"
                     android:background="@color/sb_bk" />
 
             </LinearLayout>

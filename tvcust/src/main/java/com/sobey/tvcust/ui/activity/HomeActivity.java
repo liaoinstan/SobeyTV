@@ -1,10 +1,12 @@
 package com.sobey.tvcust.ui.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -16,6 +18,8 @@ import android.widget.Toast;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.ui.fragment.BuildFragment;
 import com.sobey.tvcust.ui.fragment.HomeQwFragment;
+import com.sobey.tvcust.ui.fragment.MeFragment;
+import com.sobey.tvcust.ui.fragment.OrderFragment;
 import com.sobey.tvcust.utils.PermissionsUtil;
 
 import java.util.List;
@@ -30,6 +34,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private Fragment[] fragments;
     private Button[] mTabs;
     private ImageView img_msg;
+//    private Toolbar toolbar;
 
     private int currentTabIndex = -1;
 
@@ -46,8 +51,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             currentTabIndex = savedInstanceState.getInt("currentTabIndex");
         }
         setContentView(R.layout.activity_home);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
 
         PermissionsUtil.checkAndRequestPermissions(this,R.id.coordinator);
 
@@ -92,7 +97,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mTabs[3] = (Button) findViewById(R.id.btn_home_order);
         mTabs[4] = (Button) findViewById(R.id.btn_home_me);
 
-        img_msg = (ImageView) findViewById(R.id.img_msg_home);
+//        img_msg = (ImageView) findViewById(R.id.img_msg_home);
     }
 
     private void initCtrl() {
@@ -112,15 +117,15 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
         homeFragment3 = fm.findFragmentByTag("3");
         if (homeFragment3 == null){
-            homeFragment3 = BuildFragment.newInstance(3);
+            homeFragment3 = OrderFragment.newInstance(3);
         }
         homeFragment4 = fm.findFragmentByTag("4");
         if (homeFragment4 == null){
-            homeFragment4 = BuildFragment.newInstance(4);
+            homeFragment4 = MeFragment.newInstance(4);
         }
         fragments = new Fragment[] { homeFragment0, homeFragment1, homeFragment2,homeFragment3,homeFragment4 };
 
-        img_msg.setOnClickListener(this);
+//        img_msg.setOnClickListener(this);
     }
 
 //    @Override
@@ -209,4 +214,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+
+//    public void setToolbarLight(){
+//        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this,R.color.white)));
+//        toolbar.setTitleTextColor(ContextCompat.getColor(this,R.color.sb_text_blank));
+//    }
+//    public void setToolbarDark(){
+//        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this,R.color.sb_bk_dark)));
+//        toolbar.setTitleTextColor(ContextCompat.getColor(this,R.color.sb_text_light));
+//    }
 }

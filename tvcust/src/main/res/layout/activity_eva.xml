@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/sb_bk"
+    android:fitsSystemWindows="true"
+    tools:context="com.sobey.tvcust.ui.activity.EvaActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <TextView
+                android:id="@+id/text_eva_complain"
+                android:layout_gravity="right"
+                android:gravity="center"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@color/sb_blue"
+                android:textSize="@dimen/text_nomal"
+                android:text="投诉"/>
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/showingroup"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <com.liaoinstan.springview.widget.SpringView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:header="@layout/header_common"
+            app:type="follow">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/white"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:layout_marginLeft="16dp"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/test" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:text="客服评价："
+                                android:textColor="@color/cc_text_blank"
+                                android:textSize="@dimen/text_big" />
+
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1" />
+
+                            <RatingBar
+                                android:layout_width="wrap_content"
+                                android:layout_height="30dp"
+                                android:layout_marginRight="16dp"
+                                android:numStars="5"
+                                android:progressDrawable="@drawable/rating_bar"
+                                android:rating="2"
+                                android:stepSize="1" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="@drawable/line" />
+
+                        <com.zhy.view.flowlayout.TagFlowLayout
+                            android:id="@+id/flow_tag_serv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="22dp"
+                            android:layout_marginTop="22dp"
+                            app:gravity="center"
+                            app:max_select="-1" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/white"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:layout_marginLeft="16dp"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/test" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:text="技术评价："
+                                android:textColor="@color/cc_text_blank"
+                                android:textSize="@dimen/text_big" />
+
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1" />
+
+                            <RatingBar
+                                android:layout_width="wrap_content"
+                                android:layout_height="30dp"
+                                android:layout_marginRight="16dp"
+                                android:numStars="5"
+                                android:progressDrawable="@drawable/rating_bar"
+                                android:rating="2"
+                                android:stepSize="1" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="@drawable/line" />
+
+                        <com.zhy.view.flowlayout.TagFlowLayout
+                            android:id="@+id/flow_tag_tech"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="22dp"
+                            android:layout_marginTop="22dp"
+                            app:gravity="center"
+                            app:max_select="-1" />
+
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/white">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/shape_rect_dark_line"
+                            android:gravity="left|top"
+                            android:hint="留下您的评价"
+                            android:inputType="textMultiLine"
+                            android:minLines="6"
+                            android:padding="8dp"
+                            android:textColor="@color/cc_text_blank"
+                            android:textColorHint="@color/sb_text_dark"
+                            android:textSize="@dimen/text_nomal_small" />
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+            </ScrollView>
+
+        </com.liaoinstan.springview.widget.SpringView>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/sb_bk_dark"
+                android:gravity="center"
+                android:text="提交评价"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_big" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

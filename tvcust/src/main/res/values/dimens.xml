@@ -9,6 +9,7 @@
     <dimen name="text_mintitle">19sp</dimen>
     <dimen name="text_subig">18sp</dimen>
     <dimen name="text_big">16sp</dimen>
+    <dimen name="text_big_nomal">15sp</dimen>
     <dimen name="text_nomal">14sp</dimen>
     <dimen name="text_nomal_small">13sp</dimen>
     <dimen name="text_small">12sp</dimen>

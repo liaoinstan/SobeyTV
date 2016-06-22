@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,6 +73,9 @@ public class HomeQwFragment extends BaseFragment implements View.OnClickListener
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        Toolbar toolbar = (Toolbar) getView().findViewById(R.id.toolbar);
+        toolbar.setTitle("全网");
+
         initBase();
         initView();
         initData();
@@ -132,7 +136,7 @@ public class HomeQwFragment extends BaseFragment implements View.OnClickListener
 
 //                loadingDialog.hide();
             }
-        },2000);
+        },1000);
     }
 
     private void initCtrl() {

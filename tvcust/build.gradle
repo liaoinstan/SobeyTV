@@ -38,11 +38,11 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:design:23.3.0'
+    compile 'com.android.support:cardview-v7:23.3.0'
     compile project(':common')
     compile project(':jpush')
     compile project(':sharesdk')
     compile project(':library_version')
-    compile 'com.liaoinstan.springview:library:1.2.5'
     compile 'com.github.chrisbanes:PhotoView:1.2.6'
     //多彩进度条
     compile 'com.akexorcist:RoundCornerProgressBar:2.0.3'
@@ -53,4 +53,9 @@ dependencies {
     //AndroidViewAnimations end
     //圆形进度按钮
     compile 'com.github.dmytrodanylyk.circular-progress-button:library:1.1.3'
+    //圆形ImageVIew
+    compile 'de.hdodenhof:circleimageview:2.0.0'
+    //流式标签布局
+    compile 'com.zhy:flowlayout-lib:1.0.3'
+    compile project(':spring')
 }

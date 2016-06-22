@@ -1,58 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/RelativeLayout1"
-    android:orientation="horizontal"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="70dp"
-    android:background="@color/sb_bk">
+    android:layout_height="80dp"
+    android:background="@color/white">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_gravity="bottom"
+        android:background="@color/sb_bk"/>
 
     <LinearLayout
-        android:layout_width="50dp"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal">
 
-        <View
-            android:id="@+id/v_item_track_line_top"
-            android:layout_width="1dp"
-            android:layout_height="10dp"
-            android:background="@drawable/line_track"/>
+        <LinearLayout
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/img_item_track_oval"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/shape_oval_track"/>
+            <View
+                android:id="@+id/v_item_track_line_top"
+                android:layout_width="1dp"
+                android:layout_height="20dp"
+                android:background="@drawable/line_track" />
 
-        <View
-            android:id="@+id/v_item_track_line_bottom"
-            android:layout_width="1dp"
-            android:layout_height="0dp"
+            <ImageView
+                android:id="@+id/img_item_track_oval"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/shape_oval_track" />
+
+            <View
+                android:id="@+id/v_item_track_line_bottom"
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/line_track" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/line_track"/>
+            android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/text_item_track_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="您的订单已发出"
+                android:textColor="@color/sb_text_dark"
+                android:textSize="@dimen/text_big" />
+
+            <TextView
+                android:id="@+id/text_item_track_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="2016-09-21   14:31"
+                android:textColor="@color/sb_text_dark"
+                android:textSize="@dimen/text_nomal" />
+        </LinearLayout>
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/text_item_track_info"
-            style="@style/text_big_dark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="您的订单已发出"/>
-
-        <TextView
-            android:id="@+id/text_item_track_time"
-            style="@style/text_nomal_dark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="2016-09-21   14:31"/>
-    </LinearLayout>
-</LinearLayout>
+</FrameLayout>

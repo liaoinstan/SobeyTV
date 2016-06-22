@@ -32,13 +32,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:background="@color/sb_bk_dark">
+            android:background="@color/sb_bk">
 
             <com.sobey.common.view.TouchWebView
                 android:id="@+id/webview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/sb_bk_dark"/>
+                android:background="@color/sb_bk"/>
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="100dp"

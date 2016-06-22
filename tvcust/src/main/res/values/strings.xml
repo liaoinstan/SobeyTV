@@ -15,4 +15,7 @@
     <string name="title_activity_device_list">设备</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_modify_psw">ModifyPswActivity</string>
+    <string name="title_activity_eva_detail">EvaDetailActivity</string>
+    <string name="title_activity_eva">EvaActivity</string>
+    <string name="title_activity_complain">ComplainActivity</string>
 </resources>
