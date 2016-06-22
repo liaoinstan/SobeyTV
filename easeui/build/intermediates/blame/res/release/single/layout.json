@@ -4,12 +4,12 @@
         "source": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\res\\layout\\ease_row_expression.xml"
     },
     {
-        "merged": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\res\\merged\\release\\layout\\ease_row_received_bigexpression.xml",
-        "source": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\res\\layout\\ease_row_received_bigexpression.xml"
-    },
-    {
         "merged": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\res\\merged\\release\\layout\\ease_chat_menu_item.xml",
         "source": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\res\\layout\\ease_chat_menu_item.xml"
+    },
+    {
+        "merged": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\res\\merged\\release\\layout\\ease_row_received_bigexpression.xml",
+        "source": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\res\\layout\\ease_row_received_bigexpression.xml"
     },
     {
         "merged": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\res\\merged\\release\\layout\\ease_row_received_voice.xml",
@@ -60,12 +60,12 @@
         "source": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\res\\layout\\ease_row_received_picture.xml"
     },
     {
-        "merged": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\res\\merged\\release\\layout\\ease_row_sent_message.xml",
-        "source": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\res\\layout\\ease_row_sent_message.xml"
-    },
-    {
         "merged": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\res\\merged\\release\\layout\\ease_row_sent_voice.xml",
         "source": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\res\\layout\\ease_row_sent_voice.xml"
+    },
+    {
+        "merged": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\res\\merged\\release\\layout\\ease_row_sent_message.xml",
+        "source": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\res\\layout\\ease_row_sent_message.xml"
     },
     {
         "merged": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\res\\merged\\release\\layout\\ease_search_bar.xml",

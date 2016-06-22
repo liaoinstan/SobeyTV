@@ -164,12 +164,12 @@
         "source": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\res\\layout\\ease_conversation_item.xml"
     },
     {
-        "merged": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\res\\merged\\debug\\layout\\ease_activity_baidumap.xml",
-        "source": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\res\\layout\\ease_activity_baidumap.xml"
-    },
-    {
         "merged": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\res\\merged\\debug\\layout\\ease_widget_emojicon_tab_bar.xml",
         "source": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\res\\layout\\ease_widget_emojicon_tab_bar.xml"
+    },
+    {
+        "merged": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\res\\merged\\debug\\layout\\ease_activity_baidumap.xml",
+        "source": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\res\\layout\\ease_activity_baidumap.xml"
     },
     {
         "merged": "D:\\LZ\\workspace\\androidstudiospace_newteam\\SobeyTV\\easeui\\build\\intermediates\\res\\merged\\debug\\layout\\ease_alert_dialog.xml",
