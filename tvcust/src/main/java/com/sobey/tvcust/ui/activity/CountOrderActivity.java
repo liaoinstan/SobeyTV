@@ -8,11 +8,20 @@ import android.view.MenuItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
+import com.flyco.tablayout.CommonTabLayout;
+import com.flyco.tablayout.listener.CustomTabEntity;
 import com.sobey.tvcust.R;
+import com.sobey.tvcust.entity.TabEntity;
+
+import java.util.ArrayList;
 
 public class CountOrderActivity extends AppCompatActivity {
 
     private WebView webView;
+    private CommonTabLayout mTabLayout_8;
+
+    private String[] mTitles = {"8月", "9月", "10月", "11月", "12月"};
+    private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,13 +37,21 @@ public class CountOrderActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        mTabLayout_8 = (CommonTabLayout) findViewById(R.id.tl_8);
         webView = (WebView) findViewById(R.id.web_countorder);
     }
 
     private void initData() {
+        for (int i = 0; i < mTitles.length; i++) {
+            mTabEntities.add(new TabEntity(mTitles[i]));
+        }
     }
 
     private void initCtrl() {
+        mTabLayout_8.setTabData(mTabEntities);
+        mTabLayout_8.setCurrentTab(2);
+
+        //////////////////////////////
         //打开本包内asset目录下的index.html文件
         //wView.loadUrl(" file:///android_asset/index.html ");
         //打开本地sd卡内的index.html文件

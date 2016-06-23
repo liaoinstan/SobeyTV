@@ -1,0 +1,16 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval" >
+
+    <!-- 填充 -->
+    <solid android:color="@color/sb_blue" />
+
+    <!-- 描边 -->
+    <stroke
+        android:width="10dp"
+        android:color="@color/sb_blue_hint_trans" />
+
+    <size
+        android:width="100dp"
+        android:height="100dp" />
+
+</shape>

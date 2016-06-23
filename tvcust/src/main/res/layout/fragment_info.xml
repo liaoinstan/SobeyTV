@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.activity.HomeActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+            <!--app:layout_scrollFlags="scroll|enterAlways"-->
+
+            <LinearLayout
+                android:id="@+id/btn_go_sign"
+                android:layout_gravity="right"
+                android:gravity="center"
+                android:layout_marginRight="10dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_info_sign" />
+
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_tiny"
+                    android:textColor="@color/sb_text_light"
+                    android:text="签到"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btn_go_scan"
+                android:layout_gravity="right"
+                android:gravity="center"
+                android:layout_marginRight="5dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_info_scan" />
+
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_tiny"
+                    android:textColor="@color/sb_text_light"
+                    android:text="扫一扫"/>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tab_info"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/sb_bk_dark"
+            app:tabIndicatorColor="@color/sb_blue"
+            app:tabIndicatorHeight="3dp"
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextColor="@color/sb_text_light" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager_info"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+</android.support.design.widget.CoordinatorLayout>

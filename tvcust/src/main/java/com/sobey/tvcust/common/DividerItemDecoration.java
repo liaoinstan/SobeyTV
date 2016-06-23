@@ -30,11 +30,11 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
     private int mOrientation;
 
     public DividerItemDecoration(Context context){
-        this(context,VERTICAL_LIST,Color.parseColor("#55999999"));
+        this(context,VERTICAL_LIST,Color.parseColor("#11999999"));
     }
 
     public DividerItemDecoration(Context context,int orientation){
-        this(context,orientation,Color.parseColor("#55999999"));
+        this(context,orientation,Color.parseColor("#11999999"));
     }
 
     public DividerItemDecoration(Context context, int orientation ,int color) {

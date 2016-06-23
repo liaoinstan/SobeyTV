@@ -27,44 +27,18 @@
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <HorizontalScrollView
+        <com.flyco.tablayout.CommonTabLayout
+            android:id="@+id/tl_8"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:scrollbars="none">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="buttonbuttonbutton1" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="buttonbuttonbutton2" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="buttonbuttonbutton3" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="buttonbuttonbutton4" />
-            </LinearLayout>
-
-        </HorizontalScrollView>
+            android:layout_height="48dp"
+            android:background="#6D8FB0"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            app:tl_iconVisible="false"
+            app:tl_indicator_margin_left="5dp"
+            app:tl_indicator_margin_right="5dp"
+            app:tl_indicator_style="BLOCK"
+            app:tl_textsize="14sp"/>
 
         <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
             android:id="@+id/progress_countorder"

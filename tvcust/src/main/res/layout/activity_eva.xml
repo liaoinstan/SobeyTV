@@ -95,7 +95,7 @@
 
                             <RatingBar
                                 android:layout_width="wrap_content"
-                                android:layout_height="30dp"
+                                android:layout_height="19dp"
                                 android:layout_marginRight="16dp"
                                 android:numStars="5"
                                 android:progressDrawable="@drawable/rating_bar"
@@ -154,7 +154,7 @@
 
                             <RatingBar
                                 android:layout_width="wrap_content"
-                                android:layout_height="30dp"
+                                android:layout_height="19dp"
                                 android:layout_marginRight="16dp"
                                 android:numStars="5"
                                 android:progressDrawable="@drawable/rating_bar"

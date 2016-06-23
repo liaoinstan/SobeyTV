@@ -15,31 +15,44 @@
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:drawablePadding="6dp"
             android:gravity="center"
+            android:textColor="#e8e8e8"
             android:text="微信"
-            android:drawableTop="@drawable/ssdk_oks_classic_wechat"/>
+            android:drawableTop="@drawable/share_weixin"/>
         <TextView
             android:id="@+id/text_share_wechatmoments"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:drawablePadding="6dp"
             android:gravity="center"
+            android:textColor="#e8e8e8"
             android:text="朋友圈"
-            android:drawableTop="@drawable/ssdk_oks_classic_wechatmoments"/>
+            android:drawableTop="@drawable/share_frends"/>
         <TextView
             android:id="@+id/text_share_qq"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:drawablePadding="6dp"
             android:gravity="center"
+            android:textColor="#e8e8e8"
             android:text="QQ"
-            android:drawableTop="@drawable/ssdk_oks_classic_qq"/>
+            android:drawableTop="@drawable/share_qq"/>
         <TextView
+            android:visibility="gone"
             android:id="@+id/text_share_qzone"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:drawablePadding="6dp"
             android:gravity="center"
+            android:textColor="#e8e8e8"
             android:text="QQ空间"
             android:drawableTop="@drawable/ssdk_oks_classic_qzone"/>
     </LinearLayout>

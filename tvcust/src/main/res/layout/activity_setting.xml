@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/sb_bk"
+    android:fitsSystemWindows="true"
+    tools:context="com.sobey.tvcust.ui.activity.SettingActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:cardCornerRadius="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/item_setting_about"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/hot_lay_item_white_fade"
+                    android:drawableLeft="@drawable/icon_me_about"
+                    android:drawablePadding="20dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="22dp"
+                    android:text="关于我们" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginLeft="58dp"
+                    android:background="@drawable/line" />
+
+                <TextView
+                    android:id="@+id/item_setting_clause"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/hot_lay_item_white_fade"
+                    android:drawableLeft="@drawable/icon_me_clause"
+                    android:drawablePadding="20dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="22dp"
+                    android:text="服务条款" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginLeft="58dp"
+                    android:background="@drawable/line" />
+
+                <LinearLayout
+                    android:id="@+id/item_setting_version"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/hot_lay_item_white_fade"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:drawableLeft="@drawable/icon_me_version"
+                        android:drawablePadding="20dp"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="22dp"
+                        android:text="版本信息" />
+
+                    <TextView
+                        android:id="@+id/text_setting_version"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center"
+                        android:layout_marginLeft="50dp"
+                        android:text="version 1.1.0"
+                        android:textColor="@color/sb_text_dark"
+                        android:textSize="@dimen/text_small" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            app:cardCornerRadius="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/item_setting_safe"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/hot_lay_item_white_fade"
+                    android:drawableLeft="@drawable/icon_me_safe"
+                    android:drawablePadding="20dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="22dp"
+                    android:text="安全设置" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginLeft="58dp"
+                    android:background="@drawable/line" />
+
+                <LinearLayout
+                    android:id="@+id/item_setting_clear"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/hot_lay_item_white_fade"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:drawableLeft="@drawable/icon_me_clear"
+                        android:drawablePadding="20dp"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="22dp"
+                        android:text="清除缓存" />
+
+                    <TextView
+                        android:id="@+id/text_setting_clear"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="50dp"
+                        android:text="1.73M"
+                        android:textColor="@color/sb_text_dark"
+                        android:textSize="@dimen/text_small" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            app:cardCornerRadius="0dp">
+
+            <TextView
+                android:id="@+id/item_setting_logout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/hot_lay_item_white_fade"
+                android:drawableLeft="@drawable/icon_me_logout"
+                android:drawablePadding="20dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="22dp"
+                android:text="注销" />
+
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

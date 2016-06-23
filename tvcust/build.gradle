@@ -57,5 +57,8 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.0.0'
     //流式标签布局
     compile 'com.zhy:flowlayout-lib:1.0.3'
+    //SpringView
     compile project(':spring')
+    //多彩TabView
+    compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.0.6@aar'
 }

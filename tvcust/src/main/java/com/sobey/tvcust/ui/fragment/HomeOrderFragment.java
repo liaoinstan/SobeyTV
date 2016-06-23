@@ -1,18 +1,14 @@
 package com.sobey.tvcust.ui.fragment;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,11 +19,9 @@ import com.liaoinstan.springview.widget.SpringView;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.LoadingViewUtil;
 import com.sobey.tvcust.entity.TestEntity;
-import com.sobey.tvcust.ui.activity.HomeActivity;
 import com.sobey.tvcust.ui.activity.OrderDetailActivity;
 import com.sobey.tvcust.ui.activity.ReqfixActicity;
 import com.sobey.tvcust.ui.adapter.OnRecycleItemClickListener;
-import com.sobey.tvcust.ui.adapter.RecycleAdapterMsg;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterOrder;
 
 import java.util.ArrayList;
@@ -36,7 +30,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/6/2 0002.
  */
-public class OrderFragment extends BaseFragment implements OnRecycleItemClickListener,View.OnClickListener{
+public class HomeOrderFragment extends BaseFragment implements OnRecycleItemClickListener,View.OnClickListener{
 
     private int position;
     private View rootView;
@@ -52,7 +46,7 @@ public class OrderFragment extends BaseFragment implements OnRecycleItemClickLis
     private List<TestEntity> results = new ArrayList<>();
 
     public static Fragment newInstance(int position) {
-        OrderFragment f = new OrderFragment();
+        HomeOrderFragment f = new HomeOrderFragment();
         Bundle b = new Bundle();
         b.putInt("position", position);
         f.setArguments(b);

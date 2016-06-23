@@ -1,5 +1,6 @@
 package com.sobey.tvcust.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -10,19 +11,26 @@ import android.view.ViewGroup;
 
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.LoadingViewUtil;
+import com.sobey.tvcust.ui.activity.CountOrderActivity;
+import com.sobey.tvcust.ui.activity.SettingActivity;
 
 /**
  * Created by Administrator on 2016/6/2 0002.
  */
-public class MeFragment extends BaseFragment {
+public class HomeMeFragment extends BaseFragment implements View.OnClickListener{
 
     private int position;
     private View rootView;
     private ViewGroup showingroup;
     private View showin;
 
+    private View item_me_order;
+    private View item_me_question;
+    private View item_me_warning;
+    private View item_me_setting;
+
     public static Fragment newInstance(int position) {
-        MeFragment f = new MeFragment();
+        HomeMeFragment f = new HomeMeFragment();
         Bundle b = new Bundle();
         b.putInt("position", position);
         f.setArguments(b);
@@ -57,6 +65,10 @@ public class MeFragment extends BaseFragment {
 
     private void initView() {
         showingroup = (ViewGroup) getView().findViewById(R.id.showingroup);
+        item_me_order = getView().findViewById(R.id.item_me_order);
+        item_me_question = getView().findViewById(R.id.item_me_question);
+        item_me_warning = getView().findViewById(R.id.item_me_warning);
+        item_me_setting = getView().findViewById(R.id.item_me_setting);
     }
 
     private void initData() {
@@ -80,5 +92,28 @@ public class MeFragment extends BaseFragment {
     }
 
     private void initCtrl() {
+        item_me_order.setOnClickListener(this);
+        item_me_question.setOnClickListener(this);
+        item_me_warning.setOnClickListener(this);
+        item_me_setting.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent();
+        switch (v.getId()){
+            case R.id.item_me_order:
+                intent.setClass(getActivity(), CountOrderActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.item_me_question:
+                break;
+            case R.id.item_me_warning:
+                break;
+            case R.id.item_me_setting:
+                intent.setClass(getActivity(), SettingActivity.class);
+                startActivity(intent);
+                break;
+        }
     }
 }

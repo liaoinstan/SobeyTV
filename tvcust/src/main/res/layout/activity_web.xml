@@ -21,30 +21,11 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <ScrollView
+    <com.sobey.common.view.TouchWebView
+        android:id="@+id/webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:descendantFocusability="blocksDescendants"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="@color/sb_bk">
-
-            <com.sobey.common.view.TouchWebView
-                android:id="@+id/webview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/sb_bk"/>
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:text="button"/>
-
-        </LinearLayout>
-    </ScrollView>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:background="@color/sb_bk" />
 
 </android.support.design.widget.CoordinatorLayout>

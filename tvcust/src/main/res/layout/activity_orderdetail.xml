@@ -54,7 +54,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="20dp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/test" />
+                        android:src="@drawable/icon_finish" />
 
                     <TextView
                         android:id="@+id/text_order_detail_ip"

@@ -1,14 +1,11 @@
 package com.sobey.tvcust.ui.activity;
 
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,9 +14,10 @@ import android.widget.Toast;
 
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.ui.fragment.BuildFragment;
+import com.sobey.tvcust.ui.fragment.HomeInfoFragment;
 import com.sobey.tvcust.ui.fragment.HomeQwFragment;
-import com.sobey.tvcust.ui.fragment.MeFragment;
-import com.sobey.tvcust.ui.fragment.OrderFragment;
+import com.sobey.tvcust.ui.fragment.HomeMeFragment;
+import com.sobey.tvcust.ui.fragment.HomeOrderFragment;
 import com.sobey.tvcust.utils.PermissionsUtil;
 
 import java.util.List;
@@ -105,7 +103,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         //从回退栈获取，防止fragment重复创建
         homeFragment0 = fm.findFragmentByTag("0");
         if (homeFragment0 == null){
-            homeFragment0 = BuildFragment.newInstance(0);
+            homeFragment0 = HomeInfoFragment.newInstance(0);
         }
         homeFragment1 = fm.findFragmentByTag("1");
         if (homeFragment1 == null){
@@ -117,11 +115,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
         homeFragment3 = fm.findFragmentByTag("3");
         if (homeFragment3 == null){
-            homeFragment3 = OrderFragment.newInstance(3);
+            homeFragment3 = HomeOrderFragment.newInstance(3);
         }
         homeFragment4 = fm.findFragmentByTag("4");
         if (homeFragment4 == null){
-            homeFragment4 = MeFragment.newInstance(4);
+            homeFragment4 = HomeMeFragment.newInstance(4);
         }
         fragments = new Fragment[] { homeFragment0, homeFragment1, homeFragment2,homeFragment3,homeFragment4 };
 

@@ -1,21 +1,286 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/showingroup"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/sb_bk"
+    android:orientation="vertical"
+    tools:context=".ui.activity.HomeActivity">
 
     <LinearLayout
+        android:id="@+id/showingroup"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-
-        <ImageView
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/test"/>
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:cardCornerRadius="0dp">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/temp_img_bk"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/test" />
+
+                    <ImageView
+                        android:id="@+id/img_me_header"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_below="@+id/temp_img_bk"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="-40dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/test" />
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/img_me_header"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:text="时间简史"
+                        android:textColor="@color/sb_text_blank_deep"
+                        android:textSize="@dimen/text_big" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:src="@drawable/icon_me_sign" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="276天"
+                                android:textColor="@color/sb_text_blank_deep"
+                                android:textSize="@dimen/text_small" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="累计签到"
+                                android:layout_marginTop="3dp"
+                                android:textColor="@color/sb_text_dark_blank"
+                                android:textSize="@dimen/text_small" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:src="@drawable/icon_me_warning" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="125次"
+                                android:textColor="@color/sb_text_blank_deep"
+                                android:textSize="@dimen/text_small" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="累计报警"
+                                android:layout_marginTop="3dp"
+                                android:textColor="@color/sb_text_dark_blank"
+                                android:textSize="@dimen/text_small" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:src="@drawable/icon_me_ordercount" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="126次"
+                                android:textColor="@color/sb_text_blank_deep"
+                                android:textSize="@dimen/text_small" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="累计派单"
+                                android:layout_marginTop="3dp"
+                                android:textColor="@color/sb_text_dark_blank"
+                                android:textSize="@dimen/text_small" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            app:cardCornerRadius="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/item_me_order"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:paddingLeft="22dp"
+                    android:drawableLeft="@drawable/icon_me_order"
+                    android:drawablePadding="20dp"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/hot_lay_item_white_fade"
+                    android:text="派单统计" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginLeft="58dp"
+                    android:background="@drawable/line" />
+
+                <TextView
+                    android:id="@+id/item_me_question"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:paddingLeft="22dp"
+                    android:drawableLeft="@drawable/icon_me_question"
+                    android:drawablePadding="20dp"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/hot_lay_item_white_fade"
+                    android:text="问题分类统计" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginLeft="58dp"
+                    android:background="@drawable/line" />
+
+                <TextView
+                    android:id="@+id/item_me_warning"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:paddingLeft="22dp"
+                    android:drawableLeft="@drawable/icon_me_version"
+                    android:drawablePadding="20dp"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/hot_lay_item_white_fade"
+                    android:text="警报类型统计" />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@color/white"
+            app:cardCornerRadius="0dp">
+
+            <TextView
+                android:id="@+id/item_me_setting"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:paddingLeft="22dp"
+                android:drawableLeft="@drawable/icon_me_setting"
+                android:drawablePadding="20dp"
+                android:gravity="center_vertical"
+                android:background="@drawable/hot_lay_item_white_fade"
+                android:text="设置" />
+
+        </android.support.v7.widget.CardView>
     </LinearLayout>
 
-</RelativeLayout>
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#00000000"
+        app:popupTheme="@style/AppTheme.PopupOverlay">
+        <!--app:layout_scrollFlags="scroll|enterAlways"-->
+        <ImageView
+            android:id="@+id/img_msg_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/home_qw_msg_hot" />
+
+    </android.support.v7.widget.Toolbar>
+
+</android.support.design.widget.CoordinatorLayout>

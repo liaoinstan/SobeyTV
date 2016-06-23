@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:layout_width="83dp"
+        android:layout_height="83dp"
+        android:layout_margin="10dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/test"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textSize="@dimen/text_nomal"
+            android:textColor="@color/sb_text_blank_deep"
+            android:text="六月份开启设备维护活动，所有购买设备都需登记"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:textSize="@dimen/text_small"
+            android:textColor="@color/sb_text_dark_blank"
+            android:text="发了那么多的VR设计教程，不过有些设计师对这个行业还不是很了解。今天这篇文章就专门讲解一下,发了那么多的VR设计教程来普及，今天这篇文章就专门讲解一下,发了那么多的VR设计教程来普及今天这篇文章就专门讲解一下,发了那么多的VR设计教程来普及"/>
+
+    </LinearLayout>
+
+</LinearLayout>

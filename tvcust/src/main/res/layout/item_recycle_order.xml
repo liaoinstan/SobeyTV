@@ -37,9 +37,9 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:scaleType="centerCrop"
+                android:scaleType="center"
                 android:background="@color/sb_bk_light"
-                android:src="@drawable/test" />
+                android:src="@drawable/icon_order_fix" />
 
             <LinearLayout
                 android:layout_width="match_parent"
