@@ -75,11 +75,11 @@ public class MsgActivity extends AppCompatActivity{
 //                    }
 //                });
             }
-        }, 2000);
+        }, 1000);
     }
 
     private void initCtrl() {
-        adapter = new RecycleAdapterMsg(this,R.layout.item_recycle_msg,results);
+        adapter = new RecycleAdapterMsg(this,R.layout.item_recycle_order,results);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
         springView.setHeader(new AliHeader(this,false));

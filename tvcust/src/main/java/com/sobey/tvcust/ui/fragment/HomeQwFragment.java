@@ -1,31 +1,26 @@
 package com.sobey.tvcust.ui.fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.TextView;
 
-import com.sobey.common.entity.Images;
-import com.sobey.common.view.BannerView;
-import com.sobey.common.view.FullyListView;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.LoadingViewUtil;
 import com.sobey.tvcust.entity.TestEntity;
 import com.sobey.tvcust.ui.activity.DeviceDetailActivity;
 import com.sobey.tvcust.ui.activity.DeviceListActivity;
-import com.sobey.tvcust.ui.activity.ReqfixActicity;
-import com.sobey.tvcust.ui.activity.WebActivity;
-import com.sobey.tvcust.ui.adapter.ListAdapterHomeQW;
+import com.sobey.tvcust.ui.activity.MsgActivity;
+import com.sobey.tvcust.ui.adapter.OnRecycleItemClickListener;
+import com.sobey.tvcust.ui.adapter.RecycleAdapterQW;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,19 +28,15 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/6/2 0002.
  */
-public class HomeQwFragment extends BaseFragment implements View.OnClickListener,AdapterView.OnItemClickListener,BannerView.OnBannerClickListener {
+public class HomeQwFragment extends BaseFragment implements View.OnClickListener,OnRecycleItemClickListener {
 
-    private BannerView banner;
-    private TextView text_reqfix;
-    private TextView text_more;
-    private ListView listView_full;
-    private ListAdapterHomeQW adapter;
+    private RecyclerView recyclerView;
+    private RecycleAdapterQW adapter;
     private ViewGroup showingroup;
-//    private Dialog loadingDialog;
+    private View btn_go_msg;
 
     private int position;
     private View rootView;
-    private List<Images> images = new ArrayList<>();
     private List<TestEntity> results = new ArrayList<>();
 
     public static Fragment newInstance(int position) {
@@ -66,7 +57,6 @@ public class HomeQwFragment extends BaseFragment implements View.OnClickListener
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_home_qw,container,false);
-        Log.e("liao","onCreateView");
         return rootView;
     }
 
@@ -80,10 +70,6 @@ public class HomeQwFragment extends BaseFragment implements View.OnClickListener
         initView();
         initData();
         //initCtrl();
-
-        banner.setFocusable(true);
-        banner.setFocusableInTouchMode(true);
-        banner.requestFocus();
     }
 
     @Override
@@ -98,11 +84,9 @@ public class HomeQwFragment extends BaseFragment implements View.OnClickListener
     }
 
     private void initView() {
-        banner = (BannerView) getView().findViewById(R.id.banner_home_qw);
-        text_reqfix = (TextView) getView().findViewById(R.id.text_home_qw_reqfix);
-        text_more = (TextView) getView().findViewById(R.id.text_home_qw_more);
-        listView_full = (FullyListView) getView().findViewById(R.id.listfull_home_qw);
+        recyclerView = (RecyclerView) getView().findViewById(R.id.recycle_home_qw);
         showingroup = (ViewGroup) getView().findViewById(R.id.showingroup);
+        btn_go_msg = getView().findViewById(R.id.btn_go_msg);
     }
 
     private void initData() {
@@ -112,12 +96,9 @@ public class HomeQwFragment extends BaseFragment implements View.OnClickListener
             @Override
             public void run() {
                 //加载成功
-                images.add(new Images(1,"夏季衬衫，清凉一夏","http://img2.imgtn.bdimg.com/it/u=2401368128,869327646&fm=21&gp=0.jpg"));
-                images.add(new Images(2,"男子怒打妻儿，竟然只为了买一件衣服","http://img1.imgtn.bdimg.com/it/u=839795904,770645941&fm=21&gp=0.jpg"));
-                images.add(new Images(3,"冠希复出，陈妍希表示呵呵","http://pic44.nipic.com/20140726/6205649_111852997000_2.jpg"));
-                images.add(new Images(4,"iphon7预览版发售，你还在等什么","http://img4.imgtn.bdimg.com/it/u=3831361042,2579496760&fm=21&gp=0.jpg"));
-                images.add(new Images(5,"马云：成功不只是嘴上说说","http://img0.imgtn.bdimg.com/it/u=1415714570,832901974&fm=21&gp=0.jpg"));
-
+                results.add(new TestEntity());
+                results.add(new TestEntity());
+                results.add(new TestEntity());
                 results.add(new TestEntity());
                 results.add(new TestEntity());
                 results.add(new TestEntity());
@@ -140,48 +121,39 @@ public class HomeQwFragment extends BaseFragment implements View.OnClickListener
     }
 
     private void initCtrl() {
-        banner.showTitle(false);
-        banner.setDatas(images);
-        banner.setOnBannerClickListener(this);
-        text_reqfix.setOnClickListener(this);
-        text_more.setOnClickListener(this);
-
-        adapter = new ListAdapterHomeQW(getActivity(),R.layout.item_list_home_qw,results);
-        listView_full.setAdapter(adapter);
-        listView_full.setOnItemClickListener(this);
+        adapter = new RecycleAdapterQW(getActivity(),results);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), LinearLayoutManager.VERTICAL, false));
+        adapter.setOnItemClickListener(this);
+        btn_go_msg.setOnClickListener(this);
     }
 
     private void freshCtrl(){
         adapter.notifyDataSetChanged();
-        banner.notifyDataSetChanged();
     }
 
     @Override
     public void onClick(View v) {
         Intent intent = new Intent();
         switch (v.getId()){
-            case R.id.text_home_qw_reqfix:
-                intent.setClass(getActivity(), ReqfixActicity.class);
-                startActivity(intent);
-                break;
-            case R.id.text_home_qw_more:
-                intent.setClass(getActivity(), DeviceListActivity.class);
+            case R.id.btn_go_msg:
+                intent.setClass(getActivity(), MsgActivity.class);
                 startActivity(intent);
                 break;
         }
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent = new Intent(getActivity(), DeviceDetailActivity.class);
-        startActivity(intent);
-    }
+    public void onItemClick(RecyclerView.ViewHolder viewHolder) {
+        int position = viewHolder.getLayoutPosition();
+        if (position==0){
 
-    @Override
-    public void onBannerClick(int position) {
-        Intent intent = new Intent(getActivity(),WebActivity.class);
-        intent.putExtra("title","资讯");
-        intent.putExtra("url","http://cn.bing.com");//https://github.com    //http://cn.bing.com
-        startActivity(intent);
+        }else if(position>0 && position<adapter.getResults().size()-1){
+            Intent intent = new Intent(getActivity(), DeviceDetailActivity.class);
+            startActivity(intent);
+        }else {
+            Intent intent = new Intent(getActivity(), DeviceListActivity.class);
+            startActivity(intent);
+        }
     }
 }

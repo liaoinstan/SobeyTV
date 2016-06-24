@@ -14,6 +14,7 @@
     <color name="sb_text_dark">#999999</color>
     <color name="sb_text_dark_blank">#808080</color>
     <color name="sb_text_blank">#666666</color>
+    <color name="sb_text_blank_deep_light">#4d4d4d</color>
     <color name="sb_text_blank_deep">#333333</color>
     <!---->
     <color name="sb_text_login_title">#626466</color>
@@ -22,6 +23,7 @@
     <color name="sb_blue_hint_trans">#335793e6</color>
     <color name="sb_bk_dark_trans">#55000000</color>
     <color name="sb_bk_dark">#15222a</color>
+    <color name="sb_white_trans">#ccffffff</color>
 
     <color name="sb_tab_bk">#ffffff</color>
     <color name="sb_bk">#e6e6e6</color>

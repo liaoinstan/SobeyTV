@@ -19,7 +19,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="250dp"
-            android:background="@color/white"
+            android:background="@drawable/shape_rect_corner_white_trans"
             android:orientation="vertical">
 
             <EditText
@@ -29,6 +29,8 @@
                 android:layout_height="60dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
+                android:drawableLeft="@drawable/icon_me_clear"
+                android:drawablePadding="20dp"
                 android:hint="账号"
                 android:inputType="textPersonName" />
 
@@ -46,6 +48,8 @@
                 android:layout_height="60dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
+                android:drawableLeft="@drawable/icon_me_clear"
+                android:drawablePadding="20dp"
                 android:hint="密码"
                 android:inputType="textPassword" />
 

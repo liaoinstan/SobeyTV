@@ -18,6 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
+            app:navigationIcon="@drawable/icon_bank"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
             <TextView
@@ -78,7 +79,7 @@
                                 android:layout_height="50dp"
                                 android:layout_marginLeft="16dp"
                                 android:scaleType="centerCrop"
-                                android:src="@drawable/test" />
+                                android:src="@drawable/eva_serv_header" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -137,7 +138,7 @@
                                 android:layout_height="50dp"
                                 android:layout_marginLeft="16dp"
                                 android:scaleType="centerCrop"
-                                android:src="@drawable/test" />
+                                android:src="@drawable/eva_tech_header" />
 
                             <TextView
                                 android:layout_width="wrap_content"

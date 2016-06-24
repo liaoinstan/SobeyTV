@@ -9,6 +9,7 @@ import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -125,6 +126,10 @@ public class BannerView extends FrameLayout implements Runnable{
 
         DEFAULT_BANNER_SIZE = images.size();
         dotView.setViewPager(mViewPager, DEFAULT_BANNER_SIZE);
+
+        if (images.size()>=1) {
+            mViewPager.setCurrentItem(1);
+        }
     }
 
     private Handler mHandler = new Handler(){
@@ -179,6 +184,7 @@ public class BannerView extends FrameLayout implements Runnable{
 
             //绑定网络图片
             x.image().bind(imageView, images.get(position).getImg(), new CustomBitmapLoadCallBack(imageView));
+//            imageView.setImageResource(R.drawable.test);
 
             //点击事件
             final int pos = position;

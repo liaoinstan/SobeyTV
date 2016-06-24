@@ -43,6 +43,10 @@ public class QuestionActivity extends AppCompatActivity {
         results.add(new TestEntity());
         results.add(new TestEntity());
         results.add(new TestEntity());
+        results.add(new TestEntity());
+        results.add(new TestEntity());
+        results.add(new TestEntity());
+        results.add(new TestEntity());
     }
 
     private void initView() {
@@ -53,7 +57,6 @@ public class QuestionActivity extends AppCompatActivity {
         adapter = new RecycleAdapterQuestion(this,R.layout.item_recycle_question,results);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL_LIST, ContextCompat.getColor(this, R.color.sb_line_dark)));
     }
 
     @Override

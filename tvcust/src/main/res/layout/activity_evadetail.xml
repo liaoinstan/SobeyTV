@@ -18,6 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
+            app:navigationIcon="@drawable/icon_bank"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
@@ -25,9 +26,9 @@
     <com.liaoinstan.springview.widget.SpringView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:footer="@layout/header_common"
         app:header="@layout/header_common"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:type="follow">
 
         <ScrollView
@@ -38,8 +39,7 @@
                 android:id="@+id/showingroup"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                >
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -59,7 +59,7 @@
                             android:layout_height="50dp"
                             android:layout_marginLeft="16dp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/test" />
+                            android:src="@drawable/eva_serv_header" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -75,6 +75,8 @@
                             android:layout_weight="1" />
 
                         <RatingBar
+                            android:id="@+id/star_evadetail_serv"
+                            android:isIndicator="true"
                             android:layout_width="wrap_content"
                             android:layout_height="19dp"
                             android:layout_marginRight="16dp"
@@ -93,21 +95,10 @@
                         android:id="@+id/flow_tag_serv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="22dp"
+                        android:layout_marginBottom="26dp"
                         android:layout_marginTop="22dp"
                         app:gravity="center"
                         app:max_select="-1" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="26dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:gravity="center"
-                        android:textSize="13sp"
-                        android:textColor="@color/sb_text_blank"
-                        android:text="耶和华说，我不再怜恤这地的居民。必将这民交给各人的邻舍，和他们王的手中。他们必毁灭这地，我也不救这民脱离他们的手。于是，我牧养这将宰的群羊，就是群中最困苦的羊。我拿着两根杖。一根我称为荣美，一根我称为联索。这样，我牧养了群羊。" />
 
                 </LinearLayout>
 
@@ -129,7 +120,7 @@
                             android:layout_height="50dp"
                             android:layout_marginLeft="16dp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/test" />
+                            android:src="@drawable/eva_tech_header" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -145,6 +136,8 @@
                             android:layout_weight="1" />
 
                         <RatingBar
+                            android:id="@+id/star_evadetail_tech"
+                            android:isIndicator="true"
                             android:layout_width="wrap_content"
                             android:layout_height="19dp"
                             android:layout_marginRight="16dp"
@@ -163,21 +156,47 @@
                         android:id="@+id/flow_tag_tech"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="22dp"
+                        android:layout_marginBottom="26dp"
                         android:layout_marginTop="22dp"
                         app:gravity="center"
                         app:max_select="-1" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="45dp"
+                        android:layout_marginLeft="20dp"
+                        android:gravity="center"
+                        android:text="评价:"
+                        android:textColor="@color/cc_text_blank"
+                        android:textSize="@dimen/text_big" />
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@drawable/line" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="26dp"
+                        android:layout_marginTop="22dp"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:gravity="center"
-                        android:textSize="13sp"
+                        android:text="耶和华说，我不再怜恤这地的居民。必将这民交给各人的邻舍，和他们王的手中。他们必毁灭这地，我也不救这民脱离他们的手。于是，我牧养这将宰的群羊，就是群中最困苦的羊。我拿着两根杖。一根我称为荣美，一根我称为联索。这样，我牧养了群羊。"
                         android:textColor="@color/sb_text_blank"
-                        android:text="耶和华说，我不再怜恤这地的居民。必将这民交给各人的邻舍，和他们王的手中。他们必毁灭这地，我也不救这民脱离他们的手。于是，我牧养这将宰的群羊，就是群中最困苦的羊。我拿着两根杖。一根我称为荣美，一根我称为联索。这样，我牧养了群羊。" />
+                        android:textSize="13sp" />
 
 
                 </LinearLayout>

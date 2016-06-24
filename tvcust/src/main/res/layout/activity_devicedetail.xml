@@ -18,6 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
+            app:navigationIcon="@drawable/icon_bank"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
@@ -35,288 +36,331 @@
             android:layout_height="match_parent">
 
             <LinearLayout
+                android:id="@id/showingroup"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/shape_rect_corner_dark"
-                    android:paddingBottom="15dp"
-                    android:paddingTop="15dp">
-
-                    <ImageView
-                        android:id="@+id/imageView2"
-                        android:layout_width="63dp"
-                        android:layout_height="63dp"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="20dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/test" />
-
-                    <TextView
-                        android:id="@+id/text_devicedetail_ip"
-                        style="@style/text_big_dark"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignTop="@+id/imageView2"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_toEndOf="@+id/imageView2"
-                        android:layout_toRightOf="@+id/imageView2"
-                        android:text="IP:192.168.0.12" />
-
-                    <TextView
-                        android:id="@+id/text_devicedetail_name"
-                        style="@style/text_big_dark"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignLeft="@+id/text_devicedetail_ip"
-                        android:layout_alignStart="@+id/text_devicedetail_ip"
-                        android:layout_below="@+id/text_devicedetail_ip"
-                        android:layout_marginTop="5dp"
-                        android:text="机器名:ENET-1" />
-                </RelativeLayout>
-
-                <LinearLayout
+                <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/shape_rect_corner_dark"
-                    android:orientation="vertical"
-                    android:paddingBottom="15dp"
-                    android:paddingTop="15dp">
+                    android:background="@color/white"
+                    app:cardCornerRadius="0dp">
 
-                    <TextView
-                        style="@style/text_big_dark"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginLeft="20dp"
-                        android:text="核心进程" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@drawable/line_dark" />
-
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingBottom="10dp"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
-                        android:paddingTop="10dp">
+                        android:paddingBottom="15dp"
+                        android:paddingTop="15dp">
+
+                        <ImageView
+                            android:id="@+id/imageView2"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="20dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/icon_order_device" />
 
                         <TextView
-                            style="@style/text_big_dark"
+                            android:id="@+id/text_devicedetail_ip"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="非编" />
-
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1" />
+                            android:layout_alignTop="@+id/imageView2"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_toEndOf="@+id/imageView2"
+                            android:layout_toRightOf="@+id/imageView2"
+                            android:text="IP:192.168.0.12"
+                            android:textColor="@color/sb_text_dark_blank"
+                            android:textSize="@dimen/text_big_nomal" />
 
                         <TextView
-                            style="@style/text_big_green"
+                            android:id="@+id/text_devicedetail_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="启动" />
-                    </LinearLayout>
+                            android:layout_alignLeft="@+id/text_devicedetail_ip"
+                            android:layout_alignStart="@+id/text_devicedetail_ip"
+                            android:layout_below="@+id/text_devicedetail_ip"
+                            android:layout_marginTop="5dp"
+                            android:text="机器名:ENET-1"
+                            android:textColor="@color/sb_text_dark_blank"
+                            android:textSize="@dimen/text_big_nomal" />
+                    </RelativeLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@drawable/line_dark" />
+                </android.support.v7.widget.CardView>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingBottom="10dp"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
-                        android:paddingTop="10dp">
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="190dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    app:cardCornerRadius="0dp" />
 
-                        <TextView
-                            style="@style/text_big_dark"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="审片" />
-
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1" />
-
-                        <TextView
-                            style="@style/text_big_red"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="未启动" />
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@drawable/line_dark" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingBottom="10dp"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
-                        android:paddingTop="10dp">
-
-                        <TextView
-                            style="@style/text_big_dark"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="网管" />
-
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1" />
-
-                        <TextView
-                            style="@style/text_big_green"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="启动" />
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
+                <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/shape_rect_corner_dark"
-                    android:orientation="vertical"
-                    android:paddingBottom="15dp"
-                    android:paddingTop="15dp">
-
-                    <TextView
-                        style="@style/text_big_dark"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginLeft="20dp"
-                        android:text="在线时长" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@drawable/line_dark" />
+                    android:background="@color/white"
+                    app:cardCornerRadius="0dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingBottom="10dp"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
-                        android:paddingTop="10dp">
+                        android:orientation="vertical"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="20dp">
 
                         <TextView
-                            style="@style/text_big_dark"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="今日时长" />
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginLeft="20dp"
+                            android:text="核心进程"
+                            android:textColor="@color/sb_text_blank_deep_light"
+                            android:textSize="@dimen/text_big" />
 
                         <View
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1" />
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="@drawable/line" />
 
-                        <TextView
-                            style="@style/text_big_dark"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="8小时" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="非编"
+                                android:textColor="@color/sb_text_blank_deep_light"
+                                android:textSize="@dimen/text_nomal" />
+
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="启动"
+                                android:textColor="@color/sb_green"
+                                android:textSize="@dimen/text_nomal" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="@drawable/line" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="审片"
+                                android:textColor="@color/sb_text_blank_deep_light"
+                                android:textSize="@dimen/text_nomal" />
+
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="未启动"
+                                android:textColor="@color/sb_red"
+                                android:textSize="@dimen/text_nomal" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="@drawable/line" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="网管"
+                                android:textColor="@color/sb_text_blank_deep_light"
+                                android:textSize="@dimen/text_nomal" />
+
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="启动"
+                                android:textColor="@color/sb_green"
+                                android:textSize="@dimen/text_nomal" />
+                        </LinearLayout>
+
                     </LinearLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@drawable/line_dark" />
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@color/white"
+                    app:cardCornerRadius="0dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingBottom="10dp"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
-                        android:paddingTop="10dp">
+                        android:orientation="vertical"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="20dp">
 
                         <TextView
-                            style="@style/text_big_dark"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="今日时段" />
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginLeft="20dp"
+                            android:text="在线时长"
+                            android:textColor="@color/sb_text_blank_deep_light"
+                            android:textSize="@dimen/text_big" />
 
                         <View
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1" />
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="@drawable/line" />
 
-                        <TextView
-                            style="@style/text_big_dark"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="9:00~17:00" />
-                    </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp">
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@drawable/line_dark" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="今日时长"
+                                android:textColor="@color/sb_text_blank_deep_light"
+                                android:textSize="@dimen/text_nomal" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingBottom="10dp"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
-                        android:paddingTop="10dp">
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1" />
 
-                        <TextView
-                            style="@style/text_big_dark"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="本周时长" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="8小时"
+                                android:textColor="@color/sb_text_blank_deep_light"
+                                android:textSize="@dimen/text_nomal" />
+                        </LinearLayout>
 
                         <View
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1" />
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="@drawable/line" />
 
-                        <TextView
-                            style="@style/text_big_dark"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="40小时" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="今日时段"
+                                android:textColor="@color/sb_text_blank_deep_light"
+                                android:textSize="@dimen/text_nomal" />
+
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="9:00~17:00"
+                                android:textColor="@color/sb_text_blank_deep_light"
+                                android:textSize="@dimen/text_nomal" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="@drawable/line" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="本周时长"
+                                android:textColor="@color/sb_text_blank_deep_light"
+                                android:textSize="@dimen/text_nomal" />
+
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="40小时"
+                                android:textColor="@color/sb_text_blank_deep_light"
+                                android:textSize="@dimen/text_nomal" />
+                        </LinearLayout>
+
                     </LinearLayout>
 
-                </LinearLayout>
+                </android.support.v7.widget.CardView>
+
 
             </LinearLayout>
 

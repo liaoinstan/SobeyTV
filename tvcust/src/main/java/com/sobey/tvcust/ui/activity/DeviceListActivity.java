@@ -3,8 +3,7 @@ package com.sobey.tvcust.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,7 +20,6 @@ import com.sobey.tvcust.common.LoadingViewUtil;
 import com.sobey.tvcust.entity.TestEntity;
 import com.sobey.tvcust.ui.adapter.OnRecycleItemClickListener;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterDevice;
-import com.sobey.tvcust.ui.adapter.RecycleAdapterMsg;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +30,7 @@ public class DeviceListActivity extends AppCompatActivity implements OnRecycleIt
     private SpringView springView;
     private List<TestEntity> results = new ArrayList<>();
     private RecycleAdapterDevice adapter;
+    private TabLayout tab;
 
     private ViewGroup showingroup;
     private View showin;
@@ -53,6 +52,7 @@ public class DeviceListActivity extends AppCompatActivity implements OnRecycleIt
         showingroup = (ViewGroup) findViewById(R.id.showingroup);
         recyclerView = (RecyclerView) findViewById(R.id.recycle_device);
         springView = (SpringView) findViewById(R.id.spring);
+        tab = (TabLayout) findViewById(R.id.tab_devicelist);
     }
 
     private void initData() {
@@ -83,7 +83,14 @@ public class DeviceListActivity extends AppCompatActivity implements OnRecycleIt
     }
 
     private void initCtrl() {
-        adapter = new RecycleAdapterDevice(this,R.layout.item_list_home_qw,results);
+        tab.addTab(tab.newTab().setText("所有"));
+        tab.addTab(tab.newTab().setText("警告"));
+        tab.addTab(tab.newTab().setText("存储"));
+        tab.addTab(tab.newTab().setText("数据库"));
+        tab.addTab(tab.newTab().setText("服务器"));
+        tab.addTab(tab.newTab().setText("工作站"));
+
+        adapter = new RecycleAdapterDevice(this,R.layout.item_recycle_home_qw,results);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(this);

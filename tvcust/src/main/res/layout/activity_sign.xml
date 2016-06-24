@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/sb_bk"
     android:fitsSystemWindows="true"
     tools:context="com.sobey.tvcust.ui.activity.SignActivity">
 
@@ -17,76 +18,151 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
+            app:navigationIcon="@drawable/icon_bank"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
         <FrameLayout
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginBottom="30dp"
             android:layout_gravity="center"
-            app:layout_scrollFlags="scroll|enterAlways"
-            android:background="@drawable/shape_oval_sign">
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/shape_oval_sign"
+            app:layout_scrollFlags="scroll|enterAlways">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableTop="@drawable/icon_info_signsmail"
                 android:layout_gravity="center"
-                android:scaleType="center"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_nomal"
                 android:drawablePadding="10dp"
-                android:text="马上签到" />
+                android:drawableTop="@drawable/icon_info_signsmail"
+                android:scaleType="center"
+                android:text="马上签到"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_nomal" />
         </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingTop="10dp">
 
             <TextView
+                android:id="@+id/text_sign_day"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="您已连续签到19天"
+                android:text=""
                 android:textColor="@color/sb_text_dark"
                 android:textSize="@dimen/text_nomal" />
 
             <TextView
+                android:id="@+id/text_sign_inte"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="25dp"
                 android:layout_marginTop="15dp"
-                android:text="共有5689积分"
+                android:text=""
                 android:textColor="@color/sb_text_dark"
                 android:textSize="@dimen/text_nomal" />
 
-            <TextView
+            <LinearLayout
+                android:id="@+id/btn_go_signlist"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:background="@color/white"
                 android:gravity="center_vertical"
-                android:paddingLeft="20dp"
-                android:text="签到记录"
-                android:textColor="@color/sb_text_dark_blank"
-                android:textSize="@dimen/text_nomal" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="20dp"
+                    android:text="签到记录"
+                    android:textColor="@color/sb_text_dark_blank"
+                    android:textSize="@dimen/text_nomal" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:src="@drawable/icon_next_dark" />
+            </LinearLayout>
         </LinearLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout
-        android:id="@+id/showingroup"
+
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:layout_marginTop="8dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycle_sign"
+        <LinearLayout
+            android:id="@+id/showingroup"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="20dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/sign_gift"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:textSize="@dimen/text_big"
+                        android:textColor="@color/sb_text_blank"
+                        android:text="神秘礼包"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_nomal"
+                        android:layout_marginTop="8dp"
+                        android:textColor="@color/sb_text_dark_blank"
+                        android:text="二期开启，敬请期待"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginRight="20dp"
+                    android:textSize="@dimen/text_small"
+                    android:textColor="@color/sb_blue"
+                    android:text="2500积分"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
 
 </android.support.design.widget.CoordinatorLayout>

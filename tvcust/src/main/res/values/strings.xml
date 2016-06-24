@@ -13,12 +13,13 @@
     <string name="title_activity_web">资讯</string>
     <string name="title_activity_count_order">派单统计</string>
     <string name="title_activity_device_list">设备</string>
-    <string name="title_activity_login">LoginActivity</string>
-    <string name="title_activity_modify_psw">ModifyPswActivity</string>
-    <string name="title_activity_eva_detail">EvaDetailActivity</string>
-    <string name="title_activity_eva">EvaActivity</string>
-    <string name="title_activity_complain">ComplainActivity</string>
-    <string name="title_activity_setting">SettingActivity</string>
-    <string name="title_activity_info_detail">InfoDetailActivity</string>
-    <string name="title_activity_sign">SignActivity</string>
+    <string name="title_activity_login">登录</string>
+    <string name="title_activity_modify_psw">修改密码</string>
+    <string name="title_activity_eva_detail">评价详情</string>
+    <string name="title_activity_eva">评价</string>
+    <string name="title_activity_complain">投诉建议</string>
+    <string name="title_activity_setting">设置</string>
+    <string name="title_activity_info_detail">资讯详情</string>
+    <string name="title_activity_sign">签到</string>
+    <string name="title_activity_sign_list">签到记录</string>
 </resources>

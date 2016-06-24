@@ -3,21 +3,15 @@ package com.sobey.tvcust.ui.activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.liaoinstan.springview.container.AliFooter;
-import com.liaoinstan.springview.container.AliHeader;
-import com.liaoinstan.springview.widget.SpringView;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.LoadingViewUtil;
-import com.sobey.tvcust.entity.TestEntity;
-import com.sobey.tvcust.ui.adapter.RecycleAdapterMsg;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -29,6 +23,8 @@ public class EvaDetailActivity extends AppCompatActivity {
 
     private TagFlowLayout flow_serv;
     private TagFlowLayout flow_tech;
+    private RatingBar star_serv;
+    private RatingBar star_tech;
 
     private String[] mVals = new String[]
             {"亲切有理", "声音好听", "解答到位 ", "派单迅速", "有耐心", "技术强",
@@ -52,6 +48,8 @@ public class EvaDetailActivity extends AppCompatActivity {
         showingroup = (ViewGroup) findViewById(R.id.showingroup);
         flow_serv = (TagFlowLayout) findViewById(R.id.flow_tag_serv);
         flow_tech = (TagFlowLayout) findViewById(R.id.flow_tag_tech);
+        star_serv = (RatingBar) findViewById(R.id.star_evadetail_serv);
+        star_tech = (RatingBar) findViewById(R.id.star_evadetail_tech);
     }
 
     private void initData() {

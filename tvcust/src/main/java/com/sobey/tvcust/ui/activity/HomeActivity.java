@@ -205,7 +205,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.img_msg_home:
+            case R.id.img_go_msg:
                 Intent intent = new Intent(this, MsgActivity.class);
 //                Intent intent = new Intent(this, CountOrderActivity.class);
                 startActivity(intent);

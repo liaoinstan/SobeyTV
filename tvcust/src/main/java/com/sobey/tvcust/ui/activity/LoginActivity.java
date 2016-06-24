@@ -74,8 +74,12 @@ public class LoginActivity extends AppCompatActivity {
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            onPause();
-            return true;
+            if (viewPager.getCurrentItem()==0) {
+                finish();
+                return true;
+            }else {
+                return true;
+            }
         }
         return super.onKeyDown(keyCode, event);
     }

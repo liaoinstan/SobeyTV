@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.LoadingViewUtil;
 import com.sobey.tvcust.ui.activity.CountOrderActivity;
+import com.sobey.tvcust.ui.activity.LoginActivity;
 import com.sobey.tvcust.ui.activity.SettingActivity;
 
 /**
@@ -69,6 +70,15 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
         item_me_question = getView().findViewById(R.id.item_me_question);
         item_me_warning = getView().findViewById(R.id.item_me_warning);
         item_me_setting = getView().findViewById(R.id.item_me_setting);
+
+
+        getView().findViewById(R.id.text_go_login).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initData() {

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dialog_view"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/shape_rect_corner_white"
+    android:gravity="center"
+    android:minHeight="160dp"
+    android:minWidth="140dp"
+    android:orientation="vertical">
+
+    <com.sobey.common.view.InsVoiceRecorderView
+        android:id="@+id/recorder"
+        android:layout_width="115dp"
+        android:layout_height="115dp"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:id="@+id/btn_start"
+        android:textSize="@dimen/text_big_nomal"
+        android:textColor="@color/sb_blue"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="按住录音" />
+
+</LinearLayout>

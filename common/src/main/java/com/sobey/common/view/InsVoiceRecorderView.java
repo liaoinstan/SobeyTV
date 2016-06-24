@@ -93,6 +93,7 @@ public class InsVoiceRecorderView extends RelativeLayout {
         }else {
             this.setVisibility(VISIBLE);
         }
+        showNoHint();
     }
 
     /**
@@ -107,6 +108,7 @@ public class InsVoiceRecorderView extends RelativeLayout {
             try {
 //                if (EaseChatRowVoicePlayClickListener.isPlaying)
 //                    EaseChatRowVoicePlayClickListener.currentPlayListener.stopPlayVoice();
+                showMoveUpToCancelHint();
                 v.setPressed(true);
                 startRecording();
             } catch (Exception e) {
@@ -121,6 +123,7 @@ public class InsVoiceRecorderView extends RelativeLayout {
             }
             return true;
         case MotionEvent.ACTION_UP:
+            showNoHint();
             v.setPressed(false);
             if (event.getY() < 0) {
                 // discard the recorded audio.
@@ -185,6 +188,11 @@ public class InsVoiceRecorderView extends RelativeLayout {
         }
     }
 
+    public void showNoHint() {
+        recordingHint.setText("");
+        recordingHint.setBackgroundColor(Color.TRANSPARENT);
+    }
+
     public void showReleaseToCancelHint() {
         recordingHint.setText("松开手指，取消发送");
         recordingHint.setBackgroundResource(R.drawable.ins_recording_text_hint_bg);
@@ -246,6 +254,11 @@ public class InsVoiceRecorderView extends RelativeLayout {
 
     public void setNeedHide(boolean isNeedHide){
         this.isNeedHide = isNeedHide;
+        if (this.isNeedHide){
+            this.setVisibility(INVISIBLE);
+        }else {
+            this.setVisibility(VISIBLE);
+        }
     }
 
 }

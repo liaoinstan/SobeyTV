@@ -127,6 +127,10 @@
         <activity
             android:name=".ui.activity.SignActivity"
             android:label="@string/title_activity_sign"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.activity.SignListActivity"
+            android:label="@string/title_activity_sign_list"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

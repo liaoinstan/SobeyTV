@@ -58,6 +58,8 @@ public class RecycleAdapterMsg extends RecyclerView.Adapter<RecycleAdapterMsg.Ho
                 context.startActivity(intent);
             }
         });
+        holder.text_delete.setText("删除消息");
+        holder.text_go.setText("查看订单");
     }
 
     @Override
@@ -71,8 +73,8 @@ public class RecycleAdapterMsg extends RecyclerView.Adapter<RecycleAdapterMsg.Ho
 
         public Holder(View itemView) {
             super(itemView);
-            text_delete = (TextView) itemView.findViewById(R.id.text_item_msg_delete);
-            text_go = (TextView) itemView.findViewById(R.id.text_item_msg_go);
+            text_delete = (TextView) itemView.findViewById(R.id.text_order_cancle);
+            text_go = (TextView) itemView.findViewById(R.id.text_order_go);
         }
     }
 
