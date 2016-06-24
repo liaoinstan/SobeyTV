@@ -82,7 +82,7 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
     }
 
     private void initData() {
-        showin = LoadingViewUtil.showin(showingroup,R.layout.layout_loading);
+        showin = LoadingViewUtil.showin(showingroup,R.layout.layout_loading,false);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

@@ -24,6 +24,13 @@ public class LoadingViewUtil {
     }
 
     public static View showin(ViewGroup root, int src) {
+        return showin(root,src,true);
+    }
+
+    /**
+     * showin 是否隐藏背景
+     */
+    public static View showin(ViewGroup root, int src,boolean needHide) {
         if (root == null) {
             return null;
         }
@@ -32,9 +39,11 @@ public class LoadingViewUtil {
         View loadingView = LayoutInflater.from(root.getContext()).inflate(src, root, false);
 
         //隐藏其余项目
-        int count = root.getChildCount();
-        for (int i = 0; i < count; i++) {
-            root.getChildAt(i).setVisibility(View.GONE);
+        if (needHide) {
+            int count = root.getChildCount();
+            for (int i = 0; i < count; i++) {
+                root.getChildAt(i).setVisibility(View.GONE);
+            }
         }
         //添加lack
         root.addView(loadingView);
@@ -42,6 +51,9 @@ public class LoadingViewUtil {
         return loadingView;
     }
 
+    /**
+     * out
+     */
     public static void showout(ViewGroup root, View viewin) {
         if (root == null || viewin == null) {
             return;

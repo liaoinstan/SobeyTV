@@ -17,12 +17,15 @@ import com.liaoinstan.springview.container.AliFooter;
 import com.liaoinstan.springview.container.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
 import com.sobey.tvcust.R;
+import com.sobey.tvcust.common.DividerItemDecoration;
 import com.sobey.tvcust.common.LoadingViewUtil;
+import com.sobey.tvcust.common.ServerDialog;
 import com.sobey.tvcust.entity.TestEntity;
 import com.sobey.tvcust.ui.activity.OrderDetailActivity;
 import com.sobey.tvcust.ui.activity.ReqfixActicity;
 import com.sobey.tvcust.ui.adapter.OnRecycleItemClickListener;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterOrder;
+import com.sobey.tvcust.ui.adapter.RecycleAdapterServer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,23 +33,23 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/6/2 0002.
  */
-public class HomeOrderFragment extends BaseFragment implements OnRecycleItemClickListener,View.OnClickListener{
+public class HomeServerFragment extends BaseFragment implements OnRecycleItemClickListener{
 
     private int position;
     private View rootView;
     private ViewGroup showingroup;
     private View showin;
 
-    private TabLayout tab;
     private SpringView springView;
     private RecyclerView recyclerView;
-    private RecycleAdapterOrder adapter;
-    private View btn_go_reqfix;
+    private RecycleAdapterServer adapter;
+
+    private ServerDialog serverDialog;
 
     private List<TestEntity> results = new ArrayList<>();
 
     public static Fragment newInstance(int position) {
-        HomeOrderFragment f = new HomeOrderFragment();
+        HomeServerFragment f = new HomeServerFragment();
         Bundle b = new Bundle();
         b.putInt("position", position);
         f.setArguments(b);
@@ -62,7 +65,7 @@ public class HomeOrderFragment extends BaseFragment implements OnRecycleItemClic
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_order, container, false);
+        rootView = inflater.inflate(R.layout.fragment_server, container, false);
         return rootView;
     }
 
@@ -70,7 +73,7 @@ public class HomeOrderFragment extends BaseFragment implements OnRecycleItemClic
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Toolbar toolbar = (Toolbar) getView().findViewById(R.id.toolbar);
-        toolbar.setTitle("订单");
+        toolbar.setTitle("客服");
         initBase();
         initView();
         initData();
@@ -78,27 +81,19 @@ public class HomeOrderFragment extends BaseFragment implements OnRecycleItemClic
     }
 
     private void initBase() {
+        serverDialog = new ServerDialog(getActivity());
     }
 
     private void initView() {
         showingroup = (ViewGroup) getView().findViewById(R.id.showingroup);
-        tab = (TabLayout) getView().findViewById(R.id.tab_order);
-        recyclerView = (RecyclerView) getView().findViewById(R.id.recycle_order);
+        recyclerView = (RecyclerView) getView().findViewById(R.id.recycle);
         springView = (SpringView) getView().findViewById(R.id.spring);
-        btn_go_reqfix = getView().findViewById(R.id.btn_go_reqfix);
     }
 
     private void initCtrl() {
-        btn_go_reqfix.setOnClickListener(this);
-        TabLayout.Tab tab1 = tab.newTab().setText("全部订单");
-        tab.addTab(tab1);
-        TabLayout.Tab tab2 = tab.newTab().setText("进行中");
-        tab.addTab(tab2);
-        TabLayout.Tab tab3 = tab.newTab().setText("已完成");
-        tab.addTab(tab3);
-
-        adapter = new RecycleAdapterOrder(getActivity(),R.layout.item_recycle_order,results);
+        adapter = new RecycleAdapterServer(getActivity(),R.layout.item_recycle_server,results);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), LinearLayoutManager.VERTICAL, false));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity()));
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
 
@@ -146,6 +141,10 @@ public class HomeOrderFragment extends BaseFragment implements OnRecycleItemClic
                 results.add(new TestEntity());
                 results.add(new TestEntity());
                 results.add(new TestEntity());
+                results.add(new TestEntity());
+                results.add(new TestEntity());
+                results.add(new TestEntity());
+                results.add(new TestEntity());
                 //加载成功
                 freshCtrl();
                 LoadingViewUtil.showout(showingroup,showin);
@@ -163,18 +162,6 @@ public class HomeOrderFragment extends BaseFragment implements OnRecycleItemClic
 
     @Override
     public void onItemClick(RecyclerView.ViewHolder viewHolder) {
-        Intent intent = new Intent(getActivity(), OrderDetailActivity.class);
-        getActivity().startActivity(intent);
-    }
-
-    @Override
-    public void onClick(View v) {
-        Intent intent = new Intent();
-        switch (v.getId()){
-            case R.id.btn_go_reqfix:
-                intent.setClass(getActivity(), ReqfixActicity.class);
-                startActivity(intent);
-                break;
-        }
+        serverDialog.show();
     }
 }

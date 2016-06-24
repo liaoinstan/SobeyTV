@@ -11,7 +11,7 @@
     android:orientation="vertical">
 
     <com.sobey.common.view.InsVoiceRecorderView
-        android:id="@+id/recorder"
+        android:id="@+id/temp_server_dialog_bk"
         android:layout_width="115dp"
         android:layout_height="115dp"
         android:layout_gravity="center"/>

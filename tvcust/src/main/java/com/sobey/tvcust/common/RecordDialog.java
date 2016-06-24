@@ -1,13 +1,11 @@
 package com.sobey.tvcust.common;
 import android.app.Dialog;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sobey.common.view.InsVoiceRecorderView;
 import com.sobey.tvcust.R;
@@ -25,7 +23,7 @@ public class RecordDialog extends Dialog {
     private InsVoiceRecorderView recorder;
 
     public RecordDialog(Context context) {
-        super(context,R.style.LoadingDialog);
+        super(context,R.style.MyDialog);
         setLoadingDialog();
     }
 
@@ -35,7 +33,7 @@ public class RecordDialog extends Dialog {
 
 
         View layout  = v.findViewById(R.id.dialog_view);// 加载布局
-        recorder = (InsVoiceRecorderView) v.findViewById(R.id.recorder);
+        recorder = (InsVoiceRecorderView) v.findViewById(R.id.temp_server_dialog_bk);
         btn_start = (TextView) v.findViewById(R.id.btn_start);// 提示文字
 
         recorder.setNeedHide(false);

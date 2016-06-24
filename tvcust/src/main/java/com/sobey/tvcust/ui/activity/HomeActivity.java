@@ -18,6 +18,7 @@ import com.sobey.tvcust.ui.fragment.HomeInfoFragment;
 import com.sobey.tvcust.ui.fragment.HomeQwFragment;
 import com.sobey.tvcust.ui.fragment.HomeMeFragment;
 import com.sobey.tvcust.ui.fragment.HomeOrderFragment;
+import com.sobey.tvcust.ui.fragment.HomeServerFragment;
 import com.sobey.tvcust.utils.PermissionsUtil;
 
 import java.util.List;
@@ -107,7 +108,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
         homeFragment1 = fm.findFragmentByTag("1");
         if (homeFragment1 == null){
-            homeFragment1 = BuildFragment.newInstance(1);
+            homeFragment1 = HomeServerFragment.newInstance(1);
         }
         homeFragment2 = fm.findFragmentByTag("2");
         if (homeFragment2 == null){

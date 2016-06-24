@@ -1,16 +1,21 @@
 package com.sobey.tvcust.ui.fragment;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.sobey.common.entity.Images;
 import com.sobey.tvcust.R;
@@ -38,6 +43,8 @@ public class InfoQuanFragment extends BaseFragment implements OnRecycleItemClick
     private RecycleAdapterInfoQuan adapter;
     private List<TestEntity> results = new ArrayList<>();
     private List<Images> images = new ArrayList<>();
+
+    private SwipeRefreshLayout swipe;
 
     public static Fragment newInstance(int position) {
         InfoQuanFragment f = new InfoQuanFragment();
@@ -76,6 +83,7 @@ public class InfoQuanFragment extends BaseFragment implements OnRecycleItemClick
     private void initView() {
         showingroup = (ViewGroup) getView().findViewById(R.id.showingroup);
         recyclerView = (RecyclerView) getView().findViewById(R.id.recycle_info_quan);
+        swipe = (SwipeRefreshLayout) getView().findViewById(R.id.swipe_info_quan);
     }
 
     private void initData() {
@@ -117,6 +125,34 @@ public class InfoQuanFragment extends BaseFragment implements OnRecycleItemClick
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity()));
         recyclerView.setAdapter(adapter);
+        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener(){
+            //用来标记是否正在向最后一个滑动，既是否向右滑动或向下滑动
+            boolean isSlidingToLast = false;
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                LinearLayoutManager manager = (LinearLayoutManager)recyclerView.getLayoutManager();
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    boolean b = !ViewCompat.canScrollVertically(recyclerView, 1);
+                    if (b){
+                        Toast.makeText(getActivity(),"loadmore",Toast.LENGTH_SHORT).show();
+                        Log.e("liao","more");
+                    }
+                }
+            }
+        });
+        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipe.setRefreshing(false);
+                    }
+                },2000);
+            }
+        });
+//        !ViewCompat.canScrollVertically(recyclerView, 1);
         adapter.setOnItemClickListener(this);
     }
 
