@@ -11,7 +11,7 @@ import com.sobey.tvcust.entity.TestEntity;
 import java.util.List;
 
 
-public class RecycleAdapterDevice extends RecyclerView.Adapter<RecycleAdapterDevice.Holder> {
+public class RecycleAdapterCountOrder extends RecyclerView.Adapter<RecycleAdapterCountOrder.Holder> {
 
     private Context context;
     private int src;
@@ -21,19 +21,19 @@ public class RecycleAdapterDevice extends RecyclerView.Adapter<RecycleAdapterDev
         return results;
     }
 
-    public RecycleAdapterDevice(Context context, int src, List<TestEntity> results) {
+    public RecycleAdapterCountOrder(Context context, int src, List<TestEntity> results) {
         this.context = context;
         this.src = src;
         this.results = results;
     }
 
     @Override
-    public RecycleAdapterDevice.Holder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecycleAdapterCountOrder.Holder onCreateViewHolder(ViewGroup parent, int viewType) {
           return new Holder(LayoutInflater.from(parent.getContext()).inflate(src, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(final RecycleAdapterDevice.Holder holder, final int position) {
+    public void onBindViewHolder(final RecycleAdapterCountOrder.Holder holder, final int position) {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -23,143 +23,150 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="0dp">
-
-                <LinearLayout
-                    android:id="@+id/lay_reqfix_quekind"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
-
-                    <TextView
-                        android:textSize="@dimen/text_big_nomal"
-                        android:textColor="@color/sb_text_blank_deep_light"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="问题类别" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1" />
-
-                    <TextView
-                        android:textSize="@dimen/text_big_nomal"
-                        android:textColor="@color/sb_blue"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="选择问题分类" />
-
-                </LinearLayout>
-
-            </android.support.v7.widget.CardView>
-
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="0dp">
 
             <LinearLayout
+                android:id="@+id/lay_reqfix_quekind"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@color/white"
-                android:orientation="vertical">
+                android:layout_height="60dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
 
-                <EditText
-                    android:id="@+id/edit_recommend_recommend"
-                    style="@style/edit_hidden"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:gravity="top"
-                    android:hint="输入您问题的描述"
-                    android:inputType="textMultiLine"
-                    android:layout_margin="16dp"
-                    android:minLines="8"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="问题类别"
+                    android:textColor="@color/sb_text_blank_deep_light"
+                    android:textSize="@dimen/text_big_nomal" />
 
                 <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:background="@drawable/line"/>
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:gravity="right|center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/img_reqfix_photo"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_marginRight="5dp"
-                        android:scaleType="center"
-                        android:src="@drawable/reqfix_photo"/>
-
-                    <ImageView
-                        android:id="@+id/img_reqfix_vidio"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_marginRight="5dp"
-                        android:scaleType="center"
-                        android:src="@drawable/reqfix_video"/>
-
-                    <ImageView
-                        android:id="@+id/img_reqfix_voice"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_marginRight="5dp"
-                        android:scaleType="center"
-                        android:src="@drawable/reqfix_voice"/>
-                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="选择问题分类"
+                    android:textColor="@color/sb_blue"
+                    android:textSize="@dimen/text_big_nomal" />
 
             </LinearLayout>
 
-            <com.sobey.common.view.BundleView
-                android:id="@+id/bundle_reqfix"
-                android:layout_width="match_parent"
-                android:layout_marginTop="5dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
+        </android.support.v7.widget.CardView>
 
-            <TextView
-                android:id="@+id/btn_go"
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/edit_recommend_recommend"
+                style="@style/edit_hidden"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/sb_bk_dark"
-                android:gravity="center"
-                android:text="问题提交"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_big" />
+                android:layout_height="0dp"
+                android:layout_margin="16dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:gravity="top"
+                android:hint="输入您问题的描述"
+                android:inputType="textMultiLine"
+                android:minLines="8" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="right|center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/img_reqfix_photo"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="5dp"
+                    android:scaleType="center"
+                    android:src="@drawable/reqfix_photo" />
+
+                <ImageView
+                    android:id="@+id/img_reqfix_vidio"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="5dp"
+                    android:scaleType="center"
+                    android:src="@drawable/reqfix_video" />
+
+                <ImageView
+                    android:id="@+id/img_reqfix_voice"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="5dp"
+                    android:scaleType="center"
+                    android:src="@drawable/reqfix_voice" />
+            </LinearLayout>
 
         </LinearLayout>
 
+        <com.sobey.common.view.BundleView
+            android:id="@+id/bundle_reqfix"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1" />
 
-        <com.sobey.common.view.InsVoiceRecorderView
-            android:id="@+id/voice_recorder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
-    </FrameLayout>
+        <!--<TextView-->
+            <!--android:id="@+id/btn_go"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:layout_marginBottom="10dp"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:background="@color/sb_bk_dark"-->
+            <!--android:gravity="center"-->
+            <!--android:text="问题提交"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="@dimen/text_big" />-->
+
+        <com.dd.CircularProgressButton
+            android:id="@+id/btn_go"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_big"
+            android:background="#00000000"
+            app:cpb_selectorIdle="@drawable/idle_state_selector"
+            app:cpb_colorIndicator="@color/sb_blue"
+            app:cpb_colorIndicatorBackground="@color/sb_blue_hint_trans"
+            app:cpb_colorProgress="#00000000"
+            app:cpb_iconComplete="@drawable/ic_action_accept"
+            app:cpb_iconError="@drawable/ic_action_cancel"
+            app:cpb_textIdle="问题提交" />
+
+    </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

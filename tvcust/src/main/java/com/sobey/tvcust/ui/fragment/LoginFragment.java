@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.dd.CircularProgressButton;
 import com.sobey.tvcust.R;
-import com.sobey.tvcust.common.LoadingViewUtil;
 import com.sobey.tvcust.ui.activity.ModifyPswActivity;
 
 /**

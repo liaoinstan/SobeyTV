@@ -8,25 +8,24 @@
     android:orientation="vertical"
     tools:context=".ui.activity.HomeActivity">
 
-    <RelativeLayout
-        android:id="@+id/showingroup"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <RelativeLayout
+            android:id="@+id/showingroup"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <android.support.v7.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                app:cardCornerRadius="0dp">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/white"
                     android:orientation="vertical">
 
                     <RelativeLayout
@@ -184,93 +183,254 @@
                         </LinearLayout>
 
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="16dp"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/icon_me_clear" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="11"
+                                    android:textColor="@color/sb_text_blank_deep"
+                                    android:textSize="@dimen/text_small" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="3dp"
+                                    android:text="待分配"
+                                    android:textColor="@color/sb_text_dark_blank"
+                                    android:textSize="@dimen/text_small" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="5dp"
+                                android:src="@drawable/icon_me_clear" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="12"
+                                    android:textColor="@color/sb_text_blank_deep"
+                                    android:textSize="@dimen/text_small" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="3dp"
+                                    android:text="已更新"
+                                    android:textColor="@color/sb_text_dark_blank"
+                                    android:textSize="@dimen/text_small" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="5dp"
+                                android:src="@drawable/icon_me_clear" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="15"
+                                    android:textColor="@color/sb_text_blank_deep"
+                                    android:textSize="@dimen/text_small" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="3dp"
+                                    android:text="待关闭"
+                                    android:textColor="@color/sb_text_dark_blank"
+                                    android:textSize="@dimen/text_small" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="5dp"
+                                android:src="@drawable/icon_me_clear" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="15"
+                                    android:textColor="@color/sb_text_blank_deep"
+                                    android:textSize="@dimen/text_small" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="3dp"
+                                    android:text="我的任务"
+                                    android:textColor="@color/sb_text_dark_blank"
+                                    android:textSize="@dimen/text_small" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
                 </LinearLayout>
 
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@color/white"
-                app:cardCornerRadius="0dp">
-
-                <LinearLayout
+                <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    app:cardCornerRadius="0dp">
 
-                    <TextView
-                        android:id="@+id/item_me_order"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:background="@drawable/hot_lay_item_white_fade"
-                        android:drawableLeft="@drawable/icon_me_order"
-                        android:drawablePadding="20dp"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="22dp"
-                        android:text="派单统计" />
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1px"
-                        android:layout_marginLeft="58dp"
-                        android:background="@drawable/line" />
+                        <TextView
+                            android:id="@+id/item_me_order"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:background="@drawable/hot_lay_item_white_fade"
+                            android:drawableLeft="@drawable/icon_me_order"
+                            android:drawablePadding="20dp"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="22dp"
+                            android:text="派单统计" />
 
-                    <TextView
-                        android:id="@+id/item_me_question"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:background="@drawable/hot_lay_item_white_fade"
-                        android:drawableLeft="@drawable/icon_me_question"
-                        android:drawablePadding="20dp"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="22dp"
-                        android:text="问题分类统计" />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:layout_marginLeft="58dp"
+                            android:background="@drawable/line" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1px"
-                        android:layout_marginLeft="58dp"
-                        android:background="@drawable/line" />
+                        <TextView
+                            android:id="@+id/item_me_question"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:background="@drawable/hot_lay_item_white_fade"
+                            android:drawableLeft="@drawable/icon_me_question"
+                            android:drawablePadding="20dp"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="22dp"
+                            android:text="问题分类统计" />
 
-                    <TextView
-                        android:id="@+id/item_me_warning"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:background="@drawable/hot_lay_item_white_fade"
-                        android:drawableLeft="@drawable/icon_me_version"
-                        android:drawablePadding="20dp"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="22dp"
-                        android:text="警报类型统计" />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:layout_marginLeft="58dp"
+                            android:background="@drawable/line" />
 
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/item_me_warning"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:background="@drawable/hot_lay_item_white_fade"
+                            android:drawableLeft="@drawable/icon_me_version"
+                            android:drawablePadding="20dp"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="22dp"
+                            android:text="警报类型统计" />
 
-            </android.support.v7.widget.CardView>
+                    </LinearLayout>
 
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:background="@color/white"
-                app:cardCornerRadius="0dp">
+                </android.support.v7.widget.CardView>
 
-                <TextView
-                    android:id="@+id/item_me_setting"
+                <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@drawable/hot_lay_item_white_fade"
-                    android:drawableLeft="@drawable/icon_me_setting"
-                    android:drawablePadding="20dp"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="22dp"
-                    android:text="设置" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="@color/white"
+                    app:cardCornerRadius="0dp">
 
-            </android.support.v7.widget.CardView>
-        </LinearLayout>
+                    <TextView
+                        android:id="@+id/item_me_setting"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@drawable/hot_lay_item_white_fade"
+                        android:drawableLeft="@drawable/icon_me_setting"
+                        android:drawablePadding="20dp"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="22dp"
+                        android:text="设置" />
 
-    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -281,7 +441,7 @@
         <!--app:layout_scrollFlags="scroll|enterAlways"-->
 
         <ImageView
-            android:id="@+id/img_go_msg"
+            android:id="@+id/btn_go_medetail"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="right"
@@ -290,7 +450,7 @@
             android:src="@drawable/icon_me_tosign" />
 
         <TextView
-            android:id="@+id/text_go_login"
+            android:id="@+id/btn_go_login"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_gravity="right"

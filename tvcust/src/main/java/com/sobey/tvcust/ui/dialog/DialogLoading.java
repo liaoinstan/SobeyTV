@@ -1,4 +1,4 @@
-package com.sobey.tvcust.common;
+package com.sobey.tvcust.ui.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -15,14 +15,14 @@ import com.sobey.tvcust.R;
  * @Time: 下午12:37:43
  * @author Tom.Cai
  */
-public class LoadingDialog extends Dialog {
+public class DialogLoading extends Dialog {
 	private String msg;
 
-    public LoadingDialog(Context context) {
+    public DialogLoading(Context context) {
         this(context,"正在加载");
     }
 
-    public LoadingDialog(Context context, String msg) {
+    public DialogLoading(Context context, String msg) {
         super(context, R.style.LoadingDialog);
         this.msg = msg;
         setLoadingDialog();

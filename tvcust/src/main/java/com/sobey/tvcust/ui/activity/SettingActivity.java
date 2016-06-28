@@ -1,5 +1,6 @@
 package com.sobey.tvcust.ui.activity;
 
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.os.Bundle;
 import android.os.Handler;
@@ -92,38 +93,49 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
+        Intent intent = new Intent();
         switch (v.getId()){
             case R.id.item_setting_about:
+                intent.setClass(this, WebActivity.class);
+                intent.putExtra("title","关于我们");
+                intent.putExtra("url","http://cn.bing.com");//https://github.com    //http://cn.bing.com
+                startActivity(intent);
                 break;
             case R.id.item_setting_clause:
+                intent.setClass(this, WebActivity.class);
+                intent.putExtra("title","服务条款");
+                intent.putExtra("url","http://cn.bing.com");//https://github.com    //http://cn.bing.com
+                startActivity(intent);
                 break;
             case R.id.item_setting_version:
-                updateHelper.check(new OnUpdateListener() {
-                    @Override
-                    public void onStartCheck() {
-                        Log.e("liao","onStartCheck");
-                    }
-                    @Override
-                    public void onFinishCheck(UpdateInfo info) {
-                        Log.e("liao","onFinishCheck");
-                    }
-                    @Override
-                    public void onStartDownload() {
-                        Log.e("liao","onStartDownload");
-                    }
-                    @Override
-                    public void onInstallApk() {
-                        Log.e("liao","onInstallApk");
-                    }
-                    @Override
-                    public void onFinshDownload() {
-                        Log.e("liao","onFinshDownload");
-                    }
-                    @Override
-                    public void onDownloading(int progress) {
-//                        Log.e("liao","onDownloading:"+progress);
-                    }
-                });
+//                updateHelper.check(new OnUpdateListener() {
+//                    @Override
+//                    public void onStartCheck() {
+//                        Log.e("liao","onStartCheck");
+//                    }
+//                    @Override
+//                    public void onFinishCheck(UpdateInfo info) {
+//                        Log.e("liao","onFinishCheck");
+//                    }
+//                    @Override
+//                    public void onStartDownload() {
+//                        Log.e("liao","onStartDownload");
+//                    }
+//                    @Override
+//                    public void onInstallApk() {
+//                        Log.e("liao","onInstallApk");
+//                    }
+//                    @Override
+//                    public void onFinshDownload() {
+//                        Log.e("liao","onFinshDownload");
+//                    }
+//                    @Override
+//                    public void onDownloading(int progress) {
+////                        Log.e("liao","onDownloading:"+progress);
+//                    }
+//                });
+                intent.setClass(this,VersionActivity.class);
+                startActivity(intent);
                 break;
             case R.id.item_setting_safe:
                 break;

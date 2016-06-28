@@ -19,7 +19,7 @@ import com.liaoinstan.springview.widget.SpringView;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.LoadingViewUtil;
 import com.sobey.tvcust.entity.TestEntity;
-import com.sobey.tvcust.ui.activity.OrderDetailActivity;
+import com.sobey.tvcust.ui.activity.OrderProgActivity;
 import com.sobey.tvcust.ui.activity.ReqfixActicity;
 import com.sobey.tvcust.ui.adapter.OnRecycleItemClickListener;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterOrder;
@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/6/2 0002.
  */
-public class HomeOrderFragment extends BaseFragment implements OnRecycleItemClickListener,View.OnClickListener{
+public class HomeOrderFragment extends BaseFragment implements View.OnClickListener{
 
     private int position;
     private View rootView;
@@ -100,7 +100,6 @@ public class HomeOrderFragment extends BaseFragment implements OnRecycleItemClic
         adapter = new RecycleAdapterOrder(getActivity(),R.layout.item_recycle_order,results);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener(this);
 
         springView.setHeader(new AliHeader(getActivity(),false));
         springView.setFooter(new AliFooter(getActivity(),false));
@@ -159,12 +158,6 @@ public class HomeOrderFragment extends BaseFragment implements OnRecycleItemClic
 //                });
             }
         }, 1000);
-    }
-
-    @Override
-    public void onItemClick(RecyclerView.ViewHolder viewHolder) {
-        Intent intent = new Intent(getActivity(), OrderDetailActivity.class);
-        getActivity().startActivity(intent);
     }
 
     @Override

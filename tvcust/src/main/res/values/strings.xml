@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name">SobeyTV</string>
+    <string name="app_name">SOBEY</string>
     <string name="action_settings">设置</string>
     <string name="title_activity_start_up">启动页</string>
     <string name="title_activity_reqfix">维修申报</string>
     <string name="title_activity_question">问题</string>
     <string name="title_activity_device_detail">设备详情</string>
     <string name="title_activity_msg">消息</string>
-    <string name="title_activity_order_detail">订单详情</string>
+    <string name="title_activity_order_prog">订单进度</string>
     <string name="title_activity_video_recorder">拍摄</string>
     <string name="title_activity_photo">图片浏览</string>
     <string name="title_activity_video">视频浏览</string>
@@ -22,4 +22,8 @@
     <string name="title_activity_info_detail">资讯详情</string>
     <string name="title_activity_sign">签到</string>
     <string name="title_activity_sign_list">签到记录</string>
+    <string name="title_activity_version">版本信息</string>
+    <string name="title_activity_me_detail">编辑个人资料</string>
+    <string name="title_activity_order_detail">订单详情</string>
+    <string name="title_activity_order_allocate">OrderAllocateActivity</string>
 </resources>

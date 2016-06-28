@@ -13,6 +13,7 @@ import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.LoadingViewUtil;
 import com.sobey.tvcust.ui.activity.CountOrderActivity;
 import com.sobey.tvcust.ui.activity.LoginActivity;
+import com.sobey.tvcust.ui.activity.MeDetailActivity;
 import com.sobey.tvcust.ui.activity.SettingActivity;
 
 /**
@@ -29,6 +30,7 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
     private View item_me_question;
     private View item_me_warning;
     private View item_me_setting;
+    private View btn_go_medetail;
 
     public static Fragment newInstance(int position) {
         HomeMeFragment f = new HomeMeFragment();
@@ -71,8 +73,10 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
         item_me_warning = getView().findViewById(R.id.item_me_warning);
         item_me_setting = getView().findViewById(R.id.item_me_setting);
 
+        btn_go_medetail = getView().findViewById(R.id.btn_go_medetail);
+        btn_go_medetail.setOnClickListener(this);
 
-        getView().findViewById(R.id.text_go_login).setOnClickListener(new View.OnClickListener() {
+        getView().findViewById(R.id.btn_go_login).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
@@ -112,6 +116,10 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
     public void onClick(View v) {
         Intent intent = new Intent();
         switch (v.getId()){
+            case R.id.btn_go_medetail:
+                intent.setClass(getActivity(), MeDetailActivity.class);
+                startActivity(intent);
+                break;
             case R.id.item_me_order:
                 intent.setClass(getActivity(), CountOrderActivity.class);
                 startActivity(intent);

@@ -63,6 +63,7 @@ public class UpdateHelper {
 	private OnUpdateListener updateListener;
 	private NotificationManager notificationManager;
 	private NotificationCompat.Builder ntfBuilder;
+	private ButtonBroadcastReceiver bReceiver;
 
 	private static final int UPDATE_NOTIFICATION_PROGRESS = 0x1;
 	private static final int COMPLETE_DOWNLOAD_APK = 0x2;
@@ -149,13 +150,17 @@ public class UpdateHelper {
 			}
 		}
 	};
-	
+
 	/** 带按钮的通知栏点击广播接收 */
 	public void initButtonReceiver(){
-		ButtonBroadcastReceiver bReceiver = new ButtonBroadcastReceiver();
+		bReceiver = new ButtonBroadcastReceiver();
 		IntentFilter intentFilter = new IntentFilter();
 		intentFilter.addAction(ACTION_BUTTON);
 		mContext.registerReceiver(bReceiver, intentFilter);
+	}
+
+	public void onDestory(){
+		if (bReceiver!=null) mContext.unregisterReceiver(bReceiver);
 	}
 
 	/**

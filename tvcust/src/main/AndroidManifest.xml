@@ -69,8 +69,8 @@
             android:label="@string/title_activity_msg"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.activity.OrderDetailActivity"
-            android:label="@string/title_activity_order_detail"
+            android:name=".ui.activity.OrderProgActivity"
+            android:label="@string/title_activity_order_prog"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.activity.VideoRecorderActivity"
@@ -131,6 +131,22 @@
         <activity
             android:name=".ui.activity.SignListActivity"
             android:label="@string/title_activity_sign_list"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.activity.VersionActivity"
+            android:label="@string/title_activity_version"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.activity.MeDetailActivity"
+            android:label="@string/title_activity_me_detail"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.activity.OrderDetailActivity"
+            android:label="@string/title_activity_order_detail"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.activity.OrderAllocateActivity"
+            android:label="@string/title_activity_order_allocate"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

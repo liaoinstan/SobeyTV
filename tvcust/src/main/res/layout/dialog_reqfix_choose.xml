@@ -1,36 +1,34 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_marginLeft="30dp"
-    android:layout_marginRight="30dp"
-    android:layout_height="wrap_content"
+    android:layout_width="220dp"
+    android:layout_height="120dp"
     android:layout_gravity="center"
-    android:background="@color/none"
+    android:background="@drawable/shape_rect_corner_white"
     android:orientation="vertical" >
 
     <TextView
         android:id="@+id/text_dialog_reqfix_hardware"
-        style="@style/text_big_blank"
+        android:textSize="@dimen/text_big_nomal"
+        android:textColor="@color/sb_text_blank"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:padding="20dp"
         android:gravity="center"
-        android:background="@drawable/shape_rect_corner_glod_top"
         android:text="硬件类"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@drawable/line_dark"/>
+        android:background="@drawable/line"/>
 
     <TextView
         android:id="@+id/text_dialog_reqfix_software"
-        style="@style/text_big_blank"
+        android:textSize="@dimen/text_big_nomal"
+        android:textColor="@color/sb_text_blank"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:padding="20dp"
         android:gravity="center"
-        android:background="@drawable/shape_rect_corner_glod_bottom"
-        android:text="硬件类"/>
+        android:text="软件类"/>
 </LinearLayout>

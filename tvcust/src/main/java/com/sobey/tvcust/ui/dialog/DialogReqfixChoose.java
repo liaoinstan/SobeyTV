@@ -31,6 +31,8 @@ public class DialogReqfixChoose extends Dialog {
         text_soft = (TextView) mView.findViewById(R.id.text_dialog_reqfix_software);
         if(text_hard !=null) text_hard.setOnClickListener(listener);
         if(text_soft !=null) text_soft.setOnClickListener(listener);
+
+        this.setCanceledOnTouchOutside(true);
         super.setContentView(mView);
     }
     
@@ -46,7 +48,7 @@ public class DialogReqfixChoose extends Dialog {
 		int screenWidth = dm.widthPixels;
 		/////////设置高宽
         lp.width = (int) (screenWidth * 0.65); // 宽度
-        lp.height = (int) (lp.width*0.65); // 高度
+//        lp.height = (int) (lp.width*0.65); // 高度
         dialogWindow.setAttributes(lp);
     }
      

@@ -1,4 +1,4 @@
-package com.sobey.tvcust.common;
+package com.sobey.tvcust.ui.dialog;
 import android.app.Dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -17,14 +17,14 @@ import com.sobey.tvcust.R;
  * @Time: 下午12:37:43
  * @author Tom.Cai
  */
-public class ServerDialog extends Dialog implements View.OnClickListener{
+public class DialogServer extends Dialog implements View.OnClickListener{
 
     private Context context;
     private TextView text_phone;
     private TextView text_qq;
     private TextView text_mail;
 
-    public ServerDialog(Context context) {
+    public DialogServer(Context context) {
         super(context,R.style.MyDialog);
         this.context = context;
         setLoadingDialog();

@@ -27,7 +27,7 @@ public class VersionUtil {
     public static String getVersion(Context context){
         PackageInfo pkinfo = getpaPackageInfo(context);
         if (pkinfo!=null && pkinfo.versionName!=null && !"".equals(pkinfo.versionName)) {
-            String appName = pkinfo.applicationInfo.loadLabel(context.getPackageManager()).toString() + pkinfo.versionName;
+            String appName = pkinfo.applicationInfo.loadLabel(context.getPackageManager()).toString() + " " + pkinfo.versionName;
             return appName;
         }
         return null;

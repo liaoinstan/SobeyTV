@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/sb_bk"
+    android:fitsSystemWindows="true"
+    tools:context=".ui.activity.OrderProgActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:navigationIcon="@drawable/icon_bank"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <com.liaoinstan.springview.widget.SpringView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:footer="@layout/header_common"
+        app:header="@layout/header_common"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:type="follow">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@id/showingroup"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white">
+
+                    <ImageView
+                        android:id="@+id/img_orderprog_header"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_finish" />
+
+                    <TextView
+                        android:id="@+id/text_orderprog_ip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/img_orderprog_header"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toEndOf="@+id/img_orderprog_header"
+                        android:layout_toRightOf="@+id/img_orderprog_header"
+                        android:textSize="@dimen/text_small"
+                        android:textColor="@color/sb_text_blank"
+                        android:text="硬件问题：CPU过载警报" />
+
+                    <TextView
+                        android:id="@+id/text_orderprog_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_alignLeft="@+id/text_orderprog_ip"
+                        android:layout_alignStart="@+id/text_orderprog_ip"
+                        android:layout_below="@+id/text_orderprog_ip"
+                        android:textSize="@dimen/text_small"
+                        android:textColor="@color/sb_text_blank"
+                        android:text="订单号：658425912359" />
+
+                    <TextView
+                        android:id="@+id/text_orderprog_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/text_orderprog_name"
+                        android:layout_alignStart="@+id/text_orderprog_name"
+                        android:layout_below="@+id/text_orderprog_name"
+                        android:layout_marginTop="5dp"
+                        android:text="订单状态：已完成"
+                        android:textSize="@dimen/text_big"
+                        android:textColor="@color/sb_blue"/>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_big"
+                        android:textColor="@color/sb_text_blank"
+                        android:text="订单追踪" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/text_orderprog_go1"
+                        style="@style/text_nomal_blue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/shape_rect_corner_blue"
+                        android:paddingBottom="8dp"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:paddingTop="8dp"
+                        android:textSize="@dimen/text_nomal"
+                        android:textColor="@color/white"
+                        android:text="立即评价" />
+
+                    <TextView
+                        android:id="@+id/text_orderprog_go"
+                        style="@style/text_nomal_blue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/shape_rect_corner_blue"
+                        android:paddingBottom="8dp"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:paddingTop="8dp"
+                        android:textSize="@dimen/text_nomal"
+                        android:textColor="@color/white"
+                        android:text="查看评价" />
+
+                </LinearLayout>
+
+                <com.sobey.common.view.FullyListView
+                    android:id="@+id/listfull_ordertrack"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:divider="@null"
+                    android:dividerHeight="0dp"
+                    android:background="@color/sb_bk" />
+
+            </LinearLayout>
+        </ScrollView>
+
+    </com.liaoinstan.springview.widget.SpringView>
+
+</android.support.design.widget.CoordinatorLayout>

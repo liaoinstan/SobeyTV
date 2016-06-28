@@ -1,4 +1,4 @@
-package com.sobey.tvcust.common;
+package com.sobey.tvcust.ui.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -17,12 +17,12 @@ import com.sobey.tvcust.R;
  * @Time: 下午12:37:43
  * @author Tom.Cai
  */
-public class RecordDialog extends Dialog {
+public class DialogRecord extends Dialog {
 
     private TextView btn_start;
     private InsVoiceRecorderView recorder;
 
-    public RecordDialog(Context context) {
+    public DialogRecord(Context context) {
         super(context,R.style.MyDialog);
         setLoadingDialog();
     }

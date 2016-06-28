@@ -81,7 +81,7 @@
                 android:textSize="@dimen/text_nomal"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="10dp"
                 android:gravity="center"
                 android:background="@drawable/shape_rect_corner_none_line"
                 android:paddingBottom="5dp"
@@ -89,6 +89,21 @@
                 android:paddingRight="10dp"
                 android:paddingTop="5dp"
                 android:text="取消订单" />
+
+            <TextView
+                android:id="@+id/text_order_allocate"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_nomal"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:gravity="center"
+                android:background="@drawable/shape_rect_corner_blue"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp"
+                android:text="订单分配" />
 
             <TextView
                 android:id="@+id/text_order_go"
@@ -103,7 +118,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:paddingTop="5dp"
-                android:text="催一催" />
+                android:text="查看订单" />
         </LinearLayout>
 
     </LinearLayout>

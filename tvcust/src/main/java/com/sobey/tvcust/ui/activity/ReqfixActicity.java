@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -11,13 +12,14 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.dd.CircularProgressButton;
 import com.sobey.common.common.MyPlayer;
 import com.sobey.common.helper.CropHelper;
 import com.sobey.common.utils.VideoUtils;
 import com.sobey.common.view.BundleView;
 import com.sobey.common.view.InsVoiceRecorderView;
 import com.sobey.tvcust.R;
-import com.sobey.tvcust.common.RecordDialog;
+import com.sobey.tvcust.ui.dialog.DialogRecord;
 import com.sobey.tvcust.ui.dialog.DialogPopupPhoto;
 import com.sobey.tvcust.ui.dialog.DialogReqfixChoose;
 
@@ -28,12 +30,11 @@ public class ReqfixActicity extends AppCompatActivity implements View.OnClickLis
     private View lay_reqfix_quekind;
     private DialogReqfixChoose chooseDialog;
     private DialogPopupPhoto popup;
-    private RecordDialog recordDialog;
+    private DialogRecord recordDialog;
     private BundleView bundleView;
-    private InsVoiceRecorderView voice_recorder;
     private MyPlayer player = new MyPlayer();
 
-    private View btn_go;
+    private CircularProgressButton btn_go;
 
     private String pathphoto;
     private String pathvideo;
@@ -68,7 +69,10 @@ public class ReqfixActicity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        player.onDestory();
+        if (player!=null) player.onDestory();
+        if (popup!=null) popup.dismiss();
+        if (chooseDialog!=null) chooseDialog.dismiss();
+        if (recordDialog!=null) recordDialog.dismiss();
     }
 
     private void initBase() {
@@ -104,14 +108,13 @@ public class ReqfixActicity extends AppCompatActivity implements View.OnClickLis
                 cropHelper.startPhoto();
             }
         });
-        recordDialog = new RecordDialog(this);
+        recordDialog = new DialogRecord(this);
     }
 
     private void initView() {
         lay_reqfix_quekind = findViewById(R.id.lay_reqfix_quekind);
         bundleView = (BundleView) findViewById(R.id.bundle_reqfix);
-        voice_recorder = (InsVoiceRecorderView) findViewById(R.id.voice_recorder);
-        btn_go = findViewById(R.id.btn_go);
+        btn_go = (CircularProgressButton) findViewById(R.id.btn_go);
 
         findViewById(R.id.img_reqfix_photo).setOnClickListener(this);
         findViewById(R.id.img_reqfix_vidio).setOnClickListener(this);
@@ -121,6 +124,7 @@ public class ReqfixActicity extends AppCompatActivity implements View.OnClickLis
     private void initCtrl() {
         lay_reqfix_quekind.setOnClickListener(this);
         btn_go.setOnClickListener(this);
+        btn_go.setIndeterminateProgressMode(true);
         bundleView.setOnBundleClickListener(new BundleView.OnBundleClickListener() {
             @Override
             public void onPhotoDelClick(View v) {
@@ -157,24 +161,7 @@ public class ReqfixActicity extends AppCompatActivity implements View.OnClickLis
                 player.play();
             }
         });
-//        bundleView.setVoiceTouchListenner(new View.OnTouchListener(){
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                return voice_recorder.onPressToSpeakBtnTouch(v, event, new InsVoiceRecorderView.InsVoiceRecorderCallback() {
-//
-//                    @Override
-//                    public void onVoiceRecordComplete(String voiceFilePath, int voiceTimeLength) {
-//                        // 发送语音消息
-//                        //sendVoiceMessage(voiceFilePath, voiceTimeLength);
-////                        Toast.makeText(ReqfixActicity.this,"complete:"+voiceFilePath+"  length:"+voiceTimeLength,Toast.LENGTH_SHORT).show();
-//                        Log.e("liao","complete:"+voiceFilePath+"  length:"+voiceTimeLength);
-//                        pathvoice = voiceFilePath;
-//                        bundleView.setVoice();
-//                    }
-//                });
-//            }
-//        });
-        recordDialog.setOnRecordListener(new RecordDialog.OnRecordListener() {
+        recordDialog.setOnRecordListener(new DialogRecord.OnRecordListener() {
             @Override
             public void onRecordFinish(String voiceFilePath, int voiceTimeLength) {
                 Log.e("liao", "complete:" + voiceFilePath + "  length:" + voiceTimeLength);
@@ -186,13 +173,11 @@ public class ReqfixActicity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onStart() {
                 Log.e("liao", "start");
-//                bundleView.setStartVoiceAnim();
             }
 
             @Override
             public void onCompleted() {
                 Log.e("liao", "stop");
-//                bundleView.setStopVoiceAnim();
             }
         });
     }
@@ -224,21 +209,13 @@ public class ReqfixActicity extends AppCompatActivity implements View.OnClickLis
                 recordDialog.show();
                 break;
             case R.id.btn_go:
-                btn_go.setOnTouchListener(new View.OnTouchListener() {
+                btn_go.setProgress(50);
+                new Handler().postDelayed(new Runnable() {
                     @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        return voice_recorder.onPressToSpeakBtnTouch(v, event, new InsVoiceRecorderView.InsVoiceRecorderCallback() {
-
-                            @Override
-                            public void onVoiceRecordComplete(String voiceFilePath, int voiceTimeLength) {
-                                // 发送语音消息
-                                //sendVoiceMessage(voiceFilePath, voiceTimeLength);
-//                        Toast.makeText(getContext(),"complete:"+voiceFilePath+"  length:"+voiceTimeLength, Toast.LENGTH_SHORT).show();
-                                Log.e("liao", "complete:" + voiceFilePath + "  length:" + voiceTimeLength);
-                            }
-                        });
+                    public void run() {
+                        btn_go.setProgress(100);
                     }
-                });
+                }, 2000);
                 break;
         }
     }
@@ -271,15 +248,6 @@ public class ReqfixActicity extends AppCompatActivity implements View.OnClickLis
     public void cropResult(String path) {
         Log.e("liao", path);
         this.pathphoto = path;
-//        Toast.makeText(this, path, Toast.LENGTH_SHORT).show();
-
-//        try {
-//            Bitmap bitmap = BitmapUtil.revitionImageSize(path);
-////            path = BitmapUtil.saveBitmap(this, bitmap, FileUtils.getFileName(path));
-//            bundleView.setPhoto(bitmap);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
 
         Bitmap bitmap = BitmapFactory.decodeFile(path);
         bundleView.setPhoto(bitmap);

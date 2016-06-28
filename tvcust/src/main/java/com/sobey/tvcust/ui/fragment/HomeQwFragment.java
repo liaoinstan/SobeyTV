@@ -76,11 +76,9 @@ public class HomeQwFragment extends BaseFragment implements View.OnClickListener
     public void onDestroy() {
         Log.e("liao","onDestroy");
         super.onDestroy();
-//        loadingDialog.dismiss();
     }
 
     private void initBase() {
-//        loadingDialog = new LoadingDialog(getActivity());
     }
 
     private void initView() {

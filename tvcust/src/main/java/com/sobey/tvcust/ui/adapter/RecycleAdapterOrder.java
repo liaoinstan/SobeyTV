@@ -7,10 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.entity.TestEntity;
+import com.sobey.tvcust.ui.activity.OrderAllocateActivity;
 import com.sobey.tvcust.ui.activity.OrderDetailActivity;
 
 import java.util.List;
@@ -55,7 +55,15 @@ public class RecycleAdapterOrder extends RecyclerView.Adapter<RecycleAdapterOrde
         holder.text_go.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,"催一催",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, OrderDetailActivity.class);
+                context.startActivity(intent);
+            }
+        });
+        holder.text_allocate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, OrderAllocateActivity.class);
+                context.startActivity(intent);
             }
         });
     }
@@ -68,11 +76,13 @@ public class RecycleAdapterOrder extends RecyclerView.Adapter<RecycleAdapterOrde
     public class Holder extends RecyclerView.ViewHolder {
         public TextView text_cancle;
         public TextView text_go;
+        public TextView text_allocate;
 
         public Holder(View itemView) {
             super(itemView);
             text_cancle = (TextView) itemView.findViewById(R.id.text_order_cancle);
             text_go = (TextView) itemView.findViewById(R.id.text_order_go);
+            text_allocate = (TextView) itemView.findViewById(R.id.text_order_allocate);
         }
     }
 

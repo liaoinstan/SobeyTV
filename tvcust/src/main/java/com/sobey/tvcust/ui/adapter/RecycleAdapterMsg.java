@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.entity.TestEntity;
-import com.sobey.tvcust.ui.activity.OrderDetailActivity;
+import com.sobey.tvcust.ui.activity.OrderProgActivity;
 
 import java.util.List;
 
@@ -54,7 +54,7 @@ public class RecycleAdapterMsg extends RecyclerView.Adapter<RecycleAdapterMsg.Ho
         holder.text_go.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, OrderDetailActivity.class);
+                Intent intent = new Intent(context, OrderProgActivity.class);
                 context.startActivity(intent);
             }
         });

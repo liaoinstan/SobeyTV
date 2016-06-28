@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.sobey.tvcust.R;
-import com.sobey.tvcust.ui.fragment.BuildFragment;
 import com.sobey.tvcust.ui.fragment.HomeInfoFragment;
 import com.sobey.tvcust.ui.fragment.HomeQwFragment;
 import com.sobey.tvcust.ui.fragment.HomeMeFragment;
@@ -206,7 +205,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.img_go_msg:
+            case R.id.btn_go_medetail:
                 Intent intent = new Intent(this, MsgActivity.class);
 //                Intent intent = new Intent(this, CountOrderActivity.class);
                 startActivity(intent);

@@ -1,10 +1,8 @@
 package com.sobey.tvcust.ui.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,12 +17,9 @@ import com.liaoinstan.springview.widget.SpringView;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.DividerItemDecoration;
 import com.sobey.tvcust.common.LoadingViewUtil;
-import com.sobey.tvcust.common.ServerDialog;
+import com.sobey.tvcust.ui.dialog.DialogServer;
 import com.sobey.tvcust.entity.TestEntity;
-import com.sobey.tvcust.ui.activity.OrderDetailActivity;
-import com.sobey.tvcust.ui.activity.ReqfixActicity;
 import com.sobey.tvcust.ui.adapter.OnRecycleItemClickListener;
-import com.sobey.tvcust.ui.adapter.RecycleAdapterOrder;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterServer;
 
 import java.util.ArrayList;
@@ -44,7 +39,7 @@ public class HomeServerFragment extends BaseFragment implements OnRecycleItemCli
     private RecyclerView recyclerView;
     private RecycleAdapterServer adapter;
 
-    private ServerDialog serverDialog;
+    private DialogServer serverDialog;
 
     private List<TestEntity> results = new ArrayList<>();
 
@@ -81,7 +76,7 @@ public class HomeServerFragment extends BaseFragment implements OnRecycleItemCli
     }
 
     private void initBase() {
-        serverDialog = new ServerDialog(getActivity());
+        serverDialog = new DialogServer(getActivity());
     }
 
     private void initView() {
