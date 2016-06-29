@@ -23,6 +23,7 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
         <FrameLayout
+            android:id="@+id/btn_sign_do"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center"

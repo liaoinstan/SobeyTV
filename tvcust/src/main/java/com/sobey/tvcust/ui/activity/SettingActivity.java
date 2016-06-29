@@ -84,7 +84,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         text_setting_version.setText(version);
         String size = "";
         try {
-            size = ClearCacheUtil.getExternalCacheSize(this);
+            size = ClearCacheUtil.getSobeyCacheSize(this);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -140,10 +140,10 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.item_setting_safe:
                 break;
             case R.id.item_setting_clear:
-                ClearCacheUtil.clearExternalCache(this);
+                ClearCacheUtil.clearSobeyCache(this);
                 String size = "";
                 try {
-                    size = ClearCacheUtil.getExternalCacheSize(this);
+                    size = ClearCacheUtil.getSobeyCacheSize(this);
                     Toast.makeText(this,"清理完毕",Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {
                     e.printStackTrace();

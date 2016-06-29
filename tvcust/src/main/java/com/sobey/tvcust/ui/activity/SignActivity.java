@@ -17,6 +17,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
+import com.nineoldandroids.animation.Animator;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.DividerItemDecoration;
 import com.sobey.tvcust.common.LoadingViewUtil;
@@ -33,6 +36,7 @@ public class SignActivity extends AppCompatActivity implements View.OnClickListe
 
     private TextView text_sign_day;
     private TextView text_sign_inte;
+    private View btn_sign_do;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +55,37 @@ public class SignActivity extends AppCompatActivity implements View.OnClickListe
         showingroup = (ViewGroup) findViewById(R.id.showingroup);
         text_sign_day = (TextView) findViewById(R.id.text_sign_day);
         text_sign_inte = (TextView) findViewById(R.id.text_sign_inte);
+        btn_sign_do = findViewById(R.id.btn_sign_do);
+
+        btn_sign_do.setVisibility(View.INVISIBLE);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                YoYo.with(Techniques.Landing)
+                        .duration(1000)
+                        .withListener(new Animator.AnimatorListener() {
+                            @Override
+                            public void onAnimationStart(Animator animation) {
+                                btn_sign_do.setVisibility(View.VISIBLE);
+                            }
+
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                            }
+
+                            @Override
+                            public void onAnimationCancel(Animator animation) {
+
+                            }
+
+                            @Override
+                            public void onAnimationRepeat(Animator animation) {
+
+                            }
+                        })
+                        .playOn(findViewById(R.id.btn_sign_do));
+            }
+        },300);
     }
 
     private void initData() {
@@ -75,6 +110,7 @@ public class SignActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initCtrl() {
         findViewById(R.id.btn_go_signlist).setOnClickListener(this);
+        btn_sign_do.setOnClickListener(this);
 
         {
             String strpre = "您已连续签到";
@@ -111,6 +147,11 @@ public class SignActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_go_signlist:
                 intent.setClass(this, SignListActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.btn_sign_do:
+                YoYo.with(Techniques.Landing)
+                        .duration(700)
+                        .playOn(findViewById(R.id.btn_sign_do));
                 break;
         }
     }

@@ -16,12 +16,14 @@ import com.liaoinstan.springview.container.AliFooter;
 import com.liaoinstan.springview.container.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
 import com.sobey.common.common.MyPlayer;
+import com.sobey.common.utils.FileUtil;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.DividerItemDecoration;
 import com.sobey.tvcust.common.LoadingViewUtil;
 import com.sobey.tvcust.entity.TestEntity;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterOrderDetail;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,14 +72,37 @@ public class OrderDetailActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void run() {
                 //加载成功
+                String pathphoto = null;
+                String pathvideo = null;
+                String pathvoice = null;
+
+                File dirphoto = new File(FileUtil.getPhotoFolder());
+                File[] photos = dirphoto.listFiles();
+                if (photos!=null && photos.length>0){
+                    pathphoto = photos[photos.length-1].getPath();
+                }
+
+                File dirvideo = new File(FileUtil.getVideoFolder());
+                File[] videos = dirvideo.listFiles();
+                if (videos!=null && videos.length>0){
+                    pathvideo = videos[videos.length-1].getPath();
+                }
+
+                File dirvoice = new File(FileUtil.getVoiceFolder());
+                File[] voices = dirvoice.listFiles();
+                if (voices!=null && voices.length>0){
+                    pathvoice = voices[voices.length-1].getPath();
+                }
+
+
                 for (int i = 0; i < 20; i++) {
                     TestEntity entity = new TestEntity();
                     if (i % 2 == 0)
-                        entity.setPathphoto("/storage/emulated/0/!croptest/test.jpg");
+                        entity.setPathphoto(pathphoto);
                     if (i % 3 == 0)
-                        entity.setPathvideo("/storage/emulated/0/!videotest/test.mp4");
+                        entity.setPathvideo(pathvideo);
                     if (i % 4 == 0)
-                        entity.setPathvoice("/storage/emulated/0/!voicetest/test.amr");
+                        entity.setPathvoice(pathvoice);
                     results.add(entity);
                 }
 

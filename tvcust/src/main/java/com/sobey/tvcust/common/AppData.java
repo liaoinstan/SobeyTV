@@ -4,6 +4,7 @@ package com.sobey.tvcust.common;
 import com.sobey.common.utils.ACache;
 import com.sobey.common.utils.ApplicationHelp;
 import com.sobey.common.utils.PreferenceUtil;
+import com.sobey.tvcust.entity.UserPojo;
 
 import java.util.ArrayList;
 
@@ -17,21 +18,51 @@ import java.util.ArrayList;
 public class AppData {
 
 	public static class App{
+
+		private static final String KEY_STRARUP = "startup";
+		private static final String KEY_TOKEN = "token";
+		private static final String KEY_USER = "user";
+
 		public static boolean getStartUp(){
-			String cards = PreferenceUtil.getString(ApplicationHelp.getApplicationContext(), "cards");
+			String cards = PreferenceUtil.getString(ApplicationHelp.getApplicationContext(), KEY_STRARUP);
 			if (cards==null || "".equals(cards)) {
-				return true;
+				return false;
 			}else {
 				return Boolean.parseBoolean(cards);
 			}
 		}
 
 		public static void saveStartUp(boolean startup){
-			PreferenceUtil.saveString(ApplicationHelp.getApplicationContext(), "startup", startup+"");
+			PreferenceUtil.saveString(ApplicationHelp.getApplicationContext(), KEY_STRARUP, startup+"");
 		}
 
 		public static void removeStartUp(){
-			PreferenceUtil.remove(ApplicationHelp.getApplicationContext(),"startup");
+			PreferenceUtil.remove(ApplicationHelp.getApplicationContext(),KEY_STRARUP);
+		}
+
+		public static String getToken(){
+			String token = PreferenceUtil.getString(ApplicationHelp.getApplicationContext(), KEY_TOKEN);
+			return token;
+		}
+
+		public static void saveToken(String token){
+			PreferenceUtil.saveString(ApplicationHelp.getApplicationContext(), KEY_TOKEN, token);
+		}
+
+		public static void removeToken(){
+			PreferenceUtil.remove(ApplicationHelp.getApplicationContext(),KEY_TOKEN);
+		}
+
+		public static void saveUser(UserPojo user){
+			PreferenceUtil.saveObject(ApplicationHelp.getApplicationContext(), KEY_USER, user);
+		}
+
+		public static UserPojo getUser(){
+			return (UserPojo) PreferenceUtil.readObject(ApplicationHelp.getApplicationContext(),KEY_USER);
+		}
+
+		public static void removeUser(){
+			PreferenceUtil.remove(ApplicationHelp.getApplicationContext(),KEY_USER);
 		}
 	}
 

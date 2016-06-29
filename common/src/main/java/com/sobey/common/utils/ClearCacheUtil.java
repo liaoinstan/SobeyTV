@@ -5,6 +5,8 @@ import android.os.Environment;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2016/6/8 0008.
@@ -52,6 +54,64 @@ public class ClearCacheUtil {
         }
     }
 
+    public static String getSobeyCacheSize(Context context) {
+        try {
+            List<File> folders = new ArrayList<>();
+            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                folders.add(context.getExternalCacheDir());
+            }
+//            folders.add(context.getCacheDir());
+            folders.add(new File("/storage/emulated/0/!croptest"));
+            folders.add(new File("/storage/emulated/0/!videotest"));
+            folders.add(new File("/storage/emulated/0/!voicetest"));
+
+            return getFormatSize(getFoldersSize(folders.toArray(new File[]{})));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "0K";
+        }
+    }
+
+    public static void clearSobeyCache(Context context){
+        try {
+            List<File> folders = new ArrayList<>();
+            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                folders.add(context.getExternalCacheDir());
+            }
+//            folders.add(context.getCacheDir());
+            folders.add(new File("/storage/emulated/0/!croptest"));
+            folders.add(new File("/storage/emulated/0/!videotest"));
+            folders.add(new File("/storage/emulated/0/!voicetest"));
+
+            clearFolders(folders.toArray(new File[]{}));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static long getFoldersSize(File[] folders) {
+        long total = 0;
+        for (File folder : folders) {
+            if (folder != null && folder.exists()) {
+                total += getFolderSize(folder);
+            }
+        }
+        return total;
+    }
+
+    private static void clearFolders(File[] folders) {
+        for (File folder : folders) {
+            if (folder != null && folder.exists()) {
+                deleteDir(folder);
+            }
+        }
+    }
+
+    ///////////////////////////////////////
+    ////////内部方法
+    ///////////////////////////////////////
+
+
     private static boolean deleteDir(File dir) {
         if (dir != null && dir.isDirectory()) {
             String[] children = dir.list();
@@ -68,7 +128,7 @@ public class ClearCacheUtil {
     // 获取文件
     //Context.getExternalFilesDir() --> SDCard/Android/data/你的应用的包名/files/ 目录，一般放一些长时间保存的数据
     //Context.getExternalCacheDir() --> SDCard/Android/data/你的应用包名/cache/目录，一般存放临时缓存数据
-    public static long getFolderSize(File file) throws Exception {
+    private static long getFolderSize(File file) {
         long size = 0;
         try {
             File[] fileList = file.listFiles();
@@ -123,7 +183,6 @@ public class ClearCacheUtil {
         return result4.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString()
                 + "TB";
     }
-
 
 
 }

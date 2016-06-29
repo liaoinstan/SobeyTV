@@ -8,6 +8,8 @@ import android.os.SystemClock;
 import android.text.format.Time;
 import android.util.Log;
 
+import com.sobey.common.utils.FileUtil;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -55,7 +57,7 @@ public class InsVoiceRecorder {
             // file = File.createTempFile(PREFIX + userId, EXTENSION,
             // User.getVoicePath());
             voiceFileName = getVoiceFileName(getVoiceFileUid());
-            voiceFilePath = getVoiceDirPath() + "/" + voiceFileName;
+            voiceFilePath = FileUtil.getVoiceFolder() + "/" + voiceFileName;
             file = new File(voiceFilePath);
             recorder.setOutputFile(file.getAbsolutePath());
             recorder.prepare();
@@ -169,20 +171,20 @@ public class InsVoiceRecorder {
      *
      * @return 路径的字符串
      */
-    public static String getSDPath() {
-        File sdDir = null;
-        boolean sdCardExist = Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED); // 判断sd卡是否存在
-        if (sdCardExist) {
-            sdDir = Environment.getExternalStorageDirectory();// 获取外存目录
-        }
-        return sdDir.toString();
-    }
-    public static String getVoiceDirPath() {
-        String dir = getSDPath() + File.separator + "!voicetest";
-        File dirFile = new File(dir);
-        if (!dirFile.exists()){
-            dirFile.mkdirs();
-        }
-        return dir;
-    }
+//    public static String getSDPath() {
+//        File sdDir = null;
+//        boolean sdCardExist = Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED); // 判断sd卡是否存在
+//        if (sdCardExist) {
+//            sdDir = Environment.getExternalStorageDirectory();// 获取外存目录
+//        }
+//        return sdDir.toString();
+//    }
+//    public static String getVoiceDirPath() {
+//        String dir = getSDPath() + File.separator + "!voicetest";
+//        File dirFile = new File(dir);
+//        if (!dirFile.exists()){
+//            dirFile.mkdirs();
+//        }
+//        return dir;
+//    }
 }

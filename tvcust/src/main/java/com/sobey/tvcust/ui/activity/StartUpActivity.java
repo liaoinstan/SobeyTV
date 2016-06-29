@@ -11,6 +11,8 @@ import android.view.View;
 
 import com.sobey.common.view.DotView;
 import com.sobey.tvcust.R;
+import com.sobey.tvcust.common.AppData;
+import com.sobey.tvcust.entity.UserPojo;
 import com.sobey.tvcust.ui.fragment.StartUpFragment;
 
 public class StartUpActivity extends AppCompatActivity {
@@ -24,7 +26,9 @@ public class StartUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_startup);
-        
+
+        AppData.App.saveStartUp(true);
+
         initView();
         initData();
     }
@@ -62,7 +66,15 @@ public class StartUpActivity extends AppCompatActivity {
     }
 
     public void onGo(View v){
-        Intent intent = new Intent(this,HomeActivity.class);
+        Intent intent = new Intent();
+        UserPojo user = AppData.App.getUser();
+        if (user != null) {
+            //去首页
+            intent.setClass(this,HomeActivity.class);
+        } else {
+            //去登录页
+            intent.setClass(this,LoginActivity.class);
+        }
         startActivity(intent);
         finish();
     }

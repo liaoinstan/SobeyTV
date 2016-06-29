@@ -55,8 +55,8 @@ public class StartUpFragment extends BaseFragment{
         super.onActivityCreated(savedInstanceState);
         btn_go =  getView().findViewById(R.id.btn_go);
         img = (ImageView) getView().findViewById(R.id.img_startup_fragment);
-//        img.setImageResource(src);
-        x.image().bind(img, "http://pic36.nipic.com/20131128/11748057_141932278338_2.jpg", new CustomBitmapLoadCallBack(img));
+        img.setImageResource(src);
+//        x.image().bind(img, "http://pic36.nipic.com/20131128/11748057_141932278338_2.jpg", new CustomBitmapLoadCallBack(img));
 
         if (isLast){
             btn_go.setVisibility(View.VISIBLE);

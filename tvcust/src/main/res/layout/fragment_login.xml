@@ -29,7 +29,7 @@
                 android:layout_height="60dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:drawableLeft="@drawable/icon_me_clear"
+                android:drawableLeft="@drawable/icon_login_user"
                 android:drawablePadding="20dp"
                 android:hint="账号"
                 android:inputType="textPersonName" />
@@ -48,7 +48,7 @@
                 android:layout_height="60dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:drawableLeft="@drawable/icon_me_clear"
+                android:drawableLeft="@drawable/icon_login_password"
                 android:drawablePadding="20dp"
                 android:hint="密码"
                 android:inputType="textPassword" />

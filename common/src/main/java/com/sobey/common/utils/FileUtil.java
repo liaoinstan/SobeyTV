@@ -45,48 +45,37 @@ public class FileUtil {
         return sdDir.toString();
     }
 
-    public static String getPhotoFullPath() {
+    public static String getPhotoFolder(){
         String dir = getSDPath() + File.separator + "!croptest";
         File dirFile = new File(dir);
         if (!dirFile.exists()){
             dirFile.mkdirs();
         }
-        return dir + File.separator + getPhotoFileName();
+        return dir;
     }
 
-    /**
-     * 返回文件全路径，同时初始化文件
-     */
-    public static String getPhotoFullPathWithFile(){
-        String path = getPhotoFullPath();
-        File file = new File(path);
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }
+    public static String getVideoFolder(){
+        String dir = getSDPath() + File.separator + "!videotest";
+        File dirFile = new File(dir);
+        if (!dirFile.exists()){
+            dirFile.mkdirs();
         }
-        return path;
+        return dir;
     }
 
-    public static File getPhotoFile() {
-        File file = new File(getPhotoFullPath());
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }
+    public static String getVoiceFolder(){
+        String dir = getSDPath() + File.separator + "!voicetest";
+        File dirFile = new File(dir);
+        if (!dirFile.exists()){
+            dirFile.mkdirs();
         }
-        return file;
+        return dir;
     }
 
-    public static Uri getPhotoUri() {
-        return Uri.fromFile(getPhotoFile());
+    public static String getPhotoFullPath() {
+        return getPhotoFolder() + File.separator + getPhotoFileName();
     }
+
 
 
     /**

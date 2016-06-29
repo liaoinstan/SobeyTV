@@ -33,7 +33,7 @@
                     android:layout_height="60dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:drawableLeft="@drawable/icon_me_clear"
+                    android:drawableLeft="@drawable/icon_login_phone"
                     android:drawablePadding="20dp"
                     android:hint="手机号"
                     android:inputType="textPersonName"/>
@@ -57,7 +57,7 @@
                     android:layout_width="0dp"
                     android:layout_height="60dp"
                     android:layout_marginLeft="20dp"
-                    android:drawableLeft="@drawable/icon_me_clear"
+                    android:drawableLeft="@drawable/icon_login_vali"
                     android:drawablePadding="20dp"
                     android:hint="验证码"
                     android:inputType="textPassword" />

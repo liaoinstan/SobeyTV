@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.sobey.common.R;
+import com.sobey.common.utils.FileUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -175,7 +176,8 @@ public class MovieRecorderView extends LinearLayout implements OnErrorListener {
     }
 
     private void createRecordDir() {
-        File sampleDir = new File(Environment.getExternalStorageDirectory() + File.separator + "!videotest/");
+//        File sampleDir = new File(Environment.getExternalStorageDirectory() + File.separator + "!videotest/");
+        File sampleDir = new File(FileUtil.getVideoFolder());
         if (!sampleDir.exists()) {
             sampleDir.mkdirs();
         }

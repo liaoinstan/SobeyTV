@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.dd.CircularProgressButton;
 import com.sobey.tvcust.R;
+import com.sobey.tvcust.ui.activity.HomeActivity;
+import com.sobey.tvcust.ui.activity.LoginActivity;
 import com.sobey.tvcust.ui.activity.ModifyPswActivity;
 
 /**
@@ -90,7 +92,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent();
+        final Intent intent = new Intent();
         switch (v.getId()){
             case R.id.btn_go:
                 if (btn_go.getProgress() == 0) {
@@ -99,6 +101,14 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener{
                         @Override
                         public void run() {
                             btn_go.setProgress(100);
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    intent.setClass(getActivity(), HomeActivity.class);
+                                    startActivity(intent);
+                                    getActivity().finish();
+                                }
+                            }, 800);
                         }
                     }, 2000);
                 }
