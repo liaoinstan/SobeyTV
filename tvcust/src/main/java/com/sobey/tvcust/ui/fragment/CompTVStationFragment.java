@@ -17,26 +17,34 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sobey.common.common.CommonNet;
 import com.sobey.common.view.SideBar;
 import com.sobey.tvcust.R;
+import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.CharacterParser;
 import com.sobey.tvcust.common.LoadingViewUtil;
 import com.sobey.tvcust.common.PinyinComparator;
-import com.sobey.tvcust.entity.CarType;
+import com.sobey.tvcust.entity.Office;
+import com.sobey.tvcust.entity.OfficePojo;
+import com.sobey.tvcust.entity.TVStation;
+import com.sobey.tvcust.entity.TVStation;
+import com.sobey.tvcust.entity.TVStationPojo;
 import com.sobey.tvcust.ui.activity.CompActivity;
 import com.sobey.tvcust.ui.adapter.ListAdapterCompTVStation;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.xutils.http.RequestParams;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
  * Created by Administrator on 2016/6/2 0002.
  */
-public class CompTVStationFragment extends BaseFragment {
+public class CompTVStationFragment extends BaseFragment implements CommonNet.NetHander{
 
     private int position;
     private View rootView;
@@ -49,19 +57,19 @@ public class CompTVStationFragment extends BaseFragment {
     private ListAdapterCompTVStation adapter;
     private EditText mClearEditText;
 
-    private String data;
+    private int officeid;
 
     private View text_search;
     /**
      * 汉字转换成拼音的类
      */
     private CharacterParser characterParser;
-    private List<CarType> SourceDateList = new ArrayList<CarType>();
+    private List<TVStation> SourceDateList = new ArrayList<TVStation>();
 
     /**
      * 根据拼音来排列ListView里面的数据类
      */
-    private PinyinComparator pinyinComparator;
+    private PinyinComparatorTVStation pinyinComparator;
 
     public static Fragment newInstance(int position) {
         CompTVStationFragment f = new CompTVStationFragment();
@@ -80,7 +88,7 @@ public class CompTVStationFragment extends BaseFragment {
 
     @Subscribe
     public void onEventMainThread(CompOfficeFragment.OfficeEntity msg) {
-        data = msg.getData();
+        officeid = msg.getData();
         initData();
     }
 
@@ -116,50 +124,13 @@ public class CompTVStationFragment extends BaseFragment {
     }
 
     private void initData() {
-        Log.e("liao",data);
+        Log.e("liao",officeid+"");
         showin = LoadingViewUtil.showin(showingroup,R.layout.layout_loading);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //加载成功
-                SourceDateList.clear();
-                SourceDateList.add(new CarType("按时打算"));
-                SourceDateList.add(new CarType("是按时打算"));
-                SourceDateList.add(new CarType("是按时打算"));
-                SourceDateList.add(new CarType("是按时打算"));
-                SourceDateList.add(new CarType("水电费按时打算"));
-                SourceDateList.add(new CarType("水电费按时打算"));
-                SourceDateList.add(new CarType("人员水电费按咬人时打算"));
-                SourceDateList.add(new CarType("人员水电费按咬人时打算"));
-                SourceDateList.add(new CarType("VC水电费按时打算"));
-                SourceDateList.add(new CarType("vbn水电费按时打算"));
-                SourceDateList.add(new CarType("vbn水电费按时打算"));
-                SourceDateList.add(new CarType("vbn水电费按时打算"));
-                SourceDateList.add(new CarType("vbn水电费按时打算"));
-                SourceDateList.add(new CarType("vbn水电费按时打算"));
-                SourceDateList.add(new CarType("人水电费按时打算"));
-                SourceDateList.add(new CarType("漂亮水电费按时打算"));
-                SourceDateList.add(new CarType("欧尼水电费按时打算"));
-                SourceDateList.add(new CarType("欧尼水电费按时打算"));
-                SourceDateList.add(new CarType("空间按时打算"));
-                SourceDateList.add(new CarType("空间按时打算"));
-                SourceDateList.add(new CarType("空间按时打算"));
-                SourceDateList.add(new CarType("离开按时打算"));
-                SourceDateList.add(new CarType("你好间按时打算"));
-                SourceDateList.add(new CarType("一个间按时打算"));
-//                initCtrl();
-                freshCtrl();
-                LoadingViewUtil.showout(showingroup,showin);
 
-                //加载失败
-//                LoadingViewUtil.showin(showingroup,R.layout.layout_lack,showin,new View.OnClickListener(){
-//                    @Override
-//                    public void onClick(View v) {
-//                        initData();
-//                    }
-//                });
-            }
-        }, 2000);
+        RequestParams params = new RequestParams(AppData.Url.getTv);
+        params.addBodyParameter("officeId", officeid+"");
+        CommonNet.post(this, params, 1, TVStationPojo.class, null);
+
     }
 
     private void initCtrl() {
@@ -167,7 +138,7 @@ public class CompTVStationFragment extends BaseFragment {
         //实例化汉字转拼音类
         characterParser = CharacterParser.getInstance();
 
-        pinyinComparator = new PinyinComparator();
+        pinyinComparator = new PinyinComparatorTVStation();
 
         sideBar = (SideBar) getView().findViewById(R.id.sidrbar);
         dialog = (TextView) getView().findViewById(R.id.dialog);
@@ -191,7 +162,10 @@ public class CompTVStationFragment extends BaseFragment {
         sortListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
-                EventBus.getDefault().post(adapter.getItem(position).getCar_title());
+                TVStation tvStation = adapter.getItem(position);
+                RegistDetailFragment.CompEntity compEntity = new RegistDetailFragment.CompEntity(tvStation.getId(), tvStation.getCar_title());
+                EventBus.getDefault().post(compEntity);
+//                EventBus.getDefault().post(adapter.getItem(position).getCar_title());
                 getActivity().finish();
 //                Toast.makeText(getActivity(),activity.getData()+" "+adapter.getItem(position).getCar_title(),Toast.LENGTH_SHORT).show();
             }
@@ -243,9 +217,9 @@ public class CompTVStationFragment extends BaseFragment {
      * 为ListView填充数据
      * @return
      */
-    private List<CarType> filledData(List<CarType> data){
+    private List<TVStation> filledData(List<TVStation> data){
         for(int i=0; i<data.size(); i++){
-            CarType sortModel = data.get(i);
+            TVStation sortModel = data.get(i);
             //汉字转换成拼音
             String pinyin = characterParser.getSelling(data.get(i).getCar_title());
             String sortString = pinyin.substring(0, 1).toUpperCase();
@@ -265,10 +239,10 @@ public class CompTVStationFragment extends BaseFragment {
      * @param filterStr
      */
     private void filterData(String filterStr){
-        List<CarType> filterDateList = new ArrayList<CarType>();
+        List<TVStation> filterDateList = new ArrayList<TVStation>();
 
         if(TextUtils.isEmpty(filterStr)){
-            for (CarType carType : SourceDateList) {
+            for (TVStation carType : SourceDateList) {
                 if (carType.getCar_title_html()!=null) {
                     carType.setCar_title_html(null);
                 }
@@ -276,7 +250,7 @@ public class CompTVStationFragment extends BaseFragment {
             filterDateList = SourceDateList;
         }else{
             filterDateList.clear();
-            for(CarType sortModel : SourceDateList){
+            for(TVStation sortModel : SourceDateList){
                 String name = sortModel.getCar_title();
                 match(filterDateList, sortModel, filterStr);
             }
@@ -298,7 +272,7 @@ public class CompTVStationFragment extends BaseFragment {
      * @param sortModel
      * @param filterStr
      */
-    private int matchText(CarType sortModel, String filterStr) {
+    private int matchText(TVStation sortModel, String filterStr) {
         int sellingcount = 0;
         String name = sortModel.getCar_title();
         String[] sellingArray = characterParser.getSellingArray(name);
@@ -319,7 +293,7 @@ public class CompTVStationFragment extends BaseFragment {
         return sellingcount;
     }
 
-    private void match(List<CarType> filterDateList,CarType sortModel, String filterStr) {
+    private void match(List<TVStation> filterDateList,TVStation sortModel, String filterStr) {
         boolean isMatch = false;
         String car_title = sortModel.getCar_title();
         int sellingCount = matchText(sortModel,filterStr);
@@ -338,5 +312,68 @@ public class CompTVStationFragment extends BaseFragment {
         if (isMatch) {
             filterDateList.add(sortModel);
         }
+    }
+
+    @Override
+    public void netGo(int code, Object pojo, String text, Object obj) {
+        TVStationPojo tvStationPojo = (TVStationPojo) pojo;
+        List<TVStation> tvStations = tvStationPojo.getDataList();
+        SourceDateList.clear();
+        SourceDateList.addAll(tvStations);
+
+        freshCtrl();
+        LoadingViewUtil.showout(showingroup, showin);
+    }
+
+    @Override
+    public void netStart(int code) {
+
+    }
+
+    @Override
+    public void netEnd(int code) {
+
+    }
+
+    @Override
+    public void netSetFalse(int code, int status, String text) {
+
+    }
+
+    @Override
+    public void netSetFail(int code, int errorCode, String text) {
+
+    }
+
+    @Override
+    public void netSetError(int code, String text) {
+        Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+        LoadingViewUtil.showin(showingroup,R.layout.layout_lack,showin,new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                initData();
+            }
+        });
+    }
+
+    @Override
+    public void netException(int code, String text) {
+
+    }
+
+    public class PinyinComparatorTVStation implements Comparator<TVStation> {
+
+        public int compare(TVStation o1, TVStation o2) {
+            if (o1.getSortLetters().equals("@")
+                    || o2.getSortLetters().equals("#")) {
+                return -1;
+            } else if (o1.getSortLetters().equals("#")
+                    || o2.getSortLetters().equals("@")) {
+                return 1;
+            } else {
+                return o1.getSortLetters().compareTo(o2.getSortLetters());
+            }
+        }
+
     }
 }

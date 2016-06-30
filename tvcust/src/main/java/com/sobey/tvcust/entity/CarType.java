@@ -21,10 +21,9 @@ public class CarType implements Serializable {
 		this.car_title = car_title;
 	}
 
-	public CarType(Integer id, String car_title, String sortLetters) {
+	public CarType(Integer id, String car_title) {
 		this.id = id;
 		this.car_title = car_title;
-		this.sortLetters = sortLetters;
 	}
 
 	public Integer getId() {

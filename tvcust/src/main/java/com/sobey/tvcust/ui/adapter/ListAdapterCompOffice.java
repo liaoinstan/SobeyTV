@@ -12,14 +12,15 @@ import android.widget.TextView;
 
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.entity.CarType;
+import com.sobey.tvcust.entity.Office;
 
 import java.util.List;
 
 public class ListAdapterCompOffice extends BaseAdapter {
-	private List<CarType> list = null;
+	private List<Office> list = null;
 	private Context mContext;
 
-	public ListAdapterCompOffice(Context mContext, List<CarType> list) {
+	public ListAdapterCompOffice(Context mContext, List<Office> list) {
 		this.mContext = mContext;
 		this.list = list;
 	}
@@ -28,7 +29,7 @@ public class ListAdapterCompOffice extends BaseAdapter {
 	 * 当ListView数据发生变化时,调用此方法来更新ListView
 	 * @param list
 	 */
-	public void updateListView(List<CarType> list){
+	public void updateListView(List<Office> list){
 		this.list = list;
 		notifyDataSetChanged();
 	}
@@ -37,7 +38,7 @@ public class ListAdapterCompOffice extends BaseAdapter {
 		return this.list.size();
 	}
 
-	public CarType getItem(int position) {
+	public Office getItem(int position) {
 		return list.get(position);
 	}
 

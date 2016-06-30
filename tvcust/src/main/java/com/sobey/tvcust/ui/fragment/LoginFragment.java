@@ -11,17 +11,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
+import com.sobey.common.common.CommonNet;
 import com.sobey.tvcust.R;
+import com.sobey.tvcust.common.AppData;
+import com.sobey.tvcust.common.AppVali;
+import com.sobey.tvcust.entity.CommonEntity;
+import com.sobey.tvcust.entity.User;
 import com.sobey.tvcust.ui.activity.HomeActivity;
 import com.sobey.tvcust.ui.activity.LoginActivity;
 import com.sobey.tvcust.ui.activity.ModifyPswActivity;
 
+import org.xutils.http.RequestParams;
+
 /**
  * Created by Administrator on 2016/6/2 0002.
  */
-public class LoginFragment extends BaseFragment implements View.OnClickListener{
+public class LoginFragment extends BaseFragment implements View.OnClickListener,CommonNet.NetHander{
 
     private int position;
     private View rootView;
@@ -95,26 +103,41 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener{
         final Intent intent = new Intent();
         switch (v.getId()){
             case R.id.btn_go:
-                if (btn_go.getProgress() == 0) {
+
+                String name = edit_name.getText().toString();
+                String password = edit_password.getText().toString();
+
+                String msg = AppVali.login_go(name,password);
+                if (msg == null) {
+                    RequestParams params = new RequestParams(AppData.Url.login);
+                    params.addBodyParameter("mobile", name);
+                    params.addBodyParameter("password", password);
+                    CommonNet.post(this, params, 1, User.class, null);
+
                     btn_go.setProgress(50);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            btn_go.setProgress(100);
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    intent.setClass(getActivity(), HomeActivity.class);
-                                    startActivity(intent);
-                                    getActivity().finish();
-                                }
-                            }, 800);
-                        }
-                    }, 2000);
+                } else {
+                    Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
                 }
-                if (btn_go.getProgress() == 100) {
-                    btn_go.setProgress(0);
-                }
+
+//                if (btn_go.getProgress() == 0) {
+//                    new Handler().postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            btn_go.setProgress(100);
+//                            new Handler().postDelayed(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    intent.setClass(getActivity(), HomeActivity.class);
+//                                    startActivity(intent);
+//                                    getActivity().finish();
+//                                }
+//                            }, 800);
+//                        }
+//                    }, 2000);
+//                }
+//                if (btn_go.getProgress() == 100) {
+//                    btn_go.setProgress(0);
+//                }
                 break;
             case R.id.text_login_regist:
                 fatherPager.setCurrentItem(1);
@@ -125,5 +148,60 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener{
                 getActivity().overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
                 break;
         }
+    }
+
+    @Override
+    public void netGo(int code, Object pojo, String text, Object obj) {
+        User user = (User) pojo;
+        AppData.App.removeUser();
+        AppData.App.saveToken(user.getToken());
+        AppData.App.saveUser(user);
+
+        btn_go.setProgress(100);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(getActivity(), HomeActivity.class);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        }, 800);
+    }
+
+    @Override
+    public void netStart(int code) {
+
+    }
+
+    @Override
+    public void netEnd(int code) {
+
+    }
+
+    @Override
+    public void netSetFalse(int code, int status, String text) {
+
+    }
+
+    @Override
+    public void netSetFail(int code, int errorCode, String text) {
+
+    }
+
+    @Override
+    public void netSetError(int code, String text) {
+        Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+        btn_go.setProgress(-1);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                btn_go.setProgress(0);
+            }
+        }, 800);
+    }
+
+    @Override
+    public void netException(int code, String text) {
+
     }
 }

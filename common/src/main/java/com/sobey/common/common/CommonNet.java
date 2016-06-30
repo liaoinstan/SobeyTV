@@ -1,15 +1,21 @@
 package com.sobey.common.common;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.xutils.common.Callback;
+import org.xutils.common.util.KeyValue;
 import org.xutils.common.util.LogUtil;
 import org.xutils.ex.HttpException;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
+
+import java.net.ConnectException;
+import java.util.List;
 
 /**
  * 网络请求执行过程，app中所有的网络请求都有通过此类执行访问，主要方法是send方法
@@ -19,10 +25,26 @@ import org.xutils.x;
 public class CommonNet {
 
     public static Callback.Cancelable post(NetHander hander, RequestParams params, int code, Class entityClass, Object obj) {
+        if (params != null) {
+            List<KeyValue> stringParams = params.getStringParams();
+            if (stringParams != null) {
+                for (KeyValue keyValue:stringParams){
+                    Log.e("nethander", keyValue.key+":"+keyValue.getValueStr());
+                }
+            }
+        }
         return x.http().post(params, new MyCommonCallback(hander, params, code, entityClass, obj));
     }
 
     public static Callback.Cancelable get(NetHander hander, RequestParams params, int code, Class entityClass, Object obj) {
+        if (params != null) {
+            List<KeyValue> stringParams = params.getStringParams();
+            if (stringParams != null) {
+                for (KeyValue keyValue:stringParams){
+                    Log.e("nethander", keyValue.key+":"+keyValue.getValueStr());
+                }
+            }
+        }
         return x.http().get(params, new MyCommonCallback(hander, params, code, entityClass, obj));
     }
 
@@ -65,30 +87,35 @@ public class CommonNet {
                 JSONTokener jsonParser = new JSONTokener(result);
                 JSONObject root;
                 Integer status = null;
-                String text = "";
+                String msg = "";
+                String data = "";
                 try {
                     root = (JSONObject) jsonParser.nextValue();
-                    if (root.has("status")) status = root.getInt("status");
-                    if (root.has("text")) text = root.getString("text");
+                    if (root.has("code")) status = root.getInt("code");
+                    if (root.has("msg")) msg = root.getString("msg");
+                    if (root.has("data")) data = root.getString("data");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-                Object pojo = new Gson().fromJson(result, entityClass);
-                System.out.println(pojo);
+                Object pojo = null;
+                if (!"".equals(data)) {
+                    pojo = new Gson().fromJson(data, entityClass);
+                    System.out.println(pojo);
+                }
 
                 switch (status) {
-                    case 1:
-                        hander.netGo(code, pojo, obj);
+                    case 200:
+                        hander.netGo(this.code, pojo, msg, obj);
                         break;
                     default:
                         break;
                 }
-                if (status < 0) {
-                    hander.netSetFalse(code, status, text);
-                    hander.netSetError(code, text);
+                if (status != 200) {
+                    hander.netSetFalse(this.code, status, msg);
+                    hander.netSetError(this.code, msg);
                 }
-                hander.netEnd(code);
+                hander.netEnd(this.code);
             } catch (Exception e) {
                 e.printStackTrace();
                 hander.netException(code, "未知错误");
@@ -109,6 +136,10 @@ public class CommonNet {
                         hander.netSetError(code, "服务器异常：" + nex.getCode());
                     }
                     hander.netEnd(code);
+                }else if(ex instanceof ConnectException){
+                    ConnectException nex = (ConnectException) ex;
+                    LogUtil.d("nex.getMessage()");
+                    hander.netSetError(code, "请检查网络连接");
                 } else {
                     LogUtil.d("some error I have not deal");
                 }
@@ -131,7 +162,7 @@ public class CommonNet {
 
     public interface NetHander {
 
-        void netGo(int code, Object pojo, Object obj);
+        void netGo(int code, Object pojo, String text, Object obj);
 
         void netStart(int code);
 

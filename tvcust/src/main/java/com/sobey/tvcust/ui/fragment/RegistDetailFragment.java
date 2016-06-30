@@ -14,16 +14,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
+import com.sobey.common.common.CommonNet;
 import com.sobey.tvcust.R;
+import com.sobey.tvcust.common.AppData;
+import com.sobey.tvcust.common.AppVali;
+import com.sobey.tvcust.entity.CommonEntity;
 import com.sobey.tvcust.ui.activity.CompActivity;
+import com.sobey.tvcust.ui.activity.LoginActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.xutils.http.RequestParams;
 
 /**
  * Created by Administrator on 2016/6/2 0002.
  */
-public class RegistDetailFragment extends BaseFragment implements View.OnClickListener{
+public class RegistDetailFragment extends BaseFragment implements View.OnClickListener,CommonNet.NetHander{
 
     private int position;
     private View rootView;
@@ -39,6 +45,11 @@ public class RegistDetailFragment extends BaseFragment implements View.OnClickLi
     private EditText edit_password_repet;
     private EditText edit_mail;
     private EditText edit_comp;
+
+    public static String TYPE_USER = "user";
+    public static String TYPE_GROUP_USER = "group_user";
+    private String type = TYPE_USER;
+    private int officeId;
 
 
     public void setFatherPager(ViewPager fatherPager){
@@ -71,8 +82,9 @@ public class RegistDetailFragment extends BaseFragment implements View.OnClickLi
     }
 
     @Subscribe
-    public void onEventMainThread(String msg) {
-        edit_comp.setText(msg);
+    public void onEventMainThread(CompEntity comp) {
+        officeId = comp.getId();
+        edit_comp.setText(comp.getCompName());
     }
 
     @Nullable
@@ -124,36 +136,132 @@ public class RegistDetailFragment extends BaseFragment implements View.OnClickLi
         Intent intent = new Intent();
         switch (v.getId()){
             case R.id.btn_go:
-                btn_go.setProgress(50);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        btn_go.setProgress(100);
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                sufatherPager.setCurrentItem(0);
-                                fatherPager.setCurrentItem(0,false);
-                                btn_go.setProgress(0);
-                            }
-                        }, 800);
-                    }
-                }, 2000);
+
+
+
+                String name = edit_name.getText().toString();
+                String password = edit_password.getText().toString();
+                String password_repet = edit_password_repet.getText().toString();
+                String mail = edit_mail.getText().toString();
+//                String comp = edit_comp.getText().toString();
+
+                String msg = AppVali.regist_detail(name,password,password_repet,mail,officeId+"");
+                if (msg == null) {
+                    RequestParams params = new RequestParams(AppData.Url.regist);
+                    params.addBodyParameter("mobile", ((LoginActivity)getActivity()).getPhone());
+                    params.addBodyParameter("password", password);
+                    params.addBodyParameter("realName", name);
+                    params.addBodyParameter("email", mail);
+                    params.addBodyParameter("officeId", officeId +"");
+                    params.addBodyParameter("type", type);
+                    CommonNet.post(this, params, 1, CommonEntity.class, null);
+
+                    btn_go.setProgress(50);
+                } else {
+                    Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                }
 
                 break;
             case R.id.text_registdetail_select_customer:
                 text_select_customer.setSelected(true);
                 text_select_employ.setSelected(false);
+                type = TYPE_USER;
                 break;
             case R.id.text_registdetail_select_employ:
                 text_select_customer.setSelected(false);
                 text_select_employ.setSelected(true);
+                type = TYPE_GROUP_USER;
                 break;
             case R.id.edit_registdetail_comp:
                 intent.setClass(getActivity(), CompActivity.class);
+                intent.putExtra("type",type);
                 startActivity(intent);
                 break;
         }
     }
 
+    @Override
+    public void netGo(int code, Object pojo, String text, Object obj) {
+        switch (code){
+            case 1:{
+                btn_go.setProgress(100);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        sufatherPager.setCurrentItem(0);
+                        fatherPager.setCurrentItem(0,false);
+                        btn_go.setProgress(0);
+                    }
+                }, 800);
+            }
+        }
+    }
+
+    @Override
+    public void netStart(int code) {
+
+    }
+
+    @Override
+    public void netEnd(int code) {
+
+    }
+
+    @Override
+    public void netSetFalse(int code, int status, String text) {
+
+    }
+
+    @Override
+    public void netSetFail(int code, int errorCode, String text) {
+
+    }
+
+    @Override
+    public void netSetError(int code, String text) {
+        switch (code){
+            case 1:{
+                btn_go.setProgress(-1);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        btn_go.setProgress(0);
+                    }
+                }, 800);
+
+                Toast.makeText(getActivity(),text,Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
+    public void netException(int code, String text) {
+        Toast.makeText(getActivity(),text,Toast.LENGTH_SHORT).show();
+    }
+
+    public static class CompEntity {
+        private Integer id;
+        private String compName;
+
+        public CompEntity(Integer id, String compName) {
+            this.id = id;
+            this.compName = compName;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(Integer id) {
+            this.id = id;
+        }
+
+        public String getCompName() {
+            return compName;
+        }
+
+        public void setCompName(String compName) {
+            this.compName = compName;
+        }
+    }
 }

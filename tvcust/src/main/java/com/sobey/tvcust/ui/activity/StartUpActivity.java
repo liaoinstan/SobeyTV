@@ -12,6 +12,7 @@ import android.view.View;
 import com.sobey.common.view.DotView;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
+import com.sobey.tvcust.entity.User;
 import com.sobey.tvcust.entity.UserPojo;
 import com.sobey.tvcust.ui.fragment.StartUpFragment;
 
@@ -67,7 +68,7 @@ public class StartUpActivity extends AppCompatActivity {
 
     public void onGo(View v){
         Intent intent = new Intent();
-        UserPojo user = AppData.App.getUser();
+        User user = AppData.App.getUser();
         if (user != null) {
             //去首页
             intent.setClass(this,HomeActivity.class);

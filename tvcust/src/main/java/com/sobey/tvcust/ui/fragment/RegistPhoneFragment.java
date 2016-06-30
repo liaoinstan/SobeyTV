@@ -7,21 +7,30 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
+import com.sobey.common.common.CommonNet;
+import com.sobey.common.utils.ValidateUtil;
 import com.sobey.tvcust.R;
+import com.sobey.tvcust.common.AppData;
+import com.sobey.tvcust.common.AppVali;
+import com.sobey.tvcust.entity.CommonEntity;
+import com.sobey.tvcust.ui.activity.LoginActivity;
 
 import org.greenrobot.eventbus.EventBus;
+import org.xutils.http.RequestParams;
 
 /**
  * Created by Administrator on 2016/6/2 0002.
  */
-public class RegistPhoneFragment extends BaseFragment implements View.OnClickListener{
+public class RegistPhoneFragment extends BaseFragment implements View.OnClickListener, CommonNet.NetHander {
 
     private int position;
     private View rootView;
@@ -33,7 +42,9 @@ public class RegistPhoneFragment extends BaseFragment implements View.OnClickLis
     private EditText edit_vali;
     private TextView text_getvali;
 
-    public void setFatherpager(ViewPager fatherpager){
+    private String valicode;
+
+    public void setFatherpager(ViewPager fatherpager) {
         this.fatherpager = fatherpager;
     }
 
@@ -91,28 +102,50 @@ public class RegistPhoneFragment extends BaseFragment implements View.OnClickLis
     @Override
     public void onClick(View v) {
         Intent intent = new Intent();
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_go:
                 btn_go.setProgress(50);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        btn_go.setProgress(100);
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                fatherpager.setCurrentItem(1);
-                                btn_go.setProgress(0);
-                            }
-                        }, 800);
+
+                        String phone = edit_phone.getText().toString();
+                        String vali = edit_vali.getText().toString();
+
+                        String msg = AppVali.regist_phone(phone, vali, valicode);
+                        if (msg==null) {
+                            btn_go.setProgress(100);
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    fatherpager.setCurrentItem(1);
+                                    btn_go.setProgress(0);
+                                }
+                            }, 800);
+                        }else {
+                            btn_go.setProgress(-1);
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    btn_go.setProgress(0);
+                                }
+                            }, 800);
+                            Toast.makeText(getActivity(),msg,Toast.LENGTH_SHORT).show();
+                        }
                     }
-                }, 2000);
-//                EventBus.getDefault().post("ahjaskdaksdjk哈哈");
+                }, 1000);
 
                 break;
             case R.id.text_regist_getvali:
-                sendTimeMessage();
-                text_getvali.setEnabled(false);
+                String phone = edit_phone.getText().toString();
+                String msg = AppVali.regist_vali(phone);
+                if (msg == null) {
+                    RequestParams params = new RequestParams(AppData.Url.getvali);
+                    params.addBodyParameter("mobile", edit_phone.getText().toString());
+                    CommonNet.post(this, params, 1, CommonEntity.class, null);
+                } else {
+                    Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
     }
@@ -122,6 +155,7 @@ public class RegistPhoneFragment extends BaseFragment implements View.OnClickLis
 
     private int time = 60;
     private final static int WHAT_TIME = 0;
+
     private void sendTimeMessage() {
         if (mHandler != null) {
             mHandler.removeMessages(WHAT_TIME);
@@ -129,15 +163,15 @@ public class RegistPhoneFragment extends BaseFragment implements View.OnClickLis
         }
     }
 
-    private Handler mHandler = new Handler(){
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == WHAT_TIME) {
-                if (time>0) {
-                    text_getvali.setText(""+time);
+                if (time > 0) {
+                    text_getvali.setText("" + time);
                     time--;
                     RegistPhoneFragment.this.sendTimeMessage();
-                }else {
+                } else {
                     text_getvali.setEnabled(true);
                     text_getvali.setText("获取验证码");
                     time = 60;
@@ -145,4 +179,56 @@ public class RegistPhoneFragment extends BaseFragment implements View.OnClickLis
             }
         }
     };
+
+    @Override
+    public void netGo(int code, Object pojo, String text, Object obj) {
+        switch (code) {
+            case 1: {
+                CommonEntity common = (CommonEntity)pojo;
+                valicode = common.getValicode();
+                ((LoginActivity)getActivity()).setPhone(edit_phone.getText().toString());
+
+                time = 60;
+                sendTimeMessage();
+                text_getvali.setEnabled(false);
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void netStart(int code) {
+
+    }
+
+    @Override
+    public void netEnd(int code) {
+
+    }
+
+    @Override
+    public void netSetFalse(int code, int status, String text) {
+
+    }
+
+    @Override
+    public void netSetFail(int code, int errorCode, String text) {
+
+    }
+
+    @Override
+    public void netSetError(int code, String text) {
+        switch (code) {
+            case 1: {
+                Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+                time = 0;
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void netException(int code, String text) {
+        Toast.makeText(getActivity(),text,Toast.LENGTH_SHORT).show();
+    }
 }

@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.sobey.tvcust.R;
+import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.LoadingViewUtil;
 import com.sobey.tvcust.ui.activity.CountOrderActivity;
 import com.sobey.tvcust.ui.activity.LoginActivity;
@@ -44,6 +46,8 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.position = getArguments().getInt("position");
+
+        Log.e("liao", AppData.App.getUser().toString());
     }
 
     @Nullable

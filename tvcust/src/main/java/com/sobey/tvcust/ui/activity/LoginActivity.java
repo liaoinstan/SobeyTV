@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.widget.Toast;
 
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.ui.fragment.LoginFragment;
@@ -16,6 +17,15 @@ public class LoginActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
     private MyPagerAdapter pagerAdapter;
+    private String phone;
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,10 +82,18 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    private long exitTime;
+
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (viewPager.getCurrentItem()==0) {
-                finish();
+                //双击退出
+                if ((System.currentTimeMillis() - exitTime) > 2000){
+                    Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                    exitTime = System.currentTimeMillis();
+                } else{
+                    super.finish();
+                }
                 return true;
             }else {
                 viewPager.setCurrentItem(0);

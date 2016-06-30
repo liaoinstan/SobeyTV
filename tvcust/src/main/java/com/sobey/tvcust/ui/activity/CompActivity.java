@@ -1,5 +1,6 @@
 package com.sobey.tvcust.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,6 +14,7 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.sobey.common.view.bundle.BundleEntity;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.ui.fragment.CompOfficeFragment;
 import com.sobey.tvcust.ui.fragment.CompTVStationFragment;
@@ -23,6 +25,11 @@ public class CompActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
     private MyPagerAdapter pagerAdapter;
+    private String type = "";
+
+    public String getType() {
+        return type;
+    }
 
     public void go(){
         int position = viewPager.getCurrentItem();
@@ -44,9 +51,17 @@ public class CompActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        initBase();
         initView();
         initData();
         initCtrl();
+    }
+
+    private void initBase() {
+        Intent intent = getIntent();
+        if (intent.hasExtra("type")) {
+            type = intent.getStringExtra("type");
+        }
     }
 
     private void initView() {

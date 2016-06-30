@@ -35,8 +35,9 @@
                     android:layout_marginRight="20dp"
                     android:drawableLeft="@drawable/icon_login_phone"
                     android:drawablePadding="20dp"
+                    android:maxLength="11"
                     android:hint="手机号"
-                    android:inputType="textPersonName"/>
+                    android:inputType="phone"/>
 
                 <View
                     android:layout_width="match_parent"
@@ -59,8 +60,9 @@
                     android:layout_marginLeft="20dp"
                     android:drawableLeft="@drawable/icon_login_vali"
                     android:drawablePadding="20dp"
+                    android:maxLength="6"
                     android:hint="验证码"
-                    android:inputType="textPassword" />
+                    android:inputType="number" />
                     
                     <TextView
                         android:id="@+id/text_regist_getvali"

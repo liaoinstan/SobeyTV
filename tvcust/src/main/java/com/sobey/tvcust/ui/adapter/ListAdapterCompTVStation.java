@@ -12,15 +12,15 @@ import android.widget.TextView;
 
 
 import com.sobey.tvcust.R;
-import com.sobey.tvcust.entity.CarType;
+import com.sobey.tvcust.entity.TVStation;
 
 import java.util.List;
 
 public class ListAdapterCompTVStation extends BaseAdapter implements SectionIndexer {
-	private List<CarType> list = null;
+	private List<TVStation> list = null;
 	private Context mContext;
 
-	public ListAdapterCompTVStation(Context mContext, List<CarType> list) {
+	public ListAdapterCompTVStation(Context mContext, List<TVStation> list) {
 		this.mContext = mContext;
 		this.list = list;
 	}
@@ -29,7 +29,7 @@ public class ListAdapterCompTVStation extends BaseAdapter implements SectionInde
 	 * 当ListView数据发生变化时,调用此方法来更新ListView
 	 * @param list
 	 */
-	public void updateListView(List<CarType> list){
+	public void updateListView(List<TVStation> list){
 		this.list = list;
 		notifyDataSetChanged();
 	}
@@ -38,7 +38,7 @@ public class ListAdapterCompTVStation extends BaseAdapter implements SectionInde
 		return this.list.size();
 	}
 
-	public CarType getItem(int position) {
+	public TVStation getItem(int position) {
 		return list.get(position);
 	}
 
@@ -48,7 +48,7 @@ public class ListAdapterCompTVStation extends BaseAdapter implements SectionInde
 
 	public View getView(final int position, View view, ViewGroup arg2) {
 		ViewHolder viewHolder = null;
-		final CarType mContent = list.get(position);
+		final TVStation mContent = list.get(position);
 		if (view == null) {
 			viewHolder = new ViewHolder();
 			view = LayoutInflater.from(mContext).inflate(R.layout.item_list_comp_tvstation, null);
