@@ -16,6 +16,8 @@ import android.widget.TextView;
 import com.dd.CircularProgressButton;
 import com.sobey.tvcust.R;
 
+import org.greenrobot.eventbus.EventBus;
+
 /**
  * Created by Administrator on 2016/6/2 0002.
  */
@@ -105,6 +107,7 @@ public class RegistPhoneFragment extends BaseFragment implements View.OnClickLis
                         }, 800);
                     }
                 }, 2000);
+//                EventBus.getDefault().post("ahjaskdaksdjk哈哈");
 
                 break;
             case R.id.text_regist_getvali:

@@ -1,23 +1,18 @@
 package com.sobey.tvcust.ui.activity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 
 import com.dd.CircularProgressButton;
 import com.sobey.common.common.MyPlayer;
 import com.sobey.common.helper.CropHelper;
-import com.sobey.common.utils.VideoUtils;
-import com.sobey.common.view.BundleView;
-import com.sobey.common.view.InsVoiceRecorderView;
+import com.sobey.common.view.BundleView2;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.ui.dialog.DialogRecord;
 import com.sobey.tvcust.ui.dialog.DialogPopupPhoto;
@@ -31,30 +26,30 @@ public class ReqfixActicity extends AppCompatActivity implements View.OnClickLis
     private DialogReqfixChoose chooseDialog;
     private DialogPopupPhoto popup;
     private DialogRecord recordDialog;
-    private BundleView bundleView;
+    private BundleView2 bundleView;
     private MyPlayer player = new MyPlayer();
 
     private CircularProgressButton btn_go;
 
-    private String pathphoto;
-    private String pathvideo;
-    private String pathvoice;
+//    private String pathphoto;
+//    private String pathvideo;
+//    private String pathvoice;
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("pathphoto", pathphoto);
-        outState.putString("pathvideo", pathvideo);
-        outState.putString("pathvoice", pathvoice);
+//        outState.putString("pathphoto", pathphoto);
+//        outState.putString("pathvideo", pathvideo);
+//        outState.putString("pathvoice", pathvoice);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
-            pathphoto = savedInstanceState.getString("pathphoto");
-            pathvideo = savedInstanceState.getString("pathvideo");
-            pathvoice = savedInstanceState.getString("pathvoice");
+//            pathphoto = savedInstanceState.getString("pathphoto");
+//            pathvideo = savedInstanceState.getString("pathvideo");
+//            pathvoice = savedInstanceState.getString("pathvoice");
         }
         setContentView(R.layout.activity_reqfix);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -113,7 +108,7 @@ public class ReqfixActicity extends AppCompatActivity implements View.OnClickLis
 
     private void initView() {
         lay_reqfix_quekind = findViewById(R.id.lay_reqfix_quekind);
-        bundleView = (BundleView) findViewById(R.id.bundle_reqfix);
+        bundleView = (BundleView2) findViewById(R.id.bundle_reqfix);
         btn_go = (CircularProgressButton) findViewById(R.id.btn_go);
 
         findViewById(R.id.img_reqfix_photo).setOnClickListener(this);
@@ -125,39 +120,40 @@ public class ReqfixActicity extends AppCompatActivity implements View.OnClickLis
         lay_reqfix_quekind.setOnClickListener(this);
         btn_go.setOnClickListener(this);
         btn_go.setIndeterminateProgressMode(true);
-        bundleView.setOnBundleClickListener(new BundleView.OnBundleClickListener() {
+        bundleView.setDelEnable(true);
+        bundleView.setOnBundleClickListener(new BundleView2.OnBundleClickListener() {
             @Override
             public void onPhotoDelClick(View v) {
-                pathphoto = "";
+//                pathphoto = "";
             }
 
             @Override
             public void onVideoDelClick(View v) {
-                pathvideo = "";
+//                pathvideo = "";
             }
 
             @Override
             public void onVoiceDelClick(View v) {
-                pathvoice = "";
+//                pathvoice = "";
             }
 
             @Override
-            public void onPhotoShowClick(View v) {
+            public void onPhotoShowClick(String path) {
                 Intent intent = new Intent(ReqfixActicity.this, PhotoActivity.class);
-                intent.putExtra("url", pathphoto);
+                intent.putExtra("url", path);
                 startActivity(intent);
             }
 
             @Override
-            public void onVideoShowClick(View v) {
+            public void onVideoShowClick(String path) {
                 Intent intent = new Intent(ReqfixActicity.this, VideoActivity.class);
-                intent.putExtra("url", pathvideo);
+                intent.putExtra("url", path);
                 startActivity(intent);
             }
 
             @Override
-            public void onVoiceShowClick(View v) {
-                player.setUrl(pathvoice);
+            public void onVoiceShowClick(String path) {
+                player.setUrl(path);
                 player.play();
             }
         });
@@ -165,8 +161,8 @@ public class ReqfixActicity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onRecordFinish(String voiceFilePath, int voiceTimeLength) {
                 Log.e("liao", "complete:" + voiceFilePath + "  length:" + voiceTimeLength);
-                pathvoice = voiceFilePath;
-                bundleView.setVoice();
+//                pathvoice = voiceFilePath;
+                bundleView.addVoice(voiceFilePath);
             }
         });
         player.setOnPlayerListener(new MyPlayer.OnPlayerListener() {
@@ -216,6 +212,22 @@ public class ReqfixActicity extends AppCompatActivity implements View.OnClickLis
                         btn_go.setProgress(100);
                     }
                 }, 2000);
+
+                String[] photoPaths = bundleView.getPhotoPaths();
+                String[] videoPaths = bundleView.getVideoPaths();
+                String[] voicePaths = bundleView.getVoicePaths();
+                Log.e("liao","photo");
+                for (String path:photoPaths) {
+                    Log.e("liao",path);
+                }
+                Log.e("liao","video");
+                for (String path:videoPaths) {
+                    Log.e("liao", path);
+                }
+                Log.e("liao","voice");
+                for (String path:voicePaths) {
+                    Log.e("liao", path);
+                }
                 break;
         }
     }
@@ -231,12 +243,12 @@ public class ReqfixActicity extends AppCompatActivity implements View.OnClickLis
             case CODE_VIDEO_RECORDER:
                 if (resultCode == RESULT_OK) {
                     // 成功
-                    pathvideo = data.getStringExtra("path");
+                    String pathvideo = data.getStringExtra("path");
                     Log.e("liao", pathvideo);
 //                    Toast.makeText(this, "存储路径为:" + pathvideo, Toast.LENGTH_SHORT).show();
                     // 通过路径获取第一帧的缩略图并显示
-                    Bitmap bitmap = VideoUtils.createVideoThumbnail(pathvideo);
-                    bundleView.setVideo(bitmap);
+//                    Bitmap bitmap = VideoUtils.createVideoThumbnail(pathvideo);
+                    bundleView.addVideo(pathvideo);
                 } else {
                     // 失败
                 }
@@ -247,9 +259,9 @@ public class ReqfixActicity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void cropResult(String path) {
         Log.e("liao", path);
-        this.pathphoto = path;
+//        this.pathphoto = path;
 
-        Bitmap bitmap = BitmapFactory.decodeFile(path);
-        bundleView.setPhoto(bitmap);
+//        Bitmap bitmap = BitmapFactory.decodeFile(path);
+        bundleView.addPhoto(path);
     }
 }

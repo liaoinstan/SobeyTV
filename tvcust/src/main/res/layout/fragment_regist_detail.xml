@@ -164,6 +164,8 @@
                         android:textSize="15sp" />
 
                     <EditText
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
                         android:id="@+id/edit_registdetail_comp"
                         style="@style/edit_hidden_login"
                         android:layout_width="match_parent"

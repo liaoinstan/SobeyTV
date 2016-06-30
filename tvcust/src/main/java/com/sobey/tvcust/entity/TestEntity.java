@@ -9,9 +9,9 @@ public class TestEntity {
 
 
     //bundle
-    private String pathphoto;
-    private String pathvideo;
-    private String pathvoice;
+    private String[] pathphotos;
+    private String[] pathvideos;
+    private String[] pathvoices;
 
     public TestEntity() {
     }
@@ -25,28 +25,12 @@ public class TestEntity {
         this.name = name;
     }
 
-    public String getPathphoto() {
-        return pathphoto;
+    public int getId() {
+        return id;
     }
 
-    public void setPathphoto(String pathphoto) {
-        this.pathphoto = pathphoto;
-    }
-
-    public String getPathvideo() {
-        return pathvideo;
-    }
-
-    public void setPathvideo(String pathvideo) {
-        this.pathvideo = pathvideo;
-    }
-
-    public String getPathvoice() {
-        return pathvoice;
-    }
-
-    public void setPathvoice(String pathvoice) {
-        this.pathvoice = pathvoice;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -57,11 +41,27 @@ public class TestEntity {
         this.name = name;
     }
 
-    public int getId() {
-        return id;
+    public String[] getPathphotos() {
+        return pathphotos;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setPathphotos(String[] pathphotos) {
+        this.pathphotos = pathphotos;
+    }
+
+    public String[] getPathvideos() {
+        return pathvideos;
+    }
+
+    public void setPathvideos(String[] pathvideos) {
+        this.pathvideos = pathvideos;
+    }
+
+    public String[] getPathvoices() {
+        return pathvoices;
+    }
+
+    public void setPathvoices(String[] pathvoices) {
+        this.pathvoices = pathvoices;
     }
 }

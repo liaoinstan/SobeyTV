@@ -98,11 +98,11 @@ public class OrderDetailActivity extends AppCompatActivity implements View.OnCli
                 for (int i = 0; i < 20; i++) {
                     TestEntity entity = new TestEntity();
                     if (i % 2 == 0)
-                        entity.setPathphoto(pathphoto);
+                        entity.setPathphotos(new String[]{pathphoto,pathphoto,pathphoto});
                     if (i % 3 == 0)
-                        entity.setPathvideo(pathvideo);
+                        entity.setPathvideos(new String[]{pathvideo});
                     if (i % 4 == 0)
-                        entity.setPathvoice(pathvoice);
+                        entity.setPathvoices(new String[]{pathvoice,pathvoice});
                     results.add(entity);
                 }
 

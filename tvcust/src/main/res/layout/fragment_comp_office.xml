@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/showingroup"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/sb_bk"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <EditText
+            android:id="@+id/filter_edit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/text_nomal_small"
+            android:textColor="@color/sb_text_dark"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:singleLine="true"
+            android:layout_margin="10dp"
+            android:background="@drawable/shape_rect_corner_light_full" />
+
+        <TextView
+            android:id="@+id/text_comp_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_nomal_small"
+            android:textColor="@color/sb_text_light"
+            android:layout_gravity="center"
+            android:drawableLeft="@drawable/icon_search"
+            android:drawablePadding="15dp"
+            android:gravity="center"
+            android:text="搜索" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ListView
+            android:id="@+id/country_lvcountry"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:clipToPadding="false"
+            android:layout_gravity="center"
+            android:divider="@null" />
+
+    </FrameLayout>
+
+</LinearLayout>

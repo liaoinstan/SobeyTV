@@ -28,6 +28,7 @@
     <color name="sb_tab_bk">#ffffff</color>
     <color name="sb_bk">#e6e6e6</color>
     <color name="sb_bk_light">#fafafa</color>
+    <color name="sb_dark_fade">#33000000</color>
 
     <color name="sb_line">#55999999</color>
     <color name="sb_line_dark">#99000000</color>

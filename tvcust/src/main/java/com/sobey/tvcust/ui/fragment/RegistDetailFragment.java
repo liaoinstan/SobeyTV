@@ -11,9 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
 import com.sobey.tvcust.R;
+import com.sobey.tvcust.ui.activity.CompActivity;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 /**
  * Created by Administrator on 2016/6/2 0002.
@@ -56,6 +61,18 @@ public class RegistDetailFragment extends BaseFragment implements View.OnClickLi
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.position = getArguments().getInt("position");
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void onEventMainThread(String msg) {
+        edit_comp.setText(msg);
     }
 
     @Nullable
@@ -97,6 +114,7 @@ public class RegistDetailFragment extends BaseFragment implements View.OnClickLi
         text_select_customer.setSelected(true);
         text_select_customer.setOnClickListener(this);
         text_select_employ.setOnClickListener(this);
+        edit_comp.setOnClickListener(this);
 
         btn_go.setIndeterminateProgressMode(true);
     }
@@ -130,6 +148,10 @@ public class RegistDetailFragment extends BaseFragment implements View.OnClickLi
             case R.id.text_registdetail_select_employ:
                 text_select_customer.setSelected(false);
                 text_select_employ.setSelected(true);
+                break;
+            case R.id.edit_registdetail_comp:
+                intent.setClass(getActivity(), CompActivity.class);
+                startActivity(intent);
                 break;
         }
     }

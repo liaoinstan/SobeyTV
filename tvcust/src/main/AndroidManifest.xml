@@ -35,7 +35,7 @@
         <activity
             android:name=".ui.activity.HomeActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.activity.TestActivity"
             android:theme="@style/AppTheme.NoTitleFullscreen" />
@@ -99,7 +99,7 @@
         <activity
             android:name=".ui.activity.LoginActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoTitleFullscreen"></activity>
+            android:theme="@style/AppTheme.NoTitleFullscreen" />
         <activity
             android:name=".ui.activity.ModifyPswActivity"
             android:label="@string/title_activity_modify_psw"
@@ -147,6 +147,10 @@
         <activity
             android:name=".ui.activity.OrderAllocateActivity"
             android:label="@string/title_activity_order_allocate"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.activity.CompActivity"
+            android:label="@string/title_activity_comp"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

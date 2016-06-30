@@ -58,7 +58,7 @@
             android:textColor="@color/sb_text_blank"
             android:textSize="@dimen/text_nomal_small" />
 
-        <com.sobey.common.view.BundleView
+        <com.sobey.common.view.BundleView2
             android:id="@+id/bundle_orderdetail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

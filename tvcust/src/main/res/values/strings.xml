@@ -26,4 +26,5 @@
     <string name="title_activity_me_detail">编辑个人资料</string>
     <string name="title_activity_order_detail">订单详情</string>
     <string name="title_activity_order_allocate">OrderAllocateActivity</string>
+    <string name="title_activity_comp">CompActivity</string>
 </resources>
