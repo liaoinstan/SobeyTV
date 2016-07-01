@@ -22,7 +22,7 @@ import com.sobey.tvcust.ui.adapter.RecycleAdapterSignList;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SignListActivity extends AppCompatActivity {
+public class SignListActivity extends BaseAppCompatActicity {
 
     private RecyclerView recyclerView;
     private SpringView springView;

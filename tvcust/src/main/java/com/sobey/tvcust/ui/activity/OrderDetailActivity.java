@@ -27,7 +27,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderDetailActivity extends AppCompatActivity implements View.OnClickListener{
+public class OrderDetailActivity extends BaseAppCompatActicity implements View.OnClickListener{
 
     private MyPlayer player = new MyPlayer();
 

@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.sobey.common.common.CustomBitmapLoadCallBack;
 import com.sobey.tvcust.R;
+import com.sobey.tvcust.common.AppConstant;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.LoadingViewUtil;
 import com.sobey.tvcust.entity.User;
@@ -23,6 +24,8 @@ import com.sobey.tvcust.ui.activity.LoginActivity;
 import com.sobey.tvcust.ui.activity.MeDetailActivity;
 import com.sobey.tvcust.ui.activity.SettingActivity;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
@@ -58,8 +61,22 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.position = getArguments().getInt("position");
-
+        EventBus.getDefault().register(this);
         Log.e("liao", AppData.App.getUser().toString());
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void onEventMainThread(Integer flag) {
+        if (flag== AppConstant.EVENT_UPDATE_ME){
+            user = AppData.App.getUser();
+            setUserInfo();
+        }
     }
 
     @Nullable
@@ -104,17 +121,7 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
 
         //本地数据初始化展示
         if (user!=null) {
-            Glide.with(this).load(user.getAvatar()).placeholder(R.drawable.me_header_defalt).crossFade().into(img_me_header);
-
-//            ImageOptions imageOptions = new ImageOptions.Builder()
-//                    .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
-//                    .setPlaceholderScaleType(ImageView.ScaleType.CENTER_CROP)
-//                    .setLoadingDrawableId(R.drawable.test)
-//                    .setFailureDrawableId(R.drawable.test)
-//                    .build();
-//            x.image().bind(img_me_header, user.getAvatar(), imageOptions, new CustomBitmapLoadCallBack(img_me_header));
-
-            text_me_name.setText(user.getRealName());
+            setUserInfo();
         }
     }
 
@@ -143,6 +150,20 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
         item_me_question.setOnClickListener(this);
         item_me_warning.setOnClickListener(this);
         item_me_setting.setOnClickListener(this);
+    }
+
+    private void setUserInfo(){
+        Glide.with(this).load(user.getAvatar()).placeholder(R.drawable.me_header_defalt).crossFade().into(img_me_header);
+
+//            ImageOptions imageOptions = new ImageOptions.Builder()
+//                    .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
+//                    .setPlaceholderScaleType(ImageView.ScaleType.CENTER_CROP)
+//                    .setLoadingDrawableId(R.drawable.test)
+//                    .setFailureDrawableId(R.drawable.test)
+//                    .build();
+//            x.image().bind(img_me_header, user.getAvatar(), imageOptions, new CustomBitmapLoadCallBack(img_me_header));
+
+        text_me_name.setText(user.getRealName());
     }
 
     @Override

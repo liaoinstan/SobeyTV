@@ -21,7 +21,7 @@ import com.sobey.tvcust.ui.fragment.CompTVStationFragment;
 import com.sobey.tvcust.ui.fragment.LoginFragment;
 import com.sobey.tvcust.ui.fragment.RegistFragment;
 
-public class CompActivity extends AppCompatActivity {
+public class CompActivity extends BaseAppCompatActicity {
 
     private ViewPager viewPager;
     private MyPagerAdapter pagerAdapter;

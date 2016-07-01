@@ -12,7 +12,7 @@ import org.xutils.x;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
-public class PhotoActivity extends AppCompatActivity {
+public class PhotoActivity extends BaseAppCompatActicity {
 
     private PhotoView photoview;
 

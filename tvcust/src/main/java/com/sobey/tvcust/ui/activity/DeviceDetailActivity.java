@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.LoadingViewUtil;
 
-public class DeviceDetailActivity extends AppCompatActivity {
+public class DeviceDetailActivity extends BaseAppCompatActicity {
 
     private ViewGroup showingroup;
     private View showin;

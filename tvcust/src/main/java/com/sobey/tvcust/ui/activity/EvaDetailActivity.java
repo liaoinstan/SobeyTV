@@ -16,7 +16,7 @@ import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
-public class EvaDetailActivity extends AppCompatActivity {
+public class EvaDetailActivity extends BaseAppCompatActicity {
 
     private ViewGroup showingroup;
     private View showin;

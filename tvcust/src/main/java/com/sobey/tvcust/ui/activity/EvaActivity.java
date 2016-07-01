@@ -18,7 +18,7 @@ import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
-public class EvaActivity extends AppCompatActivity implements View.OnClickListener{
+public class EvaActivity extends BaseAppCompatActicity implements View.OnClickListener{
 
     private ViewGroup showingroup;
     private View showin;

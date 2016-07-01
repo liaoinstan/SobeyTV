@@ -19,7 +19,7 @@ import com.sobey.tvcust.ui.adapter.RecycleAdapterOrderAllocate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderAllocateActivity extends AppCompatActivity {
+public class OrderAllocateActivity extends BaseAppCompatActicity {
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipe;

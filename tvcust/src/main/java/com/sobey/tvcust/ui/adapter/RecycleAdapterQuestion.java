@@ -16,6 +16,10 @@ public class RecycleAdapterQuestion extends RecyclerView.Adapter<RecyclerView.Vi
     private int src;
     private List<TestEntity> results;
 
+    public List<TestEntity> getResults() {
+        return results;
+    }
+
     public RecycleAdapterQuestion(Context context, int src, List<TestEntity> results) {
         this.context = context;
         this.src = src;

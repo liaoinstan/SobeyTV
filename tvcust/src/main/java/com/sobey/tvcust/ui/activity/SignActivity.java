@@ -29,7 +29,7 @@ import com.sobey.tvcust.ui.adapter.RecycleAdapterSignList;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SignActivity extends AppCompatActivity implements View.OnClickListener {
+public class SignActivity extends BaseAppCompatActicity implements View.OnClickListener {
 
     private ViewGroup showingroup;
     private View showin;

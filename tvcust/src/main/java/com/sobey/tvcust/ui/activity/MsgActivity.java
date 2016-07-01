@@ -22,7 +22,7 @@ import com.sobey.tvcust.ui.adapter.RecycleAdapterQuestion;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MsgActivity extends AppCompatActivity{
+public class MsgActivity extends BaseAppCompatActicity{
 
     private RecyclerView recyclerView;
     private SpringView springView;

@@ -23,14 +23,20 @@ import com.liaoinstan.springview.widget.SpringView;
 import com.shelwee.update.UpdateHelper;
 import com.shelwee.update.listener.OnUpdateListener;
 import com.shelwee.update.pojo.UpdateInfo;
+import com.sobey.common.common.CommonNet;
 import com.sobey.common.utils.ClearCacheUtil;
 import com.sobey.common.utils.VersionUtil;
 import com.sobey.tvcust.R;
+import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.LoadingViewUtil;
+import com.sobey.tvcust.common.MyActivityCollector;
+import com.sobey.tvcust.entity.CommonEntity;
 import com.sobey.tvcust.entity.TestEntity;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterMsg;
 
-public class SettingActivity extends AppCompatActivity implements View.OnClickListener{
+import org.xutils.http.RequestParams;
+
+public class SettingActivity extends BaseAppCompatActicity implements View.OnClickListener{
 
 //    private View item_setting_about;
 //    private View item_setting_clause;
@@ -108,32 +114,6 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 startActivity(intent);
                 break;
             case R.id.item_setting_version:
-//                updateHelper.check(new OnUpdateListener() {
-//                    @Override
-//                    public void onStartCheck() {
-//                        Log.e("liao","onStartCheck");
-//                    }
-//                    @Override
-//                    public void onFinishCheck(UpdateInfo info) {
-//                        Log.e("liao","onFinishCheck");
-//                    }
-//                    @Override
-//                    public void onStartDownload() {
-//                        Log.e("liao","onStartDownload");
-//                    }
-//                    @Override
-//                    public void onInstallApk() {
-//                        Log.e("liao","onInstallApk");
-//                    }
-//                    @Override
-//                    public void onFinshDownload() {
-//                        Log.e("liao","onFinshDownload");
-//                    }
-//                    @Override
-//                    public void onDownloading(int progress) {
-////                        Log.e("liao","onDownloading:"+progress);
-//                    }
-//                });
                 intent.setClass(this,VersionActivity.class);
                 startActivity(intent);
                 break;
@@ -150,8 +130,28 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 }
                 text_setting_clear.setText(size);
                 break;
-            case R.id.item_setting_logout:
+            case R.id.item_setting_logout: {
+                RequestParams params = new RequestParams(AppData.Url.logout);
+                params.addHeader("token", AppData.App.getToken());
+                CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
+                    @Override
+                    public void netGo(int code, Object pojo, String text, Object obj) {
+                        Toast.makeText(SettingActivity.this, text, Toast.LENGTH_SHORT).show();
+                        AppData.App.removeUser();
+                        AppData.App.removeToken();
+
+                        Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                        MyActivityCollector.finishAll();
+                    }
+
+                    @Override
+                    public void netSetError(int code, String text) {
+                        Toast.makeText(SettingActivity.this, text, Toast.LENGTH_SHORT).show();
+                    }
+                });
                 break;
+            }
         }
     }
 

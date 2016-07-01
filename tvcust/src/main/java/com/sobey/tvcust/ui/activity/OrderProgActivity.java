@@ -19,7 +19,7 @@ import com.sobey.tvcust.ui.adapter.ListAdapterOrderTrack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderProgActivity extends AppCompatActivity implements View.OnClickListener{
+public class OrderProgActivity extends BaseAppCompatActicity implements View.OnClickListener{
 
     private ListView listView_full;
     private List<TestEntity> results = new ArrayList<>();

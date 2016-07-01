@@ -56,6 +56,7 @@
                     android:layout_weight="1" />
 
                 <TextView
+                    android:id="@+id/text_question_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="选择问题分类"
@@ -75,12 +76,13 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/edit_recommend_recommend"
+                android:id="@+id/edit_reqfix_detail"
                 style="@style/edit_hidden"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_margin="16dp"
                 android:layout_weight="1"
+                android:maxLength="254"
                 android:ems="10"
                 android:gravity="top"
                 android:hint="输入您问题的描述"

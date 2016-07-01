@@ -14,7 +14,7 @@ import android.webkit.WebView;
 
 import com.sobey.tvcust.R;
 
-public class WebActivity extends AppCompatActivity {
+public class WebActivity extends BaseAppCompatActicity {
 
     private WebView webView;
 

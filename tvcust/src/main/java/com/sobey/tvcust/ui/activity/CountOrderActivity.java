@@ -32,7 +32,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class CountOrderActivity extends AppCompatActivity implements View.OnClickListener{
+public class CountOrderActivity extends BaseAppCompatActicity implements View.OnClickListener{
 
     private RecyclerView recyclerView;
     private List<TestEntity> results = new ArrayList<>();

@@ -85,6 +85,15 @@ public class AppVali {
 		}
 	}
 
+	public static String reqfix_commit(String detail) {
+		if (isEmpty(detail)) {
+			return "请输入问题描述";
+		}
+		else {
+			return null;
+		}
+	}
+
 
 	private static boolean isEmpty(String str){
 		return str==null || "".equals(str);

@@ -24,7 +24,7 @@ import com.sobey.tvcust.common.LoadingViewUtil;
 import com.sobey.tvcust.entity.TestEntity;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterMsg;
 
-public class InfoDetailActivity extends AppCompatActivity implements View.OnClickListener{
+public class InfoDetailActivity extends BaseAppCompatActicity implements View.OnClickListener{
 
     private WebView webView;
     private ImageView img_infodetail_share;

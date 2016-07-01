@@ -17,7 +17,7 @@ import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
-public class ComplainActivity extends AppCompatActivity implements View.OnClickListener{
+public class ComplainActivity extends BaseAppCompatActicity implements View.OnClickListener{
 
     private TextView text_complain_serv;
     private TextView text_complain_tech;

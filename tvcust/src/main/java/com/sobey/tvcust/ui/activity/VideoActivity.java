@@ -12,7 +12,7 @@ import android.widget.VideoView;
 
 import com.sobey.tvcust.R;
 
-public class VideoActivity extends AppCompatActivity {
+public class VideoActivity extends BaseAppCompatActicity {
 
     private VideoView videoView;
     private Dialog dialog;

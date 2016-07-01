@@ -13,7 +13,7 @@ import com.sobey.tvcust.R;
 import com.sobey.tvcust.ui.fragment.LoginFragment;
 import com.sobey.tvcust.ui.fragment.RegistFragment;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseAppCompatActicity {
 
     private ViewPager viewPager;
     private MyPagerAdapter pagerAdapter;

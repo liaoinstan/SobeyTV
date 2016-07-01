@@ -5,7 +5,6 @@ import com.sobey.common.utils.ACache;
 import com.sobey.common.utils.ApplicationHelp;
 import com.sobey.common.utils.PreferenceUtil;
 import com.sobey.tvcust.entity.User;
-import com.sobey.tvcust.entity.UserPojo;
 
 import java.util.ArrayList;
 
@@ -100,12 +99,14 @@ public class AppData {
 		 */
 		public static final String getvali				= domain + "/SanghaCloud/mobile/sendCode";					//获取验证码
 		public static final String login					= domain + "/SanghaCloud/mobile/login";						//登录
+		public static final String logout				= domain + "SanghaCloud/mobile/loginout";						//注销
 		public static final String getInfo				= domain + "SanghaCloud/mobile/getInfo";						//获取个人信息
 		public static final String regist				= domain + "/SanghaCloud/mobile/register";					//注册
 		public static final String getOffice			= domain + "/SanghaCloud/officeMobile/getOffice";			//获取办事处
 		public static final String getTv					= domain + "/SanghaCloud/officeMobile/getTv";					//获取电视台
 		public static final String updateInfo			= domain + "SanghaCloud/mobile/updateInfo";					//修改用户信息
 
-		public static final String upload				= domain + "/SanghaCloud/resource/upload";						//修改用户信息
+		public static final String upload				= domain + "/SanghaCloud/resource/upload";					//上传文件
+		public static final String reqfix				= domain + "/SanghaCloud/order/getcategory";					//维修申报
 	}
 }

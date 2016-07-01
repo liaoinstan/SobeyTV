@@ -23,7 +23,7 @@ import com.sobey.tvcust.entity.User;
 
 import org.xutils.http.RequestParams;
 
-public class ModifyPhoneActivity extends AppCompatActivity implements View.OnClickListener {
+public class ModifyPhoneActivity extends BaseAppCompatActicity implements View.OnClickListener {
 
     private EditText edit_phone;
     private EditText edit_vali;
@@ -112,7 +112,7 @@ public class ModifyPhoneActivity extends AppCompatActivity implements View.OnCli
                     RequestParams params = new RequestParams(AppData.Url.updateInfo);
                     params.addHeader("token", AppData.App.getToken());
                     params.addBodyParameter("mobile", phone);
-                    CommonNet.samplepost(params,CommonNet.class,new CommonNet.SampleNetHander(){
+                    CommonNet.samplepost(params,CommonEntity.class,new CommonNet.SampleNetHander(){
                         @Override
                         public void netGo(int code, Object pojo, String text, Object obj) {
 

@@ -13,10 +13,9 @@ import com.sobey.common.view.DotView;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.entity.User;
-import com.sobey.tvcust.entity.UserPojo;
 import com.sobey.tvcust.ui.fragment.StartUpFragment;
 
-public class StartUpActivity extends AppCompatActivity {
+public class StartUpActivity extends BaseAppCompatActicity {
 
     private ViewPager viewPager;
     private DotView dotView;

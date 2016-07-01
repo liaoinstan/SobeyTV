@@ -20,7 +20,16 @@ public class User implements Serializable{
     private Long updateDate;
     private String qq;
     private int officeId;
+    private String officeName;
     private int roleType;
+
+    public String getOfficeName() {
+        return officeName;
+    }
+
+    public void setOfficeName(String officeName) {
+        this.officeName = officeName;
+    }
 
     public int getId() {
         return id;
@@ -150,6 +159,7 @@ public class User implements Serializable{
                 ", updateDate=" + updateDate +
                 ", qq='" + qq + '\'' +
                 ", officeId=" + officeId +
+                ", officeName='" + officeName + '\'' +
                 ", roleType=" + roleType +
                 '}';
     }

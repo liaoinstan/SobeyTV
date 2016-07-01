@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.sobey.common.view.MovieRecorderView;
 import com.sobey.tvcust.R;
 
-public class VideoRecorderActivity extends ActionBarActivity {
+public class VideoRecorderActivity extends BaseAppCompatActicity {
     private MovieRecorderView mRecorderView;
     private Button mShootBtn;
     private boolean isFinish = true;

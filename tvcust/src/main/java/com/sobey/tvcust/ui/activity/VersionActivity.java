@@ -14,7 +14,7 @@ import com.shelwee.update.pojo.UpdateInfo;
 import com.sobey.common.utils.VersionUtil;
 import com.sobey.tvcust.R;
 
-public class VersionActivity extends AppCompatActivity {
+public class VersionActivity extends BaseAppCompatActicity {
 
     UpdateHelper updateHelper;
 

@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.dd.CircularProgressButton;
 import com.sobey.tvcust.R;
 
-public class ModifyPswActivity extends AppCompatActivity implements View.OnClickListener{
+public class ModifyPswActivity extends BaseAppCompatActicity implements View.OnClickListener{
 
     private CircularProgressButton btn_go;
     private EditText edit_phone;

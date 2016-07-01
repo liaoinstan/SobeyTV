@@ -13,12 +13,11 @@ import com.sobey.common.utils.ClearCacheUtil;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.entity.User;
-import com.sobey.tvcust.entity.UserPojo;
 
 import org.xutils.http.RequestParams;
 
 
-public class LoadUpActivity extends AppCompatActivity implements CommonNet.NetHander{
+public class LoadUpActivity extends BaseAppCompatActicity implements CommonNet.NetHander{
 
     private Handler mHandler = new Handler();
 

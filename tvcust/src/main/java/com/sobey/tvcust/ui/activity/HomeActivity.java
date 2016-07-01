@@ -22,7 +22,7 @@ import com.sobey.tvcust.utils.PermissionsUtil;
 
 import java.util.List;
 
-public class HomeActivity extends AppCompatActivity implements View.OnClickListener{
+public class HomeActivity extends BaseAppCompatActicity implements View.OnClickListener{
 
     private Fragment homeFragment0;
     private Fragment homeFragment1;

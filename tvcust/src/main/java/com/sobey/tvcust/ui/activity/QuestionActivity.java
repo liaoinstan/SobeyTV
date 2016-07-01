@@ -1,5 +1,6 @@
 package com.sobey.tvcust.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -11,16 +12,19 @@ import android.view.MenuItem;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.DividerItemDecoration;
 import com.sobey.tvcust.entity.TestEntity;
+import com.sobey.tvcust.ui.adapter.OnRecycleItemClickListener;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterQuestion;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestionActivity extends AppCompatActivity {
+public class QuestionActivity extends BaseAppCompatActicity implements OnRecycleItemClickListener{
 
     private RecyclerView recyclerView;
     private List<TestEntity> results = new ArrayList<>();
     private RecycleAdapterQuestion adapter;
+
+    private String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +34,16 @@ public class QuestionActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        initBase();
         initData();
         initView();
         initCtrl();
+    }
+
+    private void initBase() {
+        if (getIntent().hasExtra("type")){
+            type = getIntent().getStringExtra("type");
+        }
     }
 
     private void initData() {
@@ -57,6 +68,7 @@ public class QuestionActivity extends AppCompatActivity {
         adapter = new RecycleAdapterQuestion(this,R.layout.item_recycle_question,results);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener(this);
     }
 
     @Override
@@ -69,4 +81,14 @@ public class QuestionActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onItemClick(RecyclerView.ViewHolder viewHolder) {
+        int position = viewHolder.getLayoutPosition();
+        TestEntity question = adapter.getResults().get(position);
+        Intent intent = new Intent();
+        intent.putExtra("name",question.getName());
+        intent.putExtra("id",question.getId());
+        setResult(RESULT_OK,intent);
+        finish();
+    }
 }

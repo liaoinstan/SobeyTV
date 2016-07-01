@@ -18,7 +18,7 @@ import com.sobey.share.sharesdk.dialog.ShareDialog;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
-public class TestActivity extends AppCompatActivity {
+public class TestActivity extends BaseAppCompatActicity {
     UpdateHelper updateHelper;
 
     @Override

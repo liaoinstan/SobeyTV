@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.sobey.common.common.CommonNet;
 import com.sobey.common.helper.CropHelper;
 import com.sobey.tvcust.R;
+import com.sobey.tvcust.common.AppConstant;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.AppVali;
 import com.sobey.tvcust.common.LoadingViewUtil;
@@ -28,9 +29,12 @@ import com.sobey.tvcust.entity.User;
 import com.sobey.tvcust.ui.dialog.DialogLoading;
 import com.sobey.tvcust.ui.dialog.DialogPopupPhoto;
 
+import org.greenrobot.eventbus.EventBus;
 import org.xutils.http.RequestParams;
 
-public class MeDetailActivity extends AppCompatActivity implements View.OnClickListener, CropHelper.CropInterface{
+import java.io.File;
+
+public class MeDetailActivity extends BaseAppCompatActicity implements View.OnClickListener, CropHelper.CropInterface{
 
     private CropHelper cropHelper = new CropHelper(this);
 
@@ -115,7 +119,7 @@ public class MeDetailActivity extends AppCompatActivity implements View.OnClickL
 //            x.image().bind(img_me_header, user.getAvatar(), imageOptions, new CustomBitmapLoadCallBack(img_me_header));
 
             edit_name.setText(user.getRealName());
-            text_comp.setText(user.getOfficeId()+"");
+            text_comp.setText(user.getOfficeName());
             edit_mail.setText(user.getEmail());
             text_phone.setText(user.getMobile());
         }
@@ -202,6 +206,7 @@ public class MeDetailActivity extends AppCompatActivity implements View.OnClickL
                             user.setRealName(name);
                             user.setEmail(mail);
                             AppData.App.saveUser(user);
+                            EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ME);
                             finish();
                         }
 
@@ -223,7 +228,7 @@ public class MeDetailActivity extends AppCompatActivity implements View.OnClickL
 
         RequestParams params = new RequestParams(AppData.Url.upload);
         params.addHeader("token", AppData.App.getToken());
-        params.addBodyParameter("path", path);
+        params.addBodyParameter("file",new File(path));
         CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
