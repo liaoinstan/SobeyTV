@@ -39,7 +39,7 @@
             android:id="@+id/edit_modifyphone_phone"
             style="@style/edit_hidden_login"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:maxLength="11"
@@ -57,7 +57,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:orientation="horizontal">
 
             <EditText
@@ -77,7 +77,7 @@
                 android:id="@+id/text_modifyphone_getvali"
                 style="@style/text_nomal_small_blue"
                 android:layout_width="102dp"
-                android:layout_height="38dp"
+                android:layout_height="40dp"
                 android:layout_marginRight="20dp"
                 android:layout_gravity="center"
                 android:gravity="center"

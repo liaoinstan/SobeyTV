@@ -155,6 +155,10 @@
         <activity
             android:name=".ui.activity.ModifyPhoneActivity"
             android:label="@string/title_activity_modify_phone"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.activity.SettingSecurityActivity"
+            android:label="@string/title_activity_setting_security"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

@@ -118,6 +118,8 @@ public class SettingActivity extends BaseAppCompatActicity implements View.OnCli
                 startActivity(intent);
                 break;
             case R.id.item_setting_safe:
+                intent.setClass(this,SettingSecurityActivity.class);
+                startActivity(intent);
                 break;
             case R.id.item_setting_clear:
                 ClearCacheUtil.clearSobeyCache(this);
