@@ -104,5 +104,8 @@ public class AppData {
 		public static final String regist				= domain + "/SanghaCloud/mobile/register";					//注册
 		public static final String getOffice			= domain + "/SanghaCloud/officeMobile/getOffice";			//获取办事处
 		public static final String getTv					= domain + "/SanghaCloud/officeMobile/getTv";					//获取电视台
+		public static final String updateInfo			= domain + "SanghaCloud/mobile/updateInfo";					//修改用户信息
+
+		public static final String upload				= domain + "/SanghaCloud/resource/upload";						//修改用户信息
 	}
 }

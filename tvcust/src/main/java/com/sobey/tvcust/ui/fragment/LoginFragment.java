@@ -152,20 +152,23 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
 
     @Override
     public void netGo(int code, Object pojo, String text, Object obj) {
-        User user = (User) pojo;
-        AppData.App.removeUser();
-        AppData.App.saveToken(user.getToken());
-        AppData.App.saveUser(user);
+        if (pojo==null) netSetError(code,"接口异常");
+        else {
+            User user = (User) pojo;
+            AppData.App.removeUser();
+            AppData.App.saveToken(user.getToken());
+            AppData.App.saveUser(user);
 
-        btn_go.setProgress(100);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(getActivity(), HomeActivity.class);
-                startActivity(intent);
-                getActivity().finish();
-            }
-        }, 800);
+            btn_go.setProgress(100);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent intent = new Intent(getActivity(), HomeActivity.class);
+                    startActivity(intent);
+                    getActivity().finish();
+                }
+            }, 800);
+        }
     }
 
     @Override

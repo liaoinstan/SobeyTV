@@ -19,7 +19,20 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:navigationIcon="@drawable/icon_bank"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <TextView
+                android:id="@+id/btn_submit"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="right"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="提交"
+                android:textColor="@color/sb_blue" />
+
+        </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 
@@ -98,13 +111,14 @@
                             android:textSize="@dimen/text_nomal" />
 
                         <EditText
-                            android:background="@drawable/none"
+                            android:id="@+id/edit_medetail_name"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="20dp"
                             android:layout_weight="1"
+                            android:background="@drawable/none"
                             android:gravity="right"
-                            android:text="大白软绵绵"
+                            android:singleLine="true"
                             android:textColor="@color/sb_blue"
                             android:textSize="@dimen/text_nomal" />
 
@@ -130,12 +144,12 @@
                             android:textSize="@dimen/text_nomal" />
 
                         <TextView
+                            android:id="@+id/text_medetail_comp"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="20dp"
                             android:layout_weight="1"
                             android:gravity="right"
-                            android:text="魔豆互动科技有限公司"
                             android:textColor="@color/sb_blue"
                             android:textSize="@dimen/text_nomal" />
 
@@ -160,15 +174,18 @@
                             android:textColor="@color/sb_text_blank"
                             android:textSize="@dimen/text_nomal" />
 
-                        <TextView
+                        <EditText
+                            android:id="@+id/edit_medetail_mail"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="20dp"
                             android:layout_weight="1"
+                            android:background="@drawable/none"
                             android:gravity="right"
-                            android:text="541269542@qq.com"
+                            android:singleLine="true"
                             android:textColor="@color/sb_blue"
                             android:textSize="@dimen/text_nomal" />
+
 
                     </LinearLayout>
 
@@ -178,9 +195,11 @@
                         android:background="@drawable/line" />
 
                     <LinearLayout
+                        android:id="@+id/item_go_modifyphone"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:gravity="center_vertical"
+                        android:foreground="?attr/selectableItemBackground"
                         android:orientation="horizontal">
 
                         <TextView
@@ -192,12 +211,12 @@
                             android:textSize="@dimen/text_nomal" />
 
                         <TextView
+                            android:id="@+id/text_medetail_phone"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="20dp"
                             android:layout_weight="1"
                             android:gravity="right"
-                            android:text="15632485211"
                             android:textColor="@color/sb_blue"
                             android:textSize="@dimen/text_nomal" />
 

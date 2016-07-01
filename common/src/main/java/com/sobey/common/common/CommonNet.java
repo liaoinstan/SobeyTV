@@ -15,6 +15,7 @@ import org.xutils.http.RequestParams;
 import org.xutils.x;
 
 import java.net.ConnectException;
+import java.net.SocketTimeoutException;
 import java.util.List;
 
 /**
@@ -24,19 +25,27 @@ import java.util.List;
  */
 public class CommonNet {
 
+    public static Callback.Cancelable samplepost(RequestParams params, Class entityClass,NetHander hander) {
+        pritRarams(params);
+        return x.http().post(params, new MyCommonCallback(hander, params, 0, entityClass, null));
+    }
+
+    public static Callback.Cancelable sampleget(RequestParams params, Class entityClass,NetHander hander) {
+        pritRarams(params);
+        return x.http().get(params, new MyCommonCallback(hander, params, 0, entityClass, null));
+    }
+
     public static Callback.Cancelable post(NetHander hander, RequestParams params, int code, Class entityClass, Object obj) {
-        if (params != null) {
-            List<KeyValue> stringParams = params.getStringParams();
-            if (stringParams != null) {
-                for (KeyValue keyValue:stringParams){
-                    Log.e("nethander", keyValue.key+":"+keyValue.getValueStr());
-                }
-            }
-        }
+        pritRarams(params);
         return x.http().post(params, new MyCommonCallback(hander, params, code, entityClass, obj));
     }
 
     public static Callback.Cancelable get(NetHander hander, RequestParams params, int code, Class entityClass, Object obj) {
+        pritRarams(params);
+        return x.http().get(params, new MyCommonCallback(hander, params, code, entityClass, obj));
+    }
+
+    private static void pritRarams(RequestParams params){
         if (params != null) {
             List<KeyValue> stringParams = params.getStringParams();
             if (stringParams != null) {
@@ -45,7 +54,6 @@ public class CommonNet {
                 }
             }
         }
-        return x.http().get(params, new MyCommonCallback(hander, params, code, entityClass, obj));
     }
 
     private static class MyCommonCallback implements Callback.ProgressCallback<String> {
@@ -100,8 +108,12 @@ public class CommonNet {
 
                 Object pojo = null;
                 if (!"".equals(data)) {
-                    pojo = new Gson().fromJson(data, entityClass);
-                    System.out.println(pojo);
+                    try {
+                        pojo = new Gson().fromJson(data, entityClass);
+                        System.out.println(pojo);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                 }
 
                 switch (status) {
@@ -115,7 +127,6 @@ public class CommonNet {
                     hander.netSetFalse(this.code, status, msg);
                     hander.netSetError(this.code, msg);
                 }
-                hander.netEnd(this.code);
             } catch (Exception e) {
                 e.printStackTrace();
                 hander.netException(code, "未知错误");
@@ -131,20 +142,23 @@ public class CommonNet {
                     LogUtil.d(nex.toString());
                     hander.netSetFail(code, nex.getCode(), nex.getMessage());
                     if (nex.getCode() == 0) {
-                        hander.netSetError(code, "网络不太好额~");
+                        hander.netSetError(code, "网络不太好额");
                     } else {
                         hander.netSetError(code, "服务器异常：" + nex.getCode());
                     }
-                    hander.netEnd(code);
                 }else if(ex instanceof ConnectException){
-                    ConnectException nex = (ConnectException) ex;
-                    LogUtil.d("nex.getMessage()");
+                    LogUtil.d(ex.getMessage());
+                    hander.netSetError(code, "请检查网络连接");
+                }else if(ex instanceof SocketTimeoutException){
+                    LogUtil.d(ex.getMessage());
                     hander.netSetError(code, "请检查网络连接");
                 } else {
-                    LogUtil.d("some error I have not deal");
+                    LogUtil.d(ex.getMessage());
+                    hander.netSetError(code, "请检查网络连接");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+                hander.netSetError(code, "未知错误");
                 hander.netException(code, "未知错误");
             }
         }
@@ -157,6 +171,7 @@ public class CommonNet {
         @Override
         public void onFinished() {
             LogUtil.d("onFinished");
+            hander.netEnd(code);
         }
     }
 
@@ -175,5 +190,33 @@ public class CommonNet {
         void netSetError(int code, String text);
 
         void netException(int code, String text);
+    }
+
+    public static abstract class SampleNetHander implements NetHander{
+
+        @Override
+        public void netStart(int code) {
+
+        }
+
+        @Override
+        public void netEnd(int code) {
+
+        }
+
+        @Override
+        public void netSetFalse(int code, int status, String text) {
+
+        }
+
+        @Override
+        public void netSetFail(int code, int errorCode, String text) {
+
+        }
+
+        @Override
+        public void netException(int code, String text) {
+
+        }
     }
 }

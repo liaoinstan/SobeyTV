@@ -151,6 +151,10 @@
         <activity
             android:name=".ui.activity.CompActivity"
             android:label="@string/title_activity_comp"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.activity.ModifyPhoneActivity"
+            android:label="@string/title_activity_modify_phone"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

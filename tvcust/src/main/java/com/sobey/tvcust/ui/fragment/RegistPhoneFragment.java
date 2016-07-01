@@ -109,10 +109,10 @@ public class RegistPhoneFragment extends BaseFragment implements View.OnClickLis
                     @Override
                     public void run() {
 
-                        String phone = edit_phone.getText().toString();
+                        String phone = ((LoginActivity)getActivity()).getPhone();
                         String vali = edit_vali.getText().toString();
 
-                        String msg = AppVali.regist_phone(phone, vali, valicode);
+                        String msg = AppVali.regist_phone(edit_phone.getText().toString(),phone, vali, valicode);
                         if (msg==null) {
                             btn_go.setProgress(100);
                             new Handler().postDelayed(new Runnable() {
@@ -141,7 +141,7 @@ public class RegistPhoneFragment extends BaseFragment implements View.OnClickLis
                 String msg = AppVali.regist_vali(phone);
                 if (msg == null) {
                     RequestParams params = new RequestParams(AppData.Url.getvali);
-                    params.addBodyParameter("mobile", edit_phone.getText().toString());
+                    params.addBodyParameter("mobile", phone);
                     CommonNet.post(this, params, 1, CommonEntity.class, null);
                 } else {
                     Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
@@ -184,13 +184,16 @@ public class RegistPhoneFragment extends BaseFragment implements View.OnClickLis
     public void netGo(int code, Object pojo, String text, Object obj) {
         switch (code) {
             case 1: {
-                CommonEntity common = (CommonEntity)pojo;
-                valicode = common.getValicode();
-                ((LoginActivity)getActivity()).setPhone(edit_phone.getText().toString());
+                if (pojo==null) netSetError(code,"接口异常");
+                else {
+                    CommonEntity common = (CommonEntity) pojo;
+                    valicode = common.getValicode();
+                    ((LoginActivity) getActivity()).setPhone(edit_phone.getText().toString());
 
-                time = 60;
-                sendTimeMessage();
-                text_getvali.setEnabled(false);
+                    time = 60;
+                    sendTimeMessage();
+                    text_getvali.setEnabled(false);
+                }
                 break;
             }
         }

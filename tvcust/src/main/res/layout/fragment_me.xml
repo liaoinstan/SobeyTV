@@ -50,7 +50,7 @@
                             android:src="@drawable/me_header_defalt" />
 
                         <TextView
-                            android:id="@+id/textView"
+                            android:id="@+id/text_me_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/img_me_header"

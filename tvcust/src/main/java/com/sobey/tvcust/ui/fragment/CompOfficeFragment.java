@@ -285,16 +285,15 @@ public class CompOfficeFragment extends BaseFragment implements CommonNet.NetHan
 
     @Override
     public void netGo(int code, Object pojo, String text, Object obj) {
-        OfficePojo officePojo = (OfficePojo) pojo;
-        List<Office> offices = officePojo.getDataList();
-        SourceDateList.clear();
-        SourceDateList.addAll(offices);
-//        for (Office office: offices) {
-//            SourceDateList.add(new Office(office.getId(),office.getOfficeName()));
-//        }
-
-        freshCtrl();
-        LoadingViewUtil.showout(showingroup, showin);
+        if (pojo==null) netSetError(code,"接口异常");
+        else {
+            OfficePojo officePojo = (OfficePojo) pojo;
+            List<Office> offices = officePojo.getDataList();
+            SourceDateList.clear();
+            SourceDateList.addAll(offices);
+            freshCtrl();
+            LoadingViewUtil.showout(showingroup, showin);
+        }
     }
 
     @Override

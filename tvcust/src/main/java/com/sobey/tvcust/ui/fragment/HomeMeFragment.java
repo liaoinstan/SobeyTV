@@ -9,14 +9,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.sobey.common.common.CustomBitmapLoadCallBack;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.LoadingViewUtil;
+import com.sobey.tvcust.entity.User;
 import com.sobey.tvcust.ui.activity.CountOrderActivity;
 import com.sobey.tvcust.ui.activity.LoginActivity;
 import com.sobey.tvcust.ui.activity.MeDetailActivity;
 import com.sobey.tvcust.ui.activity.SettingActivity;
+
+import org.xutils.image.ImageOptions;
+import org.xutils.x;
 
 /**
  * Created by Administrator on 2016/6/2 0002.
@@ -33,6 +41,10 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
     private View item_me_warning;
     private View item_me_setting;
     private View btn_go_medetail;
+    private ImageView img_me_header;
+    private TextView text_me_name;
+
+    private User user;
 
     public static Fragment newInstance(int position) {
         HomeMeFragment f = new HomeMeFragment();
@@ -67,7 +79,7 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
     }
 
     private void initBase() {
-
+        user = AppData.App.getUser();
     }
 
     private void initView() {
@@ -76,6 +88,8 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
         item_me_question = getView().findViewById(R.id.item_me_question);
         item_me_warning = getView().findViewById(R.id.item_me_warning);
         item_me_setting = getView().findViewById(R.id.item_me_setting);
+        img_me_header = (ImageView) getView().findViewById(R.id.img_me_header);
+        text_me_name = (TextView) getView().findViewById(R.id.text_me_name);
 
         btn_go_medetail = getView().findViewById(R.id.btn_go_medetail);
         btn_go_medetail.setOnClickListener(this);
@@ -87,6 +101,21 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
                 startActivity(intent);
             }
         });
+
+        //本地数据初始化展示
+        if (user!=null) {
+            Glide.with(this).load(user.getAvatar()).placeholder(R.drawable.me_header_defalt).crossFade().into(img_me_header);
+
+//            ImageOptions imageOptions = new ImageOptions.Builder()
+//                    .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
+//                    .setPlaceholderScaleType(ImageView.ScaleType.CENTER_CROP)
+//                    .setLoadingDrawableId(R.drawable.test)
+//                    .setFailureDrawableId(R.drawable.test)
+//                    .build();
+//            x.image().bind(img_me_header, user.getAvatar(), imageOptions, new CustomBitmapLoadCallBack(img_me_header));
+
+            text_me_name.setText(user.getRealName());
+        }
     }
 
     private void initData() {

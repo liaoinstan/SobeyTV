@@ -10,9 +10,9 @@ import com.sobey.common.utils.ValidateUtil;
 public class AppVali {
 
 	public static String login_go(String phone, String psw) {
-		if (isEmpty(phone.trim())) {
+		if (isEmpty(phone)) {
 			return "请输入手机号";
-		}else if(isEmpty(psw.trim())) {
+		}else if(isEmpty(psw)) {
 			return "请输入密码";
 		}
 		else if (!ValidateUtil.Mobile(phone)) {
@@ -26,7 +26,7 @@ public class AppVali {
 
 
 	public static String regist_vali(String phone) {
-		if (isEmpty(phone.trim())) {
+		if (isEmpty(phone)) {
 			return "请输入手机号";
 		}
 		else if (!ValidateUtil.Mobile(phone)) {
@@ -36,9 +36,11 @@ public class AppVali {
 		}
 	}
 
-	public static String regist_phone(String phone,String vali,String valicode) {
-		if (isEmpty(phone.trim())) {
+	public static String regist_phone(String phone_edit,String phone,String vali,String valicode) {
+		if (isEmpty(phone_edit)) {
 			return "请输入手机号";
+		}else if (!phone_edit.equals(phone)){
+			return "你输入的号码没有验证过";
 		}
 		else if (!ValidateUtil.Mobile(phone)) {
 			return "请输入正确的手机号";
@@ -50,13 +52,13 @@ public class AppVali {
 	}
 
 	public static String regist_detail(String name,String password,String password_repet,String mail,String comp) {
-		if (isEmpty(name.trim())) {
+		if (isEmpty(name)) {
 			return "请输入姓名";
-		}else if(isEmpty(password.trim())){
+		}else if(isEmpty(password)){
 			return "请输入登录密码";
-		}else if(isEmpty(mail.trim())){
+		}else if(isEmpty(mail)){
 			return "请输入邮箱";
-		}else if(isEmpty(comp.trim())){
+		}else if(isEmpty(comp)){
 			return "请输入所属单位";
 		}
 		else if (!length(password, 6, 16)) {
@@ -64,6 +66,19 @@ public class AppVali {
 		}else if (!password.equals(password_repet)) {
 			return "确认密码输入不一致";
 		}else if (!ValidateUtil.Email(mail)) {
+			return "输入邮箱格式不正确";
+		}else {
+			return null;
+		}
+	}
+
+	public static String me_update(String avatar,String name,String mail) {
+		if (isEmpty(name)) {
+			return "请输入姓名";
+		}else if(isEmpty(mail)){
+			return "请输入邮箱";
+		}
+		else if (!ValidateUtil.Email(mail)) {
 			return "输入邮箱格式不正确";
 		}else {
 			return null;

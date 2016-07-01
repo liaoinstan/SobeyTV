@@ -5,32 +5,30 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.liaoinstan.springview.container.AliFooter;
-import com.liaoinstan.springview.container.AliHeader;
-import com.liaoinstan.springview.widget.SpringView;
+import com.bumptech.glide.Glide;
+import com.sobey.common.common.CommonNet;
 import com.sobey.common.helper.CropHelper;
-import com.sobey.common.utils.VideoUtils;
 import com.sobey.tvcust.R;
+import com.sobey.tvcust.common.AppData;
+import com.sobey.tvcust.common.AppVali;
 import com.sobey.tvcust.common.LoadingViewUtil;
-import com.sobey.tvcust.entity.TestEntity;
-import com.sobey.tvcust.ui.adapter.RecycleAdapterMsg;
+import com.sobey.tvcust.entity.CommonEntity;
+import com.sobey.tvcust.entity.User;
 import com.sobey.tvcust.ui.dialog.DialogLoading;
 import com.sobey.tvcust.ui.dialog.DialogPopupPhoto;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.xutils.http.RequestParams;
 
 public class MeDetailActivity extends AppCompatActivity implements View.OnClickListener, CropHelper.CropInterface{
 
@@ -38,10 +36,19 @@ public class MeDetailActivity extends AppCompatActivity implements View.OnClickL
 
     private ViewGroup showingroup;
     private View showin;
-    private ImageView img_medetail_header;
+    private ImageView img_header;
+    private EditText edit_name;
+    private TextView text_comp;
+    private EditText edit_mail;
+    private TextView text_phone;
 
     private DialogPopupPhoto popup;
     private DialogLoading loadingDialog;
+
+    private User user;
+    private String avatar;
+
+    public static final int RESULT_MODIFYPHONE = 0xff01;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +72,8 @@ public class MeDetailActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void initBase() {
+        user = AppData.App.getUser();
+
         loadingDialog = new DialogLoading(this,"正在上传");
         popup = new DialogPopupPhoto(this);
         popup.setOnCameraListener(new View.OnClickListener() {
@@ -85,7 +94,31 @@ public class MeDetailActivity extends AppCompatActivity implements View.OnClickL
 
     private void initView() {
         showingroup = (ViewGroup) findViewById(R.id.showingroup);
-        img_medetail_header = (ImageView) findViewById(R.id.img_medetail_header);
+        img_header = (ImageView) findViewById(R.id.img_medetail_header);
+        edit_name = (EditText) findViewById(R.id.edit_medetail_name);
+        text_comp = (TextView) findViewById(R.id.text_medetail_comp);
+        edit_mail = (EditText) findViewById(R.id.edit_medetail_mail);
+        text_phone = (TextView) findViewById(R.id.text_medetail_phone);
+
+        findViewById(R.id.item_go_modifyphone).setOnClickListener(this);
+
+        //本地数据初始化展示
+        if (user!=null) {
+            Glide.with(this).load(user.getAvatar()).placeholder(R.drawable.me_header_defalt).crossFade().into(img_header);
+
+//            ImageOptions imageOptions = new ImageOptions.Builder()
+//                    .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
+//                    .setPlaceholderScaleType(ImageView.ScaleType.CENTER_CROP)
+//                    .setLoadingDrawableId(R.drawable.test)
+//                    .setFailureDrawableId(R.drawable.test)
+//                    .build();
+//            x.image().bind(img_me_header, user.getAvatar(), imageOptions, new CustomBitmapLoadCallBack(img_me_header));
+
+            edit_name.setText(user.getRealName());
+            text_comp.setText(user.getOfficeId()+"");
+            edit_mail.setText(user.getEmail());
+            text_phone.setText(user.getMobile());
+        }
     }
 
     private void initData() {
@@ -109,13 +142,22 @@ public class MeDetailActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void initCtrl() {
-        img_medetail_header.setOnClickListener(this);
+        img_header.setOnClickListener(this);
+        findViewById(R.id.btn_submit).setOnClickListener(this);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         cropHelper.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case RESULT_MODIFYPHONE:
+                if (resultCode == RESULT_OK) {
+                    String phone = data.getStringExtra("phone");
+                    text_phone.setText(phone);
+                }
+                break;
+        }
     }
 
     @Override
@@ -134,19 +176,87 @@ public class MeDetailActivity extends AppCompatActivity implements View.OnClickL
             case R.id.img_medetail_header:
                 popup.show();
                 break;
+            case R.id.item_go_modifyphone:
+                Intent intent = new Intent(this, ModifyPhoneActivity.class);
+                startActivityForResult(intent,RESULT_MODIFYPHONE);
+                break;
+            case R.id.btn_submit:
+
+                final String name = edit_name.getText().toString();
+                final String mail = edit_mail.getText().toString();
+
+                String msg = AppVali.me_update(avatar,name,mail);
+                if (msg != null) {
+                    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+                }else {
+                    RequestParams params = new RequestParams(AppData.Url.updateInfo);
+                    params.addHeader("token", AppData.App.getToken());
+                    params.addBodyParameter("avatar", avatar);
+                    params.addBodyParameter("realName", name);
+                    params.addBodyParameter("email", mail);
+                    CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
+                        @Override
+                        public void netGo(int code, Object pojo, String text, Object obj) {
+                            Toast.makeText(MeDetailActivity.this, text, Toast.LENGTH_SHORT).show();
+                            user.setAvatar(avatar);
+                            user.setRealName(name);
+                            user.setEmail(mail);
+                            AppData.App.saveUser(user);
+                            finish();
+                        }
+
+                        @Override
+                        public void netSetError(int code, String text) {
+                            Toast.makeText(MeDetailActivity.this, text, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+//                CommonNet.post(this, params, 1, User.class, null);
+                break;
         }
     }
 
     @Override
     public void cropResult(final String path) {
         Log.e("liao", path);
-        loadingDialog.show();
+
+
+        RequestParams params = new RequestParams(AppData.Url.upload);
+        params.addHeader("token", AppData.App.getToken());
+        params.addBodyParameter("path", path);
+        CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
+            @Override
+            public void netGo(int code, Object pojo, String text, Object obj) {
+                Toast.makeText(MeDetailActivity.this, text, Toast.LENGTH_SHORT).show();
+                //上传完毕，设置头像链接
+                avatar = "http://a.hiphotos.baidu.com/zhidao/pic/item/b17eca8065380cd7813fc455a744ad3459828160.jpg";
+
+                Glide.with(MeDetailActivity.this).load(avatar).placeholder(R.drawable.me_header_defalt).crossFade().into(img_header);
+            }
+
+            @Override
+            public void netSetError(int code, String text) {
+                Toast.makeText(MeDetailActivity.this, text, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void netEnd(int code) {
+                loadingDialog.hide();
+            }
+
+            @Override
+            public void netStart(int code) {
+                loadingDialog.show();
+            }
+        });
+
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 loadingDialog.hide();
                 Bitmap bitmap = BitmapFactory.decodeFile(path);
-                img_medetail_header.setImageBitmap(bitmap);
+                img_header.setImageBitmap(bitmap);
             }
         },1000);
     }

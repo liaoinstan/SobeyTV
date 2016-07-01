@@ -137,6 +137,8 @@ public class LoadUpActivity extends AppCompatActivity implements CommonNet.NetHa
                     goHomeActivity();
                 }
             },2000-time);
+        }else {
+            goHomeActivity();
         }
     }
 
@@ -172,6 +174,8 @@ public class LoadUpActivity extends AppCompatActivity implements CommonNet.NetHa
                     goLoginActivity();
                 }
             },2000-time);
+        }else {
+            goLoginActivity();
         }
     }
 

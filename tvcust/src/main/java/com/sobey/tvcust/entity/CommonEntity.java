@@ -7,9 +7,8 @@ import com.google.gson.annotations.SerializedName;
  */
 public class CommonEntity {
 
+    @SerializedName("id")
     private int id;
-    private String officeName;
-    private String tvstationName;
 
     @SerializedName("valicode")
     private String valicode;
@@ -20,22 +19,6 @@ public class CommonEntity {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getOfficeName() {
-        return officeName;
-    }
-
-    public void setOfficeName(String officeName) {
-        this.officeName = officeName;
-    }
-
-    public String getTvstationName() {
-        return tvstationName;
-    }
-
-    public void setTvstationName(String tvstationName) {
-        this.tvstationName = tvstationName;
     }
 
     public String getValicode() {
@@ -50,8 +33,6 @@ public class CommonEntity {
     public String toString() {
         return "CommonEntity{" +
                 "id=" + id +
-                ", officeName='" + officeName + '\'' +
-                ", tvstationName='" + tvstationName + '\'' +
                 ", valicode='" + valicode + '\'' +
                 '}';
     }

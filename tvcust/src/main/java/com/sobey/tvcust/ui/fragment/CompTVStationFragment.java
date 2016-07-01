@@ -316,13 +316,16 @@ public class CompTVStationFragment extends BaseFragment implements CommonNet.Net
 
     @Override
     public void netGo(int code, Object pojo, String text, Object obj) {
-        TVStationPojo tvStationPojo = (TVStationPojo) pojo;
-        List<TVStation> tvStations = tvStationPojo.getDataList();
-        SourceDateList.clear();
-        SourceDateList.addAll(tvStations);
+        if (pojo==null) netSetError(code,"接口异常");
+        else {
+            TVStationPojo tvStationPojo = (TVStationPojo) pojo;
+            List<TVStation> tvStations = tvStationPojo.getDataList();
+            SourceDateList.clear();
+            SourceDateList.addAll(tvStations);
 
-        freshCtrl();
-        LoadingViewUtil.showout(showingroup, showin);
+            freshCtrl();
+            LoadingViewUtil.showout(showingroup, showin);
+        }
     }
 
     @Override
