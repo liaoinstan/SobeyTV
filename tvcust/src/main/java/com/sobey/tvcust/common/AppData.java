@@ -105,8 +105,10 @@ public class AppData {
 		public static final String getOffice			= domain + "/SanghaCloud/officeMobile/getOffice";			//获取办事处
 		public static final String getTv					= domain + "/SanghaCloud/officeMobile/getTv";					//获取电视台
 		public static final String updateInfo			= domain + "SanghaCloud/mobile/updateInfo";					//修改用户信息
+		public static final String upload				= domain + "/SanghaCloud/res/upload";							//上传文件
+		public static final String question				= domain + "/SanghaCloud/order/getcategory";					//问题列表
+		public static final String reqfix				= domain + "SanghaCloud/order/addorder";						//维修申报
 
-		public static final String upload				= domain + "/SanghaCloud/resource/upload";					//上传文件
-		public static final String reqfix				= domain + "/SanghaCloud/order/getcategory";					//维修申报
+		public static final String orderlist			= domain + "SanghaCloud/order/addorderxx";						//订单列表
 	}
 }

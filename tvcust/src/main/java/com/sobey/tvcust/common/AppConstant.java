@@ -5,4 +5,5 @@ package com.sobey.tvcust.common;
  */
 public class AppConstant {
     public static final Integer EVENT_UPDATE_ME = 0xfe01;
+    public static final Integer EVENT_UPDATE_ORDERLIST = 0xfe02;
 }

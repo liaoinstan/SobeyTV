@@ -3,7 +3,6 @@ package com.sobey.tvcust.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -18,14 +17,15 @@ import com.sobey.common.common.MyPlayer;
 import com.sobey.common.helper.CropHelper;
 import com.sobey.common.view.BundleView2;
 import com.sobey.tvcust.R;
+import com.sobey.tvcust.common.AppConstant;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.AppVali;
 import com.sobey.tvcust.entity.CommonEntity;
-import com.sobey.tvcust.entity.User;
 import com.sobey.tvcust.ui.dialog.DialogRecord;
 import com.sobey.tvcust.ui.dialog.DialogPopupPhoto;
 import com.sobey.tvcust.ui.dialog.DialogReqfixChoose;
 
+import org.greenrobot.eventbus.EventBus;
 import org.xutils.http.RequestParams;
 
 public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClickListener, CropHelper.CropInterface {
@@ -42,6 +42,8 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
     private CircularProgressButton btn_go;
     private TextView text_question_name;
     private EditText edit_reqfix_detail;
+
+    private String categoryId;
 
     private static final int RESULT_QUESTION = 0xf102;
     private static final int RESULT_VIDEO_RECORDER = 0xf101;
@@ -92,7 +94,7 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
             public void onClick(View v) {
                 chooseDialog.hide();
                 Intent intent = new Intent(ReqfixActicity.this, QuestionActivity.class);
-                intent.putExtra("type","hard");
+                intent.putExtra("type","1");
                 startActivityForResult(intent,RESULT_QUESTION);
             }
         });
@@ -101,7 +103,7 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
             public void onClick(View v) {
                 chooseDialog.hide();
                 Intent intent = new Intent(ReqfixActicity.this, QuestionActivity.class);
-                intent.putExtra("type","soft");
+                intent.putExtra("type","0");
                 startActivityForResult(intent,RESULT_QUESTION);
             }
         });
@@ -225,14 +227,13 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
                 break;
             case R.id.btn_go:
 
-                String id = (String) edit_reqfix_detail.getTag();
                 String detail = edit_reqfix_detail.getText().toString();
                 String[] photoPaths = bundleView.getPhotoPaths();
                 String[] videoPaths = bundleView.getVideoPaths();
                 String[] voicePaths = bundleView.getVoicePaths();
 
 
-                String msg = AppVali.reqfix_commit(detail);
+                String msg = AppVali.reqfix_commit(categoryId,detail);
                 if (msg != null) {
                     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
                 }else {
@@ -240,8 +241,8 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
 
                     RequestParams params = new RequestParams(AppData.Url.reqfix);
                     params.addHeader("token", AppData.App.getToken());
-                    params.addBodyParameter("questionid", id);
-                    params.addBodyParameter("detail", detail);
+                    params.addBodyParameter("categoryId", categoryId);
+                    params.addBodyParameter("content", detail);
                     CommonNet.samplepost(params,CommonEntity.class,new CommonNet.SampleNetHander(){
                         @Override
                         public void netGo(int code, Object pojo, String text, Object obj) {
@@ -252,8 +253,9 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Intent intent = new Intent();
-                                    setResult(RESULT_OK,intent);
+//                                    Intent intent = new Intent();
+//                                    setResult(RESULT_OK,intent);
+                                    EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERLIST);
                                     finish();
                                 }
                             }, 800);
@@ -319,9 +321,9 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
             case RESULT_QUESTION:
                 if (resultCode == RESULT_OK) {
                     String question = data.getStringExtra("name");
-                    String id = data.getStringExtra("id");
+                    String categoryId = data.getStringExtra("id");
                     text_question_name.setText(question);
-                    text_question_name.setTag(id);
+                    this.categoryId = categoryId;
                 }
                 break;
         }

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.sobey.tvcust.R;
+import com.sobey.tvcust.entity.Order;
 import com.sobey.tvcust.entity.TestEntity;
 import com.sobey.tvcust.ui.activity.OrderAllocateActivity;
 import com.sobey.tvcust.ui.activity.OrderDetailActivity;
@@ -20,13 +21,13 @@ public class RecycleAdapterOrder extends RecyclerView.Adapter<RecycleAdapterOrde
 
     private Context context;
     private int src;
-    private List<TestEntity> results;
+    private List<Order> results;
 
-    public List<TestEntity> getResults() {
+    public List<Order> getResults() {
         return results;
     }
 
-    public RecycleAdapterOrder(Context context, int src, List<TestEntity> results) {
+    public RecycleAdapterOrder(Context context, int src, List<Order> results) {
         this.context = context;
         this.src = src;
         this.results = results;

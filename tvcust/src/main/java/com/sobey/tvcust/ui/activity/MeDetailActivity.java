@@ -31,10 +31,13 @@ import com.sobey.tvcust.ui.dialog.DialogPopupPhoto;
 
 import org.greenrobot.eventbus.EventBus;
 import org.xutils.http.RequestParams;
+import org.xutils.http.body.MultipartBody;
+import org.xutils.x;
 
 import java.io.File;
 
-public class MeDetailActivity extends BaseAppCompatActicity implements View.OnClickListener, CropHelper.CropInterface{
+public class MeDetailActivity extends BaseAppCompatActicity
+        implements View.OnClickListener, CropHelper.CropInterface{
 
     private CropHelper cropHelper = new CropHelper(this);
 
@@ -65,7 +68,7 @@ public class MeDetailActivity extends BaseAppCompatActicity implements View.OnCl
         initBase();
         initView();
         initData();
-//        initCtrl();
+        initCtrl();
     }
 
     @Override
@@ -126,23 +129,6 @@ public class MeDetailActivity extends BaseAppCompatActicity implements View.OnCl
     }
 
     private void initData() {
-        showin = LoadingViewUtil.showin(showingroup,R.layout.layout_loading);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //加载成功
-                initCtrl();
-                LoadingViewUtil.showout(showingroup,showin);
-
-                //加载失败
-//                LoadingViewUtil.showin(showingroup,R.layout.layout_lack,showin,new View.OnClickListener(){
-//                    @Override
-//                    public void onClick(View v) {
-//                        initData();
-//                    }
-//                });
-            }
-        }, 1000);
     }
 
     private void initCtrl() {
@@ -216,7 +202,6 @@ public class MeDetailActivity extends BaseAppCompatActicity implements View.OnCl
                         }
                     });
                 }
-//                CommonNet.post(this, params, 1, User.class, null);
                 break;
         }
     }
@@ -225,18 +210,22 @@ public class MeDetailActivity extends BaseAppCompatActicity implements View.OnCl
     public void cropResult(final String path) {
         Log.e("liao", path);
 
-
         RequestParams params = new RequestParams(AppData.Url.upload);
+        params.setMultipart(true);
         params.addHeader("token", AppData.App.getToken());
-        params.addBodyParameter("file",new File(path));
+        params.addBodyParameter("files",new File(path));
         CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
-                Toast.makeText(MeDetailActivity.this, text, Toast.LENGTH_SHORT).show();
-                //上传完毕，设置头像链接
-                avatar = "http://a.hiphotos.baidu.com/zhidao/pic/item/b17eca8065380cd7813fc455a744ad3459828160.jpg";
-
-                Glide.with(MeDetailActivity.this).load(avatar).placeholder(R.drawable.me_header_defalt).crossFade().into(img_header);
+                if (pojo==null) netSetError(code,text);
+                else {
+                    Toast.makeText(MeDetailActivity.this, text, Toast.LENGTH_SHORT).show();
+                    CommonEntity commonEntity = (CommonEntity) pojo;
+                    String url = commonEntity.getFilePath();
+                    //上传完毕，设置头像链接
+                    avatar = url;
+                    Glide.with(MeDetailActivity.this).load(avatar).placeholder(R.drawable.me_header_defalt).crossFade().into(img_header);
+                }
             }
 
             @Override
@@ -254,15 +243,5 @@ public class MeDetailActivity extends BaseAppCompatActicity implements View.OnCl
                 loadingDialog.show();
             }
         });
-
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                loadingDialog.hide();
-                Bitmap bitmap = BitmapFactory.decodeFile(path);
-                img_header.setImageBitmap(bitmap);
-            }
-        },1000);
     }
 }

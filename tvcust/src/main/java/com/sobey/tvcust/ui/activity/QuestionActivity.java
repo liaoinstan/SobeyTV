@@ -2,18 +2,33 @@ package com.sobey.tvcust.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.liaoinstan.springview.container.AliFooter;
+import com.liaoinstan.springview.container.AliHeader;
+import com.liaoinstan.springview.widget.SpringView;
+import com.sobey.common.common.CommonNet;
 import com.sobey.tvcust.R;
+import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.DividerItemDecoration;
+import com.sobey.tvcust.common.LoadingViewUtil;
+import com.sobey.tvcust.entity.CommonEntity;
+import com.sobey.tvcust.entity.CommonPojo;
 import com.sobey.tvcust.entity.TestEntity;
+import com.sobey.tvcust.entity.User;
 import com.sobey.tvcust.ui.adapter.OnRecycleItemClickListener;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterQuestion;
+
+import org.xutils.http.RequestParams;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +36,11 @@ import java.util.List;
 public class QuestionActivity extends BaseAppCompatActicity implements OnRecycleItemClickListener{
 
     private RecyclerView recyclerView;
-    private List<TestEntity> results = new ArrayList<>();
+    private List<CommonEntity> results = new ArrayList<>();
     private RecycleAdapterQuestion adapter;
+
+    private ViewGroup showingroup;
+    private View showin;
 
     private String type;
 
@@ -35,8 +53,8 @@ public class QuestionActivity extends BaseAppCompatActicity implements OnRecycle
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         initBase();
-        initData();
         initView();
+        initData();
         initCtrl();
     }
 
@@ -46,22 +64,53 @@ public class QuestionActivity extends BaseAppCompatActicity implements OnRecycle
         }
     }
 
-    private void initData() {
-        results.add(new TestEntity());
-        results.add(new TestEntity());
-        results.add(new TestEntity());
-        results.add(new TestEntity());
-        results.add(new TestEntity());
-        results.add(new TestEntity());
-        results.add(new TestEntity());
-        results.add(new TestEntity());
-        results.add(new TestEntity());
-        results.add(new TestEntity());
-        results.add(new TestEntity());
+    private void initView() {
+        showingroup = (ViewGroup) findViewById(R.id.showingroup);
+        recyclerView = (RecyclerView) findViewById(R.id.recycle_question);
     }
 
-    private void initView() {
-        recyclerView = (RecyclerView) findViewById(R.id.recycle_question);
+    private void initData() {
+
+        final RequestParams params = new RequestParams(AppData.Url.question);
+        //params.addHeader("token", AppData.App.getToken());
+        params.addBodyParameter("type", type);
+        CommonNet.samplepost(params,CommonPojo.class,new CommonNet.SampleNetHander(){
+            @Override
+            public void netGo(int code, Object pojo, String text, Object obj) {
+                if (pojo==null) netSetError(code,text);
+                else{
+                    CommonPojo commonPojo = (CommonPojo) pojo;
+                    List<CommonEntity> questions = commonPojo.getDataList();
+                    List<CommonEntity> results = adapter.getResults();
+                    results.clear();
+                    results.addAll(questions);
+                    freshCtrl();
+                    LoadingViewUtil.showout(showingroup,showin);
+                }
+            }
+
+            @Override
+            public void netSetError(int code, String text) {
+                Toast.makeText(QuestionActivity.this,text,Toast.LENGTH_SHORT).show();
+                LoadingViewUtil.showin(showingroup,R.layout.layout_lack,showin,new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v) {
+                        initData();
+                    }
+                });
+            }
+
+            @Override
+            public void netStart(int code) {
+                showin = LoadingViewUtil.showin(showingroup,R.layout.layout_loading);
+            }
+
+            @Override
+            public void netEnd(int code) {
+
+            }
+        });
+
     }
 
     private void initCtrl() {
@@ -69,6 +118,10 @@ public class QuestionActivity extends BaseAppCompatActicity implements OnRecycle
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
+    }
+
+    private void freshCtrl(){
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -84,10 +137,10 @@ public class QuestionActivity extends BaseAppCompatActicity implements OnRecycle
     @Override
     public void onItemClick(RecyclerView.ViewHolder viewHolder) {
         int position = viewHolder.getLayoutPosition();
-        TestEntity question = adapter.getResults().get(position);
+        CommonEntity question = adapter.getResults().get(position);
         Intent intent = new Intent();
-        intent.putExtra("name",question.getName());
-        intent.putExtra("id",question.getId());
+        intent.putExtra("name",question.getCategoryName());
+        intent.putExtra("id",question.getId()+"");
         setResult(RESULT_OK,intent);
         finish();
     }
