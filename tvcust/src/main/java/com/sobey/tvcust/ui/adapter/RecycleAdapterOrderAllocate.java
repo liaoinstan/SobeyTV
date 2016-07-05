@@ -7,10 +7,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.entity.TestEntity;
+import com.sobey.tvcust.entity.User;
 
 import java.util.List;
 
@@ -18,27 +21,23 @@ import java.util.List;
 public class RecycleAdapterOrderAllocate extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context context;
-    private List<TestEntity> results_tcs;
-    private List<TestEntity> results_fb;
+    private List<User> results_tcs;
+    private List<User> results_fb;
     private int selectItem = -1;
     private int lastSelect;
 
     public static final int TYPE_HEADER = 0xff01;
     public static final int TYPE_ITEM = 0xff02;
 
-    public List<TestEntity> getResults_tcs() {
+    public List<User> getResults_tcs() {
         return results_tcs;
     }
 
-    public List<TestEntity> getResults_fb() {
+    public List<User> getResults_fb() {
         return results_fb;
     }
 
-    public int getSelectItem() {
-        return selectItem;
-    }
-
-    public RecycleAdapterOrderAllocate(Context context, List<TestEntity> results_tcs, List<TestEntity> results_fb) {
+    public RecycleAdapterOrderAllocate(Context context, List<User> results_tcs, List<User> results_fb) {
         this.context = context;
         this.results_tcs = results_tcs;
         this.results_fb = results_fb;
@@ -91,6 +90,11 @@ public class RecycleAdapterOrderAllocate extends RecyclerView.Adapter<RecyclerVi
         } else {
             holder.img_select.setVisibility(View.INVISIBLE);
         }
+
+        int pos = holder.getLayoutPosition();
+
+        Glide.with(context).load(getUserByPosition(pos).getAvatar()).placeholder(R.drawable.icon_allocate_header_default).crossFade().into(holder.img_header);
+        holder.text_name.setText(getUserByPosition(pos).getRealName());
     }
 
     @Override
@@ -107,6 +111,22 @@ public class RecycleAdapterOrderAllocate extends RecyclerView.Adapter<RecyclerVi
         } else {
             return TYPE_ITEM;
         }
+    }
+
+    public User getUserByPosition(int position) {
+        if (position>=0) {
+            if (position + 1 <= results_tcs.size() + 1) {
+                return results_tcs.get(position - 1);
+            } else if (position + 1 > results_tcs.size() + 2 && position + 1 <= results_fb.size() + results_tcs.size() + 2) {
+                return results_fb.get(position - results_tcs.size() - 2);
+            }
+        }
+        Log.e("adapter","error: position:"+position);
+        return null;
+    }
+
+    public User getSelectUser(){
+        return getUserByPosition(selectItem);
     }
 
     @Override
@@ -144,10 +164,14 @@ public class RecycleAdapterOrderAllocate extends RecyclerView.Adapter<RecyclerVi
 
     private class HolderItem extends RecyclerView.ViewHolder {
         private View img_select;
+        private ImageView img_header;
+        private TextView text_name;
 
         public HolderItem(View itemView) {
             super(itemView);
             img_select = itemView.findViewById(R.id.img_orderallocate_select);
+            img_header = (ImageView) itemView.findViewById(R.id.img_orderallocate_header);
+            text_name = (TextView) itemView.findViewById(R.id.text_orderallocate_name);
         }
     }
 

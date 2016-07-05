@@ -59,7 +59,7 @@ public class RecycleAdapterBundle extends RecyclerView.Adapter<RecycleAdapterBun
                             bundleClickListener.onPhotoShowClick(bundle.getPath());
                     }
                 });
-                Glide.with(context).load(bundle.getPath()).placeholder(R.drawable.test).into(holder.img_bundle_show);
+                Glide.with(context).load(bundle.getPath()).placeholder(R.drawable.test).centerCrop().into(holder.img_bundle_show);
                 break;
             case VIDEO:
                 holder.img_bundle_play.setVisibility(View.VISIBLE);
@@ -71,7 +71,7 @@ public class RecycleAdapterBundle extends RecyclerView.Adapter<RecycleAdapterBun
                             bundleClickListener.onVideoShowClick(bundle.getPath());
                     }
                 });
-                Glide.with(context).load(bundle.getPath()).placeholder(R.drawable.test).into(holder.img_bundle_show);
+                Glide.with(context).load(bundle.getPath()).placeholder(R.drawable.test).centerCrop().into(holder.img_bundle_show);
                 break;
             case VOICE:
                 holder.img_bundle_play.setVisibility(View.VISIBLE);
@@ -83,7 +83,7 @@ public class RecycleAdapterBundle extends RecyclerView.Adapter<RecycleAdapterBun
                             bundleClickListener.onVoiceShowClick(bundle.getPath());
                     }
                 });
-                Glide.with(context).load(R.drawable.test).into(holder.img_bundle_show);
+                Glide.with(context).load(R.drawable.test).centerCrop().into(holder.img_bundle_show);
                 break;
         }
         holder.img_bundle_delete.setOnClickListener(new View.OnClickListener() {

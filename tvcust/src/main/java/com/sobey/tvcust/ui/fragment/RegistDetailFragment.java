@@ -165,11 +165,13 @@ public class RegistDetailFragment extends BaseFragment implements View.OnClickLi
             case R.id.text_registdetail_select_customer:
                 text_select_customer.setSelected(true);
                 text_select_employ.setSelected(false);
+                edit_comp.setText("");
                 type = TYPE_USER;
                 break;
             case R.id.text_registdetail_select_employ:
                 text_select_customer.setSelected(false);
                 text_select_employ.setSelected(true);
+                edit_comp.setText("");
                 type = TYPE_GROUP_USER;
                 break;
             case R.id.edit_registdetail_comp:

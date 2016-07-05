@@ -225,17 +225,36 @@
 
         </android.support.v4.widget.SwipeRefreshLayout>
 
-        <TextView
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:layout_marginBottom="10dp"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:background="@color/sb_bk_dark"-->
+            <!--android:gravity="center"-->
+            <!--android:text="追加描述"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="@dimen/text_big" />-->
+
+        <com.dd.CircularProgressButton
+            android:id="@+id/btn_go"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@color/sb_bk_dark"
-            android:gravity="center"
-            android:text="接受任务"
+            android:layout_marginTop="10dp"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_big" />
+            android:textSize="@dimen/text_big"
+            android:background="#00000000"
+            app:cpb_selectorIdle="@drawable/idle_state_selector"
+            app:cpb_colorIndicator="@color/sb_blue"
+            app:cpb_colorIndicatorBackground="@color/sb_blue_hint_trans"
+            app:cpb_colorProgress="#00000000"
+            app:cpb_iconComplete="@drawable/ic_action_accept"
+            app:cpb_iconError="@drawable/ic_action_cancel"
+            app:cpb_textIdle="追加描述" />
 
     </LinearLayout>
 

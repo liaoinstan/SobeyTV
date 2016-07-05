@@ -29,13 +29,13 @@ public class Order {
     @SerializedName("orderDescri")
     private String orderDescri;
 
-    @SerializedName("images")
+    @SerializedName("jsImages")
     private String[] images;
 
-    @SerializedName("videos")
+    @SerializedName("jsVideos")
     private String[] videos;
 
-    @SerializedName("voices")
+    @SerializedName("jsVoices")
     private String[] voices;
 
     @SerializedName("serviceId")
@@ -45,10 +45,10 @@ public class Order {
     private Integer status;
 
     @SerializedName("serviceCheck")
-    private String serviceCheck;
+    private Integer serviceCheck;
 
     @SerializedName("techCheck")
-    private String techCheck;
+    private Integer techCheck;
 
     @SerializedName("headTechId")
     private Integer headTechId;
@@ -146,19 +146,19 @@ public class Order {
         this.status = status;
     }
 
-    public String getServiceCheck() {
+    public Integer getServiceCheck() {
         return serviceCheck;
     }
 
-    public void setServiceCheck(String serviceCheck) {
+    public void setServiceCheck(Integer serviceCheck) {
         this.serviceCheck = serviceCheck;
     }
 
-    public String getTechCheck() {
+    public Integer getTechCheck() {
         return techCheck;
     }
 
-    public void setTechCheck(String techCheck) {
+    public void setTechCheck(Integer techCheck) {
         this.techCheck = techCheck;
     }
 

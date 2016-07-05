@@ -11,12 +11,17 @@ public class OrderStatusHelper {
     public static String getStatusStr(int userType, Order order) {
         //用户
         switch (order.getStatus()) {
-            case Order.ORDER_UNDEAL:
+            case Order.ORDER_UNDEAL: {
                 //待处理
                 return "等待客服待处理";
+            }
             case Order.ORDER_INDEAL:
                 //处理中
-                return "已分配维修人员，正在维修";
+                if (order.getTechCheck() != null && order.getTechCheck() == 1) {
+                    return "已分配维修人员，正在维修";
+                } else {
+                    return "已分配维修人员，等待接受";
+                }
             case Order.ORDER_UNVALI:
                 //带验证
                 return "等待确认";
@@ -31,7 +36,7 @@ public class OrderStatusHelper {
         }
     }
 
-    public static int getStatusImgSrc(Order order){
+    public static int getStatusImgSrc(Order order) {
         switch (order.getStatus()) {
             case Order.ORDER_UNDEAL:
                 //待处理

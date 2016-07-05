@@ -5,9 +5,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.entity.TestEntity;
+import com.sobey.tvcust.entity.User;
 
 import java.util.List;
 
@@ -16,15 +20,15 @@ public class RecycleAdapterAssict extends RecyclerView.Adapter<RecycleAdapterAss
 
     private Context context;
     private int src;
-    private List<TestEntity> results;
+    private List<User> results;
     private int selectItem = -1;
     private int lastSelect;
 
-    public List<TestEntity> getResults() {
+    public List<User> getResults() {
         return results;
     }
 
-    public RecycleAdapterAssict(Context context, int src, List<TestEntity> results) {
+    public RecycleAdapterAssict(Context context, int src, List<User> results) {
         this.context = context;
         this.src = src;
         this.results = results;
@@ -53,6 +57,19 @@ public class RecycleAdapterAssict extends RecyclerView.Adapter<RecycleAdapterAss
         } else {
             holder.img_select.setVisibility(View.INVISIBLE);
         }
+
+        int pos = holder.getLayoutPosition();
+
+        Glide.with(context).load(results.get(pos).getAvatar()).placeholder(R.drawable.icon_allocate_header_default).crossFade().into(holder.img_header);
+        holder.text_name.setText(results.get(pos).getRealName());
+    }
+
+    public User getSelectUser(){
+        if (selectItem>=0) {
+            return results.get(selectItem);
+        }else {
+            return null;
+        }
     }
 
     @Override
@@ -62,9 +79,13 @@ public class RecycleAdapterAssict extends RecyclerView.Adapter<RecycleAdapterAss
 
     protected class Holder extends RecyclerView.ViewHolder {
         private View img_select;
+        private ImageView img_header;
+        private TextView text_name;
         public Holder(View itemView) {
             super(itemView);
             img_select = itemView.findViewById(R.id.img_orderallocate_select);
+            img_header = (ImageView) itemView.findViewById(R.id.img_orderallocate_header);
+            text_name = (TextView) itemView.findViewById(R.id.text_orderallocate_name);
         }
     }
 

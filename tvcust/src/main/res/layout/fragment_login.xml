@@ -33,7 +33,7 @@
                 android:drawableLeft="@drawable/icon_login_user"
                 android:drawablePadding="20dp"
                 android:hint="账号"
-                android:inputType="textPersonName" />
+                android:inputType="phone" />
 
             <View
                 android:layout_width="match_parent"

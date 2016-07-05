@@ -22,10 +22,12 @@ import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppConstant;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.LoadingViewUtil;
+import com.sobey.tvcust.entity.CommonEntity;
 import com.sobey.tvcust.entity.Order;
 import com.sobey.tvcust.entity.OrderPojo;
 import com.sobey.tvcust.ui.activity.ReqfixActicity;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterOrder;
+import com.sobey.tvcust.ui.dialog.DialogSure;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -40,6 +42,7 @@ import java.util.List;
 public class HomeOrderFragment extends BaseFragment implements View.OnClickListener {
 
     private int position;
+    private int cancleposition;
     private View rootView;
     private ViewGroup showingroup;
     private View showin;
@@ -49,6 +52,8 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
     private RecyclerView recyclerView;
     private RecycleAdapterOrder adapter;
     private View btn_go_reqfix;
+
+    private DialogSure dialogSure;
 
     private List<Order> results = new ArrayList<>();
     private int page;
@@ -95,6 +100,12 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (dialogSure!=null) dialogSure.dismiss();
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Toolbar toolbar = (Toolbar) getView().findViewById(R.id.toolbar);
@@ -106,6 +117,14 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void initBase() {
+        dialogSure = new DialogSure(getActivity());
+        dialogSure.setOnOkListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                netCancleOrder(cancleposition);
+                dialogSure.hide();
+            }
+        });
     }
 
     private void initView() {
@@ -152,6 +171,13 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
         adapter = new RecycleAdapterOrder(getActivity(), R.layout.item_recycle_order, results);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
+        adapter.setOkListener(new RecycleAdapterOrder.OnOkListener() {
+            @Override
+            public void onOkClick(RecycleAdapterOrder.Holder holder) {
+                dialogSure.show();
+                cancleposition = holder.getLayoutPosition();
+            }
+        });
 
         springView.setHeader(new AliHeader(getActivity(), false));
         springView.setFooter(new AliFooter(getActivity(), false));
@@ -293,8 +319,29 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
         switch (v.getId()) {
             case R.id.btn_go_reqfix:
                 intent.setClass(getActivity(), ReqfixActicity.class);
+                intent.putExtra("type",0);
                 startActivity(intent);
                 break;
         }
+    }
+
+    private void netCancleOrder(final int position){
+        RequestParams params = new RequestParams(AppData.Url.cancleOrder);
+        params.addHeader("token", AppData.App.getToken());
+        params.addBodyParameter("orderId", adapter.getResults().get(position).getId()+"");
+        params.addBodyParameter("userId", adapter.getResults().get(position).getUserId()+"");
+        CommonNet.samplepost(params,CommonEntity.class,new CommonNet.SampleNetHander(){
+            @Override
+            public void netGo(int code, Object pojo, String text, Object obj) {
+                Toast.makeText(getActivity(),text,Toast.LENGTH_SHORT).show();
+                adapter.getResults().remove(position);
+                adapter.notifyItemRemoved(position);
+            }
+
+            @Override
+            public void netSetError(int code, String text) {
+                Toast.makeText(getActivity(),text,Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

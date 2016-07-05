@@ -31,47 +31,47 @@
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
 
             <ImageView
-                android:id="@+id/img_orderdetail_header"
+                android:id="@+id/img_orderallocate_header"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
-                android:scaleType="centerCrop"
+                android:scaleType="center"
                 android:src="@drawable/test" />
 
             <TextView
-                android:id="@+id/text_orderdetail_name"
+                android:id="@+id/text_orderallocate_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/img_orderdetail_header"
+                android:layout_alignTop="@+id/img_orderallocate_header"
                 android:layout_marginLeft="10dp"
-                android:layout_toEndOf="@+id/img_orderdetail_header"
-                android:layout_toRightOf="@+id/img_orderdetail_header"
+                android:layout_toEndOf="@+id/img_orderallocate_header"
+                android:layout_toRightOf="@+id/img_orderallocate_header"
                 android:text="四川电视台"
                 android:textColor="@color/sb_text_blank"
                 android:textSize="@dimen/text_nomal" />
 
             <TextView
-                android:id="@+id/text_orderdetail_problem"
+                android:id="@+id/text_orderallocate_problem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/text_orderdetail_name"
-                android:layout_alignStart="@+id/text_orderdetail_name"
-                android:layout_below="@+id/text_orderdetail_name"
+                android:layout_alignLeft="@+id/text_orderallocate_name"
+                android:layout_alignStart="@+id/text_orderallocate_name"
+                android:layout_below="@+id/text_orderallocate_name"
                 android:layout_marginTop="2dp"
                 android:text="硬件问题：CPU过载警报"
                 android:textColor="@color/sb_text_dark_blank"
                 android:textSize="@dimen/text_nomal_small" />
 
             <TextView
-                android:id="@+id/text_orderdetail_num"
+                android:id="@+id/text_orderallocate_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/text_orderdetail_problem"
-                android:layout_alignStart="@+id/text_orderdetail_problem"
-                android:layout_below="@+id/text_orderdetail_problem"
+                android:layout_alignLeft="@+id/text_orderallocate_problem"
+                android:layout_alignStart="@+id/text_orderallocate_problem"
+                android:layout_below="@+id/text_orderallocate_problem"
                 android:layout_marginTop="2dp"
                 android:text="订单号：56811658952"
                 android:textColor="@color/sb_text_dark_blank"
@@ -104,14 +104,16 @@
                 android:paddingBottom="25dp">
 
                 <TextView
+                    android:id="@+id/text_orderallocate_user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:text="负责人：王先生"
+                    android:text="申请人：王先生"
                     android:textColor="@color/sb_text_blank"
                     android:textSize="@dimen/text_nomal" />
 
                 <TextView
+                    android:id="@+id/text_orderallocate_user_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
@@ -120,14 +122,6 @@
                     android:textColor="@color/sb_text_dark_blank"
                     android:textSize="@dimen/text_nomal_small" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="5dp"
-                    android:text="地址：四川省成都市高新区天府大道28号"
-                    android:textColor="@color/sb_text_dark_blank"
-                    android:textSize="@dimen/text_nomal_small" />
             </LinearLayout>
 
         </LinearLayout>
@@ -158,17 +152,36 @@
 
         </android.support.v4.widget.SwipeRefreshLayout>
 
-        <TextView
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:layout_marginBottom="10dp"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:background="@color/sb_bk_dark"-->
+            <!--android:gravity="center"-->
+            <!--android:text="分配任务"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="@dimen/text_big" />-->
+
+        <com.dd.CircularProgressButton
+            android:id="@+id/btn_go"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@color/sb_bk_dark"
-            android:gravity="center"
-            android:text="分配任务"
+            android:layout_marginTop="10dp"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_big" />
+            android:textSize="@dimen/text_big"
+            android:background="#00000000"
+            app:cpb_selectorIdle="@drawable/idle_state_selector"
+            app:cpb_colorIndicator="@color/sb_blue"
+            app:cpb_colorIndicatorBackground="@color/sb_blue_hint_trans"
+            app:cpb_colorProgress="#00000000"
+            app:cpb_iconComplete="@drawable/ic_action_accept"
+            app:cpb_iconError="@drawable/ic_action_cancel"
+            app:cpb_textIdle="分配任务" />
 
     </LinearLayout>
 

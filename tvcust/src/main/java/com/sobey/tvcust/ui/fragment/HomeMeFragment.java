@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,12 +73,11 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
     }
 
     @Subscribe
-    public void onEventMainThread(MeDetailActivity.PathEntity pathEntity) {
-        Glide.with(this).load(pathEntity.getPath()).placeholder(R.drawable.me_header_defalt).crossFade().into(img_me_header);
-//        if (flag== AppConstant.EVENT_UPDATE_ME){
-//            user = AppData.App.getUser();
-//            setUserInfo();
-//        }
+    public void onEventMainThread(String flagSpc) {
+        if (AppConstant.FLAG_UPDATE_ME.equals(AppConstant.getFlag(flagSpc))){
+            String path = AppConstant.getStr(flagSpc);
+            Glide.with(this).load(path).placeholder(R.drawable.me_header_defalt).crossFade().into(img_me_header);
+        }
     }
 
     @Nullable

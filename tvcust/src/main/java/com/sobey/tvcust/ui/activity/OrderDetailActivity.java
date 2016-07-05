@@ -16,17 +16,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.dd.CircularProgressButton;
+import com.google.gson.Gson;
 import com.liaoinstan.springview.container.AliFooter;
 import com.liaoinstan.springview.container.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
 import com.sobey.common.common.CommonNet;
 import com.sobey.common.common.MyPlayer;
 import com.sobey.common.utils.FileUtil;
+import com.sobey.common.utils.StrUtils;
 import com.sobey.tvcust.R;
+import com.sobey.tvcust.common.AppConstant;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.DividerItemDecoration;
 import com.sobey.tvcust.common.LoadingViewUtil;
 import com.sobey.tvcust.common.OrderStatusHelper;
+import com.sobey.tvcust.entity.CommonEntity;
 import com.sobey.tvcust.entity.Order;
 import com.sobey.tvcust.entity.OrderDescribe;
 import com.sobey.tvcust.entity.OrderDescribePojo;
@@ -35,13 +40,15 @@ import com.sobey.tvcust.entity.TestEntity;
 import com.sobey.tvcust.entity.User;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterOrderDetail;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.xutils.http.RequestParams;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderDetailActivity extends BaseAppCompatActicity implements View.OnClickListener{
+public class OrderDetailActivity extends BaseAppCompatActicity implements View.OnClickListener {
 
     private MyPlayer player = new MyPlayer();
 
@@ -59,11 +66,13 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
     private TextView text_orderdetail_user_name;
     private TextView text_orderdetail_user_phone;
     private View lay_orderdetail_tsc;
+    private CircularProgressButton btn_go;
 
     private ViewGroup showingroup;
     private View showin;
 
     private int id;
+    private boolean check;
     private User user;
 
     @Override
@@ -74,17 +83,33 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        EventBus.getDefault().register(this);
+
         initBase();
         initView();
         initData(true);
         initCtrl();
     }
 
+    @Subscribe
+    public void onEventMainThread(Integer flag) {
+        if (flag == AppConstant.EVENT_UPDATE_ORDERDESCRIBE) {
+            initData(true);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+        if (player != null) player.onDestory();
+    }
+
     private void initBase() {
         user = AppData.App.getUser();
         Intent intent = getIntent();
-        if (intent.hasExtra("id")){
-            id = intent.getIntExtra("id",-1);
+        if (intent.hasExtra("id")) {
+            id = intent.getIntExtra("id", 0);
         }
     }
 
@@ -101,7 +126,8 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
         text_orderdetail_tsc_phone = (TextView) findViewById(R.id.text_orderdetail_tsc_phone);
         text_orderdetail_user_name = (TextView) findViewById(R.id.text_orderdetail_user_name);
         text_orderdetail_user_phone = (TextView) findViewById(R.id.text_orderdetail_user_phone);
-        lay_orderdetail_tsc =  findViewById(R.id.lay_orderdetail_tsc);
+        lay_orderdetail_tsc = findViewById(R.id.lay_orderdetail_tsc);
+        btn_go = (CircularProgressButton) findViewById(R.id.btn_go);
 
         findViewById(R.id.btn_go_orderprog).setOnClickListener(this);
 
@@ -114,37 +140,31 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
         });
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (player!=null) player.onDestory();
-    }
-
     private void initData(final boolean isFirst) {
 
         final RequestParams params = new RequestParams(AppData.Url.getOrderdecribe);
         params.addHeader("token", AppData.App.getToken());
-        params.addBodyParameter("orderId", id+"");
-        CommonNet.samplepost(params,OrderDescribePojo.class,new CommonNet.SampleNetHander(){
+        params.addBodyParameter("orderId", id + "");
+        CommonNet.samplepost(params, OrderDescribePojo.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
-                if (pojo==null) netSetError(code,text);
-                else{
-                    OrderDescribePojo orderDescribePojo = (OrderDescribePojo)pojo;
+                if (pojo == null) netSetError(code, text);
+                else {
+                    OrderDescribePojo orderDescribePojo = (OrderDescribePojo) pojo;
                     List<OrderDescribe> dataList = ((OrderDescribePojo) pojo).getDataList();
                     //有数据才添加，否则显示lack信息
-                    if (dataList!=null && dataList.size()!=0) {
+                    if (dataList != null && dataList.size() != 0) {
                         List<OrderDescribe> results = adapter.getResults();
                         results.clear();
                         results.addAll(dataList);
-                        freshCtrl(orderDescribePojo.getTsc(),orderDescribePojo.getUser(),orderDescribePojo.getOrder());
+                        freshCtrl(orderDescribePojo.getTsc(), orderDescribePojo.getUser(), orderDescribePojo.getOrder());
                         if (isFirst) {
                             LoadingViewUtil.showout(showingroup, showin);
                         } else {
                             swipe.setRefreshing(false);
                         }
-                    }else {
-                        setData(orderDescribePojo.getTsc(),orderDescribePojo.getUser(),orderDescribePojo.getOrder());
+                    } else {
+                        setData(orderDescribePojo.getTsc(), orderDescribePojo.getUser(), orderDescribePojo.getOrder());
                         LoadingViewUtil.showin(showingroup, R.layout.layout_lack, showin);
                     }
                 }
@@ -160,7 +180,7 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
                             initData(false);
                         }
                     });
-                }else {
+                } else {
                     swipe.setRefreshing(false);
                 }
             }
@@ -215,7 +235,7 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
 //                freshCtrl();
 //                LoadingViewUtil.showout(showingroup, showin);
 
-                //加载失败
+        //加载失败
 //                LoadingViewUtil.showin(showingroup,R.layout.layout_lack,showin,new View.OnClickListener(){
 //                    @Override
 //                    public void onClick(View v) {
@@ -227,6 +247,9 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
     }
 
     private void initCtrl() {
+        btn_go.setOnClickListener(this);
+        btn_go.setIndeterminateProgressMode(true);
+
         adapter = new RecycleAdapterOrderDetail(this, R.layout.item_recycle_orderdetail, results);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new DividerItemDecoration(this));
@@ -253,33 +276,57 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
         });
     }
 
-    private void freshCtrl(User tsc,User user,Order order) {
-        setData(tsc,user,order);
+    private void freshCtrl(User tsc, User user, Order order) {
+        setData(tsc, user, order);
         adapter.notifyDataSetChanged();
     }
 
-    private void setData(User tsc,User mainperson,Order order){
-        if (order!=null) {
+    private void setData(User tsc, User mainperson, Order order) {
+        if (order != null) {
             text_orderdetail_problem.setText((order.getCategory().getType() == 0 ? "软件问题：" : "硬件问题：") + order.getCategory().getCategoryName());
             text_orderdetail_num.setText("订单编号：" + order.getOrderNumber());
         }
-        if(mainperson!=null) {
+        if (mainperson != null) {
             text_orderdetail_name.setText(mainperson.getTvName());
-            text_orderdetail_user_name.setText("申请人："+mainperson.getRealName());
-            text_orderdetail_user_phone.setText("电话："+mainperson.getMobile());
+            text_orderdetail_user_name.setText("申请人：" + mainperson.getRealName());
+            text_orderdetail_user_phone.setText("电话：" + mainperson.getMobile());
         }
-        if(tsc!=null) {
+        if (tsc != null) {
             lay_orderdetail_tsc.setVisibility(View.VISIBLE);
-            text_orderdetail_tsc_name.setText("处理人："+tsc.getRealName());
-            text_orderdetail_tsc_phone.setText("电话："+tsc.getMobile());
-        }else {
+            text_orderdetail_tsc_name.setText("处理人：" + tsc.getRealName());
+            text_orderdetail_tsc_phone.setText("电话：" + tsc.getMobile());
+        } else {
             lay_orderdetail_tsc.setVisibility(View.GONE);
         }
         //普通客户只能看见进度标示图，其他角色可以看见台标
-        if (user.getRoleType()==User.ROLE_COMMOM) {
+        if (user.getRoleType() == User.ROLE_COMMOM) {
             img_orderdetail_header.setImageResource(OrderStatusHelper.getStatusImgSrc(order));
-        }else {
+        } else {
             Glide.with(this).load(user.getAvatar()).placeholder(R.drawable.icon_order_fix).centerCrop().crossFade().into(img_orderdetail_header);
+        }
+
+        //根据角色类型设置提交按钮的状态和功能
+        switch (user.getRoleType()) {
+            case User.ROLE_FILIALETECH:
+                btn_go.setVisibility(View.VISIBLE);
+                if (order.getTechCheck() != null && order.getTechCheck() == 1) {
+                    check = true;
+                    btn_go.setText("用户反馈");
+                    btn_go.setIdleText("用户反馈");
+                } else {
+                    check = false;
+                    btn_go.setText("接受任务");
+                    btn_go.setIdleText("接受任务");
+                }
+                break;
+            case User.ROLE_COMMOM:
+                btn_go.setVisibility(View.VISIBLE);
+                btn_go.setText("追加描述");
+                btn_go.setIdleText("追加描述");
+                break;
+            default:
+                btn_go.setVisibility(View.GONE);
+                break;
         }
     }
 
@@ -296,11 +343,56 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
     @Override
     public void onClick(View v) {
         Intent intent = new Intent();
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_go_orderprog:
-                intent.setClass(this,OrderProgActivity.class);
+                intent.setClass(this, OrderProgActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.btn_go:
+                btn_go();
+                break;
+        }
+    }
+
+    private void btn_go() {
+        if (user.getRoleType() == User.ROLE_FILIALETECH && !check) {
+            //接受任务
+            btn_go.setProgress(50);
+            RequestParams params = new RequestParams(AppData.Url.acceptOrder);
+            params.addHeader("token", AppData.App.getToken());
+            params.addBodyParameter("orderId", id+"");
+            CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
+                @Override
+                public void netGo(int code, Object pojo, String text, Object obj) {
+                    Toast.makeText(OrderDetailActivity.this, text, Toast.LENGTH_SHORT).show();
+                    btn_go.setProgress(100);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            btn_go.setProgress(0);
+                            btn_go.setIdleText("用户反馈");
+                            check = true;
+                        }
+                    }, 800);
+                }
+                @Override
+                public void netSetError(int code, String text) {
+                    Toast.makeText(OrderDetailActivity.this, text, Toast.LENGTH_SHORT).show();
+                    btn_go.setProgress(-1);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            btn_go.setProgress(0);
+                        }
+                    }, 800);
+                }
+            });
+        } else {
+            Intent intent = new Intent();
+            intent.setClass(this, ReqfixActicity.class);
+            intent.putExtra("type", 1);
+            intent.putExtra("id", id);
+            startActivity(intent);
         }
     }
 }

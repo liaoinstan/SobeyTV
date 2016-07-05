@@ -11,16 +11,20 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.dd.CircularProgressButton;
+import com.google.gson.Gson;
 import com.sobey.common.common.CommonNet;
 import com.sobey.common.common.MyPlayer;
 import com.sobey.common.helper.CropHelper;
+import com.sobey.common.utils.StrUtils;
 import com.sobey.common.view.BundleView2;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppConstant;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.AppVali;
 import com.sobey.tvcust.entity.CommonEntity;
+import com.sobey.tvcust.ui.dialog.DialogLoading;
 import com.sobey.tvcust.ui.dialog.DialogRecord;
 import com.sobey.tvcust.ui.dialog.DialogPopupPhoto;
 import com.sobey.tvcust.ui.dialog.DialogReqfixChoose;
@@ -28,11 +32,17 @@ import com.sobey.tvcust.ui.dialog.DialogReqfixChoose;
 import org.greenrobot.eventbus.EventBus;
 import org.xutils.http.RequestParams;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClickListener, CropHelper.CropInterface {
 
     private CropHelper cropHelper = new CropHelper(this);
 
     private View lay_reqfix_quekind;
+    private DialogLoading loadingDialog;
     private DialogReqfixChoose chooseDialog;
     private DialogPopupPhoto popup;
     private DialogRecord recordDialog;
@@ -44,13 +54,10 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
     private EditText edit_reqfix_detail;
 
     private String categoryId;
+    private int orderId;
 
     private static final int RESULT_QUESTION = 0xf102;
     private static final int RESULT_VIDEO_RECORDER = 0xf101;
-
-//    private String pathphoto;
-//    private String pathvideo;
-//    private String pathvoice;
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -81,21 +88,32 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (player!=null) player.onDestory();
-        if (popup!=null) popup.dismiss();
-        if (chooseDialog!=null) chooseDialog.dismiss();
-        if (recordDialog!=null) recordDialog.dismiss();
+        if (player != null) player.onDestory();
+        if (loadingDialog != null) loadingDialog.dismiss();
+        if (popup != null) popup.dismiss();
+        if (chooseDialog != null) chooseDialog.dismiss();
+        if (recordDialog != null) recordDialog.dismiss();
     }
 
+    //0：维修申报；1：追加描述
+    private int type = 0;
     private void initBase() {
+        if (getIntent().hasExtra("type")){
+            type = getIntent().getIntExtra("type",0);
+        }
+        if (getIntent().hasExtra("id")){
+            orderId = getIntent().getIntExtra("id",0);
+        }
+
+        loadingDialog = new DialogLoading(this, "正在上传");
         chooseDialog = new DialogReqfixChoose(this);
         chooseDialog.setOnHardListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 chooseDialog.hide();
                 Intent intent = new Intent(ReqfixActicity.this, QuestionActivity.class);
-                intent.putExtra("type","1");
-                startActivityForResult(intent,RESULT_QUESTION);
+                intent.putExtra("type", "1");
+                startActivityForResult(intent, RESULT_QUESTION);
             }
         });
         chooseDialog.setOnSoftListener(new View.OnClickListener() {
@@ -103,8 +121,8 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
             public void onClick(View v) {
                 chooseDialog.hide();
                 Intent intent = new Intent(ReqfixActicity.this, QuestionActivity.class);
-                intent.putExtra("type","0");
-                startActivityForResult(intent,RESULT_QUESTION);
+                intent.putExtra("type", "0");
+                startActivityForResult(intent, RESULT_QUESTION);
             }
         });
         popup = new DialogPopupPhoto(this);
@@ -135,6 +153,17 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
         findViewById(R.id.img_reqfix_photo).setOnClickListener(this);
         findViewById(R.id.img_reqfix_vidio).setOnClickListener(this);
         findViewById(R.id.img_reqfix_voice).setOnClickListener(this);
+
+        switch (type){
+            case 0:
+                getSupportActionBar().setTitle("维修申报");
+                lay_reqfix_quekind.setVisibility(View.VISIBLE);
+                break;
+            case 1:
+                getSupportActionBar().setTitle("追加描述");
+                lay_reqfix_quekind.setVisibility(View.GONE);
+                break;
+        }
     }
 
     private void initCtrl() {
@@ -227,74 +256,14 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
                 break;
             case R.id.btn_go:
 
-                String detail = edit_reqfix_detail.getText().toString();
-                String[] photoPaths = bundleView.getPhotoPaths();
-                String[] videoPaths = bundleView.getVideoPaths();
-                String[] voicePaths = bundleView.getVoicePaths();
+                photoPaths = bundleView.getPhotoPaths();
+                videoPaths = bundleView.getVideoPaths();
+                voicePaths = bundleView.getVoicePaths();
 
+                netUpload();
 
-                String msg = AppVali.reqfix_commit(categoryId,detail);
-                if (msg != null) {
-                    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-                }else {
-                    btn_go.setProgress(50);
+//                netCommit();
 
-                    RequestParams params = new RequestParams(AppData.Url.reqfix);
-                    params.addHeader("token", AppData.App.getToken());
-                    params.addBodyParameter("categoryId", categoryId);
-                    params.addBodyParameter("content", detail);
-                    CommonNet.samplepost(params,CommonEntity.class,new CommonNet.SampleNetHander(){
-                        @Override
-                        public void netGo(int code, Object pojo, String text, Object obj) {
-
-                            Toast.makeText(ReqfixActicity.this,text,Toast.LENGTH_SHORT).show();
-
-                            btn_go.setProgress(100);
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-//                                    Intent intent = new Intent();
-//                                    setResult(RESULT_OK,intent);
-                                    EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERLIST);
-                                    finish();
-                                }
-                            }, 800);
-                        }
-
-                        @Override
-                        public void netSetError(int code, String text) {
-                            Toast.makeText(ReqfixActicity.this,text,Toast.LENGTH_SHORT).show();
-                            btn_go.setProgress(-1);
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    btn_go.setProgress(0);
-                                }
-                            }, 800);
-                        }
-                    });
-                }
-
-//                btn_go.setProgress(50);
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        btn_go.setProgress(100);
-//                    }
-//                }, 2000);
-
-                Log.e("liao","photo");
-                for (String path:photoPaths) {
-                    Log.e("liao",path);
-                }
-                Log.e("liao","video");
-                for (String path:videoPaths) {
-                    Log.e("liao", path);
-                }
-                Log.e("liao","voice");
-                for (String path:voicePaths) {
-                    Log.e("liao", path);
-                }
                 break;
         }
     }
@@ -310,9 +279,9 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
                     // 成功
                     String pathvideo = data.getStringExtra("path");
                     Log.e("liao", pathvideo);
-//                    Toast.makeText(this, "存储路径为:" + pathvideo, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, "存储路径为:" + pathvideo, Toast.LENGTH_SHORT).show();
                     // 通过路径获取第一帧的缩略图并显示
-//                    Bitmap bitmap = VideoUtils.createVideoThumbnail(pathvideo);
+                    //Bitmap bitmap = VideoUtils.createVideoThumbnail(pathvideo);
                     bundleView.addVideo(pathvideo);
                 } else {
                     // 失败
@@ -332,9 +301,209 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
     @Override
     public void cropResult(String path) {
         Log.e("liao", path);
-//        this.pathphoto = path;
-
-//        Bitmap bitmap = BitmapFactory.decodeFile(path);
         bundleView.addPhoto(path);
+    }
+
+
+    //存储图片、视频、音频的路径数组，path是本地路径，url是上传后返回的网络路径
+    private String[] photoPaths;
+    private String[] videoPaths;
+    private String[] voicePaths;
+    private String[] photoUrls;
+    private String[] videoUrls;
+    private String[] voiceUrls;
+
+    private void netUpload() {
+        String detail = edit_reqfix_detail.getText().toString();
+
+        String msg = null;
+        switch (type){
+            case 0:
+                msg = AppVali.reqfix_commit(categoryId, detail);
+                break;
+            case 1:
+                msg = AppVali.reqfix_addDescribe(detail);
+                break;
+        }
+        if (msg != null) {
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        } else {
+
+            ArrayList<String> paths = new ArrayList<>();
+            Collections.addAll(paths, photoPaths);
+            Collections.addAll(paths, videoPaths);
+            Collections.addAll(paths, voicePaths);
+
+            uploadFile(paths);
+        }
+    }
+
+    private void afterUpload() {
+        for (String path : urls) {
+            Log.e("liao", path);
+        }
+
+        if (!StrUtils.isEmpty(photoPaths)) {
+            photoUrls = urls.subList(0, photoPaths.length).toArray(new String[]{});
+        }
+        if (!StrUtils.isEmpty(videoPaths)) {
+            int offset = photoUrls == null ? 0 : photoUrls.length;
+            videoUrls = urls.subList(offset, offset + videoPaths.length).toArray(new String[]{});
+        }
+        if (!StrUtils.isEmpty(voicePaths)) {
+            int offset = (photoUrls == null ? 0 : photoUrls.length) + (videoPaths == null ? 0 : videoPaths.length);
+            voiceUrls = urls.subList(offset, offset + voicePaths.length).toArray(new String[]{});
+        }
+
+        switch (type){
+            case 0:
+                //提交
+                netCommit();
+                break;
+            case 1:
+                //添加订单描述
+                netAddDescribe();
+                break;
+        }
+    }
+
+    ////////////////////////////////////////////////
+    //////////////////批量上传
+    ////////////////////////////////////////////////
+
+    private List<String> urls = new ArrayList<>();
+    private int index = 0;
+    private void uploadFile(final List<String> paths) {
+        if (index > paths.size() - 1) {
+            afterUpload();
+            return;
+        }
+        String path = paths.get(index);
+        RequestParams params = new RequestParams(AppData.Url.upload);
+        params.setMultipart(true);
+        params.addHeader("token", AppData.App.getToken());
+        params.addBodyParameter("files", new File(path));
+        CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
+            @Override
+            public void netGo(int code, Object pojo, String text, Object obj) {
+                if (pojo == null) netSetError(code, text);
+                else {
+                    Log.e("upload", text);
+                    CommonEntity commonEntity = (CommonEntity) pojo;
+                    String url = commonEntity.getFilePath();
+                    //上传完毕
+                    urls.add(url);
+                    index++;
+                    uploadFile(paths);
+                }
+            }
+
+            @Override
+            public void netSetError(int code, String text) {
+                Toast.makeText(ReqfixActicity.this, text, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void netEnd(int code) {
+            }
+
+            @Override
+            public void netStart(int code) {
+            }
+        });
+    }
+
+    private void netCommit() {
+        String detail = edit_reqfix_detail.getText().toString();
+
+        btn_go.setProgress(50);
+        RequestParams params = new RequestParams(AppData.Url.reqfix);
+        params.addHeader("token", AppData.App.getToken());
+        params.addBodyParameter("categoryId", categoryId);
+        params.addBodyParameter("content", detail);
+        if (!StrUtils.isEmpty(photoUrls)) {
+            params.addBodyParameter("images", new Gson().toJson(photoUrls));
+        }
+        if (!StrUtils.isEmpty(videoUrls)) {
+            params.addBodyParameter("videos", new Gson().toJson(videoUrls));
+        }
+        if (!StrUtils.isEmpty(voiceUrls)) {
+            params.addBodyParameter("voices", new Gson().toJson(voiceUrls));
+        }
+        CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
+            @Override
+            public void netGo(int code, Object pojo, String text, Object obj) {
+
+                Toast.makeText(ReqfixActicity.this, text, Toast.LENGTH_SHORT).show();
+
+                btn_go.setProgress(100);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERLIST);
+                        finish();
+                    }
+                }, 800);
+            }
+
+            @Override
+            public void netSetError(int code, String text) {
+                Toast.makeText(ReqfixActicity.this, text, Toast.LENGTH_SHORT).show();
+                btn_go.setProgress(-1);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        btn_go.setProgress(0);
+                    }
+                }, 800);
+            }
+        });
+    }
+
+    private void netAddDescribe() {
+        String detail = edit_reqfix_detail.getText().toString();
+
+        btn_go.setProgress(50);
+        RequestParams params = new RequestParams(AppData.Url.addOrderDecribe);
+        params.addHeader("token", AppData.App.getToken());
+        params.addBodyParameter("orderId", orderId+"");
+        params.addBodyParameter("content", detail);
+        if (!StrUtils.isEmpty(photoUrls)) {
+            params.addBodyParameter("images", new Gson().toJson(photoUrls));
+        }
+        if (!StrUtils.isEmpty(videoUrls)) {
+            params.addBodyParameter("videos", new Gson().toJson(videoUrls));
+        }
+        if (!StrUtils.isEmpty(voiceUrls)) {
+            params.addBodyParameter("voices", new Gson().toJson(voiceUrls));
+        }
+        CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
+            @Override
+            public void netGo(int code, Object pojo, String text, Object obj) {
+
+                Toast.makeText(ReqfixActicity.this, text, Toast.LENGTH_SHORT).show();
+
+                btn_go.setProgress(100);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERDESCRIBE);
+                        finish();
+                    }
+                }, 800);
+            }
+
+            @Override
+            public void netSetError(int code, String text) {
+                Toast.makeText(ReqfixActicity.this, text, Toast.LENGTH_SHORT).show();
+                btn_go.setProgress(-1);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        btn_go.setProgress(0);
+                    }
+                }, 800);
+            }
+        });
     }
 }

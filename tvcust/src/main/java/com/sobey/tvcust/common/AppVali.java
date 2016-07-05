@@ -1,6 +1,7 @@
 package com.sobey.tvcust.common;
 
 import com.sobey.common.utils.ValidateUtil;
+import com.sobey.tvcust.entity.User;
 
 /**
  * 输入验证类，封装了app中所有需要验证输入的方法
@@ -130,6 +131,23 @@ public class AppVali {
 		}
 	}
 
+	public static String reqfix_addDescribe(String detail) {
+		if (isEmpty(detail)) {
+			return "请输入问题描述";
+		}
+		else {
+			return null;
+		}
+	}
+
+	public static String allocate_commit(User allocater) {
+		if (allocater==null || allocater.getId()==0) {
+			return "请选择分配对象";
+		}
+		else {
+			return null;
+		}
+	}
 
 	private static boolean isEmpty(String str){
 		return str==null || "".equals(str);

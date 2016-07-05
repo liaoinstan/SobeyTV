@@ -15,11 +15,11 @@ public class OrderDescribe {
     private String detail;
     @SerializedName("createTime")
     private Long time;
-    @SerializedName("images")
+    @SerializedName("jsImages")
     private String[] pathphotos;
-    @SerializedName("videos")
+    @SerializedName("jsVideos")
     private String[] pathvideos;
-    @SerializedName("voices")
+    @SerializedName("jsVoices")
     private String[] pathvoices;
 
     public Integer getId() {

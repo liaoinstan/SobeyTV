@@ -180,7 +180,7 @@ public class MeDetailActivity extends BaseAppCompatActicity
                 if (msg != null) {
                     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
                 }else {
-                    RequestParams params = new RequestParams(AppData.Url.updateInfo);
+                    final RequestParams params = new RequestParams(AppData.Url.updateInfo);
                     params.addHeader("token", AppData.App.getToken());
                     params.addBodyParameter("avatar", avatar);
                     params.addBodyParameter("realName", name);
@@ -194,7 +194,8 @@ public class MeDetailActivity extends BaseAppCompatActicity
                             user.setEmail(mail);
                             AppData.App.saveUser(user);
 //                            EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ME);
-                            EventBus.getDefault().post(new PathEntity(path));
+//                            EventBus.getDefault().post(new PathEntity(path));
+                            EventBus.getDefault().post(AppConstant.makeFlagStr(AppConstant.FLAG_UPDATE_ME,path));
                             finish();
                         }
 
@@ -246,21 +247,5 @@ public class MeDetailActivity extends BaseAppCompatActicity
                 loadingDialog.show();
             }
         });
-    }
-
-    public class PathEntity{
-        private String path;
-
-        public PathEntity(String path) {
-            this.path = path;
-        }
-
-        public String getPath() {
-            return path;
-        }
-
-        public void setPath(String path) {
-            this.path = path;
-        }
     }
 }

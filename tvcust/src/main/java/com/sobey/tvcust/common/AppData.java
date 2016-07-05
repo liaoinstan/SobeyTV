@@ -109,15 +109,18 @@ public class AppData {
 		public static final String question				= domain + "/SanghaCloud/order/getcategory";					//问题列表
 		public static final String reqfix				= domain + "/SanghaCloud/order/addorder";						//维修申报
 		public static final String orderlist			= domain + "/SanghaCloud/order/getorderlist";					//订单列表
-
 		public static final String updatePassword		= domain + "/SanghaCloud/mobile/updatePassword";				//修改密码
 		public static final String findPassword			= domain + "/SanghaCloud/mobile/resetpwd";					//找回密码
 		public static final String getvalipsw			= domain + "/SanghaCloud/mobile/forgetPwdCode";				//找回密码验证码
-
-
-		public static final String orderdetail			= domain + "/SanghaCloud/order/orderDetail";					//订单详情
 		public static final String getOrderdecribe		= domain + "/SanghaCloud/order/getOrderdecribe";				//订单详情描述
 		public static final String addOrderDecribe		= domain + "/SanghaCloud/order/addOrderDecribe";				//添加订单详情描述
+		public static final String getTSC				= domain + "/SanghaCloud/order/getTSC";						//订单分配人员列表
+		public static final String allotorder			= domain + "/SanghaCloud/order/allotorder";					//提交订单分配
+		public static final String cancleOrder			= domain + "/SanghaCloud/order/cancleOrder";					//取消订单
+		public static final String acceptOrder			= domain + "/SanghaCloud/order/updatetscCheck";				//接受订单
+
+		public static final String assistCommit			= domain + "/SanghaCloud/order/applicationHeadTech";			//协助提交
+		public static final String assister				= domain + "/SanghaCloud/mobile/getHeadTechs";				//请求协助人员列表
 
 	}
 }
