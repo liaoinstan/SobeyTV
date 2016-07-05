@@ -45,6 +45,16 @@
                     android:textSize="@dimen/text_tiny" />
 
             </LinearLayout>
+            <TextView
+                android:id="@+id/btn_go_assist"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_gravity="right"
+                android:layout_marginRight="10dp"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="援助"
+                android:textColor="@color/sb_blue" />
         </android.support.v7.widget.Toolbar>
 
         <RelativeLayout
@@ -63,8 +73,8 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/test" />
+                android:scaleType="center"
+                android:src="@drawable/icon_order_fix" />
 
             <TextView
                 android:id="@+id/text_orderdetail_name"
@@ -74,7 +84,6 @@
                 android:layout_marginLeft="10dp"
                 android:layout_toEndOf="@+id/img_orderdetail_header"
                 android:layout_toRightOf="@+id/img_orderdetail_header"
-                android:text="四川电视台"
                 android:textColor="@color/sb_text_blank"
                 android:textSize="@dimen/text_nomal" />
 
@@ -86,7 +95,7 @@
                 android:layout_alignStart="@+id/text_orderdetail_name"
                 android:layout_below="@+id/text_orderdetail_name"
                 android:layout_marginTop="2dp"
-                android:text="硬件问题：CPU过载警报"
+                android:text="问题："
                 android:textColor="@color/sb_text_dark_blank"
                 android:textSize="@dimen/text_nomal_small" />
 
@@ -98,7 +107,7 @@
                 android:layout_alignStart="@+id/text_orderdetail_problem"
                 android:layout_below="@+id/text_orderdetail_problem"
                 android:layout_marginTop="2dp"
-                android:text="订单号：56811658952"
+                android:text="订单号："
                 android:textColor="@color/sb_text_dark_blank"
                 android:textSize="@dimen/text_nomal_small" />
         </RelativeLayout>
@@ -129,63 +138,67 @@
                 android:paddingBottom="15dp">
 
                 <TextView
+                    android:id="@+id/text_orderdetail_user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:text="负责人：王先生"
+                    android:text="申请人："
                     android:textColor="@color/sb_text_blank"
                     android:textSize="@dimen/text_nomal" />
 
                 <TextView
+                    android:id="@+id/text_orderdetail_user_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="5dp"
-                    android:text="电话：15632458965"
+                    android:text="电话："
                     android:textColor="@color/sb_text_dark_blank"
                     android:textSize="@dimen/text_nomal_small" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="5dp"
-                    android:text="地址：四川省成都市高新区天府大道28号"
-                    android:textColor="@color/sb_text_dark_blank"
-                    android:textSize="@dimen/text_nomal_small" />
             </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@drawable/line" />
 
             <LinearLayout
+                android:id="@+id/lay_orderdetail_tsc"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="20dp"
-                android:paddingTop="15dp">
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:text="处理人：李师傅"
-                    android:textColor="@color/sb_text_blank"
-                    android:textSize="@dimen/text_nomal" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@drawable/line" />
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="5dp"
-                    android:text="电话：15632458965"
-                    android:textColor="@color/sb_text_dark_blank"
-                    android:textSize="@dimen/text_nomal_small" />
+                    android:orientation="vertical"
+                    android:paddingBottom="20dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        android:id="@+id/text_orderdetail_tsc_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:text="处理人："
+                        android:textColor="@color/sb_text_blank"
+                        android:textSize="@dimen/text_nomal" />
+
+                    <TextView
+                        android:id="@+id/text_orderdetail_tsc_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="5dp"
+                        android:text="电话："
+                        android:textColor="@color/sb_text_dark_blank"
+                        android:textSize="@dimen/text_nomal_small" />
+
+                </LinearLayout>
 
             </LinearLayout>
-
         </LinearLayout>
 
     </android.support.design.widget.AppBarLayout>

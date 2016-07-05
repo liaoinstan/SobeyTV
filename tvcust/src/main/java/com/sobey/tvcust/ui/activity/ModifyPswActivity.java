@@ -4,24 +4,27 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
+import com.sobey.common.common.CommonNet;
 import com.sobey.tvcust.R;
+import com.sobey.tvcust.common.AppData;
+import com.sobey.tvcust.common.AppVali;
+import com.sobey.tvcust.common.MyActivityCollector;
+import com.sobey.tvcust.entity.CommonEntity;
+
+import org.xutils.http.RequestParams;
 
 public class ModifyPswActivity extends BaseAppCompatActicity implements View.OnClickListener{
 
     private CircularProgressButton btn_go;
-    private EditText edit_phone;
-    private EditText edit_vali;
+    private EditText edit_password_old;
     private EditText edit_password_new;
-    private TextView text_getvali;
+    private EditText edit_password_new_repeat;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +43,11 @@ public class ModifyPswActivity extends BaseAppCompatActicity implements View.OnC
 
     private void initView() {
         btn_go = (CircularProgressButton) findViewById(R.id.btn_go);
-        edit_phone = (EditText)findViewById(R.id.edit_modifypsw_phone);
-        edit_vali = (EditText)findViewById(R.id.edit_modifypsw_vali);
+        edit_password_old = (EditText)findViewById(R.id.edit_modifypsw_password_old);
         edit_password_new = (EditText)findViewById(R.id.edit_modifypsw_password_new);
-        text_getvali = (TextView)findViewById(R.id.text_modifypsw_getvali);
+        edit_password_new_repeat = (EditText)findViewById(R.id.edit_modifypsw_password_new_repeat);
+
+        findViewById(R.id.btn_bank).setOnClickListener(this);
     }
 
     private void initData() {
@@ -51,8 +55,6 @@ public class ModifyPswActivity extends BaseAppCompatActicity implements View.OnC
 
     private void initCtrl() {
         btn_go.setOnClickListener(this);
-        text_getvali.setOnClickListener(this);
-
         btn_go.setIndeterminateProgressMode(true);
     }
 
@@ -66,54 +68,59 @@ public class ModifyPswActivity extends BaseAppCompatActicity implements View.OnC
     public void onClick(View v) {
         Intent intent = new Intent();
         switch (v.getId()){
-            case R.id.btn_go:
-                btn_go.setProgress(50);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        btn_go.setProgress(100);
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                finish();
-                            }
-                        }, 800);
-                    }
-                }, 2000);
+            case R.id.btn_bank:
+                finish();
                 break;
-            case R.id.text_modifypsw_getvali:
-                sendTimeMessage();
-                text_getvali.setEnabled(false);
-                break;
-        }
-    }
+            case R.id.btn_go: {
+                String psw_old = edit_password_old.getText().toString();
+                String psw_new = edit_password_new.getText().toString();
+                String psw_new_repeat = edit_password_new_repeat.getText().toString();
 
-    ////////////////////////////
-    //获取验证码计时
+                String msg = AppVali.modify_psw(psw_old,psw_new,psw_new_repeat);
+                if (msg != null) {
+                    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+                } else {
+                    btn_go.setProgress(50);
 
-    private int time = 60;
-    private final static int WHAT_TIME = 0;
-    private void sendTimeMessage() {
-        if (mHandler != null) {
-            mHandler.removeMessages(WHAT_TIME);
-            mHandler.sendEmptyMessageDelayed(WHAT_TIME, 1000);
-        }
-    }
+                    RequestParams params = new RequestParams(AppData.Url.updatePassword);
+                    params.addHeader("token", AppData.App.getToken());
+                    params.addBodyParameter("oldpwd", psw_old);
+                    params.addBodyParameter("password", psw_new);
+                    CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
+                        @Override
+                        public void netGo(int code, Object pojo, String text, Object obj) {
 
-    private Handler mHandler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            if (msg.what == WHAT_TIME) {
-                if (time>0) {
-                    text_getvali.setText(""+time);
-                    time--;
-                    ModifyPswActivity.this.sendTimeMessage();
-                }else {
-                    text_getvali.setEnabled(true);
-                    text_getvali.setText("获取验证码");
-                    time = 60;
+                            Toast.makeText(ModifyPswActivity.this, text, Toast.LENGTH_SHORT).show();
+
+                            btn_go.setProgress(100);
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    AppData.App.removeUser();
+                                    AppData.App.removeToken();
+
+                                    Intent intent = new Intent(ModifyPswActivity.this, LoginActivity.class);
+                                    startActivity(intent);
+                                    MyActivityCollector.finishAll();
+                                }
+                            }, 800);
+                        }
+
+                        @Override
+                        public void netSetError(int code, String text) {
+                            Toast.makeText(ModifyPswActivity.this, text, Toast.LENGTH_SHORT).show();
+                            btn_go.setProgress(-1);
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    btn_go.setProgress(0);
+                                }
+                            }, 800);
+                        }
+                    });
                 }
+                break;
             }
         }
-    };
+    }
 }

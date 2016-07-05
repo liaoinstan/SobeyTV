@@ -5,47 +5,54 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.sobey.tvcust.R;
-import com.sobey.tvcust.entity.CommonEntity;
-import com.sobey.tvcust.entity.CommonPojo;
-import com.sobey.tvcust.entity.OrderCategory;
 import com.sobey.tvcust.entity.TestEntity;
 
 import java.util.List;
 
 
-public class RecycleAdapterQuestion extends RecyclerView.Adapter<RecycleAdapterQuestion.Holder> {
+public class RecycleAdapterAssict extends RecyclerView.Adapter<RecycleAdapterAssict.Holder> {
+
     private Context context;
     private int src;
-    private List<OrderCategory> results;
+    private List<TestEntity> results;
+    private int selectItem = -1;
+    private int lastSelect;
 
-    public List<OrderCategory> getResults() {
+    public List<TestEntity> getResults() {
         return results;
     }
 
-    public RecycleAdapterQuestion(Context context, int src, List<OrderCategory> results) {
+    public RecycleAdapterAssict(Context context, int src, List<TestEntity> results) {
         this.context = context;
         this.src = src;
         this.results = results;
     }
 
     @Override
-    public RecycleAdapterQuestion.Holder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecycleAdapterAssict.Holder onCreateViewHolder(ViewGroup parent, int viewType) {
           return new Holder(LayoutInflater.from(parent.getContext()).inflate(src, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(final RecycleAdapterQuestion.Holder holder, int position) {
+    public void onBindViewHolder(final RecycleAdapterAssict.Holder holder, final int position) {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (listener!=null) listener.onItemClick(holder);
+                lastSelect = selectItem;
+                selectItem = position;
+                notifyItemChanged(lastSelect);
+                notifyItemChanged(selectItem);
             }
         });
-        int pos = holder.getLayoutPosition();
-        holder.text_question_name.setText(results.get(pos).getCategoryName());
+
+        if (position == selectItem) {
+            holder.img_select.setVisibility(View.VISIBLE);
+        } else {
+            holder.img_select.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
@@ -53,12 +60,11 @@ public class RecycleAdapterQuestion extends RecyclerView.Adapter<RecycleAdapterQ
         return results.size();
     }
 
-    public class Holder extends RecyclerView.ViewHolder {
-        public TextView text_question_name;
-
+    protected class Holder extends RecyclerView.ViewHolder {
+        private View img_select;
         public Holder(View itemView) {
             super(itemView);
-            text_question_name = (TextView) itemView.findViewById(R.id.text_item_question_name);
+            img_select = itemView.findViewById(R.id.img_orderallocate_select);
         }
     }
 

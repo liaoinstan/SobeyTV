@@ -2,27 +2,22 @@ package com.sobey.tvcust.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.TextView;
 
-import com.sobey.common.common.MyPlayer;
-import com.sobey.common.utils.StrUtils;
-import com.sobey.common.utils.VideoUtils;
-import com.sobey.common.view.BundleView;
+import com.sobey.common.utils.TimeUtil;
 import com.sobey.common.view.BundleView2;
 import com.sobey.common.view.bundle.BundleEntity;
 import com.sobey.tvcust.R;
-import com.sobey.tvcust.entity.TestEntity;
+import com.sobey.tvcust.entity.OrderDescribe;
 import com.sobey.tvcust.ui.activity.PhotoActivity;
 import com.sobey.tvcust.ui.activity.VideoActivity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -30,19 +25,17 @@ public class RecycleAdapterOrderDetail extends RecyclerView.Adapter<RecycleAdapt
 
     private Context context;
     private int src;
-    private List<TestEntity> results;
+    private List<OrderDescribe> results;
 //    private List<BundleEntity> resultsbundle = new ArrayList<>();
 
-    public List<TestEntity> getResults() {
+    public List<OrderDescribe> getResults() {
         return results;
     }
 
-    public RecycleAdapterOrderDetail(Context context, int src, List<TestEntity> results) {
+    public RecycleAdapterOrderDetail(Context context, int src, List<OrderDescribe> results) {
         this.context = context;
         this.src = src;
         this.results = results;
-
-
     }
 
     @Override
@@ -58,8 +51,14 @@ public class RecycleAdapterOrderDetail extends RecyclerView.Adapter<RecycleAdapt
                 if (listener!=null) listener.onItemClick(holder);
             }
         });
-
         final int pos = holder.getLayoutPosition();
+
+//        holder.text_title.setText(results.get(pos).getDetail());
+        holder.text_time.setText(TimeUtil.getTimeFor("yyyy-MM-dd  hh:mm",new Date(results.get(pos).getTime())));
+        holder.text_detail.setText(results.get(pos).getDetail());
+
+        ///bundle
+
         final String[] pathphotos = results.get(pos).getPathphotos();
         final String[] pathvideos = results.get(pos).getPathvideos();
         final String[] pathvoices = results.get(pos).getPathvoices();
@@ -81,20 +80,6 @@ public class RecycleAdapterOrderDetail extends RecyclerView.Adapter<RecycleAdapt
             }
         }
 
-//        if (position==0){
-//            resultsbundle.add(new BundleEntity(BundleEntity.Type.PHOTE,"11111"));
-//            resultsbundle.add(new BundleEntity(BundleEntity.Type.PHOTE,"22222"));
-//            resultsbundle.add(new BundleEntity(BundleEntity.Type.VIDEO,"33333"));
-//            resultsbundle.add(new BundleEntity(BundleEntity.Type.PHOTE,"44444"));
-//            resultsbundle.add(new BundleEntity(BundleEntity.Type.VOICE,"55555"));
-//        }else if (position==1||position==3){
-//            resultsbundle.add(new BundleEntity(BundleEntity.Type.PHOTE,"44444"));
-//            resultsbundle.add(new BundleEntity(BundleEntity.Type.VOICE,"55555"));
-//        }else {
-//            resultsbundle.add(new BundleEntity(BundleEntity.Type.PHOTE,"11111"));
-//            resultsbundle.add(new BundleEntity(BundleEntity.Type.PHOTE,"22222"));
-//            resultsbundle.add(new BundleEntity(BundleEntity.Type.VIDEO,"33333"));
-//        }
         holder.bundle.getResults().clear();
         holder.bundle.getResults().addAll(resultsbundle);
         holder.bundle.freshCtrl();
@@ -132,52 +117,6 @@ public class RecycleAdapterOrderDetail extends RecyclerView.Adapter<RecycleAdapt
             }
         });
 
-//        final int pos = holder.getLayoutPosition();
-//        final String pathphoto = results.get(pos).getPathphoto();
-//        final String pathvideo = results.get(pos).getPathvideo();
-//        final String pathvoice = results.get(pos).getPathvoice();
-//        if (!StrUtils.isEmpty(pathphoto)) {
-//            holder.bundle.setPhoto(pathphoto);
-//        }else {
-//            holder.bundle.closePhoto();
-//        }
-//        if (!StrUtils.isEmpty(pathvideo)) {
-//            holder.bundle.setVideo(pathvideo);
-//        }else {
-//            holder.bundle.closeVideo();
-//        }
-//        if (!StrUtils.isEmpty(pathvoice)) {
-//            holder.bundle.setVoice(pathvoice);
-//        }else {
-//            holder.bundle.closeVoice();
-//        }
-//        holder.bundle.setOnBundleClickListener(new BundleView.OnBundleClickListener() {
-//            @Override
-//            public void onPhotoDelClick(View v) {
-//            }
-//            @Override
-//            public void onVideoDelClick(View v) {
-//            }
-//            @Override
-//            public void onVoiceDelClick(View v) {
-//            }
-//            @Override
-//            public void onPhotoShowClick(View v) {
-//                Intent intent = new Intent(context, PhotoActivity.class);
-//                intent.putExtra("url", pathphoto);
-//                context.startActivity(intent);
-//            }
-//            @Override
-//            public void onVideoShowClick(View v) {
-//                Intent intent = new Intent(context, VideoActivity.class);
-//                intent.putExtra("url", pathvideo);
-//                context.startActivity(intent);
-//            }
-//            @Override
-//            public void onVoiceShowClick(View v) {
-//                if (voiceListener!=null) voiceListener.onPlay(pathvoice);
-//            }
-//        });
     }
 
     @Override
@@ -187,10 +126,16 @@ public class RecycleAdapterOrderDetail extends RecyclerView.Adapter<RecycleAdapt
 
     public class Holder extends RecyclerView.ViewHolder {
 
+        private TextView text_title;
+        private TextView text_time;
+        private TextView text_detail;
         private BundleView2 bundle;
 
         public Holder(View itemView) {
             super(itemView);
+            text_title = (TextView) itemView.findViewById(R.id.text_orderdescribe_title);
+            text_time = (TextView) itemView.findViewById(R.id.text_orderdescribe_time);
+            text_detail = (TextView) itemView.findViewById(R.id.text_orderdescribe_detail);
             bundle = (BundleView2) itemView.findViewById(R.id.bundle_orderdetail);
             bundle.setDelEnable(false);
         }

@@ -1,7 +1,6 @@
 package com.sobey.tvcust.ui.fragment;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -23,13 +22,8 @@ import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.CharacterParser;
 import com.sobey.tvcust.common.LoadingViewUtil;
-import com.sobey.tvcust.common.PinyinComparator;
-import com.sobey.tvcust.entity.Office;
-import com.sobey.tvcust.entity.OfficePojo;
-import com.sobey.tvcust.entity.TVStation;
 import com.sobey.tvcust.entity.TVStation;
 import com.sobey.tvcust.entity.TVStationPojo;
-import com.sobey.tvcust.ui.activity.CompActivity;
 import com.sobey.tvcust.ui.adapter.ListAdapterCompTVStation;
 
 import org.greenrobot.eventbus.EventBus;
@@ -351,7 +345,7 @@ public class CompTVStationFragment extends BaseFragment implements CommonNet.Net
     @Override
     public void netSetError(int code, String text) {
         Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
-        LoadingViewUtil.showin(showingroup,R.layout.layout_lack,showin,new View.OnClickListener(){
+        LoadingViewUtil.showin(showingroup,R.layout.layout_fail,showin,new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 initData();

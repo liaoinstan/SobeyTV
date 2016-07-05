@@ -54,6 +54,7 @@ public class MeDetailActivity extends BaseAppCompatActicity
 
     private User user;
     private String avatar;
+    private String path;
 
     public static final int RESULT_MODIFYPHONE = 0xff01;
 
@@ -188,11 +189,12 @@ public class MeDetailActivity extends BaseAppCompatActicity
                         @Override
                         public void netGo(int code, Object pojo, String text, Object obj) {
                             Toast.makeText(MeDetailActivity.this, text, Toast.LENGTH_SHORT).show();
-                            user.setAvatar(avatar);
+                            user.setAvatar(path);
                             user.setRealName(name);
                             user.setEmail(mail);
                             AppData.App.saveUser(user);
-                            EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ME);
+//                            EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ME);
+                            EventBus.getDefault().post(new PathEntity(path));
                             finish();
                         }
 
@@ -224,7 +226,8 @@ public class MeDetailActivity extends BaseAppCompatActicity
                     String url = commonEntity.getFilePath();
                     //上传完毕，设置头像链接
                     avatar = url;
-                    Glide.with(MeDetailActivity.this).load(avatar).placeholder(R.drawable.me_header_defalt).crossFade().into(img_header);
+                    MeDetailActivity.this.path = path;
+                    Glide.with(MeDetailActivity.this).load(path).placeholder(R.drawable.me_header_defalt).crossFade().into(img_header);
                 }
             }
 
@@ -243,5 +246,21 @@ public class MeDetailActivity extends BaseAppCompatActicity
                 loadingDialog.show();
             }
         });
+    }
+
+    public class PathEntity{
+        private String path;
+
+        public PathEntity(String path) {
+            this.path = path;
+        }
+
+        public String getPath() {
+            return path;
+        }
+
+        public void setPath(String path) {
+            this.path = path;
+        }
     }
 }

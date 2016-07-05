@@ -72,11 +72,12 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
     }
 
     @Subscribe
-    public void onEventMainThread(Integer flag) {
-        if (flag== AppConstant.EVENT_UPDATE_ME){
-            user = AppData.App.getUser();
-            setUserInfo();
-        }
+    public void onEventMainThread(MeDetailActivity.PathEntity pathEntity) {
+        Glide.with(this).load(pathEntity.getPath()).placeholder(R.drawable.me_header_defalt).crossFade().into(img_me_header);
+//        if (flag== AppConstant.EVENT_UPDATE_ME){
+//            user = AppData.App.getUser();
+//            setUserInfo();
+//        }
     }
 
     @Nullable

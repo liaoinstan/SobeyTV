@@ -14,7 +14,7 @@
     <string name="title_activity_count_order">派单统计</string>
     <string name="title_activity_device_list">设备</string>
     <string name="title_activity_login">登录</string>
-    <string name="title_activity_modify_psw">修改密码</string>
+    <string name="title_activity_find_psw">找回密码</string>
     <string name="title_activity_eva_detail">评价详情</string>
     <string name="title_activity_eva">评价</string>
     <string name="title_activity_complain">投诉建议</string>
@@ -25,8 +25,10 @@
     <string name="title_activity_version">版本信息</string>
     <string name="title_activity_me_detail">编辑个人资料</string>
     <string name="title_activity_order_detail">订单详情</string>
-    <string name="title_activity_order_allocate">OrderAllocateActivity</string>
+    <string name="title_activity_order_allocate">订单分配</string>
     <string name="title_activity_comp">办事处</string>
     <string name="title_activity_modify_phone">修改绑定手机</string>
     <string name="title_activity_setting_security">安全设置</string>
+    <string name="title_activity_modify_psw">修改密码</string>
+    <string name="title_activity_assist">援助选择</string>
 </resources>

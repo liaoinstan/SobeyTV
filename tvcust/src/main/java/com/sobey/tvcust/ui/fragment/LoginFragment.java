@@ -18,11 +18,9 @@ import com.sobey.common.common.CommonNet;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.AppVali;
-import com.sobey.tvcust.entity.CommonEntity;
 import com.sobey.tvcust.entity.User;
 import com.sobey.tvcust.ui.activity.HomeActivity;
-import com.sobey.tvcust.ui.activity.LoginActivity;
-import com.sobey.tvcust.ui.activity.ModifyPswActivity;
+import com.sobey.tvcust.ui.activity.FindPswActivity;
 
 import org.xutils.http.RequestParams;
 
@@ -84,7 +82,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
         edit_password = (EditText) getView().findViewById(R.id.edit_login_password);
         btn_go = (CircularProgressButton) getView().findViewById(R.id.btn_go);
         text_regist = (TextView) getView().findViewById(R.id.text_login_regist);
-        text_modifypsw = (TextView) getView().findViewById(R.id.text_login_modifypsw);
+        text_modifypsw = (TextView) getView().findViewById(R.id.text_login_findpsw);
     }
 
     private void initData() {
@@ -142,8 +140,8 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
             case R.id.text_login_regist:
                 fatherPager.setCurrentItem(1);
                 break;
-            case R.id.text_login_modifypsw:
-                intent.setClass(getActivity(), ModifyPswActivity.class);
+            case R.id.text_login_findpsw:
+                intent.setClass(getActivity(), FindPswActivity.class);
                 startActivity(intent);
                 getActivity().overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
                 break;

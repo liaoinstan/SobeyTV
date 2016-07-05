@@ -6,7 +6,32 @@ import java.util.Date;
 /**
  * Created by Administrator on 2016/6/30 0030.
  */
-public class User implements Serializable{
+public class User implements Serializable {
+
+    //管理员
+    public static final int ROLE_MANAGER = 1;
+    //技术人员
+    public static final int ROLE_TECH_PERSON = 2;
+    //客服
+    public static final int ROLE_CUSTOMER = 3;
+    //普通用户
+    public static final int ROLE_COMMOM = 4;
+    //售前
+    public static final int ROLE_PRE_SALE = 5;
+    //销售
+    public static final int ROLE_SALE = 6;
+    //运营
+    public static final int ROLE_OPERATION = 7;
+    //研发
+    public static final int ROLE_INVENT = 8;
+    //领导
+    public static final int ROLE_LEADER = 9;
+    //分公司技术支持
+    public static final int ROLE_FILIALETECH = 10;
+    //总部技术支持
+    public static final int ROLE_HEADCOMTECH = 11;
+
+
     private int id;
     private String realName;
     private String avatar;
@@ -22,6 +47,15 @@ public class User implements Serializable{
     private int officeId;
     private String officeName;
     private int roleType;
+    private String tvName;
+
+    public String getTvName() {
+        return tvName;
+    }
+
+    public void setTvName(String tvName) {
+        this.tvName = tvName;
+    }
 
     public String getOfficeName() {
         return officeName;
@@ -161,6 +195,7 @@ public class User implements Serializable{
                 ", officeId=" + officeId +
                 ", officeName='" + officeName + '\'' +
                 ", roleType=" + roleType +
+                ", tvName='" + tvName + '\'' +
                 '}';
     }
 }

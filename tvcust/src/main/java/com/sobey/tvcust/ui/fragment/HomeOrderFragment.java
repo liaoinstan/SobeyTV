@@ -2,14 +2,13 @@ package com.sobey.tvcust.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,14 +22,9 @@ import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppConstant;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.LoadingViewUtil;
-import com.sobey.tvcust.entity.CommonEntity;
-import com.sobey.tvcust.entity.CommonPojo;
 import com.sobey.tvcust.entity.Order;
 import com.sobey.tvcust.entity.OrderPojo;
-import com.sobey.tvcust.entity.TestEntity;
-import com.sobey.tvcust.ui.activity.OrderProgActivity;
 import com.sobey.tvcust.ui.activity.ReqfixActicity;
-import com.sobey.tvcust.ui.adapter.OnRecycleItemClickListener;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterOrder;
 
 import org.greenrobot.eventbus.EventBus;
@@ -43,7 +37,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/6/2 0002.
  */
-public class HomeOrderFragment extends BaseFragment implements View.OnClickListener{
+public class HomeOrderFragment extends BaseFragment implements View.OnClickListener {
 
     private int position;
     private View rootView;
@@ -59,6 +53,11 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
     private List<Order> results = new ArrayList<>();
     private int page;
     private final int PAGE_COUNT = 5;
+
+    private enum Select {ALL, PROG, FINISH}
+
+    ;
+    private Select selectflag = Select.ALL;
 
     public static Fragment newInstance(int position) {
         HomeOrderFragment f = new HomeOrderFragment();
@@ -76,14 +75,14 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
     }
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
 
     @Subscribe
     public void onEventMainThread(Integer flag) {
-        if (flag == AppConstant.EVENT_UPDATE_ORDERLIST){
+        if (flag == AppConstant.EVENT_UPDATE_ORDERLIST) {
             initData(true);
         }
     }
@@ -125,12 +124,15 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
         tab.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                switch (tab.getPosition()){
+                switch (tab.getPosition()) {
                     case 0:
+                        selectflag = Select.ALL;
                         break;
                     case 1:
+                        selectflag = Select.PROG;
                         break;
                     case 2:
+                        selectflag = Select.FINISH;
                         break;
                 }
                 initData(true);
@@ -147,12 +149,12 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
             }
         });
 
-        adapter = new RecycleAdapterOrder(getActivity(),R.layout.item_recycle_order,results);
+        adapter = new RecycleAdapterOrder(getActivity(), R.layout.item_recycle_order, results);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
 
-        springView.setHeader(new AliHeader(getActivity(),false));
-        springView.setFooter(new AliFooter(getActivity(),false));
+        springView.setHeader(new AliHeader(getActivity(), false));
+        springView.setFooter(new AliFooter(getActivity(), false));
         springView.setListener(new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
@@ -162,44 +164,48 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
             @Override
             public void onLoadmore() {
                 loadMoreData();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        results.add(new Order());
-                        results.add(new Order());
-                        freshCtrl();
-                        springView.onFinishFreshAndLoad();
-                    }
-                }, 2000);
             }
         });
     }
 
-    private void freshCtrl(){
+    private void freshCtrl() {
         adapter.notifyDataSetChanged();
     }
 
     private void initData(final boolean isFirst) {
         final RequestParams params = new RequestParams(AppData.Url.orderlist);
         params.addHeader("token", AppData.App.getToken());
-        params.addBodyParameter("page", 1+"");
-        params.addBodyParameter("pagecount", PAGE_COUNT+"");
-        CommonNet.samplepost(params,CommonPojo.class,new CommonNet.SampleNetHander(){
+        params.addBodyParameter("pageNO", 1 + "");
+        params.addBodyParameter("pageSize", PAGE_COUNT + "");
+        switch (selectflag) {
+            case PROG:
+                params.addBodyParameter("status", 2006 + "");
+                break;
+            case FINISH:
+                params.addBodyParameter("status", 2005 + "");
+                break;
+        }
+        CommonNet.samplepost(params, OrderPojo.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
-                if (pojo==null) netSetError(code,text);
-                else{
+                if (pojo == null) netSetError(code, text);
+                else {
                     OrderPojo orderPojo = (OrderPojo) pojo;
                     List<Order> orders = orderPojo.getDataList();
-                    List<Order> results = adapter.getResults();
-                    results.clear();
-                    results.addAll(orders);
-                    freshCtrl();
-                    page = 1;
-                    if (isFirst) {
-                        LoadingViewUtil.showout(showingroup,showin);
-                    }else {
-                        springView.onFinishFreshAndLoad();
+                    //有数据才添加，否则显示lack信息
+                    if (orders != null && orders.size() != 0) {
+                        List<Order> results = adapter.getResults();
+                        results.clear();
+                        results.addAll(orders);
+                        freshCtrl();
+                        page = 1;
+                        if (isFirst) {
+                            LoadingViewUtil.showout(showingroup, showin);
+                        } else {
+                            springView.onFinishFreshAndLoad();
+                        }
+                    } else {
+                        LoadingViewUtil.showin(showingroup, R.layout.layout_lack, showin);
                     }
                 }
             }
@@ -208,13 +214,13 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
             public void netSetError(int code, String text) {
                 if (isFirst) {
                     Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
-                    LoadingViewUtil.showin(showingroup, R.layout.layout_lack, showin, new View.OnClickListener() {
+                    LoadingViewUtil.showin(showingroup, R.layout.layout_fail, showin, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             initData(false);
                         }
                     });
-                }else {
+                } else {
                     springView.onFinishFreshAndLoad();
                 }
             }
@@ -228,32 +234,54 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
         });
     }
 
+    private boolean isloadmore = false;
+
     private void loadMoreData() {
+        if (isloadmore) return;
         final RequestParams params = new RequestParams(AppData.Url.orderlist);
-        params.addBodyParameter("page", page+1+"");
-        params.addBodyParameter("pagecount", PAGE_COUNT+"");
-        CommonNet.samplepost(params,CommonPojo.class,new CommonNet.SampleNetHander(){
+        params.addHeader("token", AppData.App.getToken());
+        params.addBodyParameter("pageNO", page + 1 + "");
+        params.addBodyParameter("pageSize", PAGE_COUNT + "");
+        switch (selectflag) {
+            case PROG:
+                params.addBodyParameter("status", 2006 + "");
+                break;
+            case FINISH:
+                params.addBodyParameter("status", 2005 + "");
+                break;
+        }
+        CommonNet.samplepost(params, OrderPojo.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
-                if (pojo==null) netSetError(code,text);
-                else{
+                if (pojo == null) netSetError(code, text);
+                else {
                     OrderPojo orderPojo = (OrderPojo) pojo;
                     List<Order> orders = orderPojo.getDataList();
-                    List<Order> results = adapter.getResults();
-//                    results.clear();
-                    results.addAll(orders);
-                    freshCtrl();
-                    page++;
+                    if (orders.size() != 0) {
+                        List<Order> results = adapter.getResults();
+                        results.addAll(orders);
+                        freshCtrl();
+                        page++;
+                    } else {
+                        Snackbar.make(showingroup, "没有更多的数据了", Snackbar.LENGTH_SHORT).show();
+//                        Toast.makeText(getActivity(),"没有更多的数据了",Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 
             @Override
             public void netSetError(int code, String text) {
-                Toast.makeText(getActivity(),text,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void netStart(int code) {
+                isloadmore = true;
             }
 
             @Override
             public void netEnd(int code) {
+                isloadmore = false;
                 springView.onFinishFreshAndLoad();
             }
         });
@@ -262,7 +290,7 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
     @Override
     public void onClick(View v) {
         Intent intent = new Intent();
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_go_reqfix:
                 intent.setClass(getActivity(), ReqfixActicity.class);
                 startActivity(intent);

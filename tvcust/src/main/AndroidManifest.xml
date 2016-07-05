@@ -101,8 +101,8 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoTitleFullscreen" />
         <activity
-            android:name=".ui.activity.ModifyPswActivity"
-            android:label="@string/title_activity_modify_psw"
+            android:name=".ui.activity.FindPswActivity"
+            android:label="@string/title_activity_find_psw"
             android:theme="@style/AppTheme.NoTitleFullscreen" />
         <activity
             android:name=".ui.activity.EvaDetailActivity"
@@ -159,6 +159,14 @@
         <activity
             android:name=".ui.activity.SettingSecurityActivity"
             android:label="@string/title_activity_setting_security"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.activity.ModifyPswActivity"
+            android:label="@string/title_activity_modify_psw"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.activity.AssistActivity"
+            android:label="@string/title_activity_assist"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

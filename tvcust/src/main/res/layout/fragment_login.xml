@@ -112,14 +112,14 @@
                 android:layout_weight="1" />
 
             <TextView
-                android:id="@+id/text_login_modifypsw"
+                android:id="@+id/text_login_findpsw"
                 style="@style/text_big_blue"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:paddingLeft="29dp"
                 android:paddingRight="29dp"
-                android:text="修改密码" />
+                android:text="忘记密码" />
 
         </LinearLayout>
     </LinearLayout>

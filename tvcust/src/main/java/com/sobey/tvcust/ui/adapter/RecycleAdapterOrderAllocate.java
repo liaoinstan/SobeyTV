@@ -20,7 +20,7 @@ public class RecycleAdapterOrderAllocate extends RecyclerView.Adapter<RecyclerVi
     private Context context;
     private List<TestEntity> results_tcs;
     private List<TestEntity> results_fb;
-    private int selectItem;
+    private int selectItem = -1;
     private int lastSelect;
 
     public static final int TYPE_HEADER = 0xff01;
@@ -46,30 +46,30 @@ public class RecycleAdapterOrderAllocate extends RecyclerView.Adapter<RecyclerVi
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        switch (viewType){
+        switch (viewType) {
             case TYPE_HEADER:
                 return new HolderHeader(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recycle_orderallocate_header, parent, false));
             case TYPE_ITEM:
                 return new HolderItem(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recycle_orderallocate, parent, false));
             default:
-                Log.d("error","viewholder is null");
+                Log.d("error", "viewholder is null");
                 return null;
         }
     }
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        if (holder instanceof HolderHeader){
+        if (holder instanceof HolderHeader) {
             bindTypeHeader((HolderHeader) holder, position);
-        }else if (holder instanceof HolderItem){
+        } else if (holder instanceof HolderItem) {
             bindTypeItem((HolderItem) holder, position);
         }
     }
 
     private void bindTypeHeader(HolderHeader holder, int position) {
-        if (position==0) {
+        if (position == 0) {
             holder.text_header.setText("TCS");
-        }else {
+        } else {
             holder.text_header.setText("非编技术专家");
         }
     }
@@ -79,18 +79,16 @@ public class RecycleAdapterOrderAllocate extends RecyclerView.Adapter<RecyclerVi
             @Override
             public void onClick(View v) {
                 if (listener != null) listener.onItemClick(holder);
-                if (getItemViewType(position)==TYPE_ITEM){
-                    lastSelect = selectItem;
-                    selectItem = position;
-                    notifyItemChanged(lastSelect);
-                    notifyItemChanged(selectItem);
-                }
+                lastSelect = selectItem;
+                selectItem = position;
+                notifyItemChanged(lastSelect);
+                notifyItemChanged(selectItem);
             }
         });
 
-        if (position==selectItem){
+        if (position == selectItem) {
             holder.img_select.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             holder.img_select.setVisibility(View.INVISIBLE);
         }
     }
@@ -104,9 +102,9 @@ public class RecycleAdapterOrderAllocate extends RecyclerView.Adapter<RecyclerVi
     public int getItemViewType(int position) {
         if (position == 0) {
             return TYPE_HEADER;
-        }else if(position == results_tcs.size()+1){
+        } else if (position == results_tcs.size() + 1) {
             return TYPE_HEADER;
-        }else {
+        } else {
             return TYPE_ITEM;
         }
     }
@@ -116,13 +114,13 @@ public class RecycleAdapterOrderAllocate extends RecyclerView.Adapter<RecyclerVi
         super.onAttachedToRecyclerView(recyclerView);
 
         RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();
-        if(manager instanceof GridLayoutManager) {
+        if (manager instanceof GridLayoutManager) {
             final GridLayoutManager gridManager = ((GridLayoutManager) manager);
             gridManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                 @Override
                 public int getSpanSize(int position) {
                     int type = getItemViewType(position);
-                    switch (type){
+                    switch (type) {
                         case TYPE_HEADER:
                             return gridManager.getSpanCount();
                         case TYPE_ITEM:
@@ -137,6 +135,7 @@ public class RecycleAdapterOrderAllocate extends RecyclerView.Adapter<RecyclerVi
 
     private class HolderHeader extends RecyclerView.ViewHolder {
         private TextView text_header;
+
         public HolderHeader(View itemView) {
             super(itemView);
             text_header = (TextView) itemView.findViewById(R.id.text_orderallocate_header);
@@ -145,6 +144,7 @@ public class RecycleAdapterOrderAllocate extends RecyclerView.Adapter<RecyclerVi
 
     private class HolderItem extends RecyclerView.ViewHolder {
         private View img_select;
+
         public HolderItem(View itemView) {
             super(itemView);
             img_select = itemView.findViewById(R.id.img_orderallocate_select);

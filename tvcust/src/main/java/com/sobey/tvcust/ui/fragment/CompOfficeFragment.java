@@ -1,7 +1,6 @@
 package com.sobey.tvcust.ui.fragment;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -13,25 +12,17 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sobey.common.common.CommonNet;
-import com.sobey.common.view.SideBar;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.CharacterParser;
 import com.sobey.tvcust.common.LoadingViewUtil;
-import com.sobey.tvcust.common.PinyinComparator;
-import com.sobey.tvcust.entity.CarType;
-import com.sobey.tvcust.entity.Office;
-import com.sobey.tvcust.entity.CommonEntity;
 import com.sobey.tvcust.entity.Office;
 import com.sobey.tvcust.entity.OfficePojo;
 import com.sobey.tvcust.ui.activity.CompActivity;
-import com.sobey.tvcust.ui.activity.LoginActivity;
 import com.sobey.tvcust.ui.adapter.ListAdapterCompOffice;
-import com.sobey.tvcust.ui.adapter.ListAdapterCompTVStation;
 
 import org.greenrobot.eventbus.EventBus;
 import org.xutils.http.RequestParams;
@@ -319,7 +310,7 @@ public class CompOfficeFragment extends BaseFragment implements CommonNet.NetHan
     @Override
     public void netSetError(int code, String text) {
         Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
-        LoadingViewUtil.showin(showingroup,R.layout.layout_lack,showin,new View.OnClickListener(){
+        LoadingViewUtil.showin(showingroup,R.layout.layout_fail,showin,new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
                         initData();

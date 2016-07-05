@@ -99,16 +99,25 @@ public class AppData {
 		 */
 		public static final String getvali				= domain + "/SanghaCloud/mobile/sendCode";					//获取验证码
 		public static final String login					= domain + "/SanghaCloud/mobile/login";						//登录
-		public static final String logout				= domain + "SanghaCloud/mobile/loginout";						//注销
-		public static final String getInfo				= domain + "SanghaCloud/mobile/getInfo";						//获取个人信息
+		public static final String logout				= domain + "/SanghaCloud/mobile/loginout";					//注销
+		public static final String getInfo				= domain + "/SanghaCloud/mobile/getInfo";						//获取个人信息
 		public static final String regist				= domain + "/SanghaCloud/mobile/register";					//注册
 		public static final String getOffice			= domain + "/SanghaCloud/officeMobile/getOffice";			//获取办事处
 		public static final String getTv					= domain + "/SanghaCloud/officeMobile/getTv";					//获取电视台
-		public static final String updateInfo			= domain + "SanghaCloud/mobile/updateInfo";					//修改用户信息
+		public static final String updateInfo			= domain + "/SanghaCloud/mobile/updateInfo";					//修改用户信息
 		public static final String upload				= domain + "/SanghaCloud/res/upload";							//上传文件
 		public static final String question				= domain + "/SanghaCloud/order/getcategory";					//问题列表
-		public static final String reqfix				= domain + "SanghaCloud/order/addorder";						//维修申报
+		public static final String reqfix				= domain + "/SanghaCloud/order/addorder";						//维修申报
+		public static final String orderlist			= domain + "/SanghaCloud/order/getorderlist";					//订单列表
 
-		public static final String orderlist			= domain + "SanghaCloud/order/addorderxx";						//订单列表
+		public static final String updatePassword		= domain + "/SanghaCloud/mobile/updatePassword";				//修改密码
+		public static final String findPassword			= domain + "/SanghaCloud/mobile/resetpwd";					//找回密码
+		public static final String getvalipsw			= domain + "/SanghaCloud/mobile/forgetPwdCode";				//找回密码验证码
+
+
+		public static final String orderdetail			= domain + "/SanghaCloud/order/orderDetail";					//订单详情
+		public static final String getOrderdecribe		= domain + "/SanghaCloud/order/getOrderdecribe";				//订单详情描述
+		public static final String addOrderDecribe		= domain + "/SanghaCloud/order/addOrderDecribe";				//添加订单详情描述
+
 	}
 }

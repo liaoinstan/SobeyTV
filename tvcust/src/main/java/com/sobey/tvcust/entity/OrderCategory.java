@@ -3,30 +3,24 @@ package com.sobey.tvcust.entity;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by Administrator on 2016/6/30 0030.
+ * Created by Administrator on 2016/7/4 0004.
  */
-public class CommonEntity {
-
+public class OrderCategory {
     @SerializedName("id")
     private int id;
-
-    @SerializedName("valicode")
-    private String valicode;
 
     @SerializedName("categoryName")
     private String categoryName;
 
     @SerializedName("type")
     private int type;
-    @SerializedName("url")
-    private String filePath;
 
-    public String getFilePath() {
-        return filePath;
+    public int getId() {
+        return id;
     }
 
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getCategoryName() {
@@ -45,30 +39,12 @@ public class CommonEntity {
         this.type = type;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getValicode() {
-        return valicode;
-    }
-
-    public void setValicode(String valicode) {
-        this.valicode = valicode;
-    }
-
     @Override
     public String toString() {
-        return "CommonEntity{" +
+        return "OrderCategory{" +
                 "id=" + id +
-                ", valicode='" + valicode + '\'' +
                 ", categoryName='" + categoryName + '\'' +
                 ", type=" + type +
-                ", filePath='" + filePath + '\'' +
                 '}';
     }
 }

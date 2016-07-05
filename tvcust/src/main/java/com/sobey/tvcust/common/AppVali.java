@@ -51,6 +51,40 @@ public class AppVali {
 		}
 	}
 
+	public static String find_psw(String phone_edit, String phone, String vali, String valicode, String psw) {
+		if (isEmpty(phone_edit)) {
+			return "请输入手机号";
+		}else if (!phone_edit.equals(phone)){
+			return "你输入的号码没有验证过";
+		}
+		else if (!ValidateUtil.Mobile(phone)) {
+			return "请输入正确的手机号";
+		}else if (!vali.equals(valicode)) {
+			return "验证码不正确";
+		}else {
+			return null;
+		}
+	}
+
+	public static String modify_psw(String psw_old, String psw_new,String psw_new_repeat) {
+		if (isEmpty(psw_old)) {
+			return "请输入旧密码";
+		}else if (isEmpty(psw_new)){
+			return "你输入新密码";
+		}else if (isEmpty(psw_new_repeat)){
+			return "你确认新密码";
+		}
+		else if (!length(psw_old, 6, 16)) {
+			return "旧密码长度必须为6-16位";
+		}else if (!length(psw_new, 6, 16)) {
+			return "新密码长度必须为6-16位";
+		}else if (!psw_new.equals(psw_new_repeat)) {
+			return "两次输入密码不一致";
+		}else {
+			return null;
+		}
+	}
+
 	public static String regist_detail(String name,String password,String password_repet,String mail,String comp) {
 		if (isEmpty(name)) {
 			return "请输入姓名";

@@ -2,9 +2,6 @@ package com.sobey.tvcust.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -13,18 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.liaoinstan.springview.container.AliFooter;
-import com.liaoinstan.springview.container.AliHeader;
-import com.liaoinstan.springview.widget.SpringView;
 import com.sobey.common.common.CommonNet;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
-import com.sobey.tvcust.common.DividerItemDecoration;
 import com.sobey.tvcust.common.LoadingViewUtil;
 import com.sobey.tvcust.entity.CommonEntity;
 import com.sobey.tvcust.entity.CommonPojo;
-import com.sobey.tvcust.entity.TestEntity;
-import com.sobey.tvcust.entity.User;
+import com.sobey.tvcust.entity.OrderCategory;
+import com.sobey.tvcust.entity.OrderCategoryPojo;
 import com.sobey.tvcust.ui.adapter.OnRecycleItemClickListener;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterQuestion;
 
@@ -36,7 +29,7 @@ import java.util.List;
 public class QuestionActivity extends BaseAppCompatActicity implements OnRecycleItemClickListener{
 
     private RecyclerView recyclerView;
-    private List<CommonEntity> results = new ArrayList<>();
+    private List<OrderCategory> results = new ArrayList<>();
     private RecycleAdapterQuestion adapter;
 
     private ViewGroup showingroup;
@@ -74,14 +67,14 @@ public class QuestionActivity extends BaseAppCompatActicity implements OnRecycle
         final RequestParams params = new RequestParams(AppData.Url.question);
         //params.addHeader("token", AppData.App.getToken());
         params.addBodyParameter("type", type);
-        CommonNet.samplepost(params,CommonPojo.class,new CommonNet.SampleNetHander(){
+        CommonNet.samplepost(params,OrderCategoryPojo.class,new CommonNet.SampleNetHander(){
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
                 if (pojo==null) netSetError(code,text);
                 else{
-                    CommonPojo commonPojo = (CommonPojo) pojo;
-                    List<CommonEntity> questions = commonPojo.getDataList();
-                    List<CommonEntity> results = adapter.getResults();
+                    OrderCategoryPojo categoryPojo = (OrderCategoryPojo) pojo;
+                    List<OrderCategory> questions = categoryPojo.getDataList();
+                    List<OrderCategory> results = adapter.getResults();
                     results.clear();
                     results.addAll(questions);
                     freshCtrl();
@@ -92,7 +85,7 @@ public class QuestionActivity extends BaseAppCompatActicity implements OnRecycle
             @Override
             public void netSetError(int code, String text) {
                 Toast.makeText(QuestionActivity.this,text,Toast.LENGTH_SHORT).show();
-                LoadingViewUtil.showin(showingroup,R.layout.layout_lack,showin,new View.OnClickListener(){
+                LoadingViewUtil.showin(showingroup,R.layout.layout_fail,showin,new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
                         initData();
@@ -137,7 +130,7 @@ public class QuestionActivity extends BaseAppCompatActicity implements OnRecycle
     @Override
     public void onItemClick(RecyclerView.ViewHolder viewHolder) {
         int position = viewHolder.getLayoutPosition();
-        CommonEntity question = adapter.getResults().get(position);
+        OrderCategory question = adapter.getResults().get(position);
         Intent intent = new Intent();
         intent.putExtra("name",question.getCategoryName());
         intent.putExtra("id",question.getId()+"");
