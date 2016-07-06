@@ -118,9 +118,10 @@ public class AppData {
 		public static final String allotorder			= domain + "/SanghaCloud/order/allotorder";					//提交订单分配
 		public static final String cancleOrder			= domain + "/SanghaCloud/order/cancleOrder";					//取消订单
 		public static final String acceptOrder			= domain + "/SanghaCloud/order/updatetscCheck";				//接受订单
-
 		public static final String assistCommit			= domain + "/SanghaCloud/order/applicationHeadTech";			//协助提交
 		public static final String assister				= domain + "/SanghaCloud/mobile/getHeadTechs";				//请求协助人员列表
+
+		public static final String copyer				= domain + "/SanghaCloud/mobile/getHeadTechs";				//请求抄送人员列表
 
 	}
 }

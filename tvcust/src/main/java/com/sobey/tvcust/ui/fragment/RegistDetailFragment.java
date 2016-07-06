@@ -137,8 +137,6 @@ public class RegistDetailFragment extends BaseFragment implements View.OnClickLi
         switch (v.getId()){
             case R.id.btn_go:
 
-
-
                 String name = edit_name.getText().toString();
                 String password = edit_password.getText().toString();
                 String password_repet = edit_password_repet.getText().toString();
@@ -154,6 +152,7 @@ public class RegistDetailFragment extends BaseFragment implements View.OnClickLi
                     params.addBodyParameter("email", mail);
                     params.addBodyParameter("officeId", officeId +"");
                     params.addBodyParameter("type", type);
+                    params.addBodyParameter("deviceType", "0");
                     CommonNet.post(this, params, 1, CommonEntity.class, null);
 
                     btn_go.setProgress(50);

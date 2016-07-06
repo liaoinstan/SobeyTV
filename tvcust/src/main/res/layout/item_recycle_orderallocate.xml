@@ -27,7 +27,7 @@
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/icon_allocate_header_default" />
+                android:src="@drawable/default_bk" />
 
             <TextView
                 android:id="@+id/text_orderallocate_name"

@@ -1,15 +1,11 @@
 package com.sobey.tvcust.ui.activity;
 
 import android.content.Intent;
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
+import android.os.Handler;
 import android.widget.Toast;
 
 import com.sobey.common.common.CommonNet;
-import com.sobey.common.utils.ACache;
-import com.sobey.common.utils.ClearCacheUtil;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.entity.User;
@@ -38,7 +34,6 @@ public class LoadUpActivity extends BaseAppCompatActicity implements CommonNet.N
 //        AppData.App.saveToken("xxxx");
         //测试获取token失败
 //        AppData.App.removeToken();
-
         //测试移除startup
 //        AppData.App.removeStartUp();
 
@@ -64,27 +59,6 @@ public class LoadUpActivity extends BaseAppCompatActicity implements CommonNet.N
         RequestParams params = new RequestParams(AppData.Url.getInfo);
         params.addHeader("token", token);
         CommonNet.post(this, params, 1, User.class, null);
-
-
-        //模拟登录
-//        mHandler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                //测试登录成功
-//                user = new User();
-//                //测试登录失败
-////                AppData.App.removeUser();
-//
-//                if (user != null) {
-//                    //登录成功 保存用户信息 去首页
-//                    AppData.App.saveUser(user);
-//                    goHomeActivity();
-//                } else {
-//                    //登录失败 去登录页
-//                    goLoginActivity();
-//                }
-//            }
-//        }, 2000);
     }
 
     private void goLoginActivity() {

@@ -167,6 +167,10 @@
         <activity
             android:name=".ui.activity.AssistActivity"
             android:label="@string/title_activity_assist"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.activity.CopyActivity"
+            android:label="@string/title_activity_copy"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

@@ -93,7 +93,7 @@ public class RecycleAdapterOrderAllocate extends RecyclerView.Adapter<RecyclerVi
 
         int pos = holder.getLayoutPosition();
 
-        Glide.with(context).load(getUserByPosition(pos).getAvatar()).placeholder(R.drawable.icon_allocate_header_default).crossFade().into(holder.img_header);
+        Glide.with(context).load(getUserByPosition(pos).getAvatar()).placeholder(R.drawable.default_bk).crossFade().into(holder.img_header);
         holder.text_name.setText(getUserByPosition(pos).getRealName());
     }
 

@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.dd.CircularProgressButton;
 import com.google.gson.Gson;
 import com.sobey.common.common.CommonNet;
@@ -24,9 +23,10 @@ import com.sobey.tvcust.common.AppConstant;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.AppVali;
 import com.sobey.tvcust.entity.CommonEntity;
+import com.sobey.tvcust.entity.User;
 import com.sobey.tvcust.ui.dialog.DialogLoading;
-import com.sobey.tvcust.ui.dialog.DialogRecord;
 import com.sobey.tvcust.ui.dialog.DialogPopupPhoto;
+import com.sobey.tvcust.ui.dialog.DialogRecord;
 import com.sobey.tvcust.ui.dialog.DialogReqfixChoose;
 
 import org.greenrobot.eventbus.EventBus;
@@ -37,11 +37,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * 维修申报和追加描述页面
+ * type为0 是维修申报 type为1 是追加描述
+ */
 public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClickListener, CropHelper.CropInterface {
 
     private CropHelper cropHelper = new CropHelper(this);
 
     private View lay_reqfix_quekind;
+    private View lay_reqfix_selectuser;
     private DialogLoading loadingDialog;
     private DialogReqfixChoose chooseDialog;
     private DialogPopupPhoto popup;
@@ -51,12 +56,16 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
 
     private CircularProgressButton btn_go;
     private TextView text_question_name;
+    private TextView text_user_name;
     private EditText edit_reqfix_detail;
 
     private String categoryId;
+    private String userId;
     private int orderId;
+    private User user;
 
     private static final int RESULT_QUESTION = 0xf102;
+    private static final int RESULT_SELECTUSER = 0xf103;
     private static final int RESULT_VIDEO_RECORDER = 0xf101;
 
     @Override
@@ -104,6 +113,7 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
         if (getIntent().hasExtra("id")){
             orderId = getIntent().getIntExtra("id",0);
         }
+        user = AppData.App.getUser();
 
         loadingDialog = new DialogLoading(this, "正在上传");
         chooseDialog = new DialogReqfixChoose(this);
@@ -145,10 +155,12 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
 
     private void initView() {
         lay_reqfix_quekind = findViewById(R.id.lay_reqfix_quekind);
+        lay_reqfix_selectuser = findViewById(R.id.lay_reqfix_selectuser);
         bundleView = (BundleView2) findViewById(R.id.bundle_reqfix);
         btn_go = (CircularProgressButton) findViewById(R.id.btn_go);
         edit_reqfix_detail = (EditText) findViewById(R.id.edit_reqfix_detail);
         text_question_name = (TextView) findViewById(R.id.text_question_name);
+        text_user_name = (TextView) findViewById(R.id.text_user_name);
 
         findViewById(R.id.img_reqfix_photo).setOnClickListener(this);
         findViewById(R.id.img_reqfix_vidio).setOnClickListener(this);
@@ -164,10 +176,17 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
                 lay_reqfix_quekind.setVisibility(View.GONE);
                 break;
         }
+        //如果是客户可以为用户代理申报
+        if (user.getRoleType()==User.ROLE_CUSTOMER){
+            lay_reqfix_selectuser.setVisibility(View.VISIBLE);
+        }else {
+            lay_reqfix_selectuser.setVisibility(View.GONE);
+        }
     }
 
     private void initCtrl() {
         lay_reqfix_quekind.setOnClickListener(this);
+        lay_reqfix_selectuser.setOnClickListener(this);
         btn_go.setOnClickListener(this);
         btn_go.setIndeterminateProgressMode(true);
         bundleView.setDelEnable(true);
@@ -240,15 +259,21 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
 
     @Override
     public void onClick(View v) {
+        Intent intent = new Intent();
         switch (v.getId()) {
             case R.id.lay_reqfix_quekind:
                 chooseDialog.show();
+                break;
+            case R.id.lay_reqfix_selectuser:
+                intent.setClass(this, AssistActivity.class);
+                intent.putExtra("type",1);
+                startActivityForResult(intent, RESULT_SELECTUSER);
                 break;
             case R.id.img_reqfix_photo:
                 popup.show();
                 break;
             case R.id.img_reqfix_vidio:
-                Intent intent = new Intent(ReqfixActicity.this, VideoRecorderActivity.class);
+                intent.setClass(ReqfixActicity.this, VideoRecorderActivity.class);
                 startActivityForResult(intent, RESULT_VIDEO_RECORDER);
                 break;
             case R.id.img_reqfix_voice:
@@ -289,10 +314,18 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
                 break;
             case RESULT_QUESTION:
                 if (resultCode == RESULT_OK) {
-                    String question = data.getStringExtra("name");
-                    String categoryId = data.getStringExtra("id");
-                    text_question_name.setText(question);
-                    this.categoryId = categoryId;
+                        String name = data.getStringExtra("name");
+                        String categoryId = data.getStringExtra("id");
+                        text_question_name.setText(name);
+                        this.categoryId = categoryId;
+                }
+                break;
+            case RESULT_SELECTUSER:
+                if (resultCode == RESULT_OK) {
+                        String name = data.getStringExtra("name");
+                        String userId = data.getStringExtra("id");
+                        text_user_name.setText(name);
+                        this.userId = userId;
                 }
                 break;
         }

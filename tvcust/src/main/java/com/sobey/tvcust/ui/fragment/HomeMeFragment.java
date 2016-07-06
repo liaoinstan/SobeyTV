@@ -112,14 +112,6 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
         btn_go_medetail = getView().findViewById(R.id.btn_go_medetail);
         btn_go_medetail.setOnClickListener(this);
 
-        getView().findViewById(R.id.btn_go_login).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), LoginActivity.class);
-                startActivity(intent);
-            }
-        });
-
         //本地数据初始化展示
         if (user!=null) {
             setUserInfo();
@@ -154,7 +146,7 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
     }
 
     private void setUserInfo(){
-        Glide.with(this).load(user.getAvatar()).placeholder(R.drawable.me_header_defalt).crossFade().into(img_me_header);
+        Glide.with(this).load(user.getAvatar()).placeholder(R.drawable.default_bk).crossFade().into(img_me_header);
 
 //            ImageOptions imageOptions = new ImageOptions.Builder()
 //                    .setImageScaleType(ImageView.ScaleType.CENTER_CROP)

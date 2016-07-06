@@ -49,6 +49,19 @@ public class User implements Serializable {
     private int roleType;
     private String tvName;
 
+    //本地实例字段
+
+    //是否被选中
+    private boolean select;
+
+    public boolean isSelect() {
+        return select;
+    }
+
+    public void setSelect(boolean select) {
+        this.select = select;
+    }
+
     public String getTvName() {
         return tvName;
     }

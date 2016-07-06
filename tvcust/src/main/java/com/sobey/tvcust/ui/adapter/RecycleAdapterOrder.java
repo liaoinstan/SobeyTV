@@ -86,6 +86,7 @@ public class RecycleAdapterOrder extends RecyclerView.Adapter<RecycleAdapterOrde
             public void onClick(View v) {
                 Intent intent = new Intent(context, AssistActivity.class);
                 Order order = results.get(holder.getLayoutPosition());
+                intent.putExtra("type","0");
                 intent.putExtra("orderId",order.getId());
                 context.startActivity(intent);
             }
@@ -105,8 +106,8 @@ public class RecycleAdapterOrder extends RecyclerView.Adapter<RecycleAdapterOrde
         }else {
             holder.text_allocate.setVisibility(View.GONE);
         }
-        if (user.getRoleType()==User.ROLE_FILIALETECH){
-            //技术人员可以申请援助
+        if (user.getRoleType()==User.ROLE_FILIALETECH || user.getRoleType()==User.ROLE_HEADCOMTECH){
+            //技术人员 or 总部技术人员 可以申请援助
             if (order.getHeadTechId()==null) {
                 //尚未申请援助
                 holder.text_assist.setVisibility(View.VISIBLE);

@@ -99,7 +99,7 @@ public class CompOfficeFragment extends BaseFragment implements CommonNet.NetHan
     }
 
     private void initData() {
-        showin = LoadingViewUtil.showin(showingroup, R.layout.layout_loading);
+        showin = LoadingViewUtil.showin(showingroup, R.layout.layout_loading,showin);
 
         RequestParams params = new RequestParams(AppData.Url.getOffice);
         CommonNet.post(this, params, 1, OfficePojo.class, null);

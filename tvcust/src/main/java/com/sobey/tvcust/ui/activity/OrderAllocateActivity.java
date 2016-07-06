@@ -164,43 +164,11 @@ public class OrderAllocateActivity extends BaseAppCompatActicity implements View
             @Override
             public void netStart(int code) {
                 if (isFirst) {
-                    showin = LoadingViewUtil.showin(showingroup, R.layout.layout_loading);
+                    showin = LoadingViewUtil.showin(showingroup, R.layout.layout_loading,showin);
                 }
             }
         });
 
-//        showin = LoadingViewUtil.showin(showingroup, R.layout.layout_loading);
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                //加载成功
-//                results1.add(new TestEntity());
-//                results1.add(new TestEntity());
-//                results1.add(new TestEntity());
-//                results1.add(new TestEntity());
-//                results1.add(new TestEntity());
-//
-//                results2.add(new TestEntity());
-//                results2.add(new TestEntity());
-//                results2.add(new TestEntity());
-//                results2.add(new TestEntity());
-//                results2.add(new TestEntity());
-//                results2.add(new TestEntity());
-//                results2.add(new TestEntity());
-//                results2.add(new TestEntity());
-//
-//                freshCtrl();
-//                LoadingViewUtil.showout(showingroup, showin);
-//
-//                //加载失败
-////                LoadingViewUtil.showin(showingroup,R.layout.layout_lack,showin,new View.OnClickListener(){
-////                    @Override
-////                    public void onClick(View v) {
-////                        initData();
-////                    }
-////                });
-//            }
-//        }, 1000);
     }
 
     private void initCtrl() {

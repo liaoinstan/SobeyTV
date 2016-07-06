@@ -254,7 +254,7 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
             @Override
             public void netStart(int code) {
                 if (isFirst) {
-                    showin = LoadingViewUtil.showin(showingroup, R.layout.layout_loading);
+                    showin = LoadingViewUtil.showin(showingroup, R.layout.layout_loading,showin);
                 }
             }
         });

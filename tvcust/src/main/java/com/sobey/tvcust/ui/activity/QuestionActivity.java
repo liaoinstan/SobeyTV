@@ -95,7 +95,7 @@ public class QuestionActivity extends BaseAppCompatActicity implements OnRecycle
 
             @Override
             public void netStart(int code) {
-                showin = LoadingViewUtil.showin(showingroup,R.layout.layout_loading);
+                showin = LoadingViewUtil.showin(showingroup,R.layout.layout_loading,showin);
             }
 
             @Override

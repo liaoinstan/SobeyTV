@@ -112,7 +112,7 @@ public class MeDetailActivity extends BaseAppCompatActicity
 
         //本地数据初始化展示
         if (user!=null) {
-            Glide.with(this).load(user.getAvatar()).placeholder(R.drawable.me_header_defalt).crossFade().into(img_header);
+            Glide.with(this).load(user.getAvatar()).placeholder(R.drawable.default_bk).crossFade().into(img_header);
 
 //            ImageOptions imageOptions = new ImageOptions.Builder()
 //                    .setImageScaleType(ImageView.ScaleType.CENTER_CROP)

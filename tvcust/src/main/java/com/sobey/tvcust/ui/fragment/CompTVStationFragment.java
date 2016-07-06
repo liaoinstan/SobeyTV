@@ -119,7 +119,7 @@ public class CompTVStationFragment extends BaseFragment implements CommonNet.Net
 
     private void initData() {
         Log.e("liao",officeid+"");
-        showin = LoadingViewUtil.showin(showingroup,R.layout.layout_loading);
+        showin = LoadingViewUtil.showin(showingroup,R.layout.layout_loading,showin);
 
         RequestParams params = new RequestParams(AppData.Url.getTv);
         params.addBodyParameter("officeId", officeid+"");

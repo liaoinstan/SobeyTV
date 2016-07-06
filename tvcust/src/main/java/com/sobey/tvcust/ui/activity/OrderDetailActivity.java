@@ -130,14 +130,6 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
         btn_go = (CircularProgressButton) findViewById(R.id.btn_go);
 
         findViewById(R.id.btn_go_orderprog).setOnClickListener(this);
-
-        findViewById(R.id.btn_go_assist).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(OrderDetailActivity.this, AssistActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     private void initData(final boolean isFirst) {
@@ -188,7 +180,7 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
             @Override
             public void netStart(int code) {
                 if (isFirst) {
-                    showin = LoadingViewUtil.showin(showingroup, R.layout.layout_loading);
+                    showin = LoadingViewUtil.showin(showingroup, R.layout.layout_loading,showin);
                 }
             }
         });

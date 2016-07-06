@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
 import com.sobey.common.common.CommonNet;
+import com.sobey.common.utils.ApplicationHelp;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.AppVali;
@@ -23,6 +24,8 @@ import com.sobey.tvcust.ui.activity.HomeActivity;
 import com.sobey.tvcust.ui.activity.FindPswActivity;
 
 import org.xutils.http.RequestParams;
+
+import cn.jpush.android.api.JPushInterface;
 
 /**
  * Created by Administrator on 2016/6/2 0002.
@@ -37,6 +40,8 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
     private CircularProgressButton btn_go;
     private TextView text_regist;
     private TextView text_modifypsw;
+
+    private String registrationID;
 
     private ViewPager fatherPager;
     public void setFatherPager(ViewPager fatherPager){
@@ -55,6 +60,8 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.position = getArguments().getInt("position");
+
+        registrationID = JPushInterface.getRegistrationID(ApplicationHelp.getApplicationContext());
     }
 
     @Nullable
@@ -110,6 +117,8 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
                     RequestParams params = new RequestParams(AppData.Url.login);
                     params.addBodyParameter("mobile", name);
                     params.addBodyParameter("password", password);
+                    params.addBodyParameter("deviceToken", registrationID);
+                    params.addBodyParameter("deviceType", "0");
                     CommonNet.post(this, params, 1, User.class, null);
 
                     btn_go.setProgress(50);

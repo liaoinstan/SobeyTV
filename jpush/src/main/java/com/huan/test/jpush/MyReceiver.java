@@ -1,15 +1,21 @@
 package com.huan.test.jpush;
 
+import android.app.ActivityManager;
+import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
+
+import com.huan.test.jpush.utils.AppUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Iterator;
+import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -47,7 +53,7 @@ public class MyReceiver extends BroadcastReceiver {
             Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
 
             //打开自定义的Activity
-
+            processNotifyClick(context);
 
         } else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 用户收到到RICH PUSH CALLBACK: " + bundle.getString(JPushInterface.EXTRA_EXTRA));
@@ -122,4 +128,41 @@ public class MyReceiver extends BroadcastReceiver {
 //        msgIntent.putExtra(MainActivity.ID, id);
 //        context.sendBroadcast(msgIntent);
     }
+
+    private void processNotifyMessage(Context context, Bundle bundle) {
+        String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
+        String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
+        Log.e("liao","mymy message:"+message+extras);
+//        Intent msgIntent = new Intent(MainActivity.MESSAGE_RECEIVED_ACTION);
+//        msgIntent.putExtra(MainActivity.KEY_MESSAGE, message);
+//        if (extras != null && !"".equals(extras)) {
+//            try {
+//                JSONObject extraJson = new JSONObject(extras);
+//                if (null != extraJson && extraJson.length() > 0) {
+//                    msgIntent.putExtra(MainActivity.KEY_EXTRAS, extras);
+//                }
+//            } catch (JSONException e) {
+//
+//            }
+//
+//        }
+//        context.sendBroadcast(msgIntent);
+    }
+
+    private void processNotifyClick(Context context) {
+        Log.e("liao","mymy click:");
+        try {
+            String appPackageName = "com.sobey.tvcust";
+            boolean runningApp = AppUtils.isRunningApp(context, appPackageName);
+            if (!runningApp){
+                AppUtils.startAPP(context,appPackageName);
+            }
+        }catch (Exception e){
+            Log.e("startapp","启动app失败");
+            e.printStackTrace();
+        }
+
+    }
+
+
 }

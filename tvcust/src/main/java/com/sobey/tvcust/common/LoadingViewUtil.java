@@ -20,7 +20,7 @@ public class LoadingViewUtil {
         if (preview!=null) {
             root.removeView(preview);
         }
-        return showin(root,src);
+        return showin(root,src,true);
     }
 
     public static View showin(ViewGroup root, int src) {
