@@ -5,16 +5,15 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by Administrator on 2016/6/30 0030.
  */
-public class Office implements CharSort{
+public class Company implements CharSort{
 
     @SerializedName("id")
     private Integer id;
-    @SerializedName("officeName")
+    @SerializedName("companyName")
     private String car_title;   //显示的数据
     private String sortLetters;  //显示数据拼音的首字母
 
     private String car_title_html;
-
     @Override
     public Integer getId() {
         return id;
@@ -50,7 +49,7 @@ public class Office implements CharSort{
 
     @Override
     public String toString() {
-        return "Office{" +
+        return "Company{" +
                 "id=" + id +
                 ", car_title='" + car_title + '\'' +
                 ", sortLetters='" + sortLetters + '\'' +

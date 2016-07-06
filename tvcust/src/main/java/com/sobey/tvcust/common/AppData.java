@@ -92,7 +92,7 @@ public class AppData {
 		 */
 //		private static final String domain = "https://api.cczcrv.com";											//正式服务器
 //		private static final String domain = "http://api.cczcrv.com";											//开发服务器
-		private static final String domain = "http://192.168.0.144:8080/";								//测试服务器
+		private static final String domain = "http://192.168.0.144:8080";								//测试服务器
 		
 		/**
 		 * 接口请求地址
@@ -102,6 +102,7 @@ public class AppData {
 		public static final String logout				= domain + "/SanghaCloud/mobile/loginout";					//注销
 		public static final String getInfo				= domain + "/SanghaCloud/mobile/getInfo";						//获取个人信息
 		public static final String regist				= domain + "/SanghaCloud/mobile/register";					//注册
+		public static final String getBranch			= domain + "/SanghaCloud/companyMobile/queryCompany";		//获取办事处
 		public static final String getOffice			= domain + "/SanghaCloud/officeMobile/getOffice";			//获取办事处
 		public static final String getTv					= domain + "/SanghaCloud/officeMobile/getTv";					//获取电视台
 		public static final String updateInfo			= domain + "/SanghaCloud/mobile/updateInfo";					//修改用户信息

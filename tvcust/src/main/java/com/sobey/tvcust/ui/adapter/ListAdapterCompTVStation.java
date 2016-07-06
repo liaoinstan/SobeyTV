@@ -12,34 +12,34 @@ import android.widget.TextView;
 
 
 import com.sobey.tvcust.R;
-import com.sobey.tvcust.entity.TVStation;
+import com.sobey.tvcust.entity.CharSort;
 
 import java.util.List;
 
 public class ListAdapterCompTVStation extends BaseAdapter implements SectionIndexer {
-	private List<TVStation> list = null;
+	private List<CharSort> results = null;
 	private Context mContext;
 
-	public ListAdapterCompTVStation(Context mContext, List<TVStation> list) {
+	public ListAdapterCompTVStation(Context mContext, List<CharSort> list) {
 		this.mContext = mContext;
-		this.list = list;
+		this.results = list;
 	}
 	
 	/**
 	 * 当ListView数据发生变化时,调用此方法来更新ListView
 	 * @param list
 	 */
-	public void updateListView(List<TVStation> list){
-		this.list = list;
+	public void updateListView(List<CharSort> list){
+		this.results = list;
 		notifyDataSetChanged();
 	}
 
 	public int getCount() {
-		return this.list.size();
+		return this.results.size();
 	}
 
-	public TVStation getItem(int position) {
-		return list.get(position);
+	public CharSort getItem(int position) {
+		return results.get(position);
 	}
 
 	public long getItemId(int position) {
@@ -48,7 +48,7 @@ public class ListAdapterCompTVStation extends BaseAdapter implements SectionInde
 
 	public View getView(final int position, View view, ViewGroup arg2) {
 		ViewHolder viewHolder = null;
-		final TVStation mContent = list.get(position);
+		final CharSort mContent = results.get(position);
 		if (view == null) {
 			viewHolder = new ViewHolder();
 			view = LayoutInflater.from(mContext).inflate(R.layout.item_list_comp_tvstation, null);
@@ -73,10 +73,10 @@ public class ListAdapterCompTVStation extends BaseAdapter implements SectionInde
 			viewHolder.line.setVisibility(View.VISIBLE);
 		}
 	
-		if (list.get(position).getCar_title_html()!=null) {
-			viewHolder.tvTitle.setText(Html.fromHtml(list.get(position).getCar_title_html()));
+		if (results.get(position).getCar_title_html()!=null) {
+			viewHolder.tvTitle.setText(Html.fromHtml(results.get(position).getCar_title_html()));
 		}else {
-			viewHolder.tvTitle.setText(list.get(position).getCar_title());
+			viewHolder.tvTitle.setText(results.get(position).getCar_title());
 		}
 		return view;
 
@@ -95,7 +95,7 @@ public class ListAdapterCompTVStation extends BaseAdapter implements SectionInde
 	 * 根据ListView的当前位置获取分类的首字母的Char ascii值
 	 */
 	public int getSectionForPosition(int position) {
-		return list.get(position).getSortLetters().charAt(0);
+		return results.get(position).getSortLetters().charAt(0);
 	}
 
 	/**
@@ -103,7 +103,7 @@ public class ListAdapterCompTVStation extends BaseAdapter implements SectionInde
 	 */
 	public int getPositionForSection(int section) {
 		for (int i = 0; i < getCount(); i++) {
-			String sortStr = list.get(i).getSortLetters();
+			String sortStr = results.get(i).getSortLetters();
 			char firstChar = sortStr.toUpperCase().charAt(0);
 			if (firstChar == section) {
 				return i;
@@ -133,5 +133,4 @@ public class ListAdapterCompTVStation extends BaseAdapter implements SectionInde
 	public Object[] getSections() {
 		return null;
 	}
-
 }

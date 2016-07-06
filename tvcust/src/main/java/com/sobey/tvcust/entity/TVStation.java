@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by Administrator on 2016/6/30 0030.
  */
-public class TVStation {
+public class TVStation implements CharSort{
 
     @SerializedName("id")
     private Integer id;
@@ -30,35 +30,35 @@ public class TVStation {
         this.id = id;
         this.car_title = car_title;
     }
-
+    @Override
     public Integer getId() {
         return id;
     }
-
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
-
+    @Override
     public String getCar_title() {
         return car_title;
     }
-
+    @Override
     public void setCar_title(String car_title) {
         this.car_title = car_title;
     }
-
+    @Override
     public String getSortLetters() {
         return sortLetters;
     }
-
+    @Override
     public void setSortLetters(String sortLetters) {
         this.sortLetters = sortLetters;
     }
-
+    @Override
     public String getCar_title_html() {
         return car_title_html;
     }
-
+    @Override
     public void setCar_title_html(String car_title_html) {
         this.car_title_html = car_title_html;
     }

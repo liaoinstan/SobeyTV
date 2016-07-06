@@ -2,43 +2,49 @@ package com.sobey.tvcust.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.MenuItem;
-import android.view.View;
 
-import com.sobey.common.view.bundle.BundleEntity;
 import com.sobey.tvcust.R;
+import com.sobey.tvcust.ui.fragment.CompBranchFragment;
 import com.sobey.tvcust.ui.fragment.CompOfficeFragment;
 import com.sobey.tvcust.ui.fragment.CompTVStationFragment;
-import com.sobey.tvcust.ui.fragment.LoginFragment;
-import com.sobey.tvcust.ui.fragment.RegistFragment;
+import com.sobey.tvcust.ui.fragment.RegistDetailFragment;
 
 public class CompActivity extends BaseAppCompatActicity {
 
     private ViewPager viewPager;
     private MyPagerAdapter pagerAdapter;
-    private String type = "";
+    private String type = RegistDetailFragment.TYPE_GROUP_USER;
+    private String[] title = new String[]{"公司","办事处", "电视台"};
 
     public String getType() {
         return type;
     }
 
-    public void go(){
+    public void next(){
         int position = viewPager.getCurrentItem();
         if (position==0){
-            viewPager.setCurrentItem(1);
-            getSupportActionBar().setTitle("电视台");
-        }else {
-            viewPager.setCurrentItem(0);
-            getSupportActionBar().setTitle("办事处");
+            setPage(1);
+        }else if(position==1){
+            setPage(2);
+        }
+    }
+    public void last(){
+        int position = viewPager.getCurrentItem();
+        if (position==2){
+            setPage(1);
+        }else if(position==1){
+            if (RegistDetailFragment.TYPE_USER.equals(type)) {
+                finish();
+            }else {
+                setPage(0);
+            }
         }
     }
 
@@ -47,7 +53,7 @@ public class CompActivity extends BaseAppCompatActicity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comp);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("办事处");
+        toolbar.setTitle(title[0]);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -74,11 +80,19 @@ public class CompActivity extends BaseAppCompatActicity {
     private void initCtrl() {
         pagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
+
+        //如果是用户则直接到办事处页面
+        if (RegistDetailFragment.TYPE_USER.equals(type)) {
+            setPage(1);
+        }
+    }
+
+    private void setPage(int pos){
+        viewPager.setCurrentItem(pos);
+        getSupportActionBar().setTitle(title[pos]);
     }
 
     private class MyPagerAdapter extends FragmentPagerAdapter {
-
-        String[] title = new String[]{"办事处", "电视台"};
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -96,9 +110,11 @@ public class CompActivity extends BaseAppCompatActicity {
 
         @Override
         public Fragment getItem(int position) {
-            if (position == 0) {
-                return CompOfficeFragment.newInstance(position);
+            if (position == 0){
+                return CompBranchFragment.newInstance(position);
             } else if (position == 1) {
+                return CompOfficeFragment.newInstance(position);
+            } else if (position == 2) {
                 return CompTVStationFragment.newInstance(position);
             }
             return null;
@@ -113,7 +129,7 @@ public class CompActivity extends BaseAppCompatActicity {
                 if (position==0){
                     finish();
                 }else {
-                    go();
+                    last();
                 }
                 return true;
         }
@@ -126,7 +142,7 @@ public class CompActivity extends BaseAppCompatActicity {
                 finish();
                 return true;
             }else {
-                viewPager.setCurrentItem(0);
+                last();
                 return true;
             }
         }

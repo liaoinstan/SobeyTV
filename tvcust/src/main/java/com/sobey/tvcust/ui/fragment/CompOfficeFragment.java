@@ -19,32 +19,36 @@ import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.CharacterParser;
 import com.sobey.tvcust.common.LoadingViewUtil;
+import com.sobey.tvcust.entity.CharSort;
+import com.sobey.tvcust.entity.Company;
 import com.sobey.tvcust.entity.Office;
 import com.sobey.tvcust.entity.OfficePojo;
 import com.sobey.tvcust.ui.activity.CompActivity;
-import com.sobey.tvcust.ui.adapter.ListAdapterCompOffice;
+import com.sobey.tvcust.ui.adapter.ListAdapterComp;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.xutils.http.RequestParams;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 /**
  * Created by Administrator on 2016/6/2 0002.
  */
-public class CompOfficeFragment extends BaseFragment implements CommonNet.NetHander {
+public class CompOfficeFragment extends BaseFragment{
 
     private int position;
+
     private View rootView;
     private ViewGroup showingroup;
     private View showin;
 
     private ListView sortListView;
-    private ListAdapterCompOffice adapter;
+    private ListAdapterComp adapter;
     private EditText mClearEditText;
+
+    private int companyId;
 
     private View text_search;
 
@@ -52,12 +56,7 @@ public class CompOfficeFragment extends BaseFragment implements CommonNet.NetHan
      * 汉字转换成拼音的类
      */
     private CharacterParser characterParser;
-    private List<Office> SourceDateList = new ArrayList<Office>();
-
-    /**
-     * 根据拼音来排列ListView里面的数据类
-     */
-    private PinyinComparatorOffice pinyinComparator;
+    private List<CharSort> SourceDateList = new ArrayList<CharSort>();
 
     public static Fragment newInstance(int position) {
         CompOfficeFragment f = new CompOfficeFragment();
@@ -71,6 +70,19 @@ public class CompOfficeFragment extends BaseFragment implements CommonNet.NetHan
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.position = getArguments().getInt("position");
+        EventBus.getDefault().register(this);
+    }
+
+    @Subscribe
+    public void onEventMainThread(Company company) {
+        companyId = company.getId();
+        initData();
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Nullable
@@ -102,36 +114,64 @@ public class CompOfficeFragment extends BaseFragment implements CommonNet.NetHan
         showin = LoadingViewUtil.showin(showingroup, R.layout.layout_loading,showin);
 
         RequestParams params = new RequestParams(AppData.Url.getOffice);
-        CommonNet.post(this, params, 1, OfficePojo.class, null);
+        if (RegistDetailFragment.TYPE_GROUP_USER.equals(((CompActivity) getActivity()).getType())){
+            //员工才需要公司id
+            params.addBodyParameter("companyId",companyId+"");
+        }
+        CommonNet.samplepost(params,OfficePojo.class,new CommonNet.SampleNetHander(){
+            @Override
+            public void netGo(int code, Object pojo, String text, Object obj) {
+                if (pojo==null) netSetError(code,"接口异常");
+                else {
+                    OfficePojo officePojo = (OfficePojo) pojo;
+                    List<Office> offices = officePojo.getDataList();
+                    SourceDateList.clear();
+                    SourceDateList.addAll(offices);
+                    freshCtrl();
+                    LoadingViewUtil.showout(showingroup, showin);
+                }
+            }
+
+            @Override
+            public void netSetError(int code, String text) {
+                Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+                LoadingViewUtil.showin(showingroup,R.layout.layout_fail,showin,new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v) {
+                        initData();
+                    }
+                });
+            }
+        });
     }
 
     private void initCtrl() {
         //实例化汉字转拼音类
         characterParser = CharacterParser.getInstance();
 
-        pinyinComparator = new PinyinComparatorOffice();
-
         sortListView = (ListView) getView().findViewById(R.id.country_lvcountry);
         SourceDateList = filledData(SourceDateList);
 
-        // 根据a-z进行排序源数据
-        Collections.sort(SourceDateList, pinyinComparator);
-        adapter = new ListAdapterCompOffice(getActivity(), SourceDateList);
+        adapter = new ListAdapterComp(getActivity(), SourceDateList);
         sortListView.setAdapter(adapter);
         sortListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                CompActivity activity = (CompActivity) getActivity();
-
-                if(activity.getType().equals(RegistDetailFragment.TYPE_USER)){
-                    EventBus.getDefault().post(new OfficeEntity(adapter.getItem(position).getId()));
-                    activity.go();
-                }else {
-                    Office office = adapter.getItem(position);
-                    RegistDetailFragment.CompEntity compEntity = new RegistDetailFragment.CompEntity(office.getId(), office.getCar_title());
-                    EventBus.getDefault().post(compEntity);
+            public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
+                if (RegistDetailFragment.TYPE_GROUP_USER.equals(((CompActivity) getActivity()).getType())){
+                    //员工才能选择到办事处
+                    CharSort charSort = adapter.getResults().get(pos);
+                    EventBus.getDefault().post(new RegistDetailFragment.CompEntity(charSort.getId(),charSort.getCar_title()));
                     getActivity().finish();
+                }else {
+                    //用户必须前往下一级
+                    goNext(pos);
                 }
+            }
+        });
+        adapter.setOnNextClickListenner(new ListAdapterComp.OnNextClickListenner() {
+            @Override
+            public void onNextClick(int pos) {
+                goNext(pos);
             }
         });
 
@@ -164,10 +204,14 @@ public class CompOfficeFragment extends BaseFragment implements CommonNet.NetHan
 
     public void freshCtrl() {
         SourceDateList = filledData(SourceDateList);
-        // 根据a-z进行排序源数据
-        Collections.sort(SourceDateList, pinyinComparator);
         adapter.updateListView(SourceDateList);
-//        adapter.notifyDataSetChanged();
+    }
+
+
+    private void goNext(int pos){
+        CompActivity activity = (CompActivity) getActivity();
+        EventBus.getDefault().post(adapter.getResults().get(pos));
+        activity.next();
     }
 
     /**
@@ -175,9 +219,9 @@ public class CompOfficeFragment extends BaseFragment implements CommonNet.NetHan
      *
      * @return
      */
-    private List<Office> filledData(List<Office> data) {
+    private List<CharSort> filledData(List<CharSort> data) {
         for (int i = 0; i < data.size(); i++) {
-            Office sortModel = data.get(i);
+            CharSort sortModel = data.get(i);
             //汉字转换成拼音
             String pinyin = characterParser.getSelling(data.get(i).getCar_title());
             String sortString = pinyin.substring(0, 1).toUpperCase();
@@ -198,10 +242,10 @@ public class CompOfficeFragment extends BaseFragment implements CommonNet.NetHan
      * @param filterStr
      */
     private void filterData(String filterStr) {
-        List<Office> filterDateList = new ArrayList<Office>();
+        List<CharSort> filterDateList = new ArrayList<CharSort>();
 
         if (TextUtils.isEmpty(filterStr)) {
-            for (Office carType : SourceDateList) {
+            for (CharSort carType : SourceDateList) {
                 if (carType.getCar_title_html() != null) {
                     carType.setCar_title_html(null);
                 }
@@ -209,20 +253,12 @@ public class CompOfficeFragment extends BaseFragment implements CommonNet.NetHan
             filterDateList = SourceDateList;
         } else {
             filterDateList.clear();
-            for (Office sortModel : SourceDateList) {
+            for (CharSort sortModel : SourceDateList) {
                 String name = sortModel.getCar_title();
                 match(filterDateList, sortModel, filterStr);
             }
         }
 
-//        if (StrUtils.isEmpty(filterDateList)) {
-//            showin = LoadingViewUtil.showinlack(this, R.drawable.icon_theme_search, "没有搜索结果", showin);
-//        }else{
-//            LoadingViewUtil.showout(this, showin);
-//        }
-
-        // 根据a-z进行排序
-        Collections.sort(filterDateList, pinyinComparator);
         adapter.updateListView(filterDateList);
     }
 
@@ -232,7 +268,7 @@ public class CompOfficeFragment extends BaseFragment implements CommonNet.NetHan
      * @param sortModel
      * @param filterStr
      */
-    private int matchText(Office sortModel, String filterStr) {
+    private int matchText(CharSort sortModel, String filterStr) {
         int sellingcount = 0;
         String name = sortModel.getCar_title();
         String[] sellingArray = characterParser.getSellingArray(name);
@@ -253,7 +289,7 @@ public class CompOfficeFragment extends BaseFragment implements CommonNet.NetHan
         return sellingcount;
     }
 
-    private void match(List<Office> filterDateList, Office sortModel, String filterStr) {
+    private void match(List<CharSort> filterDateList, CharSort sortModel, String filterStr) {
         boolean isMatch = false;
         String car_title = sortModel.getCar_title();
         int sellingCount = matchText(sortModel, filterStr);
@@ -274,84 +310,19 @@ public class CompOfficeFragment extends BaseFragment implements CommonNet.NetHan
         }
     }
 
-    @Override
-    public void netGo(int code, Object pojo, String text, Object obj) {
-        if (pojo==null) netSetError(code,"接口异常");
-        else {
-            OfficePojo officePojo = (OfficePojo) pojo;
-            List<Office> offices = officePojo.getDataList();
-            SourceDateList.clear();
-            SourceDateList.addAll(offices);
-            freshCtrl();
-            LoadingViewUtil.showout(showingroup, showin);
-        }
-    }
-
-    @Override
-    public void netStart(int code) {
-
-    }
-
-    @Override
-    public void netEnd(int code) {
-
-    }
-
-    @Override
-    public void netSetFalse(int code, int status, String text) {
-
-    }
-
-    @Override
-    public void netSetFail(int code, int errorCode, String text) {
-
-    }
-
-    @Override
-    public void netSetError(int code, String text) {
-        Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
-        LoadingViewUtil.showin(showingroup,R.layout.layout_fail,showin,new View.OnClickListener(){
-                    @Override
-                    public void onClick(View v) {
-                        initData();
-                    }
-        });
-    }
-
-    @Override
-    public void netException(int code, String text) {
-        Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
-    }
-
-    public class OfficeEntity {
-        private int data;
-
-        public OfficeEntity(int data) {
-            this.data = data;
-        }
-
-        public int getData() {
-            return data;
-        }
-
-        public void setData(int data) {
-            this.data = data;
-        }
-    }
-
-    public class PinyinComparatorOffice implements Comparator<Office> {
-
-        public int compare(Office o1, Office o2) {
-            if (o1.getSortLetters().equals("@")
-                    || o2.getSortLetters().equals("#")) {
-                return -1;
-            } else if (o1.getSortLetters().equals("#")
-                    || o2.getSortLetters().equals("@")) {
-                return 1;
-            } else {
-                return o1.getSortLetters().compareTo(o2.getSortLetters());
-            }
-        }
-
-    }
+//    public class OfficeEntity {
+//        private int data;
+//
+//        public OfficeEntity(int data) {
+//            this.data = data;
+//        }
+//
+//        public int getData() {
+//            return data;
+//        }
+//
+//        public void setData(int data) {
+//            this.data = data;
+//        }
+//    }
 }

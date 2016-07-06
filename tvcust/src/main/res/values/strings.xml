@@ -26,7 +26,7 @@
     <string name="title_activity_me_detail">编辑个人资料</string>
     <string name="title_activity_order_detail">订单详情</string>
     <string name="title_activity_order_allocate">订单分配</string>
-    <string name="title_activity_comp">办事处</string>
+    <string name="title_activity_comp">分公司</string>
     <string name="title_activity_modify_phone">修改绑定手机</string>
     <string name="title_activity_setting_security">安全设置</string>
     <string name="title_activity_modify_psw">修改密码</string>
