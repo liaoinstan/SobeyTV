@@ -1,4 +1,4 @@
-package com.sobey.tvcust.entity;
+package com.sobey.tvcust.interfaces;
 
 /**
  * Created by Administrator on 2016/7/6 0006.

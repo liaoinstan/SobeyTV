@@ -350,9 +350,17 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
 
         String msg = null;
         switch (type){
+            //客服、用户
             case 0:
-                msg = AppVali.reqfix_commit(categoryId, detail);
+                if(user.getRoleType()==User.ROLE_COMMOM) {
+                    //用户不用验证代办用户id
+                    msg = AppVali.reqfix_commit(categoryId, detail);
+                }else if(user.getRoleType()==User.ROLE_CUSTOMER){
+                    //客户必须验证代办用户id
+                    msg = AppVali.reqfix_commit_withuser(categoryId,userId, detail);
+                }
                 break;
+            //技术、总技术、研发
             case 1:
                 msg = AppVali.reqfix_addDescribe(detail);
                 break;
@@ -521,6 +529,7 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
                     @Override
                     public void run() {
                         EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERDESCRIBE);
+                        EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERLIST);
                         finish();
                     }
                 }, 800);

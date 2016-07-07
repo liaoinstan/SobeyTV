@@ -19,11 +19,9 @@ import com.sobey.common.common.CommonNet;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.LoadingViewUtil;
-import com.sobey.tvcust.entity.CommonEntity;
-import com.sobey.tvcust.entity.CommonPojo;
 import com.sobey.tvcust.entity.OrderCategory;
 import com.sobey.tvcust.entity.OrderCategoryPojo;
-import com.sobey.tvcust.ui.adapter.OnRecycleItemClickListener;
+import com.sobey.tvcust.interfaces.OnRecycleItemClickListener;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterQuestion;
 
 import org.xutils.http.RequestParams;

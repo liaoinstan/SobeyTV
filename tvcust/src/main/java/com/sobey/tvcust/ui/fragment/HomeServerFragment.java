@@ -19,7 +19,7 @@ import com.sobey.tvcust.common.DividerItemDecoration;
 import com.sobey.tvcust.common.LoadingViewUtil;
 import com.sobey.tvcust.ui.dialog.DialogServer;
 import com.sobey.tvcust.entity.TestEntity;
-import com.sobey.tvcust.ui.adapter.OnRecycleItemClickListener;
+import com.sobey.tvcust.interfaces.OnRecycleItemClickListener;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterServer;
 
 import java.util.ArrayList;

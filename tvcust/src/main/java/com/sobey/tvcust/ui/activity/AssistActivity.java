@@ -274,8 +274,12 @@ public class AssistActivity extends BaseAppCompatActicity implements View.OnClic
                         @Override
                         public void run() {
                             btn_go.setProgress(0);
-                            finish();
-                            EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERLIST);
+                            //需求变更：选择协助以后需要提交一次问题
+//                            finish();
+//                            EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERLIST);
+                            Intent intent = new Intent(AssistActivity.this,ReqfixActicity.class);
+                            intent.putExtra("type",1);
+                            startActivity(intent);
                         }
                     }, 800);
                 }

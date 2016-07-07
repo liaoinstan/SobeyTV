@@ -19,7 +19,7 @@ import com.sobey.tvcust.entity.TestEntity;
 import com.sobey.tvcust.ui.activity.DeviceDetailActivity;
 import com.sobey.tvcust.ui.activity.DeviceListActivity;
 import com.sobey.tvcust.ui.activity.MsgActivity;
-import com.sobey.tvcust.ui.adapter.OnRecycleItemClickListener;
+import com.sobey.tvcust.interfaces.OnRecycleItemClickListener;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterQW;
 
 import java.util.ArrayList;

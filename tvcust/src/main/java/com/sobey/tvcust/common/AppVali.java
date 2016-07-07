@@ -131,6 +131,19 @@ public class AppVali {
 		}
 	}
 
+	public static String reqfix_commit_withuser(int categoryId,int userId,String detail) {
+		if (categoryId==0) {
+			return "请选择问题分类";
+		}else if (userId==0) {
+			return "请选择代理申报用户";
+		}else if (isEmpty(detail)) {
+			return "请输入问题描述";
+		}
+		else {
+			return null;
+		}
+	}
+
 	public static String reqfix_addDescribe(String detail) {
 		if (isEmpty(detail)) {
 			return "请输入问题描述";

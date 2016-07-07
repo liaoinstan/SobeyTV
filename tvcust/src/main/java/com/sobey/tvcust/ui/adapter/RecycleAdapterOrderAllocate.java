@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.sobey.tvcust.R;
-import com.sobey.tvcust.entity.TestEntity;
 import com.sobey.tvcust.entity.User;
+import com.sobey.tvcust.interfaces.OnRecycleItemClickListener;
 
 import java.util.List;
 

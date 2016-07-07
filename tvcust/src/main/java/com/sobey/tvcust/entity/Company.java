@@ -1,11 +1,12 @@
 package com.sobey.tvcust.entity;
 
 import com.google.gson.annotations.SerializedName;
+import com.sobey.tvcust.interfaces.CharSort;
 
 /**
  * Created by Administrator on 2016/6/30 0030.
  */
-public class Company implements CharSort{
+public class Company implements CharSort {
 
     @SerializedName("id")
     private Integer id;

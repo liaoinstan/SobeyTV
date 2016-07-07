@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.entity.TestEntity;
+import com.sobey.tvcust.interfaces.OnRecycleItemClickListener;
 import com.sobey.tvcust.ui.activity.OrderProgActivity;
 
 import java.util.List;

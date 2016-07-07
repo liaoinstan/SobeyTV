@@ -1,4 +1,4 @@
-package com.sobey.tvcust.ui.adapter;
+package com.sobey.tvcust.interfaces;
 
 import android.support.v7.widget.RecyclerView;
 

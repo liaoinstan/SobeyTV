@@ -1,8 +1,6 @@
 package com.sobey.tvcust.ui.fragment;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -23,7 +21,7 @@ import com.sobey.tvcust.common.DividerItemDecoration;
 import com.sobey.tvcust.common.LoadingViewUtil;
 import com.sobey.tvcust.entity.TestEntity;
 import com.sobey.tvcust.ui.activity.InfoDetailActivity;
-import com.sobey.tvcust.ui.adapter.OnRecycleItemClickListener;
+import com.sobey.tvcust.interfaces.OnRecycleItemClickListener;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterInfoQuan;
 
 import java.util.ArrayList;

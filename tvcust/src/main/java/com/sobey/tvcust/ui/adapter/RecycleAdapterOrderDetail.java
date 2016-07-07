@@ -13,6 +13,7 @@ import com.sobey.common.view.BundleView2;
 import com.sobey.common.view.bundle.BundleEntity;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.entity.OrderDescribe;
+import com.sobey.tvcust.interfaces.OnRecycleItemClickListener;
 import com.sobey.tvcust.ui.activity.PhotoActivity;
 import com.sobey.tvcust.ui.activity.VideoActivity;
 

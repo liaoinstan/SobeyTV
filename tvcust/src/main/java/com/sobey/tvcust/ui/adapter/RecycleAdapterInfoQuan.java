@@ -12,9 +12,9 @@ import com.sobey.common.entity.Images;
 import com.sobey.common.view.BannerView;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.entity.TestEntity;
+import com.sobey.tvcust.interfaces.OnRecycleItemClickListener;
 import com.sobey.tvcust.ui.activity.WebActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 

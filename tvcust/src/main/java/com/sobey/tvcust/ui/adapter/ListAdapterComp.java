@@ -9,8 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.sobey.tvcust.R;
-import com.sobey.tvcust.entity.CharSort;
-import com.sobey.tvcust.entity.Company;
+import com.sobey.tvcust.interfaces.CharSort;
 
 import java.util.List;
 

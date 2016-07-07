@@ -22,7 +22,7 @@ import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.CharacterParser;
 import com.sobey.tvcust.common.LoadingViewUtil;
 import com.sobey.tvcust.entity.Office;
-import com.sobey.tvcust.entity.CharSort;
+import com.sobey.tvcust.interfaces.CharSort;
 import com.sobey.tvcust.entity.TVStation;
 import com.sobey.tvcust.entity.TVStationPojo;
 import com.sobey.tvcust.interfaces.ActivityGo;

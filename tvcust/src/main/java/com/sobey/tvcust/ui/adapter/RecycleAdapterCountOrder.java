@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sobey.tvcust.entity.TestEntity;
+import com.sobey.tvcust.interfaces.OnRecycleItemClickListener;
 
 import java.util.List;
 

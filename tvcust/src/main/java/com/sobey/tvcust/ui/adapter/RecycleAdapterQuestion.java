@@ -8,10 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.sobey.tvcust.R;
-import com.sobey.tvcust.entity.CommonEntity;
-import com.sobey.tvcust.entity.CommonPojo;
 import com.sobey.tvcust.entity.OrderCategory;
-import com.sobey.tvcust.entity.TestEntity;
+import com.sobey.tvcust.interfaces.OnRecycleItemClickListener;
 
 import java.util.List;
 

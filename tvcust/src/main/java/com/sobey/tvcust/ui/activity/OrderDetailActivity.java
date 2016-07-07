@@ -185,57 +185,6 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
             }
         });
 
-//        showin = LoadingViewUtil.showin(showingroup, R.layout.layout_loading);
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                //加载成功
-//                String pathphoto = null;
-//                String pathvideo = null;
-//                String pathvoice = null;
-//
-//                File dirphoto = new File(FileUtil.getPhotoFolder());
-//                File[] photos = dirphoto.listFiles();
-//                if (photos!=null && photos.length>0){
-//                    pathphoto = photos[photos.length-1].getPath();
-//                }
-//
-//                File dirvideo = new File(FileUtil.getVideoFolder());
-//                File[] videos = dirvideo.listFiles();
-//                if (videos!=null && videos.length>0){
-//                    pathvideo = videos[videos.length-1].getPath();
-//                }
-//
-//                File dirvoice = new File(FileUtil.getVoiceFolder());
-//                File[] voices = dirvoice.listFiles();
-//                if (voices!=null && voices.length>0){
-//                    pathvoice = voices[voices.length-1].getPath();
-//                }
-//
-//
-//                for (int i = 0; i < 20; i++) {
-//                    TestEntity entity = new TestEntity();
-//                    if (i % 2 == 0)
-//                        entity.setPathphotos(new String[]{pathphoto,pathphoto,pathphoto});
-//                    if (i % 3 == 0)
-//                        entity.setPathvideos(new String[]{pathvideo});
-//                    if (i % 4 == 0)
-//                        entity.setPathvoices(new String[]{pathvoice,pathvoice});
-//                    results.add(entity);
-//                }
-//
-//                freshCtrl();
-//                LoadingViewUtil.showout(showingroup, showin);
-
-        //加载失败
-//                LoadingViewUtil.showin(showingroup,R.layout.layout_lack,showin,new View.OnClickListener(){
-//                    @Override
-//                    public void onClick(View v) {
-//                        initData();
-//                    }
-//                });
-//            }
-//        }, 1000);
     }
 
     private void initCtrl() {
@@ -299,18 +248,23 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
 
         //根据角色类型设置提交按钮的状态和功能
         switch (user.getRoleType()) {
+            //技术人员
             case User.ROLE_FILIALETECH:
                 btn_go.setVisibility(View.VISIBLE);
+                //技术已经接受
                 if (order.getTechCheck() != null && order.getTechCheck() == 1) {
                     check = true;
                     btn_go.setText("用户反馈");
                     btn_go.setIdleText("用户反馈");
-                } else {
+                }
+                //技术尚未接受
+                else {
                     check = false;
                     btn_go.setText("接受任务");
                     btn_go.setIdleText("接受任务");
                 }
                 break;
+            //用户
             case User.ROLE_COMMOM:
                 btn_go.setVisibility(View.VISIBLE);
                 btn_go.setText("追加描述");
@@ -341,50 +295,57 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
                 startActivity(intent);
                 break;
             case R.id.btn_go:
-                btn_go();
+                if (user.getRoleType() == User.ROLE_FILIALETECH && !check) {
+                    //如果是技术人员且未接受订单
+                    netAcceptOrder();
+                }else {
+                    goAddDescribe();
+                }
                 break;
         }
     }
 
-    private void btn_go() {
-        if (user.getRoleType() == User.ROLE_FILIALETECH && !check) {
-            //接受任务
-            btn_go.setProgress(50);
-            RequestParams params = new RequestParams(AppData.Url.acceptOrder);
-            params.addHeader("token", AppData.App.getToken());
-            params.addBodyParameter("orderId", id+"");
-            CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
-                @Override
-                public void netGo(int code, Object pojo, String text, Object obj) {
-                    Toast.makeText(OrderDetailActivity.this, text, Toast.LENGTH_SHORT).show();
-                    btn_go.setProgress(100);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            btn_go.setProgress(0);
-                            btn_go.setIdleText("用户反馈");
-                            check = true;
-                        }
-                    }, 800);
-                }
-                @Override
-                public void netSetError(int code, String text) {
-                    Toast.makeText(OrderDetailActivity.this, text, Toast.LENGTH_SHORT).show();
-                    btn_go.setProgress(-1);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            btn_go.setProgress(0);
-                        }
-                    }, 800);
-                }
-            });
-        } else {
-            Intent intent = new Intent();
-            intent.setClass(this, ReqfixActicity.class);
-            intent.putExtra("type", 1);
-            intent.putExtra("id", id);
-            startActivity(intent);
-        }
+    //接受订单
+    private void netAcceptOrder(){
+        //接受任务
+        btn_go.setProgress(50);
+        RequestParams params = new RequestParams(AppData.Url.acceptOrder);
+        params.addHeader("token", AppData.App.getToken());
+        params.addBodyParameter("orderId", id+"");
+        CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
+            @Override
+            public void netGo(int code, Object pojo, String text, Object obj) {
+                Toast.makeText(OrderDetailActivity.this, text, Toast.LENGTH_SHORT).show();
+                btn_go.setProgress(100);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        btn_go.setProgress(0);
+                        btn_go.setIdleText("用户反馈");
+                        check = true;
+                    }
+                }, 800);
+            }
+            @Override
+            public void netSetError(int code, String text) {
+                Toast.makeText(OrderDetailActivity.this, text, Toast.LENGTH_SHORT).show();
+                btn_go.setProgress(-1);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        btn_go.setProgress(0);
+                    }
+                }, 800);
+            }
+        });
+    }
+
+    //去添加订单描述（上级或下级）
+    private void goAddDescribe(){
+        Intent intent = new Intent();
+        intent.setClass(this, ReqfixActicity.class);
+        intent.putExtra("type", 1);
+        intent.putExtra("id", id);
+        startActivity(intent);
     }
 }
