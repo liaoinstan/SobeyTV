@@ -11,26 +11,30 @@ import com.sobey.tvcust.R;
 public class LoadingViewUtil {
 
     public static View showin(ViewGroup root,int src,View preview,View.OnClickListener listener) {
-        View showin = showin(root,src,preview);
+        View showin = showin(root,src,preview,true);
         showin.setOnClickListener(listener);
         return showin;
     }
 
     public static View showin(ViewGroup root, int src, View preview) {
-        if (preview!=null) {
-            root.removeView(preview);
-        }
-        return showin(root,src,true);
+        return showin(root,src,preview,true);
     }
 
-    public static View showin(ViewGroup root, int src) {
-        return showin(root,src,true);
-    }
+    /**
+     * 废弃的方法
+     */
+//    public static View showin(ViewGroup root, int src) {
+//        return showin(root,src,true);
+//    }
 
     /**
      * showin 是否隐藏背景
      */
-    public static View showin(ViewGroup root, int src,boolean needHide) {
+    public static View showin(ViewGroup root, int src, View preview,boolean needHide) {
+
+        if (preview!=null) {
+            root.removeView(preview);
+        }
         if (root == null) {
             return null;
         }

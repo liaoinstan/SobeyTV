@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/showingroup"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/sb_bk"
+    android:orientation="vertical">
+
+    <com.liaoinstan.springview.widget.SpringView
+        android:id="@+id/spring"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:type="follow">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="5dp" />
+
+    </com.liaoinstan.springview.widget.SpringView>
+
+    <com.dd.CircularProgressButton
+        android:id="@+id/btn_go"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:background="#00000000"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_big"
+        app:cpb_colorIndicator="@color/sb_blue"
+        app:cpb_colorIndicatorBackground="@color/sb_blue_hint_trans"
+        app:cpb_colorProgress="#00000000"
+        app:cpb_iconComplete="@drawable/ic_action_accept"
+        app:cpb_iconError="@drawable/ic_action_cancel"
+        app:cpb_selectorIdle="@drawable/idle_state_selector"
+        app:cpb_textIdle="请求协助" />
+
+</LinearLayout>

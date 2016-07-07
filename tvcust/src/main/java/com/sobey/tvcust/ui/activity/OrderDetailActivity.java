@@ -169,7 +169,7 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
                     LoadingViewUtil.showin(showingroup, R.layout.layout_fail, showin, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            initData(false);
+                            initData(true);
                         }
                     });
                 } else {

@@ -25,6 +25,7 @@ import com.sobey.tvcust.entity.Office;
 import com.sobey.tvcust.entity.CharSort;
 import com.sobey.tvcust.entity.TVStation;
 import com.sobey.tvcust.entity.TVStationPojo;
+import com.sobey.tvcust.interfaces.ActivityGo;
 import com.sobey.tvcust.ui.adapter.ListAdapterCompTVStation;
 
 import org.greenrobot.eventbus.EventBus;
@@ -45,6 +46,7 @@ public class CompTVStationFragment extends BaseFragment{
     private View rootView;
     private ViewGroup showingroup;
     private View showin;
+    private ActivityGo activityGo;
 
     private ListView sortListView;
     private SideBar sideBar;
@@ -110,7 +112,7 @@ public class CompTVStationFragment extends BaseFragment{
     }
 
     private void initBase() {
-
+        activityGo = (ActivityGo) getActivity();
     }
 
     private void initView() {
@@ -179,9 +181,14 @@ public class CompTVStationFragment extends BaseFragment{
         sortListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,int pos, long id) {
-                CharSort charSort = adapter.getItem(pos);
-                EventBus.getDefault().post(new RegistDetailFragment.CompEntity(charSort.getId(),charSort.getCar_title()));
-                getActivity().finish();
+                if ("xxx".equals(activityGo.getType())){
+                    EventBus.getDefault().post(adapter.getItem(pos));
+                    activityGo.next();
+                }else {
+                    CharSort charSort = adapter.getItem(pos);
+                    EventBus.getDefault().post(new RegistDetailFragment.CompEntity(charSort.getId(), charSort.getCar_title()));
+                    getActivity().finish();
+                }
             }
         });
 

@@ -121,8 +121,11 @@ public class AppData {
 		public static final String acceptOrder			= domain + "/SanghaCloud/order/updatetscCheck";				//接受订单
 		public static final String assistCommit			= domain + "/SanghaCloud/order/applicationHeadTech";			//协助提交
 		public static final String assister				= domain + "/SanghaCloud/mobile/getHeadTechs";				//请求协助人员列表
+		public static final String copyer				= domain + "/SanghaCloud/mobile/getsaleandleader";			//请求抄送人员列表
+		public static final String selectUser		    = domain + "/SanghaCloud/mobile/findUserByTV";				//选择用户列表
 
-		public static final String copyer				= domain + "/SanghaCloud/mobile/getHeadTechs";				//请求抄送人员列表
+		public static final String developer			= domain + "/SanghaCloud/mobile/getInvent";					//请求总部研发人员列表
+		public static final String commitdeveloper		= domain + "/SanghaCloud/order/applicationInvent";			//请求总部研发人员协助
 
 	}
 }

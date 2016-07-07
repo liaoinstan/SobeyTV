@@ -87,7 +87,7 @@ public class CountOrderActivity extends BaseAppCompatActicity implements View.On
     }
 
     private void initData() {
-        showin = LoadingViewUtil.showin(showingroup,R.layout.layout_loading,false);
+        showin = LoadingViewUtil.showin(showingroup,R.layout.layout_loading,showin,false);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

@@ -133,10 +133,7 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
         recyclerView = (RecyclerView) getView().findViewById(R.id.recycle_order);
         springView = (SpringView) getView().findViewById(R.id.spring);
         btn_go_reqfix = getView().findViewById(R.id.btn_go_reqfix);
-    }
 
-    private void initCtrl() {
-        btn_go_reqfix.setOnClickListener(this);
         tab.addTab(tab.newTab().setText("全部订单"));
         tab.addTab(tab.newTab().setText("进行中"));
         tab.addTab(tab.newTab().setText("已完成"));
@@ -167,6 +164,10 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
 
             }
         });
+    }
+
+    private void initCtrl() {
+        btn_go_reqfix.setOnClickListener(this);
 
         adapter = new RecycleAdapterOrder(getActivity(), R.layout.item_recycle_order, results);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), LinearLayoutManager.VERTICAL, false));
@@ -243,7 +244,7 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
                     LoadingViewUtil.showin(showingroup, R.layout.layout_fail, showin, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            initData(false);
+                            initData(true);
                         }
                     });
                 } else {

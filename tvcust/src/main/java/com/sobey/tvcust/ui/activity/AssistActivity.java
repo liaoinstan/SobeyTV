@@ -15,10 +15,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
+import com.google.gson.Gson;
 import com.liaoinstan.springview.container.AliFooter;
 import com.liaoinstan.springview.container.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
 import com.sobey.common.common.CommonNet;
+import com.sobey.common.utils.StrUtils;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppConstant;
 import com.sobey.tvcust.common.AppData;
@@ -35,10 +37,6 @@ import org.xutils.http.RequestParams;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 援助和选择用户页面
- * type为0 是援助页面 type为1 是选择用户页面
- */
 public class AssistActivity extends BaseAppCompatActicity implements View.OnClickListener{
 
     private RecyclerView recyclerView;
@@ -53,9 +51,11 @@ public class AssistActivity extends BaseAppCompatActicity implements View.OnClic
     private View lay_assist_tocopy;
     private CircularProgressButton btn_go;
 
-    private int type = 0;
+//    private int type = 0;
     private int orderId;
+    private int userId;
     private ArrayList<Integer> ids;
+    private User user;
 
     private static final int RESULT_COPY = 0xf102;
 
@@ -78,9 +78,13 @@ public class AssistActivity extends BaseAppCompatActicity implements View.OnClic
         if (intent.hasExtra("orderId")) {
             orderId = intent.getIntExtra("orderId", 0);
         }
-        if (getIntent().hasExtra("type")){
-            type = getIntent().getIntExtra("type",0);
+        if (intent.hasExtra("userId")) {
+            userId = intent.getIntExtra("userId", 0);
         }
+        user = AppData.App.getUser();
+//        if (getIntent().hasExtra("type")){
+//            type = getIntent().getIntExtra("type",0);
+//        }
     }
 
     private void initView() {
@@ -91,25 +95,25 @@ public class AssistActivity extends BaseAppCompatActicity implements View.OnClic
         text_copyers = (TextView) findViewById(R.id.text_assist_copyers);
         btn_go = (CircularProgressButton) findViewById(R.id.btn_go);
         lay_assist_tocopy = findViewById(R.id.lay_assist_tocopy);
-        switch (type){
-            case 0:
-                getSupportActionBar().setTitle("援助选择");
-                btn_go.setText("请求协助");
-                btn_go.setIdleText("请求协助");
-                lay_assist_tocopy.setVisibility(View.VISIBLE);
-                break;
-            case 1:
-                getSupportActionBar().setTitle("用户选择");
-                btn_go.setText("确认");
-                btn_go.setIdleText("确认");
-                lay_assist_tocopy.setVisibility(View.GONE);
-                break;
+
+        if (User.ROLE_HEADCOMTECH == user.getRoleType()){
+            //总部技术支持不能抄送
+            lay_assist_tocopy.setVisibility(View.GONE);
+        }else {
+            //技术可以抄送
+            lay_assist_tocopy.setVisibility(View.VISIBLE);
         }
     }
 
     private void initData(final boolean isFirst) {
-
-        RequestParams params = new RequestParams(AppData.Url.assister);
+        RequestParams params;
+        if (User.ROLE_HEADCOMTECH == user.getRoleType()){
+            //总部技术人员列表
+            params = new RequestParams(AppData.Url.developer);
+        }else {
+            //技术人员列表
+            params = new RequestParams(AppData.Url.assister);
+        }
         params.addHeader("token", AppData.App.getToken());
         CommonNet.samplepost(params, AssisterPojo.class, new CommonNet.SampleNetHander() {
             @Override
@@ -142,7 +146,7 @@ public class AssistActivity extends BaseAppCompatActicity implements View.OnClic
                     LoadingViewUtil.showin(showingroup, R.layout.layout_fail, showin, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            initData(false);
+                            initData(true);
                         }
                     });
                 } else {
@@ -153,7 +157,7 @@ public class AssistActivity extends BaseAppCompatActicity implements View.OnClic
             @Override
             public void netStart(int code) {
                 if (isFirst) {
-                    showin = LoadingViewUtil.showin(showingroup, R.layout.layout_loading);
+                    showin = LoadingViewUtil.showin(showingroup, R.layout.layout_loading,showin);
                 }
             }
         });
@@ -222,14 +226,15 @@ public class AssistActivity extends BaseAppCompatActicity implements View.OnClic
         switch (v.getId()) {
             case R.id.lay_assist_tocopy:
                 intent.setClass(this,CopyActivity.class);
+                intent.putExtra("userId",userId);
                 startActivityForResult(intent,RESULT_COPY);
                 break;
             case R.id.btn_go:
-                if (type==0) {
+//                if (type==0) {
                     netAssistCommit();
-                }else if(type==1){
-                    selectUser();
-                }
+//                }else if(type==1){
+//                    selectUser();
+//                }
                 break;
         }
     }
@@ -242,10 +247,24 @@ public class AssistActivity extends BaseAppCompatActicity implements View.OnClic
             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
         } else {
             btn_go.setProgress(50);
-            RequestParams params = new RequestParams(AppData.Url.assistCommit);
-            params.addHeader("token", AppData.App.getToken());
-            params.addBodyParameter("orderId", orderId + "");
-            params.addBodyParameter("headTechId", assister.getId() + "");
+
+            RequestParams params;
+            if (User.ROLE_HEADCOMTECH == user.getRoleType()){
+                //总部技术人员申请总部研发
+                params = new RequestParams(AppData.Url.commitdeveloper);
+                params.addHeader("token", AppData.App.getToken());
+                params.addBodyParameter("orderId", orderId + "");
+            }else {
+                //技术人员申请总部技术+抄送
+                params = new RequestParams(AppData.Url.assistCommit);
+                params.addHeader("token", AppData.App.getToken());
+                params.addBodyParameter("orderId", orderId + "");
+                params.addBodyParameter("headTechId", assister.getId() + "");
+                if (!StrUtils.isEmpty(ids)) {
+                    params.addBodyParameter("ccs", new Gson().toJson(ids));
+                }
+            }
+
             CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
                 @Override
                 public void netGo(int code, Object pojo, String text, Object obj) {
@@ -276,32 +295,32 @@ public class AssistActivity extends BaseAppCompatActicity implements View.OnClic
         }
     }
 
-    private void selectUser(){
-        final User selectUser = adapter.getSelectUser();
-
-        btn_go.setProgress(50);
-        String msg = AppVali.allocate_commit(selectUser);
-        if (msg != null) {
-            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-            btn_go.setProgress(-1);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    btn_go.setProgress(0);
-                }
-            }, 800);
-        }else {
-            btn_go.setProgress(100);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Intent intent = new Intent();
-                    intent.putExtra("id", selectUser.getId());
-                    intent.putExtra("name", selectUser.getRealName());
-                    setResult(RESULT_OK, intent);
-                    finish();
-                }
-            }, 1000);
-        }
-    }
+//    private void selectUser(){
+//        final User selectUser = adapter.getSelectUser();
+//
+//        btn_go.setProgress(50);
+//        String msg = AppVali.allocate_commit(selectUser);
+//        if (msg != null) {
+//            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+//            btn_go.setProgress(-1);
+//            new Handler().postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    btn_go.setProgress(0);
+//                }
+//            }, 800);
+//        }else {
+//            btn_go.setProgress(100);
+//            new Handler().postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    Intent intent = new Intent();
+//                    intent.putExtra("id", selectUser.getId());
+//                    intent.putExtra("name", selectUser.getRealName());
+//                    setResult(RESULT_OK, intent);
+//                    finish();
+//                }
+//            }, 1000);
+//        }
+//    }
 }

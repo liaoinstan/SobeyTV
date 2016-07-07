@@ -23,7 +23,7 @@ import com.sobey.tvcust.entity.CharSort;
 import com.sobey.tvcust.entity.Company;
 import com.sobey.tvcust.entity.Office;
 import com.sobey.tvcust.entity.OfficePojo;
-import com.sobey.tvcust.ui.activity.CompActivity;
+import com.sobey.tvcust.interfaces.ActivityGo;
 import com.sobey.tvcust.ui.adapter.ListAdapterComp;
 
 import org.greenrobot.eventbus.EventBus;
@@ -43,6 +43,7 @@ public class CompOfficeFragment extends BaseFragment{
     private View rootView;
     private ViewGroup showingroup;
     private View showin;
+    private ActivityGo activityGo;
 
     private ListView sortListView;
     private ListAdapterComp adapter;
@@ -102,7 +103,7 @@ public class CompOfficeFragment extends BaseFragment{
     }
 
     private void initBase() {
-
+        activityGo = (ActivityGo) getActivity();
     }
 
     private void initView() {
@@ -114,7 +115,7 @@ public class CompOfficeFragment extends BaseFragment{
         showin = LoadingViewUtil.showin(showingroup, R.layout.layout_loading,showin);
 
         RequestParams params = new RequestParams(AppData.Url.getOffice);
-        if (RegistDetailFragment.TYPE_GROUP_USER.equals(((CompActivity) getActivity()).getType())){
+        if (RegistDetailFragment.TYPE_GROUP_USER.equals(activityGo.getType())){
             //员工才需要公司id
             params.addBodyParameter("companyId",companyId+"");
         }
@@ -157,7 +158,7 @@ public class CompOfficeFragment extends BaseFragment{
         sortListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
-                if (RegistDetailFragment.TYPE_GROUP_USER.equals(((CompActivity) getActivity()).getType())){
+                if (RegistDetailFragment.TYPE_GROUP_USER.equals(activityGo.getType())){
                     //员工才能选择到办事处
                     CharSort charSort = adapter.getResults().get(pos);
                     EventBus.getDefault().post(new RegistDetailFragment.CompEntity(charSort.getId(),charSort.getCar_title()));
@@ -209,9 +210,8 @@ public class CompOfficeFragment extends BaseFragment{
 
 
     private void goNext(int pos){
-        CompActivity activity = (CompActivity) getActivity();
         EventBus.getDefault().post(adapter.getResults().get(pos));
-        activity.next();
+        activityGo.next();
     }
 
     /**

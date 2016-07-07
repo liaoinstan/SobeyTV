@@ -151,9 +151,7 @@
         <activity
             android:name=".ui.activity.CompActivity"
             android:label="@string/title_activity_comp"
-            android:theme="@style/AppTheme.NoActionBar" >
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".ui.activity.ModifyPhoneActivity"
             android:label="@string/title_activity_modify_phone"
@@ -173,6 +171,10 @@
         <activity
             android:name=".ui.activity.CopyActivity"
             android:label="@string/title_activity_copy"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.activity.SelectUserActivity"
+            android:label="@string/title_activity_select_user"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

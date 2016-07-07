@@ -87,6 +87,7 @@ public class RecycleAdapterOrder extends RecyclerView.Adapter<RecycleAdapterOrde
                 Intent intent = new Intent(context, AssistActivity.class);
                 Order order = results.get(holder.getLayoutPosition());
                 intent.putExtra("type","0");
+                intent.putExtra("userId",order.getUserId());
                 intent.putExtra("orderId",order.getId());
                 context.startActivity(intent);
             }
@@ -106,14 +107,27 @@ public class RecycleAdapterOrder extends RecyclerView.Adapter<RecycleAdapterOrde
         }else {
             holder.text_allocate.setVisibility(View.GONE);
         }
+        //技术人员 or 总部技术人员 可以申请援助
         if (user.getRoleType()==User.ROLE_FILIALETECH || user.getRoleType()==User.ROLE_HEADCOMTECH){
-            //技术人员 or 总部技术人员 可以申请援助
-            if (order.getHeadTechId()==null) {
-                //尚未申请援助
-                holder.text_assist.setVisibility(View.VISIBLE);
-            }else {
-                //已结申请援助
-                holder.text_assist.setVisibility(View.INVISIBLE);
+            //技术 申请 总技术
+            if (user.getRoleType()==User.ROLE_FILIALETECH){
+                if (order.getHeadTechId()==null) {
+                    //尚未申请给总技术
+                    holder.text_assist.setVisibility(View.VISIBLE);
+                }else {
+                    //已申请给总技术
+                    holder.text_assist.setVisibility(View.INVISIBLE);
+                }
+            }
+            //总技术 申请 总研发
+            else if (user.getRoleType()==User.ROLE_HEADCOMTECH) {
+                if (order.getDecelopId() == null) {
+                    //尚未申请总研发
+                    holder.text_assist.setVisibility(View.VISIBLE);
+                } else {
+                    //已申请总研发
+                    holder.text_assist.setVisibility(View.INVISIBLE);
+                }
             }
         }else {
             holder.text_assist.setVisibility(View.GONE);

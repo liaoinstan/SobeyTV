@@ -2,6 +2,8 @@ package com.sobey.tvcust.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -10,6 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.liaoinstan.springview.container.AliFooter;
+import com.liaoinstan.springview.container.AliHeader;
+import com.liaoinstan.springview.widget.SpringView;
 import com.sobey.common.common.CommonNet;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
@@ -29,6 +34,7 @@ import java.util.List;
 public class QuestionActivity extends BaseAppCompatActicity implements OnRecycleItemClickListener{
 
     private RecyclerView recyclerView;
+    private SpringView springView;
     private List<OrderCategory> results = new ArrayList<>();
     private RecycleAdapterQuestion adapter;
 
@@ -59,6 +65,7 @@ public class QuestionActivity extends BaseAppCompatActicity implements OnRecycle
 
     private void initView() {
         showingroup = (ViewGroup) findViewById(R.id.showingroup);
+        springView = (SpringView) findViewById(R.id.spring);
         recyclerView = (RecyclerView) findViewById(R.id.recycle_question);
     }
 
@@ -111,6 +118,31 @@ public class QuestionActivity extends BaseAppCompatActicity implements OnRecycle
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
+
+        springView.setHeader(new AliHeader(this, false));
+        springView.setFooter(new AliFooter(this, false));
+        springView.setListener(new SpringView.OnFreshListener() {
+            @Override
+            public void onRefresh() {
+                initData();new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        springView.onFinishFreshAndLoad();
+                    }
+                }, 2000);
+            }
+
+            @Override
+            public void onLoadmore() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Snackbar.make(showingroup, "没有更多的数据了", Snackbar.LENGTH_SHORT).show();
+                        springView.onFinishFreshAndLoad();
+                    }
+                }, 2000);
+            }
+        });
     }
 
     private void freshCtrl(){
@@ -133,7 +165,7 @@ public class QuestionActivity extends BaseAppCompatActicity implements OnRecycle
         OrderCategory question = adapter.getResults().get(position);
         Intent intent = new Intent();
         intent.putExtra("name",question.getCategoryName());
-        intent.putExtra("id",question.getId()+"");
+        intent.putExtra("id",question.getId());
         setResult(RESULT_OK,intent);
         finish();
     }

@@ -120,8 +120,8 @@ public class AppVali {
 		}
 	}
 
-	public static String reqfix_commit(String categoryId,String detail) {
-		if (isEmpty(categoryId)) {
+	public static String reqfix_commit(int categoryId,String detail) {
+		if (categoryId==0) {
 			return "请选择问题分类";
 		}else if (isEmpty(detail)) {
 			return "请输入问题描述";

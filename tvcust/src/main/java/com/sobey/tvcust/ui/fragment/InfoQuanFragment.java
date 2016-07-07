@@ -87,7 +87,7 @@ public class InfoQuanFragment extends BaseFragment implements OnRecycleItemClick
     }
 
     private void initData() {
-        showin = LoadingViewUtil.showin(showingroup,R.layout.layout_loading);
+        showin = LoadingViewUtil.showin(showingroup,R.layout.layout_loading,showin);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

@@ -59,8 +59,8 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
     private TextView text_user_name;
     private EditText edit_reqfix_detail;
 
-    private String categoryId;
-    private String userId;
+    private int categoryId;
+    private int userId;
     private int orderId;
     private User user;
 
@@ -265,8 +265,7 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
                 chooseDialog.show();
                 break;
             case R.id.lay_reqfix_selectuser:
-                intent.setClass(this, AssistActivity.class);
-                intent.putExtra("type",1);
+                intent.setClass(this, SelectUserActivity.class);
                 startActivityForResult(intent, RESULT_SELECTUSER);
                 break;
             case R.id.img_reqfix_photo:
@@ -315,7 +314,7 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
             case RESULT_QUESTION:
                 if (resultCode == RESULT_OK) {
                         String name = data.getStringExtra("name");
-                        String categoryId = data.getStringExtra("id");
+                        int categoryId = data.getIntExtra("id",0);
                         text_question_name.setText(name);
                         this.categoryId = categoryId;
                 }
@@ -323,7 +322,7 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
             case RESULT_SELECTUSER:
                 if (resultCode == RESULT_OK) {
                         String name = data.getStringExtra("name");
-                        String userId = data.getStringExtra("id");
+                        int userId = data.getIntExtra("id",0);
                         text_user_name.setText(name);
                         this.userId = userId;
                 }
@@ -452,7 +451,8 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
         btn_go.setProgress(50);
         RequestParams params = new RequestParams(AppData.Url.reqfix);
         params.addHeader("token", AppData.App.getToken());
-        params.addBodyParameter("categoryId", categoryId);
+        params.addBodyParameter("categoryId", categoryId+"");
+        params.addBodyParameter("userId", userId+"");
         params.addBodyParameter("content", detail);
         if (!StrUtils.isEmpty(photoUrls)) {
             params.addBodyParameter("images", new Gson().toJson(photoUrls));

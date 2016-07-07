@@ -31,10 +31,9 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <com.liaoinstan.springview.widget.SpringView
+            android:id="@+id/spring"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:footer="@layout/header_common"
-            app:header="@layout/header_common"
             app:type="follow">
 
             <android.support.v7.widget.RecyclerView

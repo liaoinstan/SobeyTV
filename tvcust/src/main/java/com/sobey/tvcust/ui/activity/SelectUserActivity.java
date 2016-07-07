@@ -2,13 +2,17 @@ package com.sobey.tvcust.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.interfaces.ActivityGo;
@@ -16,13 +20,15 @@ import com.sobey.tvcust.ui.fragment.CompBranchFragment;
 import com.sobey.tvcust.ui.fragment.CompOfficeFragment;
 import com.sobey.tvcust.ui.fragment.CompTVStationFragment;
 import com.sobey.tvcust.ui.fragment.RegistDetailFragment;
+import com.sobey.tvcust.ui.fragment.SelectUserFragment;
 
-public class CompActivity extends BaseAppCompatActicity implements ActivityGo{
+public class SelectUserActivity extends AppCompatActivity implements ActivityGo{
+
 
     private ViewPager viewPager;
     private MyPagerAdapter pagerAdapter;
-    private String type = RegistDetailFragment.TYPE_GROUP_USER;
-    private String[] title = new String[]{"公司","办事处", "电视台"};
+    private String type = "xxx";
+    private String[] title = new String[]{"办事处", "电视台", "选择用户"};
 
     @Override
     public String getType() {
@@ -30,25 +36,22 @@ public class CompActivity extends BaseAppCompatActicity implements ActivityGo{
     }
 
     @Override
-    public void next(){
+    public void next() {
         int position = viewPager.getCurrentItem();
-        if (position==0){
+        if (position == 0) {
             setPage(1);
-        }else if(position==1){
+        } else if (position == 1) {
             setPage(2);
         }
     }
+
     @Override
-    public void last(){
+    public void last() {
         int position = viewPager.getCurrentItem();
-        if (position==2){
+        if (position == 2) {
             setPage(1);
-        }else if(position==1){
-            if (RegistDetailFragment.TYPE_USER.equals(type)) {
-                finish();
-            }else {
-                setPage(0);
-            }
+        } else if (position == 1) {
+            setPage(0);
         }
     }
 
@@ -68,10 +71,6 @@ public class CompActivity extends BaseAppCompatActicity implements ActivityGo{
     }
 
     private void initBase() {
-        Intent intent = getIntent();
-        if (intent.hasExtra("type")) {
-            type = intent.getStringExtra("type");
-        }
     }
 
     private void initView() {
@@ -84,14 +83,9 @@ public class CompActivity extends BaseAppCompatActicity implements ActivityGo{
     private void initCtrl() {
         pagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
-
-        //如果是用户则直接到办事处页面
-        if (RegistDetailFragment.TYPE_USER.equals(type)) {
-            setPage(1);
-        }
     }
 
-    private void setPage(int pos){
+    private void setPage(int pos) {
         viewPager.setCurrentItem(pos);
         getSupportActionBar().setTitle(title[pos]);
     }
@@ -114,12 +108,12 @@ public class CompActivity extends BaseAppCompatActicity implements ActivityGo{
 
         @Override
         public Fragment getItem(int position) {
-            if (position == 0){
-                return CompBranchFragment.newInstance(position);
-            } else if (position == 1) {
+            if (position == 0) {
                 return CompOfficeFragment.newInstance(position);
-            } else if (position == 2) {
+            } else if (position == 1) {
                 return CompTVStationFragment.newInstance(position);
+            } else if (position == 2) {
+                return SelectUserFragment.newInstance(position);
             }
             return null;
         }
@@ -130,9 +124,9 @@ public class CompActivity extends BaseAppCompatActicity implements ActivityGo{
         switch (item.getItemId()) {
             case android.R.id.home:
                 int position = viewPager.getCurrentItem();
-                if (position==0){
+                if (position == 0) {
                     finish();
-                }else {
+                } else {
                     last();
                 }
                 return true;
@@ -142,15 +136,14 @@ public class CompActivity extends BaseAppCompatActicity implements ActivityGo{
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (viewPager.getCurrentItem()==0) {
+            if (viewPager.getCurrentItem() == 0) {
                 finish();
                 return true;
-            }else {
+            } else {
                 last();
                 return true;
             }
         }
         return super.onKeyDown(keyCode, event);
     }
-
 }

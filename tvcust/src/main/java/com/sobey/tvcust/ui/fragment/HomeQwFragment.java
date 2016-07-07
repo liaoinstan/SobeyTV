@@ -32,6 +32,7 @@ public class HomeQwFragment extends BaseFragment implements View.OnClickListener
 
     private RecyclerView recyclerView;
     private RecycleAdapterQW adapter;
+    private View showin;
     private ViewGroup showingroup;
     private View btn_go_msg;
 
@@ -89,7 +90,7 @@ public class HomeQwFragment extends BaseFragment implements View.OnClickListener
 
     private void initData() {
 //        loadingDialog.show();
-        final View showin = LoadingViewUtil.showin(showingroup,R.layout.layout_loading);
+        showin = LoadingViewUtil.showin(showingroup,R.layout.layout_loading,showin);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
