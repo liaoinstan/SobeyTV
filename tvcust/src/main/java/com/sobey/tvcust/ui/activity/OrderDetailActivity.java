@@ -8,9 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -67,13 +69,16 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
     private TextView text_orderdetail_user_phone;
     private View lay_orderdetail_tsc;
     private CircularProgressButton btn_go;
+    private Button btn_last;
+    private Button btn_next;
+    private View lay_btn_nextorlast;
 
     private ViewGroup showingroup;
     private View showin;
 
     private int id;
-    private boolean check;
     private User user;
+    private Order order;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +89,6 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         EventBus.getDefault().register(this);
-
         initBase();
         initView();
         initData(true);
@@ -127,9 +131,14 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
         text_orderdetail_user_name = (TextView) findViewById(R.id.text_orderdetail_user_name);
         text_orderdetail_user_phone = (TextView) findViewById(R.id.text_orderdetail_user_phone);
         lay_orderdetail_tsc = findViewById(R.id.lay_orderdetail_tsc);
+        lay_btn_nextorlast = findViewById(R.id.lay_btn_nextorlast);
         btn_go = (CircularProgressButton) findViewById(R.id.btn_go);
+        btn_last = (Button) findViewById(R.id.btn_last);
+        btn_next = (Button) findViewById(R.id.btn_next);
 
         findViewById(R.id.btn_go_orderprog).setOnClickListener(this);
+
+
     }
 
     private void initData(final boolean isFirst) {
@@ -166,7 +175,7 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
             public void netSetError(int code, String text) {
                 if (isFirst) {
                     Toast.makeText(OrderDetailActivity.this, text, Toast.LENGTH_SHORT).show();
-                    LoadingViewUtil.showin(showingroup, R.layout.layout_fail, showin, new View.OnClickListener() {
+                    showin = LoadingViewUtil.showin(showingroup, R.layout.layout_fail, showin, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             initData(true);
@@ -180,7 +189,7 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
             @Override
             public void netStart(int code) {
                 if (isFirst) {
-                    showin = LoadingViewUtil.showin(showingroup, R.layout.layout_loading,showin);
+                    showin = LoadingViewUtil.showin(showingroup, R.layout.layout_loading, showin);
                 }
             }
         });
@@ -188,6 +197,8 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
     }
 
     private void initCtrl() {
+        btn_last.setOnClickListener(this);
+        btn_next.setOnClickListener(this);
         btn_go.setOnClickListener(this);
         btn_go.setIndeterminateProgressMode(true);
 
@@ -223,6 +234,7 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
     }
 
     private void setData(User tsc, User mainperson, Order order) {
+        this.order = order;
         if (order != null) {
             text_orderdetail_problem.setText((order.getCategory().getType() == 0 ? "软件问题：" : "硬件问题：") + order.getCategory().getCategoryName());
             text_orderdetail_num.setText("订单编号：" + order.getOrderNumber());
@@ -245,33 +257,79 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
         } else {
             Glide.with(this).load(user.getAvatar()).placeholder(R.drawable.icon_order_fix).centerCrop().crossFade().into(img_orderdetail_header);
         }
-
         //根据角色类型设置提交按钮的状态和功能
         switch (user.getRoleType()) {
             //技术人员
             case User.ROLE_FILIALETECH:
-                btn_go.setVisibility(View.VISIBLE);
-                //技术已经接受
-                if (order.getTechCheck() != null && order.getTechCheck() == 1) {
-                    check = true;
-                    btn_go.setText("用户反馈");
-                    btn_go.setIdleText("用户反馈");
+                btn_last.setVisibility(View.VISIBLE);
+                btn_next.setVisibility(View.VISIBLE);
+                btn_last.setText("反馈用户");
+                btn_next.setText("技术援助");
+                if (order.getTechCheck() == null || order.getTechCheck() == 0) {
+                    //如果是技术人员，且未接受，则显示接受按钮
+                    btn_go.setVisibility(View.VISIBLE);
+                    lay_btn_nextorlast.setVisibility(View.GONE);
+                } else {
+                    //如果已经接受，则显示接受按钮
+                    btn_go.setVisibility(View.GONE);
+                    lay_btn_nextorlast.setVisibility(View.VISIBLE);
                 }
-                //技术尚未接受
-                else {
-                    check = false;
-                    btn_go.setText("接受任务");
-                    btn_go.setIdleText("接受任务");
+                break;
+            //总部技术
+            case User.ROLE_HEADCOMTECH:
+                btn_last.setVisibility(View.VISIBLE);
+                btn_next.setVisibility(View.VISIBLE);
+                btn_next.setText("技术援助");
+                //新需求变更：如果分公司技术不存在则选择一个到现场查看
+                if (order.getTscId()==null || order.getTscId()==0){
+                    btn_last.setText("申请TSC");
+                }else {
+                    btn_last.setText("反馈");
+                }
+                if (order.getHeadTechCheck() == null || order.getHeadTechCheck() == 0) {
+                    btn_go.setVisibility(View.VISIBLE);
+                    lay_btn_nextorlast.setVisibility(View.GONE);
+                }else {
+                    btn_go.setVisibility(View.GONE);
+                    lay_btn_nextorlast.setVisibility(View.VISIBLE);
+                }
+                break;
+            //总部研发
+            case User.ROLE_INVENT:
+                btn_last.setVisibility(View.VISIBLE);
+                btn_next.setVisibility(View.GONE);
+                btn_last.setText("反馈");
+                if (order.getDevelopCheck() == null || order.getDevelopCheck() == 0) {
+                    btn_go.setVisibility(View.VISIBLE);
+                    lay_btn_nextorlast.setVisibility(View.GONE);
+                }else {
+                    btn_go.setVisibility(View.GONE);
+                    lay_btn_nextorlast.setVisibility(View.VISIBLE);
+                }
+                break;
+            //客服
+            case User.ROLE_CUSTOMER:
+                btn_last.setVisibility(View.GONE);
+                btn_next.setVisibility(View.GONE);
+                if (order.getServiceCheck() == null || order.getServiceCheck() == 0) {
+                    btn_go.setVisibility(View.VISIBLE);
+                    lay_btn_nextorlast.setVisibility(View.GONE);
+                }else {
+                    btn_go.setVisibility(View.GONE);
+                    lay_btn_nextorlast.setVisibility(View.VISIBLE);
                 }
                 break;
             //用户
             case User.ROLE_COMMOM:
-                btn_go.setVisibility(View.VISIBLE);
-                btn_go.setText("追加描述");
-                btn_go.setIdleText("追加描述");
+                btn_go.setVisibility(View.GONE);
+                btn_last.setVisibility(View.GONE);
+                btn_next.setVisibility(View.VISIBLE);
+                btn_next.setText("追加描述");
                 break;
             default:
                 btn_go.setVisibility(View.GONE);
+                btn_last.setVisibility(View.GONE);
+                btn_next.setVisibility(View.GONE);
                 break;
         }
     }
@@ -292,26 +350,28 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
         switch (v.getId()) {
             case R.id.btn_go_orderprog:
                 intent.setClass(this, OrderProgActivity.class);
+                intent.putExtra("orderId",id);
                 startActivity(intent);
                 break;
             case R.id.btn_go:
-                if (user.getRoleType() == User.ROLE_FILIALETECH && !check) {
-                    //如果是技术人员且未接受订单
-                    netAcceptOrder();
-                }else {
-                    goAddDescribe();
-                }
+                netAcceptOrder();
+                break;
+            case R.id.btn_last:
+                goAddDescribe(false);
+                break;
+            case R.id.btn_next:
+                goAddDescribe(true);
                 break;
         }
     }
 
     //接受订单
-    private void netAcceptOrder(){
+    private void netAcceptOrder() {
         //接受任务
         btn_go.setProgress(50);
         RequestParams params = new RequestParams(AppData.Url.acceptOrder);
         params.addHeader("token", AppData.App.getToken());
-        params.addBodyParameter("orderId", id+"");
+        params.addBodyParameter("orderId", id + "");
         CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
@@ -321,11 +381,12 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
                     @Override
                     public void run() {
                         btn_go.setProgress(0);
-                        btn_go.setIdleText("用户反馈");
-                        check = true;
+                        btn_go.setVisibility(View.GONE);
+                        lay_btn_nextorlast.setVisibility(View.VISIBLE);
                     }
                 }, 800);
             }
+
             @Override
             public void netSetError(int code, String text) {
                 Toast.makeText(OrderDetailActivity.this, text, Toast.LENGTH_SHORT).show();
@@ -341,11 +402,71 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
     }
 
     //去添加订单描述（上级或下级）
-    private void goAddDescribe(){
+    private void goAddDescribe(boolean next) {
         Intent intent = new Intent();
-        intent.setClass(this, ReqfixActicity.class);
-        intent.putExtra("type", 1);
-        intent.putExtra("id", id);
+        intent.setClass(this, ReqDescribeActicity.class);
+        intent.putExtra("orderId", order.getId());
+        intent.putExtra("categoryId", order.getCategory().getId());
+        intent.putExtra("flag", next?0:1);
+        intent.putExtra("userId", order.getUserId());
+        if (order != null) {
+            //////////////////
+            ///设置是否援助
+            //////////////////
+            boolean isAccept = false;
+            if (next) {
+                //技术
+                if (user.getRoleType() == User.ROLE_FILIALETECH) {
+                    if (order.getHeadTechId() == null || order.getHeadTechId() == 0) {
+                        isAccept = true;
+                    } else {
+                        isAccept = false;
+                    }
+                }
+                //总技术
+                else if (user.getRoleType() == User.ROLE_HEADCOMTECH) {
+                    if (order.getDecelopId() == null || order.getDecelopId() == 0) {
+                        isAccept = true;
+                    } else {
+                        isAccept = false;
+                    }
+                }
+            } else {
+                if (order.getTscId()==null || order.getTscId()==0) {
+                    isAccept = true;
+                }else {
+                    isAccept = false;
+                }
+            }
+            intent.putExtra("isAccept", isAccept);
+
+            //////////////////
+            ///设置是否抄送
+            //////////////////
+            boolean isCopy = false;
+            if (User.ROLE_HEADCOMTECH == user.getRoleType()&& next) {
+                isCopy = false;
+            } else {
+                //技术可以抄送
+                if (isAccept) {
+                    isCopy = true;
+                } else {
+                    isCopy = false;
+                }
+            }
+            intent.putExtra("isCopy", isCopy);
+
+            /////////////////
+            ////设置新需求标志
+            /////////////////
+            boolean newflag = false;
+            if (!next && (order.getTscId()==null || order.getTscId()==0)){
+                newflag = true;
+            }else {
+                newflag = false;
+            }
+            intent.putExtra("newflag", newflag);
+        }
         startActivity(intent);
     }
 }

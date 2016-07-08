@@ -25,6 +25,8 @@ import com.sobey.tvcust.common.LoadingViewUtil;
 import com.sobey.tvcust.entity.CommonEntity;
 import com.sobey.tvcust.entity.Order;
 import com.sobey.tvcust.entity.OrderPojo;
+import com.sobey.tvcust.entity.User;
+import com.sobey.tvcust.ui.activity.OrderProgActivity;
 import com.sobey.tvcust.ui.activity.ReqfixActicity;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterOrder;
 import com.sobey.tvcust.ui.dialog.DialogSure;
@@ -42,7 +44,6 @@ import java.util.List;
 public class HomeOrderFragment extends BaseFragment implements View.OnClickListener {
 
     private int position;
-    private int cancleposition;
     private View rootView;
     private ViewGroup showingroup;
     private View showin;
@@ -59,10 +60,9 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
     private int page;
     private final int PAGE_COUNT = 5;
 
-    private enum Select {ALL, PROG, FINISH}
-
-    ;
-    private Select selectflag = Select.ALL;
+    private User user;
+    private Integer status;
+    private Integer isCheck;
 
     public static Fragment newInstance(int position) {
         HomeOrderFragment f = new HomeOrderFragment();
@@ -117,14 +117,8 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void initBase() {
+        user = AppData.App.getUser();
         dialogSure = new DialogSure(getActivity());
-        dialogSure.setOnOkListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                netCancleOrder(cancleposition);
-                dialogSure.hide();
-            }
-        });
     }
 
     private void initView() {
@@ -134,22 +128,96 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
         springView = (SpringView) getView().findViewById(R.id.spring);
         btn_go_reqfix = getView().findViewById(R.id.btn_go_reqfix);
 
-        tab.addTab(tab.newTab().setText("全部订单"));
-        tab.addTab(tab.newTab().setText("进行中"));
-        tab.addTab(tab.newTab().setText("已完成"));
+
+        initViewTab();
+    }
+
+    private void initViewTab() {
+
+        switch (user.getRoleType()){
+            //用户
+            case User.ROLE_COMMOM:
+                tab.addTab(tab.newTab().setText("全部"));
+                tab.addTab(tab.newTab().setText("待处理"));
+                tab.addTab(tab.newTab().setText("处理中"));
+                tab.addTab(tab.newTab().setText("待验收"));
+                tab.addTab(tab.newTab().setText("待评价"));
+                break;
+            //技术
+            case User.ROLE_FILIALETECH:
+                tab.addTab(tab.newTab().setText("全部"));
+                tab.addTab(tab.newTab().setText("待办任务"));
+                tab.addTab(tab.newTab().setText("待处理"));
+                tab.addTab(tab.newTab().setText("处理中"));
+                tab.addTab(tab.newTab().setText("待验收"));
+                tab.addTab(tab.newTab().setText("待评价"));
+                break;
+            //客服
+            case User.ROLE_CUSTOMER:
+                tab.addTab(tab.newTab().setText("全部"));
+                tab.addTab(tab.newTab().setText("待办任务"));
+                tab.addTab(tab.newTab().setText("待分配"));
+                tab.addTab(tab.newTab().setText("待处理"));    //ORDER_UNDEAL
+                tab.addTab(tab.newTab().setText("处理中"));    //ORDER_INDEAL
+                tab.addTab(tab.newTab().setText("待验收"));    //ORDER_UNVALI
+                tab.addTab(tab.newTab().setText("待评价"));    //ORDER_UNEVA
+                break;
+            //总部技术
+            case User.ROLE_HEADCOMTECH:
+                tab.addTab(tab.newTab().setText("全部"));
+                tab.addTab(tab.newTab().setText("待办任务"));
+                tab.addTab(tab.newTab().setText("待处理"));
+                tab.addTab(tab.newTab().setText("处理中"));
+                tab.addTab(tab.newTab().setText("待验收"));
+                tab.addTab(tab.newTab().setText("待评价"));
+                break;
+            //总部研发
+            case User.ROLE_INVENT:
+                tab.addTab(tab.newTab().setText("全部"));
+                tab.addTab(tab.newTab().setText("待办任务"));
+                tab.addTab(tab.newTab().setText("待处理"));
+                tab.addTab(tab.newTab().setText("处理中"));
+                tab.addTab(tab.newTab().setText("待验收"));
+                break;
+            //其他被抄送人员
+            default:
+                tab.addTab(tab.newTab().setText("全部"));
+                tab.addTab(tab.newTab().setText("进行中"));
+                tab.addTab(tab.newTab().setText("待验证"));
+                tab.addTab(tab.newTab().setText("已完成"));    //ORDER_FINSH
+                break;
+        }
+
         tab.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                switch (tab.getPosition()) {
-                    case 0:
-                        selectflag = Select.ALL;
-                        break;
-                    case 1:
-                        selectflag = Select.PROG;
-                        break;
-                    case 2:
-                        selectflag = Select.FINISH;
-                        break;
+                String text = tab.getText().toString();
+                if ("全部".equals(text)){
+                    status = null;
+                    isCheck = null;
+                }else if ("待处理".equals(text)){
+                    status = Order.ORDER_UNDEAL;
+                    isCheck = null;
+                }else if ("处理中".equals(text)){
+                    status = Order.ORDER_INDEAL;
+                    isCheck = null;
+                }else if ("待验收".equals(text)){
+                    status = Order.ORDER_UNVALI;
+                    isCheck = null;
+                }else if ("待评价".equals(text)){
+                    status = Order.ORDER_UNEVA;
+                    isCheck = null;
+                }else if ("已完成".equals(text)){
+                    status = Order.ORDER_FINSH;
+                    isCheck = null;
+                }else if ("待办任务".equals(text)){
+                    status = Order.ORDER_INDEAL;
+                    isCheck = 0;
+                }else if ("待分配".equals(text)){
+                    status = Order.ORDER_UNDEAL;
+                    isCheck = 1;
+                }else {
+                    Toast.makeText(getActivity(),"没有该分类",Toast.LENGTH_SHORT).show();
                 }
                 initData(true);
             }
@@ -164,6 +232,34 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
 
             }
         });
+
+//        tab.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+//            @Override
+//            public void onTabSelected(TabLayout.Tab tab) {
+//                switch (tab.getPosition()) {
+//                    case 0:
+//                        selectflag = Select.ALL;
+//                        break;
+//                    case 1:
+//                        selectflag = Select.PROG;
+//                        break;
+//                    case 2:
+//                        selectflag = Select.FINISH;
+//                        break;
+//                }
+//                initData(true);
+//            }
+//
+//            @Override
+//            public void onTabUnselected(TabLayout.Tab tab) {
+//
+//            }
+//
+//            @Override
+//            public void onTabReselected(TabLayout.Tab tab) {
+//
+//            }
+//        });
     }
 
     private void initCtrl() {
@@ -174,9 +270,29 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
         recyclerView.setAdapter(adapter);
         adapter.setOkListener(new RecycleAdapterOrder.OnOkListener() {
             @Override
-            public void onOkClick(RecycleAdapterOrder.Holder holder) {
+            public void onCancleClick(final RecycleAdapterOrder.Holder holder) {
+                dialogSure.setMsg("确定删除订单？");
+                dialogSure.setOnOkListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        netCancleOrder(holder.getLayoutPosition());
+                        dialogSure.hide();
+                    }
+                });
                 dialogSure.show();
-                cancleposition = holder.getLayoutPosition();
+            }
+
+            @Override
+            public void onFinishClick(final RecycleAdapterOrder.Holder holder) {
+                dialogSure.setMsg("确定完成订单？");
+                dialogSure.setOnOkListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        netFinishOrder(holder.getLayoutPosition());
+                        dialogSure.hide();
+                    }
+                });
+                dialogSure.show();
             }
         });
 
@@ -204,13 +320,11 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
         params.addHeader("token", AppData.App.getToken());
         params.addBodyParameter("pageNO", 1 + "");
         params.addBodyParameter("pageSize", PAGE_COUNT + "");
-        switch (selectflag) {
-            case PROG:
-                params.addBodyParameter("status", 2006 + "");
-                break;
-            case FINISH:
-                params.addBodyParameter("status", 2005 + "");
-                break;
+        if (status!=null){
+            params.addBodyParameter("status", status + "");
+        }
+        if (isCheck!=null){
+            params.addBodyParameter("isCheck", isCheck + "");
         }
         CommonNet.samplepost(params, OrderPojo.class, new CommonNet.SampleNetHander() {
             @Override
@@ -241,7 +355,7 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
             public void netSetError(int code, String text) {
                 if (isFirst) {
                     Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
-                    LoadingViewUtil.showin(showingroup, R.layout.layout_fail, showin, new View.OnClickListener() {
+                    showin = LoadingViewUtil.showin(showingroup, R.layout.layout_fail, showin, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             initData(true);
@@ -269,13 +383,11 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
         params.addHeader("token", AppData.App.getToken());
         params.addBodyParameter("pageNO", page + 1 + "");
         params.addBodyParameter("pageSize", PAGE_COUNT + "");
-        switch (selectflag) {
-            case PROG:
-                params.addBodyParameter("status", 2006 + "");
-                break;
-            case FINISH:
-                params.addBodyParameter("status", 2005 + "");
-                break;
+        if (status!=null){
+            params.addBodyParameter("status", status + "");
+        }
+        if (isCheck!=null){
+            params.addBodyParameter("isCheck", isCheck + "");
         }
         CommonNet.samplepost(params, OrderPojo.class, new CommonNet.SampleNetHander() {
             @Override
@@ -320,23 +432,44 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
         switch (v.getId()) {
             case R.id.btn_go_reqfix:
                 intent.setClass(getActivity(), ReqfixActicity.class);
-                intent.putExtra("type",0);
                 startActivity(intent);
                 break;
         }
     }
 
-    private void netCancleOrder(final int position){
+    private void netCancleOrder(final int pos){
         RequestParams params = new RequestParams(AppData.Url.cancleOrder);
         params.addHeader("token", AppData.App.getToken());
-        params.addBodyParameter("orderId", adapter.getResults().get(position).getId()+"");
-        params.addBodyParameter("userId", adapter.getResults().get(position).getUserId()+"");
+        params.addBodyParameter("orderId", adapter.getResults().get(pos).getId()+"");
+        params.addBodyParameter("userId", adapter.getResults().get(pos).getUserId()+"");
         CommonNet.samplepost(params,CommonEntity.class,new CommonNet.SampleNetHander(){
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
                 Toast.makeText(getActivity(),text,Toast.LENGTH_SHORT).show();
-                adapter.getResults().remove(position);
-                adapter.notifyItemRemoved(position);
+                adapter.getResults().remove(pos);
+                adapter.notifyItemRemoved(pos);
+            }
+
+            @Override
+            public void netSetError(int code, String text) {
+                Toast.makeText(getActivity(),text,Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void netFinishOrder(final int pos){
+        RequestParams params = new RequestParams(AppData.Url.verifiOrder);
+        params.addHeader("token", AppData.App.getToken());
+        params.addBodyParameter("orderId", adapter.getResults().get(pos).getId()+"");
+        CommonNet.samplepost(params,CommonEntity.class,new CommonNet.SampleNetHander(){
+            @Override
+            public void netGo(int code, Object pojo, String text, Object obj) {
+                Toast.makeText(getActivity(),text,Toast.LENGTH_SHORT).show();
+//                adapter.notifyItemChanged(pos);
+                adapter.notifyDataSetChanged();
+                Intent intent = new Intent(getActivity(), OrderProgActivity.class);
+                intent.putExtra("orderId",adapter.getResults().get(pos).getId());
+                startActivity(intent);
             }
 
             @Override

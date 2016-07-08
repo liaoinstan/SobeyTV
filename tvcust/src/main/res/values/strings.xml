@@ -3,6 +3,7 @@
     <string name="action_settings">设置</string>
     <string name="title_activity_start_up">启动页</string>
     <string name="title_activity_reqfix">维修申报</string>
+    <string name="title_activity_reqfixdescribe">技术援助</string>
     <string name="title_activity_question">问题</string>
     <string name="title_activity_device_detail">设备详情</string>
     <string name="title_activity_msg">消息</string>

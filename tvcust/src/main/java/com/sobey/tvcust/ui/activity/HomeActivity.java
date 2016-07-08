@@ -90,9 +90,9 @@ public class HomeActivity extends BaseAppCompatActicity implements View.OnClickL
 
     private void initView() {
         mTabs[0] = (Button) findViewById(R.id.btn_home_info);
-        mTabs[1] = (Button) findViewById(R.id.btn_home_server);
-        mTabs[2] = (Button) findViewById(R.id.btn_home_qw);
-        mTabs[3] = (Button) findViewById(R.id.btn_home_order);
+        mTabs[1] = (Button) findViewById(R.id.btn_home_qw);
+        mTabs[2] = (Button) findViewById(R.id.btn_home_order);
+        mTabs[3] = (Button) findViewById(R.id.btn_home_server);
         mTabs[4] = (Button) findViewById(R.id.btn_home_me);
 
 //        img_msg = (ImageView) findViewById(R.id.img_msg_home);
@@ -107,15 +107,15 @@ public class HomeActivity extends BaseAppCompatActicity implements View.OnClickL
         }
         homeFragment1 = fm.findFragmentByTag("1");
         if (homeFragment1 == null){
-            homeFragment1 = HomeServerFragment.newInstance(1);
+            homeFragment1 = HomeQwFragment.newInstance(1);
         }
         homeFragment2 = fm.findFragmentByTag("2");
         if (homeFragment2 == null){
-            homeFragment2 = HomeQwFragment.newInstance(2);
+            homeFragment2 = HomeOrderFragment.newInstance(2);
         }
         homeFragment3 = fm.findFragmentByTag("3");
         if (homeFragment3 == null){
-            homeFragment3 = HomeOrderFragment.newInstance(3);
+            homeFragment3 = HomeServerFragment.newInstance(3);
         }
         homeFragment4 = fm.findFragmentByTag("4");
         if (homeFragment4 == null){
@@ -155,16 +155,13 @@ public class HomeActivity extends BaseAppCompatActicity implements View.OnClickL
             case R.id.btn_home_info:
                 index = 0;
                 break;
-            case R.id.btn_home_server:
-                index = 1;
-                //传入参数
-//                args.putInt(EaseConstant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
-//                args.putString(EaseConstant.EXTRA_USER_ID, "liaoinstan");
-                break;
             case R.id.btn_home_qw:
-                index = 2;
+                index = 1;
                 break;
             case R.id.btn_home_order:
+                index = 2;
+                break;
+            case R.id.btn_home_server:
                 index = 3;
                 break;
             case R.id.btn_home_me:

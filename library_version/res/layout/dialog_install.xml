@@ -25,6 +25,7 @@
             android:layout_gravity="center"
             android:layout_marginBottom="10dp"
             android:gravity="center"
+            android:textColor="@color/cc_text_blank"
             android:text="安装提示" />
     </FrameLayout>
 
@@ -38,6 +39,7 @@
         android:lineSpacingExtra="10dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
+        android:textColor="@color/cc_text_blank"
         android:text="您已经下载了最新的安装包，正在进行安装..." />
 
     <ImageView
@@ -63,6 +65,7 @@
             android:paddingLeft="23dp"
             android:paddingRight="23dp"
             android:gravity="center"
+            android:textColor="@color/cc_text_dark"
             android:text="退出应用"/>
         
         <TextView
@@ -77,6 +80,7 @@
             android:paddingLeft="23dp"
             android:paddingRight="23dp"
             android:gravity="center"
+            android:textColor="@color/cc_orage"
             android:text="重新安装"/>
     </LinearLayout>
 

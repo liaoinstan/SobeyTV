@@ -1,5 +1,8 @@
 package com.sobey.tvcust.ui.fragment;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -10,6 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.liaoinstan.springview.container.AliFooter;
 import com.liaoinstan.springview.container.AliHeader;
@@ -28,20 +33,16 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/6/2 0002.
  */
-public class HomeServerFragment extends BaseFragment implements OnRecycleItemClickListener{
+public class HomeServerFragment extends BaseFragment implements View.OnClickListener{
 
     private int position;
     private View rootView;
     private ViewGroup showingroup;
     private View showin;
 
-    private SpringView springView;
-    private RecyclerView recyclerView;
-    private RecycleAdapterServer adapter;
-
-    private DialogServer serverDialog;
-
-    private List<TestEntity> results = new ArrayList<>();
+    private TextView text_phone;
+    private TextView text_qq;
+    private TextView text_mail;
 
     public static Fragment newInstance(int position) {
         HomeServerFragment f = new HomeServerFragment();
@@ -76,52 +77,22 @@ public class HomeServerFragment extends BaseFragment implements OnRecycleItemCli
     }
 
     private void initBase() {
-        serverDialog = new DialogServer(getActivity());
     }
 
     private void initView() {
         showingroup = (ViewGroup) getView().findViewById(R.id.showingroup);
-        recyclerView = (RecyclerView) getView().findViewById(R.id.recycle);
-        springView = (SpringView) getView().findViewById(R.id.spring);
+        text_phone = (TextView) getView().findViewById(R.id.text_server_dialog_phone);
+        text_qq = (TextView) getView().findViewById(R.id.text_server_dialog_qq);
+        text_mail = (TextView) getView().findViewById(R.id.text_server_dialog_mail);
+        getView().findViewById(R.id.item_server_dialog_phone).setOnClickListener(this);
+        getView().findViewById(R.id.item_server_dialog_qq).setOnClickListener(this);
+        getView().findViewById(R.id.item_server_dialog_mail).setOnClickListener(this);
     }
 
     private void initCtrl() {
-        adapter = new RecycleAdapterServer(getActivity(),R.layout.item_recycle_server,results);
-        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), LinearLayoutManager.VERTICAL, false));
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity()));
-        recyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener(this);
-
-        springView.setHeader(new AliHeader(getActivity(),false));
-        springView.setFooter(new AliFooter(getActivity(),false));
-        springView.setListener(new SpringView.OnFreshListener() {
-            @Override
-            public void onRefresh() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        springView.onFinishFreshAndLoad();
-                    }
-                }, 2000);
-            }
-
-            @Override
-            public void onLoadmore() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        results.add(new TestEntity());
-                        results.add(new TestEntity());
-                        freshCtrl();
-                        springView.onFinishFreshAndLoad();
-                    }
-                }, 2000);
-            }
-        });
     }
 
     private void freshCtrl(){
-        adapter.notifyDataSetChanged();
     }
 
     private void initData() {
@@ -129,17 +100,6 @@ public class HomeServerFragment extends BaseFragment implements OnRecycleItemCli
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                results.add(new TestEntity());
-                results.add(new TestEntity());
-                results.add(new TestEntity());
-                results.add(new TestEntity());
-                results.add(new TestEntity());
-                results.add(new TestEntity());
-                results.add(new TestEntity());
-                results.add(new TestEntity());
-                results.add(new TestEntity());
-                results.add(new TestEntity());
-                results.add(new TestEntity());
                 //加载成功
                 freshCtrl();
                 LoadingViewUtil.showout(showingroup,showin);
@@ -156,7 +116,19 @@ public class HomeServerFragment extends BaseFragment implements OnRecycleItemCli
     }
 
     @Override
-    public void onItemClick(RecyclerView.ViewHolder viewHolder) {
-        serverDialog.show();
+    public void onClick(View v) {
+        ClipboardManager c = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+        switch (v.getId()){
+            case R.id.item_server_dialog_phone:
+                c.setPrimaryClip(ClipData.newPlainText(null, text_phone.getText().toString()));
+                break;
+            case R.id.item_server_dialog_qq:
+                c.setPrimaryClip(ClipData.newPlainText(null, text_qq.getText().toString()));
+                break;
+            case R.id.item_server_dialog_mail:
+                c.setPrimaryClip(ClipData.newPlainText(null, text_mail.getText().toString()));
+                break;
+        }
+        Toast.makeText(getActivity(),"文字已复制到剪切板",Toast.LENGTH_SHORT).show();
     }
 }

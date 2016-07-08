@@ -1,6 +1,7 @@
 package com.sobey.tvcust.ui.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,19 +9,26 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.sobey.common.utils.TimeUtil;
 import com.sobey.tvcust.R;
+import com.sobey.tvcust.entity.OrderTrack;
 import com.sobey.tvcust.entity.TestEntity;
 
+import java.util.Date;
 import java.util.List;
 
 public class ListAdapterOrderTrack extends BaseAdapter {
 	private Context context;
 	private int src;
-	private List<TestEntity> results;
+	private List<OrderTrack> results;
 
-    LayoutInflater inflater;
+	public List<OrderTrack> getResults() {
+		return results;
+	}
 
-	public ListAdapterOrderTrack(Context context, int src, List<TestEntity> results) {
+	LayoutInflater inflater;
+
+	public ListAdapterOrderTrack(Context context, int src, List<OrderTrack> results) {
 		this.context = context;
 		this.src = src;
 		this.results = results;
@@ -84,7 +92,15 @@ public class ListAdapterOrderTrack extends BaseAdapter {
 		}
 
 		//设置内容
-		hoder.text_info.setText(results.get(position).getName());
+		OrderTrack track = results.get(position);
+		hoder.text_info.setText(track.getContent());
+		hoder.text_time.setText(TimeUtil.getTimeFor("yyyy-MM-dd  hh:mm", new Date(track.getCreatetime())));
+		//第一项为蓝色
+		if (position==0){
+			hoder.text_info.setTextColor(ContextCompat.getColor(context,R.color.sb_blue));
+		}else {
+			hoder.text_info.setTextColor(ContextCompat.getColor(context,R.color.sb_text_dark));
+		}
 
 		return convertView;
 	}

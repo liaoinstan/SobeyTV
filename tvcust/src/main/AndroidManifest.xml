@@ -57,6 +57,10 @@
             android:label="@string/title_activity_reqfix"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".ui.activity.ReqDescribeActicity"
+            android:label="@string/title_activity_reqfixdescribe"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".ui.activity.QuestionActivity"
             android:label="@string/title_activity_question"
             android:theme="@style/AppTheme.NoActionBar" />

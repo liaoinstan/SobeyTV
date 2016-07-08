@@ -59,7 +59,7 @@
                         android:src="@drawable/icon_finish" />
 
                     <TextView
-                        android:id="@+id/text_orderprog_ip"
+                        android:id="@+id/text_orderprog_question"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@+id/img_orderprog_header"
@@ -71,27 +71,27 @@
                         android:text="硬件问题：CPU过载警报" />
 
                     <TextView
-                        android:id="@+id/text_orderprog_name"
+                        android:id="@+id/text_orderprog_num"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:layout_alignLeft="@+id/text_orderprog_ip"
-                        android:layout_alignStart="@+id/text_orderprog_ip"
-                        android:layout_below="@+id/text_orderprog_ip"
+                        android:layout_alignLeft="@+id/text_orderprog_question"
+                        android:layout_alignStart="@+id/text_orderprog_question"
+                        android:layout_below="@+id/text_orderprog_question"
                         android:textSize="@dimen/text_small"
                         android:textColor="@color/sb_text_blank"
                         android:text="订单号：658425912359" />
 
                     <TextView
-                        android:id="@+id/text_orderprog_info"
+                        android:id="@+id/text_orderprog_status"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignLeft="@+id/text_orderprog_name"
-                        android:layout_alignStart="@+id/text_orderprog_name"
-                        android:layout_below="@+id/text_orderprog_name"
+                        android:layout_alignLeft="@+id/text_orderprog_num"
+                        android:layout_alignStart="@+id/text_orderprog_num"
+                        android:layout_below="@+id/text_orderprog_num"
                         android:layout_marginTop="5dp"
                         android:text="订单状态：已完成"
-                        android:textSize="@dimen/text_big"
+                        android:textSize="@dimen/text_nomal"
                         android:textColor="@color/sb_blue"/>
                 </RelativeLayout>
 
@@ -107,16 +107,13 @@
                     android:paddingTop="10dp">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:textSize="@dimen/text_big"
                         android:textColor="@color/sb_text_blank"
                         android:text="订单追踪" />
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1" />
 
                     <TextView
                         android:id="@+id/text_orderprog_go1"

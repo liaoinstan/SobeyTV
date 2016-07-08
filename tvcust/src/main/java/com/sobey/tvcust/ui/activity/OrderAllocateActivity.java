@@ -62,6 +62,7 @@ public class OrderAllocateActivity extends BaseAppCompatActicity implements View
     private int orderId;
     private int userId;
     private int categoryId;
+    private int type;
     private User user;
 
     @Override
@@ -90,6 +91,9 @@ public class OrderAllocateActivity extends BaseAppCompatActicity implements View
         if (intent.hasExtra("categoryId")) {
             categoryId = intent.getIntExtra("categoryId", 0);
         }
+        if (intent.hasExtra("type")) {
+            type = intent.getIntExtra("type", 0);
+        }
     }
 
     private void initView() {
@@ -104,6 +108,16 @@ public class OrderAllocateActivity extends BaseAppCompatActicity implements View
         text_orderallocate_user_name = (TextView) findViewById(R.id.text_orderallocate_user_name);
         text_orderallocate_user_phone = (TextView) findViewById(R.id.text_orderallocate_user_phone);
         btn_go = (CircularProgressButton) findViewById(R.id.btn_go);
+
+        if (type==0){
+            getSupportActionBar().setTitle("订单分配");
+            btn_go.setIdleText("分配任务");
+            btn_go.setText("分配任务");
+        }else if(type==1){
+            getSupportActionBar().setTitle("分配TSC");
+            btn_go.setIdleText("分配TSC");
+            btn_go.setText("分配TSC");
+        }
     }
 
     private void initData(final boolean isFirst) {
@@ -150,7 +164,7 @@ public class OrderAllocateActivity extends BaseAppCompatActicity implements View
             public void netSetError(int code, String text) {
                 if (isFirst) {
                     Toast.makeText(OrderAllocateActivity.this, text, Toast.LENGTH_SHORT).show();
-                    LoadingViewUtil.showin(showingroup, R.layout.layout_fail, showin, new View.OnClickListener() {
+                    showin = LoadingViewUtil.showin(showingroup, R.layout.layout_fail, showin, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             initData(true);
@@ -235,39 +249,75 @@ public class OrderAllocateActivity extends BaseAppCompatActicity implements View
                 if (msg != null) {
                     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
                 } else {
-                    btn_go.setProgress(50);
-                    RequestParams params = new RequestParams(AppData.Url.allotorder);
-                    params.addHeader("token", AppData.App.getToken());
-                    params.addBodyParameter("orderId", orderId + "");
-                    params.addBodyParameter("tscId", allocater.getId() + "");
-                    CommonNet.samplepost(params, User.class, new CommonNet.SampleNetHander() {
-                        @Override
-                        public void netGo(int code, Object pojo, String text, Object obj) {
-                            Toast.makeText(OrderAllocateActivity.this, text, Toast.LENGTH_SHORT).show();
-                            btn_go.setProgress(100);
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERLIST);
-                                    finish();
-                                }
-                            }, 800);
-                        }
-
-                        @Override
-                        public void netSetError(int code, String text) {
-                            Toast.makeText(OrderAllocateActivity.this, text, Toast.LENGTH_SHORT).show();
-                            btn_go.setProgress(-1);
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    btn_go.setProgress(0);
-                                }
-                            }, 800);
-                        }
-                    });
+                    if (type==0) {
+                        netCommit(allocater);
+                    }else if(type==1){
+                        returnValue(allocater);
+                    }
                 }
                 break;
         }
+    }
+
+    private void returnValue(final User allocater){
+        btn_go.setProgress(50);
+        String msg = AppVali.allocate_commit(allocater);
+        if (msg != null) {
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+            btn_go.setProgress(-1);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    btn_go.setProgress(0);
+                }
+            }, 800);
+        } else {
+            btn_go.setProgress(100);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent intent = new Intent();
+                    intent.putExtra("id", allocater.getId());
+                    intent.putExtra("name", allocater.getRealName());
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
+            }, 1000);
+        }
+    }
+
+    private void netCommit(User allocater){
+        btn_go.setProgress(50);
+        RequestParams params = new RequestParams(AppData.Url.allotorder);
+        params.addHeader("token", AppData.App.getToken());
+        params.addBodyParameter("orderId", orderId + "");
+        params.addBodyParameter("tscId", allocater.getId() + "");
+        params.addBodyParameter("roleType", allocater.getRoleId() + "");
+        CommonNet.samplepost(params, User.class, new CommonNet.SampleNetHander() {
+            @Override
+            public void netGo(int code, Object pojo, String text, Object obj) {
+                Toast.makeText(OrderAllocateActivity.this, text, Toast.LENGTH_SHORT).show();
+                btn_go.setProgress(100);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERLIST);
+                        finish();
+                    }
+                }, 800);
+            }
+
+            @Override
+            public void netSetError(int code, String text) {
+                Toast.makeText(OrderAllocateActivity.this, text, Toast.LENGTH_SHORT).show();
+                btn_go.setProgress(-1);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        btn_go.setProgress(0);
+                    }
+                }, 800);
+            }
+        });
     }
 }

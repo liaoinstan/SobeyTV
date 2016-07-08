@@ -55,7 +55,7 @@
                 android:layout_marginTop="10dp"
                 android:text="您的订单已发出"
                 android:textColor="@color/sb_text_dark"
-                android:textSize="@dimen/text_big" />
+                android:textSize="@dimen/text_nomal" />
 
             <TextView
                 android:id="@+id/text_item_track_time"

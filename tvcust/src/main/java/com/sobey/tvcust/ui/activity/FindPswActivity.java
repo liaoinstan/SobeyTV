@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
 import com.sobey.common.common.CommonNet;
+import com.sobey.common.utils.MD5Util;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.AppVali;
@@ -124,7 +125,7 @@ public class FindPswActivity extends BaseAppCompatActicity implements View.OnCli
                     RequestParams params = new RequestParams(AppData.Url.findPassword);
                     params.addHeader("token", AppData.App.getToken());
                     params.addBodyParameter("mobile", phone);
-                    params.addBodyParameter("password", psw);
+                    params.addBodyParameter("password", MD5Util.md5(psw));
                     CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
                         @Override
                         public void netGo(int code, Object pojo, String text, Object obj) {

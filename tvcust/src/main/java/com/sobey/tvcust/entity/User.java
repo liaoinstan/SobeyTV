@@ -47,12 +47,21 @@ public class User implements Serializable {
     private int officeId;
     private String officeName;
     private int roleType;
+    private int roleId;
     private String tvName;
 
     //本地实例字段
 
     //是否被选中
     private boolean select;
+
+    public int getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
+    }
 
     public boolean isSelect() {
         return select;
@@ -208,7 +217,9 @@ public class User implements Serializable {
                 ", officeId=" + officeId +
                 ", officeName='" + officeName + '\'' +
                 ", roleType=" + roleType +
+                ", roleId=" + roleId +
                 ", tvName='" + tvName + '\'' +
+                ", select=" + select +
                 '}';
     }
 }

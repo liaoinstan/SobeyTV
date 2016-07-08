@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.dd.CircularProgressButton;
 import com.sobey.common.common.CommonNet;
 import com.sobey.common.utils.ApplicationHelp;
+import com.sobey.common.utils.MD5Util;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.AppVali;
@@ -116,7 +117,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
                 if (msg == null) {
                     RequestParams params = new RequestParams(AppData.Url.login);
                     params.addBodyParameter("mobile", name);
-                    params.addBodyParameter("password", password);
+                    params.addBodyParameter("password", MD5Util.md5(password));
                     params.addBodyParameter("deviceToken", registrationID);
                     params.addBodyParameter("deviceType", "0");
                     CommonNet.post(this, params, 1, User.class, null);

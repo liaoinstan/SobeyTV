@@ -137,7 +137,7 @@ public class SelectUserFragment extends BaseFragment implements View.OnClickList
             @Override
             public void netSetError(int code, String text) {
                 Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
-                LoadingViewUtil.showin(showingroup, R.layout.layout_fail, showin, new View.OnClickListener() {
+                showin = LoadingViewUtil.showin(showingroup, R.layout.layout_fail, showin, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         initData();

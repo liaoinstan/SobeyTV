@@ -37,10 +37,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * 维修申报和追加描述页面
- * type为0 是维修申报 type为1 是追加描述
- */
 public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClickListener, CropHelper.CropInterface {
 
     private CropHelper cropHelper = new CropHelper(this);
@@ -61,7 +57,6 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
 
     private int categoryId;
     private int userId;
-    private int orderId;
     private User user;
 
     private static final int RESULT_QUESTION = 0xf102;
@@ -104,15 +99,7 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
         if (recordDialog != null) recordDialog.dismiss();
     }
 
-    //0：维修申报；1：追加描述
-    private int type = 0;
     private void initBase() {
-        if (getIntent().hasExtra("type")){
-            type = getIntent().getIntExtra("type",0);
-        }
-        if (getIntent().hasExtra("id")){
-            orderId = getIntent().getIntExtra("id",0);
-        }
         user = AppData.App.getUser();
 
         loadingDialog = new DialogLoading(this, "正在上传");
@@ -166,20 +153,10 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
         findViewById(R.id.img_reqfix_vidio).setOnClickListener(this);
         findViewById(R.id.img_reqfix_voice).setOnClickListener(this);
 
-        switch (type){
-            case 0:
-                getSupportActionBar().setTitle("维修申报");
-                lay_reqfix_quekind.setVisibility(View.VISIBLE);
-                break;
-            case 1:
-                getSupportActionBar().setTitle("追加描述");
-                lay_reqfix_quekind.setVisibility(View.GONE);
-                break;
-        }
         //如果是客户可以为用户代理申报
-        if (user.getRoleType()==User.ROLE_CUSTOMER){
+        if (user.getRoleType() == User.ROLE_CUSTOMER) {
             lay_reqfix_selectuser.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             lay_reqfix_selectuser.setVisibility(View.GONE);
         }
     }
@@ -313,18 +290,18 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
                 break;
             case RESULT_QUESTION:
                 if (resultCode == RESULT_OK) {
-                        String name = data.getStringExtra("name");
-                        int categoryId = data.getIntExtra("id",0);
-                        text_question_name.setText(name);
-                        this.categoryId = categoryId;
+                    String name = data.getStringExtra("name");
+                    int categoryId = data.getIntExtra("id", 0);
+                    text_question_name.setText(name);
+                    this.categoryId = categoryId;
                 }
                 break;
             case RESULT_SELECTUSER:
                 if (resultCode == RESULT_OK) {
-                        String name = data.getStringExtra("name");
-                        int userId = data.getIntExtra("id",0);
-                        text_user_name.setText(name);
-                        this.userId = userId;
+                    String name = data.getStringExtra("name");
+                    int userId = data.getIntExtra("id", 0);
+                    text_user_name.setText(name);
+                    this.userId = userId;
                 }
                 break;
         }
@@ -349,21 +326,12 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
         String detail = edit_reqfix_detail.getText().toString();
 
         String msg = null;
-        switch (type){
-            //客服、用户
-            case 0:
-                if(user.getRoleType()==User.ROLE_COMMOM) {
-                    //用户不用验证代办用户id
-                    msg = AppVali.reqfix_commit(categoryId, detail);
-                }else if(user.getRoleType()==User.ROLE_CUSTOMER){
-                    //客户必须验证代办用户id
-                    msg = AppVali.reqfix_commit_withuser(categoryId,userId, detail);
-                }
-                break;
-            //技术、总技术、研发
-            case 1:
-                msg = AppVali.reqfix_addDescribe(detail);
-                break;
+        if (user.getRoleType() == User.ROLE_COMMOM) {
+            //用户不用验证代办用户id
+            msg = AppVali.reqfix_commit(categoryId, detail);
+        } else if (user.getRoleType() == User.ROLE_CUSTOMER) {
+            //客户必须验证代办用户id
+            msg = AppVali.reqfix_commit_withuser(categoryId, userId, detail);
         }
         if (msg != null) {
             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
@@ -395,16 +363,7 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
             voiceUrls = urls.subList(offset, offset + voicePaths.length).toArray(new String[]{});
         }
 
-        switch (type){
-            case 0:
-                //提交
-                netCommit();
-                break;
-            case 1:
-                //添加订单描述
-                netAddDescribe();
-                break;
-        }
+        netCommit();
     }
 
     ////////////////////////////////////////////////
@@ -413,6 +372,7 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
 
     private List<String> urls = new ArrayList<>();
     private int index = 0;
+
     private void uploadFile(final List<String> paths) {
         if (index > paths.size() - 1) {
             afterUpload();
@@ -459,8 +419,8 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
         btn_go.setProgress(50);
         RequestParams params = new RequestParams(AppData.Url.reqfix);
         params.addHeader("token", AppData.App.getToken());
-        params.addBodyParameter("categoryId", categoryId+"");
-        params.addBodyParameter("userId", userId+"");
+        params.addBodyParameter("categoryId", categoryId + "");
+        params.addBodyParameter("userId", userId + "");
         params.addBodyParameter("content", detail);
         if (!StrUtils.isEmpty(photoUrls)) {
             params.addBodyParameter("images", new Gson().toJson(photoUrls));
@@ -481,54 +441,6 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERLIST);
-                        finish();
-                    }
-                }, 800);
-            }
-
-            @Override
-            public void netSetError(int code, String text) {
-                Toast.makeText(ReqfixActicity.this, text, Toast.LENGTH_SHORT).show();
-                btn_go.setProgress(-1);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        btn_go.setProgress(0);
-                    }
-                }, 800);
-            }
-        });
-    }
-
-    private void netAddDescribe() {
-        String detail = edit_reqfix_detail.getText().toString();
-
-        btn_go.setProgress(50);
-        RequestParams params = new RequestParams(AppData.Url.addOrderDecribe);
-        params.addHeader("token", AppData.App.getToken());
-        params.addBodyParameter("orderId", orderId+"");
-        params.addBodyParameter("content", detail);
-        if (!StrUtils.isEmpty(photoUrls)) {
-            params.addBodyParameter("images", new Gson().toJson(photoUrls));
-        }
-        if (!StrUtils.isEmpty(videoUrls)) {
-            params.addBodyParameter("videos", new Gson().toJson(videoUrls));
-        }
-        if (!StrUtils.isEmpty(voiceUrls)) {
-            params.addBodyParameter("voices", new Gson().toJson(voiceUrls));
-        }
-        CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
-            @Override
-            public void netGo(int code, Object pojo, String text, Object obj) {
-
-                Toast.makeText(ReqfixActicity.this, text, Toast.LENGTH_SHORT).show();
-
-                btn_go.setProgress(100);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERDESCRIBE);
                         EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERLIST);
                         finish();
                     }

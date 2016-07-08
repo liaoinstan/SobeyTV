@@ -30,6 +30,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:textColor="@color/cc_text_blank"
                 android:text="更新" />
 
             <TextView
@@ -38,6 +39,7 @@
                 android:layout_height="90dp"
                 android:background="@drawable/shape_oval_version"
                 android:gravity="center"
+                android:textColor="@color/cc_white"
                 android:text="13.2M" />
 
         </LinearLayout>
@@ -55,6 +57,7 @@
         android:paddingRight="20dp"
         android:maxLines="9"
         android:scrollbarThumbVertical="@drawable/none"
+        android:textColor="@color/cc_text_blank"
         android:text="1：更新城市\n2：修复部分bug\n3：更新界面" />
 
     <ImageView
@@ -80,6 +83,7 @@
             android:paddingLeft="23dp"
             android:paddingRight="23dp"
             android:gravity="center"
+            android:textColor="@color/cc_text_dark"
             android:text="再想想"/>
         
         <TextView
@@ -94,6 +98,7 @@
             android:paddingLeft="23dp"
             android:paddingRight="23dp"
             android:gravity="center"
+            android:textColor="@color/cc_orage"
             android:text="去更新"/>
     </LinearLayout>
 

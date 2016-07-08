@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
 import com.sobey.common.common.CommonNet;
+import com.sobey.common.utils.MD5Util;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.AppVali;
@@ -141,13 +142,12 @@ public class RegistDetailFragment extends BaseFragment implements View.OnClickLi
                 String password = edit_password.getText().toString();
                 String password_repet = edit_password_repet.getText().toString();
                 String mail = edit_mail.getText().toString();
-//                String comp = edit_comp.getText().toString();
 
-                String msg = AppVali.regist_detail(name,password,password_repet,mail,officeId+"");
+                String msg = AppVali.regist_detail(name,password,password_repet,mail,officeId);
                 if (msg == null) {
                     RequestParams params = new RequestParams(AppData.Url.regist);
                     params.addBodyParameter("mobile", ((LoginActivity)getActivity()).getPhone());
-                    params.addBodyParameter("password", password);
+                    params.addBodyParameter("password", MD5Util.md5(password));
                     params.addBodyParameter("realName", name);
                     params.addBodyParameter("email", mail);
                     params.addBodyParameter("officeId", officeId +"");

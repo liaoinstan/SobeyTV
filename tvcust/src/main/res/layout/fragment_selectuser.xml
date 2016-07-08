@@ -40,6 +40,6 @@
         app:cpb_iconComplete="@drawable/ic_action_accept"
         app:cpb_iconError="@drawable/ic_action_cancel"
         app:cpb_selectorIdle="@drawable/idle_state_selector"
-        app:cpb_textIdle="请求协助" />
+        app:cpb_textIdle="选择用户" />
 
 </LinearLayout>

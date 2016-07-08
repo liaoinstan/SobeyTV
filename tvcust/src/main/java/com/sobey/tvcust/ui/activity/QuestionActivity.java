@@ -90,7 +90,7 @@ public class QuestionActivity extends BaseAppCompatActicity implements OnRecycle
             @Override
             public void netSetError(int code, String text) {
                 Toast.makeText(QuestionActivity.this,text,Toast.LENGTH_SHORT).show();
-                LoadingViewUtil.showin(showingroup,R.layout.layout_fail,showin,new View.OnClickListener(){
+                showin = LoadingViewUtil.showin(showingroup,R.layout.layout_fail,showin,new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
                         initData();

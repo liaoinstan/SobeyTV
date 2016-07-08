@@ -23,12 +23,19 @@ import com.sobey.tvcust.R;
 public class DialogSure extends Dialog{
 
     private Context context;
+    private TextView text_dialog_sure;
     private TextView text_cancle;
     private TextView text_ok;
+    private String msg;
 
     public DialogSure(Context context) {
+        this(context,"确定？");
+    }
+
+    public DialogSure(Context context,String msg) {
         super(context,R.style.MyDialog);
         this.context = context;
+        this.msg = msg;
         setLoadingDialog();
     }
 
@@ -36,8 +43,11 @@ public class DialogSure extends Dialog{
     	LayoutInflater inflater = LayoutInflater.from(getContext());
         View v = inflater.inflate(R.layout.dialog_sure, null);// 得到加载view
 
+        text_dialog_sure = (TextView) v.findViewById(R.id.text_dialog_sure);
         text_cancle = (TextView) v.findViewById(R.id.dialog_cancel);
         text_ok = (TextView) v.findViewById(R.id.dialog_ok);
+
+        text_dialog_sure.setText(msg);
         text_cancle.setOnClickListener(listener);
         text_ok.setOnClickListener(listener);
 
@@ -61,6 +71,10 @@ public class DialogSure extends Dialog{
         lp.width = (int) (screenWidth * 0.85); // 宽度
 //        lp.height = (int) (lp.width*0.65); // 高度
         dialogWindow.setAttributes(lp);
+    }
+
+    public void setMsg(String msg) {
+        text_dialog_sure.setText(msg);
     }
 
     public void setOnCancleListener(View.OnClickListener listener){

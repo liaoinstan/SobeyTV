@@ -91,8 +91,8 @@ public class AppData {
 		 * 服务器域名
 		 */
 //		private static final String domain = "https://api.cczcrv.com";											//正式服务器
-//		private static final String domain = "http://api.cczcrv.com";											//开发服务器
-		private static final String domain = "http://192.168.0.144:8080";								//测试服务器
+//		private static final String domain = "http://101.201.222.160:8084";								//测试服务器
+		private static final String domain = "http://192.168.0.144:8080";								//开发服务器
 		
 		/**
 		 * 接口请求地址
@@ -102,7 +102,7 @@ public class AppData {
 		public static final String logout				= domain + "/SanghaCloud/mobile/loginout";					//注销
 		public static final String getInfo				= domain + "/SanghaCloud/mobile/getInfo";						//获取个人信息
 		public static final String regist				= domain + "/SanghaCloud/mobile/register";					//注册
-		public static final String getBranch			= domain + "/SanghaCloud/companyMobile/queryCompany";		//获取办事处
+		public static final String getBranch			= domain + "/SanghaCloud/companyMobile/queryCompany";		//获取分公司
 		public static final String getOffice			= domain + "/SanghaCloud/officeMobile/getOffice";			//获取办事处
 		public static final String getTv					= domain + "/SanghaCloud/officeMobile/getTv";					//获取电视台
 		public static final String updateInfo			= domain + "/SanghaCloud/mobile/updateInfo";					//修改用户信息
@@ -118,14 +118,15 @@ public class AppData {
 		public static final String getTSC				= domain + "/SanghaCloud/order/getTSC";						//订单分配人员列表
 		public static final String allotorder			= domain + "/SanghaCloud/order/allotorder";					//提交订单分配
 		public static final String cancleOrder			= domain + "/SanghaCloud/order/cancleOrder";					//取消订单
-		public static final String acceptOrder			= domain + "/SanghaCloud/order/updatetscCheck";				//接受订单
+		public static final String verifiOrder			= domain + "/SanghaCloud/order/statusToVerifi";				//修改订单状态待待验收
+		public static final String acceptOrder			= domain + "/SanghaCloud/order/updateCheck";					//接受订单 技术人员
 		public static final String assistCommit			= domain + "/SanghaCloud/order/applicationHeadTech";			//协助提交
 		public static final String assister				= domain + "/SanghaCloud/mobile/getHeadTechs";				//请求协助人员列表
 		public static final String copyer				= domain + "/SanghaCloud/mobile/getsaleandleader";			//请求抄送人员列表
 		public static final String selectUser		    = domain + "/SanghaCloud/mobile/findUserByTV";				//选择用户列表
-
 		public static final String developer			= domain + "/SanghaCloud/mobile/getInvent";					//请求总部研发人员列表
 		public static final String commitdeveloper		= domain + "/SanghaCloud/order/applicationInvent";			//请求总部研发人员协助
+		public static final String getOrderTrack		= domain + "/SanghaCloud/order/getOrderTrack";				//获取订单追踪
 
 	}
 }

@@ -40,6 +40,7 @@
                 android:layout_height="90dp"
                 android:background="@drawable/shape_oval_force"
                 android:gravity="center"
+                android:textColor="@color/cc_white"
                 android:text="13.2M" />
 
         </LinearLayout>
@@ -57,6 +58,7 @@
         android:paddingRight="20dp"
         android:maxLines="9"
         android:scrollbarThumbVertical="@drawable/none"
+        android:textColor="@color/cc_text_blank"
         android:text="重大更新，大小为23.5M，老版本将无法继续使用，请及时更新。为您带来的不便请谅解" />
 
     <ImageView
@@ -82,6 +84,7 @@
             android:paddingLeft="23dp"
             android:paddingRight="23dp"
             android:gravity="center"
+            android:textColor="@color/cc_text_dark"
             android:text="退出应用"/>
         
         <TextView
@@ -96,6 +99,7 @@
             android:paddingLeft="23dp"
             android:paddingRight="23dp"
             android:gravity="center"
+            android:textColor="@color/cc_orage"
             android:text="立刻更新"/>
     </LinearLayout>
 

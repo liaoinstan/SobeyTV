@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
 import com.sobey.common.common.CommonNet;
+import com.sobey.common.utils.MD5Util;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.AppVali;
@@ -84,8 +85,8 @@ public class ModifyPswActivity extends BaseAppCompatActicity implements View.OnC
 
                     RequestParams params = new RequestParams(AppData.Url.updatePassword);
                     params.addHeader("token", AppData.App.getToken());
-                    params.addBodyParameter("oldpwd", psw_old);
-                    params.addBodyParameter("password", psw_new);
+                    params.addBodyParameter("oldpwd", MD5Util.md5(psw_old));
+                    params.addBodyParameter("password", MD5Util.md5(psw_new));
                     CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
                         @Override
                         public void netGo(int code, Object pojo, String text, Object obj) {

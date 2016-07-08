@@ -17,9 +17,9 @@ import com.sobey.tvcust.entity.Order;
 import com.sobey.tvcust.entity.OrderCategory;
 import com.sobey.tvcust.entity.User;
 import com.sobey.tvcust.interfaces.OnRecycleItemClickListener;
-import com.sobey.tvcust.ui.activity.AssistActivity;
 import com.sobey.tvcust.ui.activity.OrderAllocateActivity;
 import com.sobey.tvcust.ui.activity.OrderDetailActivity;
+import com.sobey.tvcust.ui.activity.ReqDescribeActicity;
 
 import java.util.Date;
 import java.util.List;
@@ -59,7 +59,13 @@ public class RecycleAdapterOrder extends RecyclerView.Adapter<RecycleAdapterOrde
         holder.text_cancle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (okListener != null) okListener.onOkClick(holder);
+                if (okListener != null) okListener.onCancleClick(holder);
+            }
+        });
+        holder.text_finish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (okListener != null) okListener.onFinishClick(holder);
             }
         });
         holder.text_go.setOnClickListener(new View.OnClickListener() {
@@ -84,7 +90,7 @@ public class RecycleAdapterOrder extends RecyclerView.Adapter<RecycleAdapterOrde
         holder.text_assist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, AssistActivity.class);
+                Intent intent = new Intent(context, ReqDescribeActicity.class);
                 Order order = results.get(holder.getLayoutPosition());
                 intent.putExtra("type", "0");
                 intent.putExtra("userId", order.getUserId());
@@ -147,6 +153,17 @@ public class RecycleAdapterOrder extends RecyclerView.Adapter<RecycleAdapterOrde
 //        } else {
 //            holder.text_assist.setVisibility(View.GONE);
 //        }
+        //技术人员 or 总部技术人员 可以申请援助
+        if (user.getRoleType() == User.ROLE_FILIALETECH || user.getRoleType() == User.ROLE_HEADCOMTECH) {
+            //技术尚未接受订单
+            if (order.getTechCheck() == null || order.getTechCheck() == 0) {
+                holder.text_finish.setVisibility(View.GONE);
+            }else {
+                holder.text_finish.setVisibility(View.VISIBLE);
+            }
+        }else {
+            holder.text_finish.setVisibility(View.GONE);
+        }
         //用户可以取消订单
         if (user.getRoleType() == User.ROLE_COMMOM) {
             holder.text_cancle.setVisibility(View.VISIBLE);
@@ -172,6 +189,7 @@ public class RecycleAdapterOrder extends RecyclerView.Adapter<RecycleAdapterOrde
         public TextView text_go;
         public TextView text_allocate;
         public TextView text_assist;
+        public TextView text_finish;
 
         public Holder(View itemView) {
             super(itemView);
@@ -185,6 +203,7 @@ public class RecycleAdapterOrder extends RecyclerView.Adapter<RecycleAdapterOrde
             text_go = (TextView) itemView.findViewById(R.id.text_order_go);
             text_allocate = (TextView) itemView.findViewById(R.id.text_order_allocate);
             text_assist = (TextView) itemView.findViewById(R.id.text_order_assist);
+            text_finish = (TextView) itemView.findViewById(R.id.text_order_finish);
         }
     }
 
@@ -201,6 +220,7 @@ public class RecycleAdapterOrder extends RecyclerView.Adapter<RecycleAdapterOrde
     }
 
     public interface OnOkListener {
-        void onOkClick(Holder holder);
+        void onCancleClick(Holder holder);
+        void onFinishClick(Holder holder);
     }
 }

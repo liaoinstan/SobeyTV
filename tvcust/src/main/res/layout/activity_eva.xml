@@ -23,24 +23,24 @@
 
             <TextView
                 android:id="@+id/text_eva_complain"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="right"
                 android:gravity="center"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:text="投诉"
                 android:textColor="@color/sb_blue"
-                android:textSize="@dimen/text_nomal"
-                android:text="投诉"/>
+                android:textSize="@dimen/text_nomal" />
 
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
+        android:id="@+id/showingroup"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/showingroup"
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
@@ -70,37 +70,74 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="70dp"
+                            android:layout_height="50dp"
                             android:gravity="center_vertical"
                             android:orientation="horizontal">
-
-                            <de.hdodenhof.circleimageview.CircleImageView
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:layout_marginLeft="16dp"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/eva_serv_header" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:text="客服评价："
-                                android:textColor="@color/cc_text_blank"
+                                android:layout_marginLeft="20dp"
+                                android:text="客服评价"
+                                android:textColor="@color/sb_text_blank"
                                 android:textSize="@dimen/text_big" />
 
-                            <View
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="@drawable/line" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
                                 android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1" />
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_weight="1"
+                                android:text="服务态度："
+                                android:textColor="@color/sb_text_blank"
+                                android:textSize="@dimen/text_big_nomal" />
 
                             <RatingBar
+                                android:id="@+id/rating_eva_server_attitude"
                                 android:layout_width="wrap_content"
                                 android:layout_height="19dp"
                                 android:layout_marginRight="16dp"
                                 android:numStars="5"
                                 android:progressDrawable="@drawable/rating_bar"
-                                android:rating="2"
+                                android:stepSize="1" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginBottom="10dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_weight="1"
+                                android:text="处理速度："
+                                android:textColor="@color/sb_text_blank"
+                                android:textSize="@dimen/text_big_nomal" />
+
+                            <RatingBar
+                                android:id="@+id/rating_eva_server_speed"
+                                android:layout_width="wrap_content"
+                                android:layout_height="19dp"
+                                android:layout_marginRight="16dp"
+                                android:numStars="5"
+                                android:progressDrawable="@drawable/rating_bar"
                                 android:stepSize="1" />
                         </LinearLayout>
 
@@ -129,37 +166,99 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="70dp"
+                            android:layout_height="50dp"
                             android:gravity="center_vertical"
                             android:orientation="horizontal">
-
-                            <de.hdodenhof.circleimageview.CircleImageView
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:layout_marginLeft="16dp"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/eva_tech_header" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:text="技术评价："
-                                android:textColor="@color/cc_text_blank"
+                                android:layout_marginLeft="20dp"
+                                android:text="技术评价"
+                                android:textColor="@color/sb_text_blank"
                                 android:textSize="@dimen/text_big" />
 
-                            <View
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="@drawable/line" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
                                 android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1" />
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_weight="1"
+                                android:text="服务态度："
+                                android:textColor="@color/sb_text_blank"
+                                android:textSize="@dimen/text_big_nomal" />
 
                             <RatingBar
+                                android:id="@+id/rating_eva_tech_attitude"
                                 android:layout_width="wrap_content"
                                 android:layout_height="19dp"
                                 android:layout_marginRight="16dp"
                                 android:numStars="5"
                                 android:progressDrawable="@drawable/rating_bar"
-                                android:rating="2"
+                                android:stepSize="1" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_weight="1"
+                                android:text="处理速度："
+                                android:textColor="@color/sb_text_blank"
+                                android:textSize="@dimen/text_big_nomal" />
+
+                            <RatingBar
+                                android:id="@+id/rating_eva_tech_speed"
+                                android:layout_width="wrap_content"
+                                android:layout_height="19dp"
+                                android:layout_marginRight="16dp"
+                                android:numStars="5"
+                                android:progressDrawable="@drawable/rating_bar"
+                                android:stepSize="1" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginBottom="10dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_weight="1"
+                                android:text="产品评价："
+                                android:textColor="@color/sb_text_blank"
+                                android:textSize="@dimen/text_big_nomal" />
+
+                            <RatingBar
+                                android:id="@+id/rating_eva_tech_product"
+                                android:layout_width="wrap_content"
+                                android:layout_height="19dp"
+                                android:layout_marginRight="16dp"
+                                android:numStars="5"
+                                android:progressDrawable="@drawable/rating_bar"
                                 android:stepSize="1" />
                         </LinearLayout>
 
@@ -186,6 +285,7 @@
                         android:background="@color/white">
 
                         <EditText
+                            android:id="@+id/edit_eva_describe"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="10dp"
@@ -215,17 +315,36 @@
             android:layout_height="wrap_content"
             android:background="@color/white">
 
-            <TextView
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:layout_marginBottom="10dp"-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:background="@color/sb_bk_dark"-->
+                <!--android:gravity="center"-->
+                <!--android:text="提交评价"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:textSize="@dimen/text_big" />-->
+
+            <com.dd.CircularProgressButton
+                android:id="@+id/btn_go"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@color/sb_bk_dark"
-                android:gravity="center"
-                android:text="提交评价"
+                android:layout_marginTop="10dp"
+                android:background="#00000000"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_big" />
+                android:textSize="@dimen/text_big"
+                app:cpb_colorIndicator="@color/sb_blue"
+                app:cpb_colorIndicatorBackground="@color/sb_blue_hint_trans"
+                app:cpb_colorProgress="#00000000"
+                app:cpb_iconComplete="@drawable/ic_action_accept"
+                app:cpb_iconError="@drawable/ic_action_cancel"
+                app:cpb_selectorIdle="@drawable/idle_state_selector"
+                app:cpb_textIdle="提交评价" />
 
         </FrameLayout>
 

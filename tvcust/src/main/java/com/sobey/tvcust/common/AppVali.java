@@ -86,15 +86,15 @@ public class AppVali {
 		}
 	}
 
-	public static String regist_detail(String name,String password,String password_repet,String mail,String comp) {
+	public static String regist_detail(String name,String password,String password_repet,String mail,int officeId) {
 		if (isEmpty(name)) {
 			return "请输入姓名";
 		}else if(isEmpty(password)){
 			return "请输入登录密码";
 		}else if(isEmpty(mail)){
 			return "请输入邮箱";
-		}else if(isEmpty(comp)){
-			return "请输入所属单位";
+		}else if(officeId==0){
+			return "请选择所属单位";
 		}
 		else if (!length(password, 6, 16)) {
 			return "密码长度必须为6-16位";
@@ -146,6 +146,17 @@ public class AppVali {
 
 	public static String reqfix_addDescribe(String detail) {
 		if (isEmpty(detail)) {
+			return "请输入问题描述";
+		}
+		else {
+			return null;
+		}
+	}
+
+	public static String reqfix_addDescribe_withuser(int userId,String detail) {
+		if (userId==0) {
+			return "请选择援助对象";
+		}else if (isEmpty(detail)) {
 			return "请输入问题描述";
 		}
 		else {

@@ -112,7 +112,7 @@ public class CopyActivity extends AppCompatActivity implements View.OnClickListe
             public void netSetError(int code, String text) {
                 if (isFirst) {
                     Toast.makeText(CopyActivity.this, text, Toast.LENGTH_SHORT).show();
-                    LoadingViewUtil.showin(showingroup, R.layout.layout_fail, showin, new View.OnClickListener() {
+                    showin = LoadingViewUtil.showin(showingroup, R.layout.layout_fail, showin, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             initData(true);
@@ -181,11 +181,6 @@ public class CopyActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_go:
                 final ArrayList<Integer> ids = adapter.getSelectUsers();
                 final String nameStr = adapter.getSelectNameStr();
-
-                for (int id:ids){
-                    Log.e("liao","id:"+id);
-                }
-                Log.e("liao","nameStr:"+nameStr);
 
                 btn_go.setProgress(50);
                 if (ids==null||ids.size()==0){

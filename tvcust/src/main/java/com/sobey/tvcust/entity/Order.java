@@ -13,7 +13,7 @@ public class Order {
     public static final int ORDER_UNDEAL = 2001;
     //处理中
     public static final int ORDER_INDEAL = 2002;
-    //待验证
+    //待验收
     public static final int ORDER_UNVALI = 2003;
     //待评价
     public static final int ORDER_UNEVA = 2004;
@@ -50,6 +50,12 @@ public class Order {
     @SerializedName("techCheck")
     private Integer techCheck;
 
+    @SerializedName("developCheck")
+    private Integer developCheck;
+
+    @SerializedName("headTechCheck")
+    private Integer headTechCheck;
+
     @SerializedName("headTechId")
     private Integer headTechId;
 
@@ -73,6 +79,22 @@ public class Order {
 
     @SerializedName("category")
     private OrderCategory category;
+
+    public Integer getDevelopCheck() {
+        return developCheck;
+    }
+
+    public void setDevelopCheck(Integer developCheck) {
+        this.developCheck = developCheck;
+    }
+
+    public Integer getHeadTechCheck() {
+        return headTechCheck;
+    }
+
+    public void setHeadTechCheck(Integer headTechCheck) {
+        this.headTechCheck = headTechCheck;
+    }
 
     public OrderCategory getCategory() {
         return category;
@@ -221,7 +243,8 @@ public class Order {
     @Override
     public String toString() {
         return "Order{" +
-                "id=" + id +
+                "category=" + category +
+                ", id=" + id +
                 ", orderCategory=" + orderCategory +
                 ", orderDescri='" + orderDescri + '\'' +
                 ", images=" + Arrays.toString(images) +
@@ -229,8 +252,10 @@ public class Order {
                 ", voices=" + Arrays.toString(voices) +
                 ", serviceId=" + serviceId +
                 ", status=" + status +
-                ", serviceCheck='" + serviceCheck + '\'' +
-                ", techCheck='" + techCheck + '\'' +
+                ", serviceCheck=" + serviceCheck +
+                ", techCheck=" + techCheck +
+                ", developCheck=" + developCheck +
+                ", headTechCheck=" + headTechCheck +
                 ", headTechId=" + headTechId +
                 ", tscId=" + tscId +
                 ", decelopId=" + decelopId +
@@ -238,7 +263,6 @@ public class Order {
                 ", userId=" + userId +
                 ", count=" + count +
                 ", orderNumber='" + orderNumber + '\'' +
-                ", category=" + category +
                 '}';
     }
 }

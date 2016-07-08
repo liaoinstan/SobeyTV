@@ -1,16 +1,18 @@
 package com.sobey.tvcust.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.sobey.tvcust.R;
+import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.LoadingViewUtil;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
@@ -23,8 +25,14 @@ public class EvaDetailActivity extends BaseAppCompatActicity {
 
     private TagFlowLayout flow_serv;
     private TagFlowLayout flow_tech;
-    private RatingBar star_serv;
-    private RatingBar star_tech;
+    private RatingBar rating_eva_server_attitude;
+    private RatingBar rating_eva_server_speed;
+    private RatingBar rating_eva_tech_attitude;
+    private RatingBar rating_eva_tech_speed;
+    private RatingBar rating_eva_tech_product;
+    private TextView text_eva_describe;
+
+    private int orderId;
 
     private String[] mVals = new String[]
             {"亲切有理", "声音好听", "解答到位 ", "派单迅速", "有耐心", "技术强",
@@ -38,18 +46,29 @@ public class EvaDetailActivity extends BaseAppCompatActicity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        initData();
         initView();
         initData();
 //        initCtrl();
     }
 
+    private void initBase() {
+        Intent intent = getIntent();
+        if (intent.hasExtra("orderId")) {
+            orderId = intent.getIntExtra("orderId", 0);
+        }
+    }
 
     private void initView() {
         showingroup = (ViewGroup) findViewById(R.id.showingroup);
         flow_serv = (TagFlowLayout) findViewById(R.id.flow_tag_serv);
         flow_tech = (TagFlowLayout) findViewById(R.id.flow_tag_tech);
-        star_serv = (RatingBar) findViewById(R.id.star_evadetail_serv);
-        star_tech = (RatingBar) findViewById(R.id.star_evadetail_tech);
+        rating_eva_server_attitude = (RatingBar) findViewById(R.id.rating_eva_server_attitude);
+        rating_eva_server_speed = (RatingBar) findViewById(R.id.rating_eva_server_speed);
+        rating_eva_tech_attitude = (RatingBar) findViewById(R.id.rating_eva_tech_attitude);
+        rating_eva_tech_speed = (RatingBar) findViewById(R.id.rating_eva_tech_speed);
+        rating_eva_tech_product = (RatingBar) findViewById(R.id.rating_eva_tech_product);
+        text_eva_describe = (TextView) findViewById(R.id.text_eva_describe);
     }
 
     private void initData() {
