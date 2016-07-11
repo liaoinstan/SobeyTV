@@ -4,6 +4,7 @@
     <string name="title_activity_start_up">启动页</string>
     <string name="title_activity_reqfix">维修申报</string>
     <string name="title_activity_reqfixdescribe">技术援助</string>
+    <string name="title_activity_reqfixdescribeonly">提交反馈</string>
     <string name="title_activity_question">问题</string>
     <string name="title_activity_device_detail">设备详情</string>
     <string name="title_activity_msg">消息</string>
@@ -27,6 +28,7 @@
     <string name="title_activity_me_detail">编辑个人资料</string>
     <string name="title_activity_order_detail">订单详情</string>
     <string name="title_activity_order_allocate">订单分配</string>
+    <string name="title_activity_order_allocateonly">选择TSC</string>
     <string name="title_activity_comp">分公司</string>
     <string name="title_activity_modify_phone">修改绑定手机</string>
     <string name="title_activity_setting_security">安全设置</string>

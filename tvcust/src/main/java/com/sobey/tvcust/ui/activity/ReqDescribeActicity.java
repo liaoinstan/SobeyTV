@@ -255,11 +255,10 @@ public class ReqDescribeActicity extends BaseAppCompatActicity implements View.O
         switch (v.getId()) {
             case R.id.lay_reqfix_selectuser:
                 if (newflag){
-                    intent.setClass(this, OrderAllocateActivity.class);
+                    intent.setClass(this, OrderAllocateOnlyActivity.class);
                     intent.putExtra("userId", userId);
                     intent.putExtra("orderId", orderId);
                     intent.putExtra("categoryId", categoryId);
-                    intent.putExtra("type", 1);
                     startActivityForResult(intent, RESULT_SELECTUSER);
                 }else {
                     intent.setClass(this, AssistActivity.class);

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -27,9 +26,6 @@ import com.sobey.tvcust.common.LoadingViewUtil;
 import com.sobey.tvcust.common.OrderStatusHelper;
 import com.sobey.tvcust.entity.Order;
 import com.sobey.tvcust.entity.OrderAllocatePojo;
-import com.sobey.tvcust.entity.OrderDescribe;
-import com.sobey.tvcust.entity.OrderDescribePojo;
-import com.sobey.tvcust.entity.TestEntity;
 import com.sobey.tvcust.entity.User;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterOrderAllocate;
 

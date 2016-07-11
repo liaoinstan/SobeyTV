@@ -146,7 +146,7 @@ public class AppVali {
 
 	public static String reqfix_addDescribe(String detail) {
 		if (isEmpty(detail)) {
-			return "请输入问题描述";
+			return "请输入描述";
 		}
 		else {
 			return null;

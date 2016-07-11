@@ -27,6 +27,7 @@ import com.sobey.tvcust.entity.Order;
 import com.sobey.tvcust.entity.OrderPojo;
 import com.sobey.tvcust.entity.User;
 import com.sobey.tvcust.ui.activity.OrderProgActivity;
+import com.sobey.tvcust.ui.activity.ReqDescribeOnlyActicity;
 import com.sobey.tvcust.ui.activity.ReqfixActicity;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterOrder;
 import com.sobey.tvcust.ui.dialog.DialogSure;
@@ -288,8 +289,8 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
                 dialogSure.setOnOkListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        netFinishOrder(holder.getLayoutPosition());
                         dialogSure.hide();
+                        netFinishOrder(holder.getLayoutPosition());
                     }
                 });
                 dialogSure.show();
@@ -458,24 +459,28 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void netFinishOrder(final int pos){
-        RequestParams params = new RequestParams(AppData.Url.verifiOrder);
-        params.addHeader("token", AppData.App.getToken());
-        params.addBodyParameter("orderId", adapter.getResults().get(pos).getId()+"");
-        CommonNet.samplepost(params,CommonEntity.class,new CommonNet.SampleNetHander(){
-            @Override
-            public void netGo(int code, Object pojo, String text, Object obj) {
-                Toast.makeText(getActivity(),text,Toast.LENGTH_SHORT).show();
-//                adapter.notifyItemChanged(pos);
-                adapter.notifyDataSetChanged();
-                Intent intent = new Intent(getActivity(), OrderProgActivity.class);
-                intent.putExtra("orderId",adapter.getResults().get(pos).getId());
-                startActivity(intent);
-            }
 
-            @Override
-            public void netSetError(int code, String text) {
-                Toast.makeText(getActivity(),text,Toast.LENGTH_SHORT).show();
-            }
-        });
+        Intent intent = new Intent(getActivity(), ReqDescribeOnlyActicity.class);
+        intent.putExtra("orderId",adapter.getResults().get(pos).getId());
+        startActivity(intent);
+
+//        RequestParams params = new RequestParams(AppData.Url.verifiOrder);
+//        params.addHeader("token", AppData.App.getToken());
+//        params.addBodyParameter("orderId", adapter.getResults().get(pos).getId()+"");
+//        CommonNet.samplepost(params,CommonEntity.class,new CommonNet.SampleNetHander(){
+//            @Override
+//            public void netGo(int code, Object pojo, String text, Object obj) {
+//                Toast.makeText(getActivity(),text,Toast.LENGTH_SHORT).show();
+//                adapter.notifyDataSetChanged();
+//                Intent intent = new Intent(getActivity(), OrderProgActivity.class);
+//                intent.putExtra("orderId",adapter.getResults().get(pos).getId());
+//                startActivity(intent);
+//            }
+//
+//            @Override
+//            public void netSetError(int code, String text) {
+//                Toast.makeText(getActivity(),text,Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 }

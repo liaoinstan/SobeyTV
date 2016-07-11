@@ -91,8 +91,8 @@ public class AppData {
 		 * 服务器域名
 		 */
 //		private static final String domain = "https://api.cczcrv.com";											//正式服务器
-//		private static final String domain = "http://101.201.222.160:8084";								//测试服务器
-		private static final String domain = "http://192.168.0.144:8080";								//开发服务器
+		private static final String domain = "http://101.201.222.160:8084";								//测试服务器
+//		private static final String domain = "http://192.168.0.144:8080";								//开发服务器
 		
 		/**
 		 * 接口请求地址
@@ -116,6 +116,7 @@ public class AppData {
 		public static final String getOrderdecribe		= domain + "/SanghaCloud/order/getOrderdecribe";				//订单详情描述
 		public static final String addOrderDecribe		= domain + "/SanghaCloud/order/addOrderDecribe";				//添加订单详情描述
 		public static final String getTSC				= domain + "/SanghaCloud/order/getTSC";						//订单分配人员列表
+		public static final String getTSCOnly			= domain + "/SanghaCloud/order/getTSCOnly";					//订单分配人员列表
 		public static final String allotorder			= domain + "/SanghaCloud/order/allotorder";					//提交订单分配
 		public static final String cancleOrder			= domain + "/SanghaCloud/order/cancleOrder";					//取消订单
 		public static final String verifiOrder			= domain + "/SanghaCloud/order/statusToVerifi";				//修改订单状态待待验收

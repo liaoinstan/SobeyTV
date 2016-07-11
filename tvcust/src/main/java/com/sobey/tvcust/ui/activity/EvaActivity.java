@@ -14,12 +14,15 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppConstant;
 import com.sobey.tvcust.common.AppData;
+import com.sobey.tvcust.common.AppVali;
 import com.sobey.tvcust.common.LoadingViewUtil;
+import com.sobey.tvcust.entity.User;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -45,6 +48,7 @@ public class EvaActivity extends BaseAppCompatActicity implements View.OnClickLi
     private CircularProgressButton btn_go;
 
     private int orderId;
+    private User user;
 
     private String[] mVals = new String[]
             {"亲切有理", "声音好听", "解答到位 ", "派单迅速", "有耐心", "技术强",
@@ -65,6 +69,7 @@ public class EvaActivity extends BaseAppCompatActicity implements View.OnClickLi
     }
 
     private void initBase() {
+        user = AppData.App.getUser();
         Intent intent = getIntent();
         if (intent.hasExtra("orderId")) {
             orderId = intent.getIntExtra("orderId", 0);
@@ -117,7 +122,6 @@ public class EvaActivity extends BaseAppCompatActicity implements View.OnClickLi
                 tv.setText(s);
                 return tv;
             }
-
         };
         TagAdapter adapterTech = new TagAdapter<String>(mVals){
             @Override
@@ -147,16 +151,10 @@ public class EvaActivity extends BaseAppCompatActicity implements View.OnClickLi
         switch (v.getId()){
             case R.id.text_eva_complain:
                 intent.setClass(this,ComplainActivity.class);
+                intent.putExtra("orderId",orderId);
                 startActivity(intent);
                 break;
             case R.id.btn_go:
-                btn_go.setProgress(100);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        btn_go.setProgress(0);
-                    }
-                }, 800);
 
                 int server_attitude = (int) rating_eva_server_attitude.getRating();
                 int server_speed = (int) rating_eva_server_speed.getRating();
@@ -167,17 +165,38 @@ public class EvaActivity extends BaseAppCompatActicity implements View.OnClickLi
                 Set<Integer> select_tech = flow_tech.getSelectedList();
                 String describe = edit_eva_describe.getText().toString();
 
-                Log.e("liao","server_attitude:" + server_attitude);
-                Log.e("liao","server_speed:" + server_speed);
-                Log.e("liao","tech_attitude:" + tech_attitude);
-                Log.e("liao","tech_speed:" + tech_speed);
-                Log.e("liao","tech_product:" + tech_product);
-                Log.e("liao","describe:" + describe);
-                for (int index:select_serv){
-                    Log.e("liao","" + mVals[index]);
-                }
-                for (int index:select_tech){
-                    Log.e("liao","" + mVals[index]);
+                btn_go.setProgress(50);
+                String msg = AppVali.reqfix_addDescribe(describe);
+                if (msg != null) {
+                    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+                    btn_go.setProgress(-1);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            btn_go.setProgress(0);
+                        }
+                    }, 800);
+                } else {
+                    btn_go.setProgress(100);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            btn_go.setProgress(0);
+                        }
+                    }, 800);
+                    Log.e("liao","server_attitude:" + server_attitude);
+                    Log.e("liao","server_speed:" + server_speed);
+                    Log.e("liao","tech_attitude:" + tech_attitude);
+                    Log.e("liao","tech_speed:" + tech_speed);
+                    Log.e("liao","tech_product:" + tech_product);
+                    Log.e("liao","describe:" + describe);
+                    for (int index:select_serv){
+                        Log.e("liao","" + mVals[index]);
+                    }
+                    for (int index:select_tech){
+                        Log.e("liao","" + mVals[index]);
+                    }
+
                 }
 
                 break;

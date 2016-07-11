@@ -112,12 +112,17 @@ public class RecycleAdapterOrder extends RecyclerView.Adapter<RecycleAdapterOrde
         /////////////////////////////////////
 
         //客服可以分配订单
-        if (user.getRoleType() == User.ROLE_CUSTOMER && order.getTscId() == null && order.getStatus() == Order.ORDER_UNDEAL) {
-            //当前登录是客服 && 订单尚未分配 && 订单是未处理状态
-            holder.text_allocate.setVisibility(View.VISIBLE);
-        } else {
+        if (user.getRoleType() == User.ROLE_CUSTOMER){
+//            if (((order.getServiceCheck()==null || order.getServiceCheck()==0)) && order.getTscId() == null && order.getStatus() == Order.ORDER_UNDEAL) {
+//                //客服尚未查看 && 订单尚未分配 && 订单是未处理状态
+                holder.text_allocate.setVisibility(View.VISIBLE);
+//            } else {
+//                holder.text_allocate.setVisibility(View.GONE);
+//            }
+        }else {
             holder.text_allocate.setVisibility(View.GONE);
         }
+
 
         holder.text_assist.setVisibility(View.GONE);
 //        //技术人员 or 总部技术人员 可以申请援助
@@ -153,10 +158,10 @@ public class RecycleAdapterOrder extends RecyclerView.Adapter<RecycleAdapterOrde
 //        } else {
 //            holder.text_assist.setVisibility(View.GONE);
 //        }
-        //技术人员 or 总部技术人员 可以申请援助
+        //技术人员 or 总部技术人员 可以结束订单
         if (user.getRoleType() == User.ROLE_FILIALETECH || user.getRoleType() == User.ROLE_HEADCOMTECH) {
             //技术尚未接受订单
-            if (order.getTechCheck() == null || order.getTechCheck() == 0) {
+            if ((order.getTechCheck() == null || order.getTechCheck() == 0)&& order.getStatus()==Order.ORDER_INDEAL) {
                 holder.text_finish.setVisibility(View.GONE);
             }else {
                 holder.text_finish.setVisibility(View.VISIBLE);

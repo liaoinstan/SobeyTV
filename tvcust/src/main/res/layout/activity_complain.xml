@@ -27,8 +27,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:header="@layout/header_common"
-        app:type="follow"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:type="follow">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -52,30 +52,31 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
                         android:layout_marginBottom="20dp"
+                        android:layout_marginTop="20dp"
                         android:orientation="horizontal">
+
                         <TextView
                             android:id="@+id/text_complain_serv"
-                            android:textSize="@dimen/text_nomal_small"
-                            android:textColor="@drawable/color_tag_text"
-                            android:background="@drawable/hot_rect_corner_glod_full_line"
                             android:layout_width="80dp"
                             android:layout_height="40dp"
                             android:layout_marginLeft="26dp"
+                            android:background="@drawable/hot_rect_corner_glod_full_line"
                             android:gravity="center"
-                            android:text="客服投诉"/>
+                            android:text="客服投诉"
+                            android:textColor="@drawable/color_tag_text"
+                            android:textSize="@dimen/text_nomal_small" />
 
                         <TextView
                             android:id="@+id/text_complain_tech"
-                            android:textSize="@dimen/text_nomal_small"
-                            android:textColor="@drawable/color_tag_text"
-                            android:background="@drawable/hot_rect_corner_glod_full_line"
-                            android:layout_marginLeft="10dp"
                             android:layout_width="80dp"
                             android:layout_height="40dp"
+                            android:layout_marginLeft="10dp"
+                            android:background="@drawable/hot_rect_corner_glod_full_line"
                             android:gravity="center"
-                            android:text="技术投诉"/>
+                            android:text="技术投诉"
+                            android:textColor="@drawable/color_tag_text"
+                            android:textSize="@dimen/text_nomal_small" />
                     </LinearLayout>
 
                     <View
@@ -90,6 +91,7 @@
                         android:background="@color/white">
 
                         <EditText
+                            android:id="@+id/edit_complain_describe"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="20dp"
@@ -112,24 +114,36 @@
 
             </LinearLayout>
 
-            <FrameLayout
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:layout_marginBottom="10dp"-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:background="@color/sb_bk_dark"-->
+                <!--android:gravity="center"-->
+                <!--android:text="提交"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:textSize="@dimen/text_big" />-->
+
+            <com.dd.CircularProgressButton
+                android:id="@+id/btn_go"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@color/sb_bk_dark"
-                    android:gravity="center"
-                    android:text="提交"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_big" />
-
-            </FrameLayout>
+                android:layout_height="50dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="#00000000"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_big"
+                app:cpb_colorIndicator="@color/sb_blue"
+                app:cpb_colorIndicatorBackground="@color/sb_blue_hint_trans"
+                app:cpb_colorProgress="#00000000"
+                app:cpb_iconComplete="@drawable/ic_action_accept"
+                app:cpb_iconError="@drawable/ic_action_cancel"
+                app:cpb_selectorIdle="@drawable/idle_state_selector"
+                app:cpb_textIdle="提交" />
 
         </LinearLayout>
 

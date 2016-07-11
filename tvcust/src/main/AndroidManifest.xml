@@ -61,6 +61,10 @@
             android:label="@string/title_activity_reqfixdescribe"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".ui.activity.ReqDescribeOnlyActicity"
+            android:label="@string/title_activity_reqfixdescribeonly"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".ui.activity.QuestionActivity"
             android:label="@string/title_activity_question"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -151,6 +155,10 @@
         <activity
             android:name=".ui.activity.OrderAllocateActivity"
             android:label="@string/title_activity_order_allocate"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.activity.OrderAllocateOnlyActivity"
+            android:label="@string/title_activity_order_allocateonly"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.activity.CompActivity"
