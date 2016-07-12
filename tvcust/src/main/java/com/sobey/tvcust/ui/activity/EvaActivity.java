@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,7 +34,6 @@ import com.zhy.view.flowlayout.TagFlowLayout;
 import org.xutils.http.RequestParams;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -72,6 +72,8 @@ public class EvaActivity extends BaseAppCompatActicity implements View.OnClickLi
 
     private int orderId;
     private User user;
+
+    private static final int RESULT_COMPLAIN = 0xf101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,6 +130,9 @@ public class EvaActivity extends BaseAppCompatActicity implements View.OnClickLi
     }
 
     private void initData() {
+        //设置投诉状态
+        netIsComplain();
+        /////////////
         RequestParams params = new RequestParams(AppData.Url.getlables);
         params.addHeader("token", AppData.App.getToken());
         params.addBodyParameter("orderId", orderId + "");
@@ -230,6 +235,19 @@ public class EvaActivity extends BaseAppCompatActicity implements View.OnClickLi
         return super.onOptionsItemSelected(item);
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case RESULT_COMPLAIN:
+                if (resultCode == RESULT_OK) {
+                    text_eva_complain.setVisibility(View.GONE);
+                }
+                break;
+        }
+    }
+
     @Override
     public void onClick(View v) {
         Intent intent = new Intent();
@@ -237,7 +255,7 @@ public class EvaActivity extends BaseAppCompatActicity implements View.OnClickLi
             case R.id.text_eva_complain:
                 intent.setClass(this, ComplainActivity.class);
                 intent.putExtra("orderId", orderId);
-                startActivity(intent);
+                startActivityForResult(intent,RESULT_COMPLAIN);
                 break;
             case R.id.btn_go:
 
@@ -349,5 +367,22 @@ public class EvaActivity extends BaseAppCompatActicity implements View.OnClickLi
             tv.setText(lable.getLable());
             return tv;
         }
+    }
+
+    private void netIsComplain() {
+        RequestParams params = new RequestParams(AppData.Url.isComplain);
+        params.addHeader("token", AppData.App.getToken());
+        params.addBodyParameter("orderId", orderId + "");
+        CommonNet.samplepost(params, CommonPojo.class, new CommonNet.SampleNetHander() {
+            @Override
+            public void netGo(int code, Object pojo, String text, Object obj) {
+                text_eva_complain.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void netSetError(int code, String text) {
+                text_eva_complain.setVisibility(View.GONE);
+            }
+        });
     }
 }

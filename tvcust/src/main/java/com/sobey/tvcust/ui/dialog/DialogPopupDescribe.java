@@ -94,25 +94,41 @@ public class DialogPopupDescribe extends Dialog {
         switch (type) {
             //技术人员
             case User.ROLE_FILIALETECH:
-                lay_finish.setVisibility(View.VISIBLE);
+                if (order.getStatus().equals(Order.ORDER_INDEAL)) {
+                    lay_finish.setVisibility(View.VISIBLE);
+                }else {
+                    lay_finish.setVisibility(View.GONE);
+                }
                 lay_valipass.setVisibility(View.GONE);
                 lay_valirefuse.setVisibility(View.GONE);
                 lay_next.setVisibility(View.VISIBLE);
                 lay_bank.setVisibility(View.VISIBLE);
+                text_bank.setText("反馈用户");
                 lay_touser.setVisibility(View.GONE);
                 lay_describe.setVisibility(View.GONE);
                 lay_toheadtech.setVisibility(View.GONE);
                 break;
             //总部技术
             case User.ROLE_HEADCOMTECH:
-                lay_finish.setVisibility(View.VISIBLE);
+                if (order.getStatus().equals(Order.ORDER_INDEAL)) {
+                    lay_finish.setVisibility(View.VISIBLE);
+                }else {
+                    lay_finish.setVisibility(View.GONE);
+                }
                 lay_valipass.setVisibility(View.GONE);
                 lay_valirefuse.setVisibility(View.GONE);
                 lay_next.setVisibility(View.VISIBLE);
                 lay_bank.setVisibility(View.VISIBLE);
-                lay_touser.setVisibility(View.VISIBLE);
+                text_bank.setText("反馈TSC");
+                if (order.getIsHeadTech().equals(0)) {
+                    //如果是直接分配给总部技术
+                    lay_touser.setVisibility(View.VISIBLE);
+                }else {
+                    lay_touser.setVisibility(View.GONE);
+                }
                 lay_describe.setVisibility(View.GONE);
                 lay_toheadtech.setVisibility(View.GONE);
+
                 break;
             //总部研发
             case User.ROLE_INVENT:
@@ -121,6 +137,7 @@ public class DialogPopupDescribe extends Dialog {
                 lay_valirefuse.setVisibility(View.GONE);
                 lay_next.setVisibility(View.GONE);
                 lay_bank.setVisibility(View.VISIBLE);
+                text_bank.setText("反馈协助");
                 lay_touser.setVisibility(View.GONE);
                 lay_describe.setVisibility(View.GONE);
                 lay_toheadtech.setVisibility(View.GONE);
@@ -139,13 +156,23 @@ public class DialogPopupDescribe extends Dialog {
             //用户
             case User.ROLE_COMMOM:
                 lay_finish.setVisibility(View.GONE);
-                lay_valipass.setVisibility(View.VISIBLE);
-                lay_valirefuse.setVisibility(View.VISIBLE);
+                if (order.getStatus().equals(Order.ORDER_UNVALI)) {
+                    lay_valipass.setVisibility(View.VISIBLE);
+                    lay_valirefuse.setVisibility(View.VISIBLE);
+                }else {
+                    lay_valipass.setVisibility(View.GONE);
+                    lay_valirefuse.setVisibility(View.GONE);
+                }
                 lay_next.setVisibility(View.GONE);
                 lay_bank.setVisibility(View.GONE);
                 lay_touser.setVisibility(View.GONE);
                 lay_describe.setVisibility(View.VISIBLE);
-                lay_toheadtech.setVisibility(View.VISIBLE);
+                if (order.getIsHeadTech().equals(0)) {
+                    //如果是直接分配给总部技术
+                    lay_toheadtech.setVisibility(View.VISIBLE);
+                }else {
+                    lay_toheadtech.setVisibility(View.GONE);
+                }
                 break;
             default:
                 lay_finish.setVisibility(View.GONE);

@@ -129,7 +129,7 @@
             app:cpb_iconComplete="@drawable/ic_action_accept"
             app:cpb_iconError="@drawable/ic_action_cancel"
             app:cpb_selectorIdle="@drawable/idle_state_selector"
-            app:cpb_textIdle="问题提交" />
+            app:cpb_textIdle="提交" />
 
     </LinearLayout>
 

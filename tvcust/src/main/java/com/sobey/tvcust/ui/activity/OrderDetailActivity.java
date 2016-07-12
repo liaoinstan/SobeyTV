@@ -303,7 +303,7 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
             netAcceptOrder();
         }
         //根据角色类型设置提交按钮的状态和功能
-        pop_describe.setType(user.getRoleType(),order);
+        pop_describe.setType(user.getRoleType(), order);
         switch (user.getRoleType()) {
             //技术人员
             case User.ROLE_FILIALETECH:
@@ -433,12 +433,13 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
         intent.putExtra("categoryId", order.getCategory().getId());
         intent.putExtra("flag", type);
         intent.putExtra("userId", order.getUserId());
+        intent.putExtra("title", type == 0 ? "申请协助" : "反馈");
         if (order != null) {
             //////////////////
             ///设置是否援助
             //////////////////
             boolean isAccept = false;
-            if (type==0) {
+            if (type == 0) {
                 //技术
                 if (user.getRoleType() == User.ROLE_FILIALETECH) {
                     if (order.getHeadTechId() == null || order.getHeadTechId() == 0) {
@@ -468,7 +469,7 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
             ///设置是否抄送
             //////////////////
             boolean isCopy = false;
-            if (User.ROLE_HEADCOMTECH == user.getRoleType() && type==0) {
+            if (User.ROLE_HEADCOMTECH == user.getRoleType() && type == 0) {
                 isCopy = false;
             } else {
                 //技术可以抄送
@@ -484,7 +485,7 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
             ////设置新需求标志
             /////////////////
             boolean newflag = false;
-            if (type==1 && (order.getTscId() == null || order.getTscId() == 0)) {
+            if (type == 1 && (order.getTscId() == null || order.getTscId() == 0)) {
                 newflag = true;
             } else {
                 newflag = false;
@@ -498,6 +499,7 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
         Intent intent = new Intent(this, ReqDescribeOnlyActicity.class);
         intent.putExtra("orderId", id);
         intent.putExtra("type", 0);
+        intent.putExtra("title", "完成任务");
         startActivity(intent);
     }
 
@@ -505,6 +507,7 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
         Intent intent = new Intent(this, ReqDescribeOnlyActicity.class);
         intent.putExtra("orderId", id);
         intent.putExtra("type", 1);
+        intent.putExtra("title", "验收通过");
         startActivity(intent);
     }
 
@@ -512,6 +515,7 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
         Intent intent = new Intent(this, ReqDescribeOnlyActicity.class);
         intent.putExtra("orderId", id);
         intent.putExtra("type", 2);
+        intent.putExtra("title", "验收拒绝");
         startActivity(intent);
     }
 
@@ -527,6 +531,7 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
         Intent intent = new Intent(this, ReqDescribeOnlyActicity.class);
         intent.putExtra("orderId", id);
         intent.putExtra("type", 3);
+        intent.putExtra("title", "反馈用户");
         startActivity(intent);
     }
 
@@ -538,6 +543,7 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
         Intent intent = new Intent(this, ReqDescribeOnlyActicity.class);
         intent.putExtra("orderId", id);
         intent.putExtra("type", 3);
+        intent.putExtra("title", "向总技术反馈");
         startActivity(intent);
     }
 }

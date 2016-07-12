@@ -506,9 +506,11 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
 
         Intent intent = new Intent(getActivity(), ReqDescribeOnlyActicity.class);
         intent.putExtra("orderId", adapter.getResults().get(pos).getId());
+        intent.putExtra("type", 0);
+        intent.putExtra("title", "完成任务");
         startActivity(intent);
 
-//        RequestParams params = new RequestParams(AppData.Url.verifiOrder);
+ //        RequestParams params = new RequestParams(AppData.Url.verifiOrder);
 //        params.addHeader("token", AppData.App.getToken());
 //        params.addBodyParameter("orderId", adapter.getResults().get(pos).getId()+"");
 //        CommonNet.samplepost(params,CommonEntity.class,new CommonNet.SampleNetHander(){

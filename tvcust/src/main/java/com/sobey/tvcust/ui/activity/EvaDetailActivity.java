@@ -18,6 +18,7 @@ import com.sobey.common.common.CommonNet;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.LoadingViewUtil;
+import com.sobey.tvcust.entity.CommonPojo;
 import com.sobey.tvcust.entity.Eva;
 import com.sobey.tvcust.entity.EvaPojo;
 import com.sobey.tvcust.entity.Lable;
@@ -31,11 +32,12 @@ import org.xutils.http.RequestParams;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EvaDetailActivity extends BaseAppCompatActicity {
+public class EvaDetailActivity extends BaseAppCompatActicity implements View.OnClickListener{
 
     private ViewGroup showingroup;
     private View showin;
 
+    private TextView text_eva_complain;
     private TagFlowLayout flow_serv;
     private TagFlowLayout flow_tech;
     private TagFlowLayout flow_headtech;
@@ -74,6 +76,8 @@ public class EvaDetailActivity extends BaseAppCompatActicity {
 
     private int orderId;
 
+    private static final int RESULT_COMPLAIN = 0xf101;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +101,7 @@ public class EvaDetailActivity extends BaseAppCompatActicity {
 
     private void initView() {
         showingroup = (ViewGroup) findViewById(R.id.showingroup);
+        text_eva_complain = (TextView) findViewById(R.id.text_eva_complain);
 
         flow_serv = (TagFlowLayout) findViewById(R.id.flow_tag_serv);
         flow_tech = (TagFlowLayout) findViewById(R.id.flow_tag_tech);
@@ -137,6 +142,9 @@ public class EvaDetailActivity extends BaseAppCompatActicity {
     }
 
     private void initData() {
+        //设置投诉状态
+        netIsComplain();
+        /////////////
         RequestParams params = new RequestParams(AppData.Url.getEva);
         params.addHeader("token", AppData.App.getToken());
         params.addBodyParameter("orderId", orderId + "");
@@ -265,6 +273,8 @@ public class EvaDetailActivity extends BaseAppCompatActicity {
     private TagAdapter adapterUserTech;
 
     private void initCtrl() {
+        text_eva_complain.setOnClickListener(this);
+
         adapterServ = new TagAdapterEva(this, serverLables);
         adapterTech = new TagAdapterEva(this, techLables);
         adapterHeadTeach = new TagAdapterEva(this, headTechLables);
@@ -285,6 +295,30 @@ public class EvaDetailActivity extends BaseAppCompatActicity {
         flow_develop.setEnabled(false);
         flow_userserver.setEnabled(false);
         flow_usertech.setEnabled(false);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case RESULT_COMPLAIN:
+                if (resultCode == RESULT_OK) {
+                    text_eva_complain.setVisibility(View.GONE);
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent();
+        switch (v.getId()) {
+            case R.id.text_eva_complain:
+                intent.setClass(this, ComplainActivity.class);
+                intent.putExtra("orderId", orderId);
+                startActivityForResult(intent,RESULT_COMPLAIN);
+                break;
+        }
     }
 
     @Override
@@ -317,5 +351,22 @@ public class EvaDetailActivity extends BaseAppCompatActicity {
         public boolean setSelected(int position, Lable lable) {
             return true;
         }
+    }
+
+    private void netIsComplain() {
+        RequestParams params = new RequestParams(AppData.Url.isComplain);
+        params.addHeader("token", AppData.App.getToken());
+        params.addBodyParameter("orderId", orderId + "");
+        CommonNet.samplepost(params, CommonPojo.class, new CommonNet.SampleNetHander() {
+            @Override
+            public void netGo(int code, Object pojo, String text, Object obj) {
+                text_eva_complain.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void netSetError(int code, String text) {
+                text_eva_complain.setVisibility(View.GONE);
+            }
+        });
     }
 }

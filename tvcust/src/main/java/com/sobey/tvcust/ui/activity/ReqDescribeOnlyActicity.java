@@ -96,6 +96,9 @@ public class ReqDescribeOnlyActicity extends BaseAppCompatActicity implements Vi
     }
 
     private void initBase() {
+        if (getIntent().hasExtra("title")){
+            getSupportActionBar().setTitle(getIntent().getStringExtra("title"));
+        }
         if (getIntent().hasExtra("orderId")) {
             orderId = getIntent().getIntExtra("orderId", 0);
         }

@@ -34,7 +34,7 @@ import org.xutils.http.RequestParams;
 import java.util.ArrayList;
 import java.util.Set;
 
-public class ComplainActivity extends BaseAppCompatActicity implements View.OnClickListener{
+public class ComplainActivity extends BaseAppCompatActicity implements View.OnClickListener {
 
     private EditText edit_complain_describe;
     private TagFlowLayout flow_complain;
@@ -98,8 +98,8 @@ public class ComplainActivity extends BaseAppCompatActicity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case  R.id.btn_go:
+        switch (v.getId()) {
+            case R.id.btn_go:
 
                 netCommitComplain();
 
@@ -107,18 +107,18 @@ public class ComplainActivity extends BaseAppCompatActicity implements View.OnCl
         }
     }
 
-    private int getType(){
+    private int getType() {
         Set<Integer> selectedList = flow_complain.getSelectedList();
-        if (selectedList==null || selectedList.size()==0){
+        if (selectedList == null || selectedList.size() == 0) {
             return 0;
-        }else if (selectedList.size()==1){
+        } else if (selectedList.size() == 1) {
             ArrayList<Integer> list = new ArrayList<>(selectedList);
-            if (list.get(0)==0){
+            if (list.get(0) == 0) {
                 return 1;
-            }else if (list.get(0)==1){
+            } else if (list.get(0) == 1) {
                 return 2;
             }
-        }else if (selectedList.size()==2){
+        } else if (selectedList.size() == 2) {
             return 3;
         }
         return 0;
@@ -143,7 +143,7 @@ public class ComplainActivity extends BaseAppCompatActicity implements View.OnCl
             params.addHeader("token", AppData.App.getToken());
             params.addBodyParameter("orderId", orderId + "");
             params.addBodyParameter("content", describe);
-            params.addBodyParameter("type", getType()+"");
+            params.addBodyParameter("type", getType() + "");
             CommonNet.samplepost(params, CommonPojo.class, new CommonNet.SampleNetHander() {
                 @Override
                 public void netGo(int code, Object pojo, String text, Object obj) {
@@ -153,6 +153,7 @@ public class ComplainActivity extends BaseAppCompatActicity implements View.OnCl
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            setResult(RESULT_OK);
                             finish();
                         }
                     }, 800);

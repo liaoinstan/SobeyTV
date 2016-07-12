@@ -80,6 +80,77 @@ public class Order {
     @SerializedName("category")
     private OrderCategory category;
 
+    /**总技术是否 评论 0:未评论 1 已评论 2表示没权限评论*/
+    @SerializedName("isHeadTechComment")
+    private Integer isHeadTechComment;
+
+    /**客服是否评论*/
+    @SerializedName("isServiceComment")
+    private Integer isServiceComment;
+
+    /**TSC是否评论*/
+    @SerializedName("isTSCComment")
+    private Integer isTSCComment;
+
+    /**研发是否评论*/
+    @SerializedName("isHeadDevelopComment")
+    private Integer isHeadDevelopComment;
+
+    /**是否 直接分配给总公司技术*/
+    @SerializedName("isHeadTech")
+    private Integer isHeadTech;
+
+    /**用户是否评价*/
+    private Integer isUsercomment;
+
+    public Integer getIsUsercomment() {
+        return isUsercomment;
+    }
+
+    public void setIsUsercomment(Integer isUsercomment) {
+        this.isUsercomment = isUsercomment;
+    }
+
+    public Integer getIsHeadTechComment() {
+        return isHeadTechComment;
+    }
+
+    public void setIsHeadTechComment(Integer isHeadTechComment) {
+        this.isHeadTechComment = isHeadTechComment;
+    }
+
+    public Integer getIsServiceComment() {
+        return isServiceComment;
+    }
+
+    public void setIsServiceComment(Integer isServiceComment) {
+        this.isServiceComment = isServiceComment;
+    }
+
+    public Integer getIsTSCComment() {
+        return isTSCComment;
+    }
+
+    public void setIsTSCComment(Integer isTSCComment) {
+        this.isTSCComment = isTSCComment;
+    }
+
+    public Integer getIsHeadDevelopComment() {
+        return isHeadDevelopComment;
+    }
+
+    public void setIsHeadDevelopComment(Integer isHeadDevelopComment) {
+        this.isHeadDevelopComment = isHeadDevelopComment;
+    }
+
+    public Integer getIsHeadTech() {
+        return isHeadTech;
+    }
+
+    public void setIsHeadTech(Integer isHeadTech) {
+        this.isHeadTech = isHeadTech;
+    }
+
     public Integer getDevelopCheck() {
         return developCheck;
     }
@@ -243,8 +314,7 @@ public class Order {
     @Override
     public String toString() {
         return "Order{" +
-                "category=" + category +
-                ", id=" + id +
+                "id=" + id +
                 ", orderCategory=" + orderCategory +
                 ", orderDescri='" + orderDescri + '\'' +
                 ", images=" + Arrays.toString(images) +
@@ -263,6 +333,13 @@ public class Order {
                 ", userId=" + userId +
                 ", count=" + count +
                 ", orderNumber='" + orderNumber + '\'' +
+                ", category=" + category +
+                ", isHeadTechComment=" + isHeadTechComment +
+                ", isServiceComment=" + isServiceComment +
+                ", isTSCComment=" + isTSCComment +
+                ", isHeadDevelopComment=" + isHeadDevelopComment +
+                ", isHeadTech=" + isHeadTech +
+                ", isUsercomment=" + isUsercomment +
                 '}';
     }
 }
