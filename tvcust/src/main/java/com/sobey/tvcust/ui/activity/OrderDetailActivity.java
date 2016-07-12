@@ -41,6 +41,7 @@ import com.sobey.tvcust.entity.OrderPojo;
 import com.sobey.tvcust.entity.TestEntity;
 import com.sobey.tvcust.entity.User;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterOrderDetail;
+import com.sobey.tvcust.ui.dialog.DialogPopupDescribe;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -53,6 +54,8 @@ import java.util.List;
 public class OrderDetailActivity extends BaseAppCompatActicity implements View.OnClickListener {
 
     private MyPlayer player = new MyPlayer();
+
+    private DialogPopupDescribe pop_describe;
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipe;
@@ -69,9 +72,6 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
     private TextView text_orderdetail_user_phone;
     private View lay_orderdetail_tsc;
     private CircularProgressButton btn_go;
-    private Button btn_last;
-    private Button btn_next;
-    private View lay_btn_nextorlast;
 
     private ViewGroup showingroup;
     private View showin;
@@ -107,6 +107,7 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
         super.onDestroy();
         EventBus.getDefault().unregister(this);
         if (player != null) player.onDestory();
+        if (pop_describe != null) pop_describe.dismiss();
     }
 
     private void initBase() {
@@ -115,6 +116,42 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
         if (intent.hasExtra("id")) {
             id = intent.getIntExtra("id", 0);
         }
+        pop_describe = new DialogPopupDescribe(this);
+        pop_describe.setOnFinishListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popFinish();
+                pop_describe.hide();
+            }
+        });
+        pop_describe.setOnNextListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popNext();
+                pop_describe.hide();
+            }
+        });
+        pop_describe.setOnBankListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popBank();
+                pop_describe.hide();
+            }
+        });
+        pop_describe.setOnUserListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popUser();
+                pop_describe.hide();
+            }
+        });
+        pop_describe.setOnDescribeListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popDescribe();
+                pop_describe.hide();
+            }
+        });
     }
 
     private void initView() {
@@ -131,10 +168,7 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
         text_orderdetail_user_name = (TextView) findViewById(R.id.text_orderdetail_user_name);
         text_orderdetail_user_phone = (TextView) findViewById(R.id.text_orderdetail_user_phone);
         lay_orderdetail_tsc = findViewById(R.id.lay_orderdetail_tsc);
-        lay_btn_nextorlast = findViewById(R.id.lay_btn_nextorlast);
         btn_go = (CircularProgressButton) findViewById(R.id.btn_go);
-        btn_last = (Button) findViewById(R.id.btn_last);
-        btn_next = (Button) findViewById(R.id.btn_next);
 
         findViewById(R.id.btn_go_orderprog).setOnClickListener(this);
 
@@ -197,8 +231,6 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
     }
 
     private void initCtrl() {
-        btn_last.setOnClickListener(this);
-        btn_next.setOnClickListener(this);
         btn_go.setOnClickListener(this);
         btn_go.setIndeterminateProgressMode(true);
 
@@ -261,75 +293,57 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
         switch (user.getRoleType()) {
             //技术人员
             case User.ROLE_FILIALETECH:
-                btn_last.setVisibility(View.VISIBLE);
-                btn_next.setVisibility(View.VISIBLE);
-                btn_last.setText("反馈用户");
-                btn_next.setText("技术援助");
+                pop_describe.setType(User.ROLE_FILIALETECH);
                 if (order.getTechCheck() == null || order.getTechCheck() == 0) {
                     //如果是技术人员，且未接受，则显示接受按钮
-                    btn_go.setVisibility(View.VISIBLE);
-                    lay_btn_nextorlast.setVisibility(View.GONE);
+                    btn_go.setText("接受任务");
+                    btn_go.setIdleText("接受任务");
                 } else {
                     //如果已经接受，则显示接受按钮
-                    btn_go.setVisibility(View.GONE);
-                    lay_btn_nextorlast.setVisibility(View.VISIBLE);
+                    btn_go.setText("操作");
+                    btn_go.setIdleText("操作");
                 }
                 break;
             //总部技术
             case User.ROLE_HEADCOMTECH:
-                btn_last.setVisibility(View.VISIBLE);
-                btn_next.setVisibility(View.VISIBLE);
-                btn_next.setText("技术援助");
+                pop_describe.setType(User.ROLE_HEADCOMTECH);
                 //新需求变更：如果分公司技术不存在则选择一个到现场查看
-                if (order.getTscId()==null || order.getTscId()==0){
-                    btn_last.setText("申请TSC");
-                }else {
-                    btn_last.setText("反馈");
-                }
+//                if (order.getTscId()==null || order.getTscId()==0){
+//                    btn_last.setText("申请TSC");
+//                }else {
+//                    btn_last.setText("反馈");
+//                }
                 if (order.getHeadTechCheck() == null || order.getHeadTechCheck() == 0) {
-                    btn_go.setVisibility(View.VISIBLE);
-                    lay_btn_nextorlast.setVisibility(View.GONE);
-                }else {
-                    btn_go.setVisibility(View.GONE);
-                    lay_btn_nextorlast.setVisibility(View.VISIBLE);
+                    btn_go.setText("接受任务");
+                    btn_go.setIdleText("接受任务");
+                } else {
+                    btn_go.setText("操作");
+                    btn_go.setIdleText("操作");
                 }
                 break;
             //总部研发
             case User.ROLE_INVENT:
-                btn_last.setVisibility(View.VISIBLE);
-                btn_next.setVisibility(View.GONE);
-                btn_last.setText("反馈");
+                pop_describe.setType(User.ROLE_INVENT);
                 if (order.getDevelopCheck() == null || order.getDevelopCheck() == 0) {
-                    btn_go.setVisibility(View.VISIBLE);
-                    lay_btn_nextorlast.setVisibility(View.GONE);
-                }else {
-                    btn_go.setVisibility(View.GONE);
-                    lay_btn_nextorlast.setVisibility(View.VISIBLE);
+                    btn_go.setText("接受任务");
+                    btn_go.setIdleText("接受任务");
+                } else {
+                    btn_go.setText("操作");
+                    btn_go.setIdleText("操作");
                 }
                 break;
             //客服
             case User.ROLE_CUSTOMER:
-                btn_last.setVisibility(View.GONE);
-                btn_next.setVisibility(View.GONE);
-                if (order.getServiceCheck() == null || order.getServiceCheck() == 0) {
-                    btn_go.setVisibility(View.VISIBLE);
-                    lay_btn_nextorlast.setVisibility(View.GONE);
-                }else {
-                    btn_go.setVisibility(View.GONE);
-                    lay_btn_nextorlast.setVisibility(View.VISIBLE);
-                }
+                pop_describe.setType(User.ROLE_CUSTOMER);
                 break;
             //用户
             case User.ROLE_COMMOM:
-                btn_go.setVisibility(View.GONE);
-                btn_last.setVisibility(View.GONE);
-                btn_next.setVisibility(View.VISIBLE);
-                btn_next.setText("追加描述");
+                pop_describe.setType(User.ROLE_COMMOM);
+                btn_go.setText("操作");
+                btn_go.setIdleText("操作");
                 break;
             default:
-                btn_go.setVisibility(View.GONE);
-                btn_last.setVisibility(View.GONE);
-                btn_next.setVisibility(View.GONE);
+                pop_describe.setType(0);
                 break;
         }
     }
@@ -350,18 +364,22 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
         switch (v.getId()) {
             case R.id.btn_go_orderprog:
                 intent.setClass(this, OrderProgActivity.class);
-                intent.putExtra("orderId",id);
+                intent.putExtra("orderId", id);
                 startActivity(intent);
                 break;
             case R.id.btn_go:
-                netAcceptOrder();
+                if ("操作".equals(btn_go.getText().toString())) {
+                    pop_describe.show();
+                } else {
+                    netAcceptOrder();
+                }
                 break;
-            case R.id.btn_last:
-                goAddDescribe(false);
-                break;
-            case R.id.btn_next:
-                goAddDescribe(true);
-                break;
+//            case R.id.btn_last:
+//                goAddDescribe(false);
+//                break;
+//            case R.id.btn_next:
+//                goAddDescribe(true);
+//                break;
         }
     }
 
@@ -381,8 +399,8 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
                     @Override
                     public void run() {
                         btn_go.setProgress(0);
-                        btn_go.setVisibility(View.GONE);
-                        lay_btn_nextorlast.setVisibility(View.VISIBLE);
+                        btn_go.setText("操作");
+                        btn_go.setIdleText("操作");
                     }
                 }, 800);
             }
@@ -407,7 +425,7 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
         intent.setClass(this, ReqDescribeActicity.class);
         intent.putExtra("orderId", order.getId());
         intent.putExtra("categoryId", order.getCategory().getId());
-        intent.putExtra("flag", next?0:1);
+        intent.putExtra("flag", next ? 0 : 1);
         intent.putExtra("userId", order.getUserId());
         if (order != null) {
             //////////////////
@@ -432,9 +450,9 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
                     }
                 }
             } else {
-                if (order.getTscId()==null || order.getTscId()==0) {
+                if (order.getTscId() == null || order.getTscId() == 0) {
                     isAccept = true;
-                }else {
+                } else {
                     isAccept = false;
                 }
             }
@@ -444,7 +462,7 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
             ///设置是否抄送
             //////////////////
             boolean isCopy = false;
-            if (User.ROLE_HEADCOMTECH == user.getRoleType()&& next) {
+            if (User.ROLE_HEADCOMTECH == user.getRoleType() && next) {
                 isCopy = false;
             } else {
                 //技术可以抄送
@@ -460,13 +478,34 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
             ////设置新需求标志
             /////////////////
             boolean newflag = false;
-            if (!next && (order.getTscId()==null || order.getTscId()==0)){
+            if (!next && (order.getTscId() == null || order.getTscId() == 0)) {
                 newflag = true;
-            }else {
+            } else {
                 newflag = false;
             }
             intent.putExtra("newflag", newflag);
         }
         startActivity(intent);
+    }
+
+    private void popFinish() {
+        Intent intent = new Intent(this, ReqDescribeOnlyActicity.class);
+        intent.putExtra("orderId", id);
+        startActivity(intent);
+    }
+
+    private void popNext() {
+        goAddDescribe(true);
+    }
+
+    private void popBank() {
+        goAddDescribe(false);
+    }
+
+    private void popUser() {
+    }
+
+    private void popDescribe() {
+        goAddDescribe(true);
     }
 }

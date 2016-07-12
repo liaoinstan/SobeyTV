@@ -34,6 +34,7 @@ import com.sobey.tvcust.ui.dialog.DialogSure;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 
 import java.util.ArrayList;
@@ -64,6 +65,9 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
     private User user;
     private Integer status;
     private Integer isCheck;
+
+    private Callback.Cancelable cancelable;
+    private Callback.Cancelable cancelablemore;
 
     public static Fragment newInstance(int position) {
         HomeOrderFragment f = new HomeOrderFragment();
@@ -317,6 +321,12 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void initData(final boolean isFirst) {
+        if (cancelable!=null){
+            cancelable.cancel();
+        }
+        if (cancelablemore!=null){
+            cancelablemore.cancel();
+        }
         final RequestParams params = new RequestParams(AppData.Url.orderlist);
         params.addHeader("token", AppData.App.getToken());
         params.addBodyParameter("pageNO", 1 + "");
@@ -327,7 +337,7 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
         if (isCheck!=null){
             params.addBodyParameter("isCheck", isCheck + "");
         }
-        CommonNet.samplepost(params, OrderPojo.class, new CommonNet.SampleNetHander() {
+        cancelable = CommonNet.samplepost(params, OrderPojo.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
                 if (pojo == null) netSetError(code, text);
@@ -370,7 +380,7 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
             @Override
             public void netStart(int code) {
                 if (isFirst) {
-                    showin = LoadingViewUtil.showin(showingroup, R.layout.layout_loading,showin);
+                    showin = LoadingViewUtil.showin(showingroup, R.layout.layout_loading, showin);
                 }
             }
         });
@@ -390,7 +400,7 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
         if (isCheck!=null){
             params.addBodyParameter("isCheck", isCheck + "");
         }
-        CommonNet.samplepost(params, OrderPojo.class, new CommonNet.SampleNetHander() {
+        cancelablemore = CommonNet.samplepost(params, OrderPojo.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
                 if (pojo == null) netSetError(code, text);

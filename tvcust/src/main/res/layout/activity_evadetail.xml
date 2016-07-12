@@ -42,6 +42,7 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/lay_eva_server"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -140,6 +141,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/lay_eva_teach"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -264,6 +266,256 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/lay_eva_headteach"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:text="总公司技术评价"
+                            android:textColor="@color/sb_text_blank"
+                            android:textSize="@dimen/text_big" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@drawable/line" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_weight="1"
+                            android:text="服务态度："
+                            android:textColor="@color/sb_text_blank"
+                            android:textSize="@dimen/text_big_nomal" />
+
+                        <RatingBar
+                            android:id="@+id/rating_eva_headtech_attitude"
+                            android:isIndicator="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="19dp"
+                            android:layout_marginRight="16dp"
+                            android:numStars="5"
+                            android:progressDrawable="@drawable/rating_bar"
+                            android:stepSize="1" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_weight="1"
+                            android:text="处理速度："
+                            android:textColor="@color/sb_text_blank"
+                            android:textSize="@dimen/text_big_nomal" />
+
+                        <RatingBar
+                            android:id="@+id/rating_eva_headtech_speed"
+                            android:isIndicator="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="19dp"
+                            android:layout_marginRight="16dp"
+                            android:numStars="5"
+                            android:progressDrawable="@drawable/rating_bar"
+                            android:stepSize="1" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="10dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_weight="1"
+                            android:text="产品评价："
+                            android:textColor="@color/sb_text_blank"
+                            android:textSize="@dimen/text_big_nomal" />
+
+                        <RatingBar
+                            android:id="@+id/rating_eva_headtech_product"
+                            android:isIndicator="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="19dp"
+                            android:layout_marginRight="16dp"
+                            android:numStars="5"
+                            android:progressDrawable="@drawable/rating_bar"
+                            android:stepSize="1" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@drawable/line" />
+
+                    <com.zhy.view.flowlayout.TagFlowLayout
+                        android:id="@+id/flow_tag_headtech"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="22dp"
+                        android:layout_marginTop="22dp"
+                        app:gravity="center"
+                        app:max_select="-1" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lay_eva_develop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:text="总研发评价"
+                            android:textColor="@color/sb_text_blank"
+                            android:textSize="@dimen/text_big" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@drawable/line" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_weight="1"
+                            android:text="服务态度："
+                            android:textColor="@color/sb_text_blank"
+                            android:textSize="@dimen/text_big_nomal" />
+
+                        <RatingBar
+                            android:id="@+id/rating_eva_develop_attitude"
+                            android:isIndicator="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="19dp"
+                            android:layout_marginRight="16dp"
+                            android:numStars="5"
+                            android:progressDrawable="@drawable/rating_bar"
+                            android:stepSize="1" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_weight="1"
+                            android:text="处理速度："
+                            android:textColor="@color/sb_text_blank"
+                            android:textSize="@dimen/text_big_nomal" />
+
+                        <RatingBar
+                            android:id="@+id/rating_eva_develop_speed"
+                            android:isIndicator="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="19dp"
+                            android:layout_marginRight="16dp"
+                            android:numStars="5"
+                            android:progressDrawable="@drawable/rating_bar"
+                            android:stepSize="1" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="10dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_weight="1"
+                            android:text="产品评价："
+                            android:textColor="@color/sb_text_blank"
+                            android:textSize="@dimen/text_big_nomal" />
+
+                        <RatingBar
+                            android:id="@+id/rating_eva_develop_product"
+                            android:isIndicator="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="19dp"
+                            android:layout_marginRight="16dp"
+                            android:numStars="5"
+                            android:progressDrawable="@drawable/rating_bar"
+                            android:stepSize="1" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@drawable/line" />
+
+                    <com.zhy.view.flowlayout.TagFlowLayout
+                        android:id="@+id/flow_tag_develop"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="22dp"
+                        android:layout_marginTop="22dp"
+                        app:gravity="center"
+                        app:max_select="-1" />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -291,9 +543,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="26dp"
-                        android:layout_marginTop="22dp"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
+                        android:layout_marginTop="22dp"
                         android:gravity="center"
                         android:lineSpacingExtra="3dp"
                         android:textColor="@color/sb_text_blank"

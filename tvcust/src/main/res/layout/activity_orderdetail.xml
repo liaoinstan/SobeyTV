@@ -230,7 +230,6 @@
                 android:background="#00000000"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_big"
-                android:visibility="gone"
                 app:cpb_colorIndicator="@color/sb_blue"
                 app:cpb_colorIndicatorBackground="@color/sb_blue_hint_trans"
                 app:cpb_colorProgress="#00000000"
@@ -238,46 +237,6 @@
                 app:cpb_iconError="@drawable/ic_action_cancel"
                 app:cpb_selectorIdle="@drawable/idle_state_selector"
                 app:cpb_textIdle="接受任务" />
-
-
-            <LinearLayout
-                android:id="@+id/lay_btn_nextorlast"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-
-                <Button
-                    android:id="@+id/btn_last"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:background="@color/sb_bk_dark"
-                    android:gravity="center"
-                    android:text="反馈"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_big" />
-
-                <Button
-                    android:id="@+id/btn_next"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:background="@color/sb_bk_dark"
-                    android:gravity="center"
-                    android:text="协助"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_big" />
-
-            </LinearLayout>
 
         </FrameLayout>
 

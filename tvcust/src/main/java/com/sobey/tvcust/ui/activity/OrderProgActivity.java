@@ -166,10 +166,12 @@ public class OrderProgActivity extends BaseAppCompatActicity implements View.OnC
         switch (v.getId()){
             case R.id.text_orderprog_go:
                 intent.setClass(this,EvaDetailActivity.class);
+                intent.putExtra("orderId",orderId);
                 startActivity(intent);
                 break;
             case R.id.text_orderprog_go1:
                 intent.setClass(this,EvaActivity.class);
+                intent.putExtra("orderId",orderId);
                 startActivity(intent);
                 break;
         }

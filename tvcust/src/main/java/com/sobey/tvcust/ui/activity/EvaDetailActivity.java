@@ -1,22 +1,35 @@
 package com.sobey.tvcust.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.sobey.common.common.CommonNet;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.LoadingViewUtil;
+import com.sobey.tvcust.entity.Eva;
+import com.sobey.tvcust.entity.EvaPojo;
+import com.sobey.tvcust.entity.Lable;
+import com.sobey.tvcust.entity.LablePojo;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
+
+import org.xutils.http.RequestParams;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class EvaDetailActivity extends BaseAppCompatActicity {
 
@@ -25,18 +38,30 @@ public class EvaDetailActivity extends BaseAppCompatActicity {
 
     private TagFlowLayout flow_serv;
     private TagFlowLayout flow_tech;
+    private TagFlowLayout flow_headtech;
+    private TagFlowLayout flow_develop;
     private RatingBar rating_eva_server_attitude;
     private RatingBar rating_eva_server_speed;
+
     private RatingBar rating_eva_tech_attitude;
     private RatingBar rating_eva_tech_speed;
     private RatingBar rating_eva_tech_product;
+
+    private RatingBar rating_eva_headtech_attitude;
+    private RatingBar rating_eva_headtech_speed;
+    private RatingBar rating_eva_headtech_product;
+
+    private RatingBar rating_eva_develop_attitude;
+    private RatingBar rating_eva_develop_speed;
+    private RatingBar rating_eva_develop_product;
+
+    private View lay_eva_server;
+    private View lay_eva_tech;
+    private View lay_eva_headtech;
+    private View lay_eva_develop;
     private TextView text_eva_describe;
 
     private int orderId;
-
-    private String[] mVals = new String[]
-            {"亲切有理", "声音好听", "解答到位 ", "派单迅速", "有耐心", "技术强",
-                    "长得帅", "会打篮球"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +71,10 @@ public class EvaDetailActivity extends BaseAppCompatActicity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        initData();
+        initBase();
         initView();
         initData();
-//        initCtrl();
+        initCtrl();
     }
 
     private void initBase() {
@@ -61,66 +86,147 @@ public class EvaDetailActivity extends BaseAppCompatActicity {
 
     private void initView() {
         showingroup = (ViewGroup) findViewById(R.id.showingroup);
+
         flow_serv = (TagFlowLayout) findViewById(R.id.flow_tag_serv);
         flow_tech = (TagFlowLayout) findViewById(R.id.flow_tag_tech);
+        flow_headtech = (TagFlowLayout) findViewById(R.id.flow_tag_headtech);
+        flow_develop = (TagFlowLayout) findViewById(R.id.flow_tag_develop);
         rating_eva_server_attitude = (RatingBar) findViewById(R.id.rating_eva_server_attitude);
         rating_eva_server_speed = (RatingBar) findViewById(R.id.rating_eva_server_speed);
+
         rating_eva_tech_attitude = (RatingBar) findViewById(R.id.rating_eva_tech_attitude);
         rating_eva_tech_speed = (RatingBar) findViewById(R.id.rating_eva_tech_speed);
         rating_eva_tech_product = (RatingBar) findViewById(R.id.rating_eva_tech_product);
+
+        rating_eva_headtech_attitude = (RatingBar) findViewById(R.id.rating_eva_headtech_attitude);
+        rating_eva_headtech_speed = (RatingBar) findViewById(R.id.rating_eva_headtech_speed);
+        rating_eva_headtech_product = (RatingBar) findViewById(R.id.rating_eva_headtech_product);
+
+        rating_eva_develop_attitude = (RatingBar) findViewById(R.id.rating_eva_develop_attitude);
+        rating_eva_develop_speed = (RatingBar) findViewById(R.id.rating_eva_develop_speed);
+        rating_eva_develop_product = (RatingBar) findViewById(R.id.rating_eva_develop_product);
+
+        lay_eva_server = findViewById(R.id.lay_eva_server);
+        lay_eva_tech = findViewById(R.id.lay_eva_teach);
+        lay_eva_headtech = findViewById(R.id.lay_eva_headteach);
+        lay_eva_develop = findViewById(R.id.lay_eva_develop);
+
         text_eva_describe = (TextView) findViewById(R.id.text_eva_describe);
     }
 
     private void initData() {
-        showin = LoadingViewUtil.showin(showingroup,R.layout.layout_loading,showin);
-        new Handler().postDelayed(new Runnable() {
+        RequestParams params = new RequestParams(AppData.Url.getEva);
+        params.addHeader("token", AppData.App.getToken());
+        params.addBodyParameter("orderId", orderId + "");
+        CommonNet.samplepost(params, EvaPojo.class, new CommonNet.SampleNetHander() {
             @Override
-            public void run() {
-                //加载成功
-                initCtrl();
-                LoadingViewUtil.showout(showingroup,showin);
-
-                //加载失败
-//                LoadingViewUtil.showin(showingroup,R.layout.layout_lack,showin,new View.OnClickListener(){
-//                    @Override
-//                    public void onClick(View v) {
-//                        initData();
-//                    }
-//                });
+            public void netGo(int code, Object pojo, String text, Object obj) {
+                if (pojo == null) netSetError(code, text);
+                else {
+                    EvaPojo evaPojo = (EvaPojo) pojo;
+                    setData(evaPojo);
+                    LoadingViewUtil.showout(showingroup, showin);
+                }
             }
-        }, 1000);
+
+            @Override
+            public void netSetError(int code, String text) {
+                Toast.makeText(EvaDetailActivity.this, text, Toast.LENGTH_SHORT).show();
+                LoadingViewUtil.showin(showingroup, R.layout.layout_fail, showin, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        initData();
+                    }
+                });
+            }
+
+            @Override
+            public void netStart(int code) {
+                showin = LoadingViewUtil.showin(showingroup, R.layout.layout_loading, showin);
+            }
+        });
     }
 
-    private void initCtrl() {
-        TagAdapter adapterServ = new TagAdapter<String>(mVals){
-            @Override
-            public View getView(FlowLayout parent, int position, String s) {
-                TextView tv = (TextView) EvaDetailActivity.this.getLayoutInflater().inflate(R.layout.tv,parent, false);
-                tv.setText(s);
-                return tv;
-            }
+    private void setData(EvaPojo evaPojo) {
+        if (evaPojo.getServiceData() == null) {
+            lay_eva_server.setVisibility(View.GONE);
+        } else {
+            Eva eva = evaPojo.getServiceData();
+            rating_eva_server_attitude.setRating(eva.getServiceAttitude()/20);
+            rating_eva_server_speed.setRating(eva.getDisposeSpeed()/20);
 
-            @Override
-            public boolean setSelected(int position, String s) {
-                return true;
-            }
-        };
-        TagAdapter adapterTech = new TagAdapter<String>(mVals){
-            @Override
-            public View getView(FlowLayout parent, int position, String s) {
-                TextView tv = (TextView) EvaDetailActivity.this.getLayoutInflater().inflate(R.layout.tv,parent, false);
-                tv.setText(s);
-                return tv;
-            }
-            @Override
-            public boolean setSelected(int position, String s) {
-                return true;
-            }
-        };
+            List<Lable> lables = eva.getLables();
+            serverLables.clear();
+            serverLables.addAll(lables);
+            adapterServ.notifyDataChanged();
+        }
+        if (evaPojo.getTscdata() == null) {
+            lay_eva_tech.setVisibility(View.GONE);
+        } else {
+            Eva eva = evaPojo.getTscdata();
+            rating_eva_tech_attitude.setRating(eva.getServiceAttitude()/20);
+            rating_eva_tech_speed.setRating(eva.getDisposeSpeed()/20);
+            rating_eva_tech_product.setRating(eva.getProductComment()/20);
+
+            List<Lable> lables = eva.getLables();
+            techLables.clear();
+            techLables.addAll(lables);
+            adapterTech.notifyDataChanged();
+        }
+        if (evaPojo.getHeadTechData() == null) {
+            lay_eva_headtech.setVisibility(View.GONE);
+        } else {
+            Eva eva = evaPojo.getHeadTechData();
+            rating_eva_headtech_attitude.setRating(eva.getServiceAttitude()/20);
+            rating_eva_headtech_speed.setRating(eva.getDisposeSpeed()/20);
+            rating_eva_headtech_product.setRating(eva.getProductComment()/20);
+
+            List<Lable> lables = eva.getLables();
+            headTechLables.clear();
+            headTechLables.addAll(lables);
+            adapterHeadTeach.notifyDataChanged();
+        }
+        if (evaPojo.getHeadDevelopData() == null) {
+            lay_eva_develop.setVisibility(View.GONE);
+        } else {
+            Eva eva = evaPojo.getHeadDevelopData();
+            rating_eva_develop_attitude.setRating(eva.getServiceAttitude()/20);
+            rating_eva_develop_speed.setRating(eva.getDisposeSpeed()/20);
+            rating_eva_develop_product.setRating(eva.getProductComment()/20);
+
+            List<Lable> lables = eva.getLables();
+            developLables.clear();
+            developLables.addAll(lables);
+            adapterDevelop.notifyDataChanged();
+        }
+
+        text_eva_describe.setText(evaPojo.getCommentContent());
+    }
+
+    private List<Lable> serverLables = new ArrayList<>();
+    private List<Lable> techLables = new ArrayList<>();
+    private List<Lable> headTechLables = new ArrayList<>();
+    private List<Lable> developLables = new ArrayList<>();
+    private TagAdapter adapterServ;
+    private TagAdapter adapterTech;
+    private TagAdapter adapterHeadTeach;
+    private TagAdapter adapterDevelop;
+
+    private void initCtrl() {
+        adapterServ = new TagAdapterEva(this, serverLables);
+        adapterTech = new TagAdapterEva(this, techLables);
+        adapterHeadTeach = new TagAdapterEva(this, headTechLables);
+        adapterDevelop = new TagAdapterEva(this, developLables);
+
         flow_serv.setAdapter(adapterServ);
         flow_tech.setAdapter(adapterTech);
+        flow_headtech.setAdapter(adapterHeadTeach);
+        flow_develop.setAdapter(adapterDevelop);
+
         flow_serv.setEnabled(false);
         flow_tech.setEnabled(false);
+        flow_headtech.setEnabled(false);
+        flow_develop.setEnabled(false);
     }
 
     @Override
@@ -133,4 +239,25 @@ public class EvaDetailActivity extends BaseAppCompatActicity {
         return super.onOptionsItemSelected(item);
     }
 
+    private class TagAdapterEva extends TagAdapter<Lable> {
+
+        private Context context;
+
+        public TagAdapterEva(Context context,List<Lable> datas) {
+            super(datas);
+            this.context = context;
+        }
+
+        @Override
+        public View getView(FlowLayout parent, int position, Lable lable) {
+            TextView tv = (TextView) LayoutInflater.from(context).inflate(R.layout.tv, parent, false);
+            tv.setText(lable.getLable());
+            return tv;
+        }
+
+        @Override
+        public boolean setSelected(int position, Lable lable) {
+            return true;
+        }
+    }
 }
