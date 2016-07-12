@@ -72,6 +72,11 @@ public class ListAdapterComp extends BaseAdapter {
 			}
 		});
 
+		//如果是总公司（id为-1）,则没有下级分类
+		if (results.get(position).getId().equals(-1)){
+			viewHolder.tvNext.setVisibility(View.GONE);
+		}
+
 		return view;
 	}
 

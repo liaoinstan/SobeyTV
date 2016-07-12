@@ -37,8 +37,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * 维修申报和追加描述页面
- * type为0 是维修申报 type为1 是追加描述
+ * type为0 是完成任务 type为1 是验收成功 type 2 验收拒绝 type 3 跨级追加
  */
 public class ReqDescribeOnlyActicity extends BaseAppCompatActicity implements View.OnClickListener, CropHelper.CropInterface {
 
@@ -54,6 +53,7 @@ public class ReqDescribeOnlyActicity extends BaseAppCompatActicity implements Vi
     private EditText edit_reqfix_detail;
 
     private int orderId;
+    private int type;
     private User user;
 
     private static final int RESULT_SELECTUSER = 0xf103;
@@ -98,6 +98,9 @@ public class ReqDescribeOnlyActicity extends BaseAppCompatActicity implements Vi
     private void initBase() {
         if (getIntent().hasExtra("orderId")) {
             orderId = getIntent().getIntExtra("orderId", 0);
+        }
+        if (getIntent().hasExtra("type")) {
+            type = getIntent().getIntExtra("type", 0);
         }
         user = AppData.App.getUser();
 
@@ -355,7 +358,13 @@ public class ReqDescribeOnlyActicity extends BaseAppCompatActicity implements Vi
         RequestParams params = new RequestParams(AppData.Url.addOrderDecribe);
         params.addHeader("token", AppData.App.getToken());
         params.addBodyParameter("orderId", orderId + "");
-        params.addBodyParameter("flag", "0");
+        if (type==0) {
+            params.addBodyParameter("flag", "1");
+        }else if (type==1 || type==2){
+            params.addBodyParameter("flag", "0");
+        }else if (type==3){
+            params.addBodyParameter("flag", "2");
+        }
         params.addBodyParameter("content", detail);
         if (!StrUtils.isEmpty(photoUrls)) {
             params.addBodyParameter("images", new Gson().toJson(photoUrls));
@@ -369,9 +378,23 @@ public class ReqDescribeOnlyActicity extends BaseAppCompatActicity implements Vi
         CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
-                EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERDESCRIBE);
-                EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERLIST);
-                netFinishOrder();
+                if (type==0) {
+                    EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERDESCRIBE);
+                    EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERLIST);
+                    netFinishOrder();
+                }else if (type==1 || type==2){
+                    EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERDESCRIBE);
+                    EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERLIST);
+                    netValiOrder();
+                }else if (type==3){
+                    EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERDESCRIBE);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            finish();
+                        }
+                    }, 800);
+                }
             }
 
             @Override
@@ -392,6 +415,48 @@ public class ReqDescribeOnlyActicity extends BaseAppCompatActicity implements Vi
         RequestParams params = new RequestParams(AppData.Url.verifiOrder);
         params.addHeader("token", AppData.App.getToken());
         params.addBodyParameter("orderId", orderId + "");
+        CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
+            @Override
+            public void netGo(int code, Object pojo, String text, Object obj) {
+                Toast.makeText(ReqDescribeOnlyActicity.this, text, Toast.LENGTH_SHORT).show();
+                btn_go.setProgress(100);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(ReqDescribeOnlyActicity.this, OrderProgActivity.class);
+                        intent.putExtra("orderId", orderId);
+                        startActivity(intent);
+                        finish();
+                    }
+                }, 800);
+            }
+
+            @Override
+            public void netSetError(int code, String text) {
+                Toast.makeText(ReqDescribeOnlyActicity.this, text, Toast.LENGTH_SHORT).show();
+                btn_go.setProgress(-1);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        btn_go.setProgress(0);
+                    }
+                }, 800);
+            }
+        });
+    }
+
+    //用户验收
+    private void netValiOrder() {
+        RequestParams params = new RequestParams(AppData.Url.statusToAppraise);
+        params.addHeader("token", AppData.App.getToken());
+        params.addBodyParameter("orderId", orderId + "");
+        if (type==1){
+            //验收通过
+            params.addBodyParameter("isaccept", 0+"");
+        }else if(type==2){
+            //验收拒绝
+            params.addBodyParameter("isaccept", 1+"");
+        }
         CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {

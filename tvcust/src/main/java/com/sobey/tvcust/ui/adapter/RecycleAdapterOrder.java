@@ -171,7 +171,11 @@ public class RecycleAdapterOrder extends RecyclerView.Adapter<RecycleAdapterOrde
         }
         //用户可以取消订单
         if (user.getRoleType() == User.ROLE_COMMOM) {
-            holder.text_cancle.setVisibility(View.VISIBLE);
+            if (order.getStatus()==Order.ORDER_UNDEAL) {
+                holder.text_cancle.setVisibility(View.VISIBLE);
+            }else {
+                holder.text_cancle.setVisibility(View.GONE);
+            }
         } else {
             holder.text_cancle.setVisibility(View.GONE);
         }

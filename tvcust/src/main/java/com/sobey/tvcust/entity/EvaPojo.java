@@ -16,8 +16,29 @@ public class EvaPojo {
     private Eva headTechData ;
     @SerializedName("jsHeadDevelopData")
     private Eva headDevelopData ;
+    @SerializedName("jsUserServiceData")
+    private Eva userServerData ;
+    @SerializedName("jsUserTechData")
+    private Eva userTechData ;
     @SerializedName("commentContent")
     private String commentContent ;
+
+
+    public Eva getUserServerData() {
+        return userServerData;
+    }
+
+    public void setUserServerData(Eva userServerData) {
+        this.userServerData = userServerData;
+    }
+
+    public Eva getUserTechData() {
+        return userTechData;
+    }
+
+    public void setUserTechData(Eva userTechData) {
+        this.userTechData = userTechData;
+    }
 
     public Eva getServiceData() {
         return serviceData;
@@ -66,6 +87,8 @@ public class EvaPojo {
                 ", tscdata=" + tscdata +
                 ", headTechData=" + headTechData +
                 ", headDevelopData=" + headDevelopData +
+                ", userServerData=" + userServerData +
+                ", userTechData=" + userTechData +
                 ", commentContent='" + commentContent + '\'' +
                 '}';
     }

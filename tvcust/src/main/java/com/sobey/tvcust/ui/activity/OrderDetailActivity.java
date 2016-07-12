@@ -4,29 +4,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.dd.CircularProgressButton;
-import com.google.gson.Gson;
-import com.liaoinstan.springview.container.AliFooter;
-import com.liaoinstan.springview.container.AliHeader;
-import com.liaoinstan.springview.widget.SpringView;
 import com.sobey.common.common.CommonNet;
 import com.sobey.common.common.MyPlayer;
-import com.sobey.common.utils.FileUtil;
-import com.sobey.common.utils.StrUtils;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppConstant;
 import com.sobey.tvcust.common.AppData;
@@ -37,8 +28,6 @@ import com.sobey.tvcust.entity.CommonEntity;
 import com.sobey.tvcust.entity.Order;
 import com.sobey.tvcust.entity.OrderDescribe;
 import com.sobey.tvcust.entity.OrderDescribePojo;
-import com.sobey.tvcust.entity.OrderPojo;
-import com.sobey.tvcust.entity.TestEntity;
 import com.sobey.tvcust.entity.User;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterOrderDetail;
 import com.sobey.tvcust.ui.dialog.DialogPopupDescribe;
@@ -47,7 +36,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.xutils.http.RequestParams;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -124,6 +112,20 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
                 pop_describe.hide();
             }
         });
+        pop_describe.setOnValiPassListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popValiPass();
+                pop_describe.hide();
+            }
+        });
+        pop_describe.setOnValiRefuseListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popValiRefuse();
+                pop_describe.hide();
+            }
+        });
         pop_describe.setOnNextListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,6 +151,13 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
             @Override
             public void onClick(View v) {
                 popDescribe();
+                pop_describe.hide();
+            }
+        });
+        pop_describe.setOnHeadTechListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popHeadTech();
                 pop_describe.hide();
             }
         });
@@ -289,11 +298,15 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
         } else {
             Glide.with(this).load(user.getAvatar()).placeholder(R.drawable.icon_order_fix).centerCrop().crossFade().into(img_orderdetail_header);
         }
+        //如果是客服 进入页面之后立即接受任务
+        if (user.getRoleType() == User.ROLE_CUSTOMER && (order.getServiceCheck() == null || order.getServiceCheck() == 0)) {
+            netAcceptOrder();
+        }
         //根据角色类型设置提交按钮的状态和功能
+        pop_describe.setType(user.getRoleType(),order);
         switch (user.getRoleType()) {
             //技术人员
             case User.ROLE_FILIALETECH:
-                pop_describe.setType(User.ROLE_FILIALETECH);
                 if (order.getTechCheck() == null || order.getTechCheck() == 0) {
                     //如果是技术人员，且未接受，则显示接受按钮
                     btn_go.setText("接受任务");
@@ -306,13 +319,7 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
                 break;
             //总部技术
             case User.ROLE_HEADCOMTECH:
-                pop_describe.setType(User.ROLE_HEADCOMTECH);
                 //新需求变更：如果分公司技术不存在则选择一个到现场查看
-//                if (order.getTscId()==null || order.getTscId()==0){
-//                    btn_last.setText("申请TSC");
-//                }else {
-//                    btn_last.setText("反馈");
-//                }
                 if (order.getHeadTechCheck() == null || order.getHeadTechCheck() == 0) {
                     btn_go.setText("接受任务");
                     btn_go.setIdleText("接受任务");
@@ -323,7 +330,6 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
                 break;
             //总部研发
             case User.ROLE_INVENT:
-                pop_describe.setType(User.ROLE_INVENT);
                 if (order.getDevelopCheck() == null || order.getDevelopCheck() == 0) {
                     btn_go.setText("接受任务");
                     btn_go.setIdleText("接受任务");
@@ -334,16 +340,14 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
                 break;
             //客服
             case User.ROLE_CUSTOMER:
-                pop_describe.setType(User.ROLE_CUSTOMER);
+                btn_go.setVisibility(View.GONE);
                 break;
             //用户
             case User.ROLE_COMMOM:
-                pop_describe.setType(User.ROLE_COMMOM);
                 btn_go.setText("操作");
                 btn_go.setIdleText("操作");
                 break;
             default:
-                pop_describe.setType(0);
                 break;
         }
     }
@@ -398,9 +402,11 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        btn_go.setProgress(0);
-//                        btn_go.setText("操作");
-                        btn_go.setIdleText("操作");
+                        if (btn_go.getVisibility() == View.VISIBLE) {
+                            btn_go.setProgress(0);
+                            btn_go.setIdleText("操作");
+                        }
+                        EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERLIST);
                     }
                 }, 800);
             }
@@ -420,19 +426,19 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
     }
 
     //去添加订单描述（上级或下级）
-    private void goAddDescribe(boolean next) {
+    private void goAddDescribe(int type) {
         Intent intent = new Intent();
         intent.setClass(this, ReqDescribeActicity.class);
         intent.putExtra("orderId", order.getId());
         intent.putExtra("categoryId", order.getCategory().getId());
-        intent.putExtra("flag", next ? 0 : 1);
+        intent.putExtra("flag", type);
         intent.putExtra("userId", order.getUserId());
         if (order != null) {
             //////////////////
             ///设置是否援助
             //////////////////
             boolean isAccept = false;
-            if (next) {
+            if (type==0) {
                 //技术
                 if (user.getRoleType() == User.ROLE_FILIALETECH) {
                     if (order.getHeadTechId() == null || order.getHeadTechId() == 0) {
@@ -462,7 +468,7 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
             ///设置是否抄送
             //////////////////
             boolean isCopy = false;
-            if (User.ROLE_HEADCOMTECH == user.getRoleType() && next) {
+            if (User.ROLE_HEADCOMTECH == user.getRoleType() && type==0) {
                 isCopy = false;
             } else {
                 //技术可以抄送
@@ -478,7 +484,7 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
             ////设置新需求标志
             /////////////////
             boolean newflag = false;
-            if (!next && (order.getTscId() == null || order.getTscId() == 0)) {
+            if (type==1 && (order.getTscId() == null || order.getTscId() == 0)) {
                 newflag = true;
             } else {
                 newflag = false;
@@ -491,21 +497,47 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
     private void popFinish() {
         Intent intent = new Intent(this, ReqDescribeOnlyActicity.class);
         intent.putExtra("orderId", id);
+        intent.putExtra("type", 0);
+        startActivity(intent);
+    }
+
+    private void popValiPass() {
+        Intent intent = new Intent(this, ReqDescribeOnlyActicity.class);
+        intent.putExtra("orderId", id);
+        intent.putExtra("type", 1);
+        startActivity(intent);
+    }
+
+    private void popValiRefuse() {
+        Intent intent = new Intent(this, ReqDescribeOnlyActicity.class);
+        intent.putExtra("orderId", id);
+        intent.putExtra("type", 2);
         startActivity(intent);
     }
 
     private void popNext() {
-        goAddDescribe(true);
+        goAddDescribe(0);
     }
 
     private void popBank() {
-        goAddDescribe(false);
+        goAddDescribe(1);
     }
 
     private void popUser() {
+        Intent intent = new Intent(this, ReqDescribeOnlyActicity.class);
+        intent.putExtra("orderId", id);
+        intent.putExtra("type", 3);
+        startActivity(intent);
     }
 
     private void popDescribe() {
-        goAddDescribe(true);
+        goAddDescribe(0);
+    }
+
+    private void popHeadTech() {
+        Intent intent = new Intent(this, ReqDescribeOnlyActicity.class);
+        intent.putExtra("orderId", id);
+        intent.putExtra("type", 3);
+        startActivity(intent);
     }
 }

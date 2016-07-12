@@ -130,9 +130,10 @@ public class AppData {
 		public static final String getOrderTrack		= domain + "/SanghaCloud/order/getOrderTrack";				//获取订单追踪
 		public static final String getlables			= domain + "/SanghaCloud/lable/getlables";					//获取评价标签
 		public static final String commitEva			= domain + "/SanghaCloud/comment/addcomment";					//提交评价
-
-		public static final String getEva				= domain + "/SanghaCloud/comment/getcomment";				//获取评论
+		public static final String getEva				= domain + "/SanghaCloud/comment/getcomment";					//获取评论
 		public static final String addcomplain			= domain + "/SanghaCloud/complain/addcomplain";				//提交投诉
+
+		public static final String statusToAppraise	= domain + "/SanghaCloud/order/statusToAppraise";			//用户接受处理结果
 
 	}
 }

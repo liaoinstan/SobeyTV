@@ -116,7 +116,7 @@
 
 
                     <TextView
-                        android:id="@+id/text_orderprog_go1"
+                        android:id="@+id/text_orderprog_go_eva"
                         style="@style/text_nomal_blue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -131,7 +131,7 @@
                         android:text="立即评价" />
 
                     <TextView
-                        android:id="@+id/text_orderprog_go"
+                        android:id="@+id/text_orderprog_go_evadetail"
                         style="@style/text_nomal_blue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

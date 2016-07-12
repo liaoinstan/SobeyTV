@@ -49,6 +49,7 @@ public class RegistDetailFragment extends BaseFragment implements View.OnClickLi
 
     public static String TYPE_USER = "user";
     public static String TYPE_GROUP_USER = "group_user";
+    public static String TYPE_HEAD_USER = "head_user";
     private String type = TYPE_USER;
     private int officeId;
 
@@ -86,6 +87,9 @@ public class RegistDetailFragment extends BaseFragment implements View.OnClickLi
     public void onEventMainThread(CompEntity comp) {
         officeId = comp.getId();
         edit_comp.setText(comp.getCompName());
+        if (comp.getId()==-1){
+            type = TYPE_HEAD_USER;
+        }
     }
 
     @Nullable
@@ -150,7 +154,9 @@ public class RegistDetailFragment extends BaseFragment implements View.OnClickLi
                     params.addBodyParameter("password", MD5Util.md5(password));
                     params.addBodyParameter("realName", name);
                     params.addBodyParameter("email", mail);
-                    params.addBodyParameter("officeId", officeId +"");
+                    if (officeId!=-1){
+                        params.addBodyParameter("officeId", officeId +"");
+                    }
                     params.addBodyParameter("type", type);
                     params.addBodyParameter("deviceType", "0");
                     CommonNet.post(this, params, 1, CommonEntity.class, null);

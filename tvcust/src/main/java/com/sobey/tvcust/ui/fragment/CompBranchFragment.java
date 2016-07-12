@@ -103,6 +103,15 @@ public class CompBranchFragment extends BaseFragment{
                 else {
                     CompanyPojo officePojo = (CompanyPojo) pojo;
                     List<Company> offices = officePojo.getDataList();
+
+                    ///////////
+                    ///新增默认的总公司
+                    ///////////
+                    Company company = new Company();
+                    company.setId(-1);
+                    company.setCar_title("总公司");
+                    offices.add(0,company);
+
                     SourceDateList.clear();
                     SourceDateList.addAll(offices);
                     freshCtrl();

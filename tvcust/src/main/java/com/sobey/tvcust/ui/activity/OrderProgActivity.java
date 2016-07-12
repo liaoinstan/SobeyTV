@@ -2,8 +2,6 @@ package com.sobey.tvcust.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,24 +11,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sobey.common.common.CommonNet;
-import com.sobey.common.utils.TimeUtil;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.LoadingViewUtil;
 import com.sobey.tvcust.common.OrderStatusHelper;
-import com.sobey.tvcust.entity.AssisterPojo;
 import com.sobey.tvcust.entity.Order;
 import com.sobey.tvcust.entity.OrderCategory;
 import com.sobey.tvcust.entity.OrderTrack;
 import com.sobey.tvcust.entity.OrderTrackPojo;
-import com.sobey.tvcust.entity.TestEntity;
 import com.sobey.tvcust.entity.User;
 import com.sobey.tvcust.ui.adapter.ListAdapterOrderTrack;
 
 import org.xutils.http.RequestParams;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class OrderProgActivity extends BaseAppCompatActicity implements View.OnClickListener{
@@ -45,8 +39,8 @@ public class OrderProgActivity extends BaseAppCompatActicity implements View.OnC
     private TextView text_orderprog_question;
     private TextView text_orderprog_num;
     private TextView text_orderprog_status;
-    private TextView btn_go;
-    private TextView btn_go1;
+    private TextView btn_go_evadetail;
+    private TextView btn_go_eva;
 
     private int orderId;
     private User user;
@@ -126,15 +120,15 @@ public class OrderProgActivity extends BaseAppCompatActicity implements View.OnC
         text_orderprog_question = (TextView) findViewById(R.id.text_orderprog_question);
         text_orderprog_num = (TextView) findViewById(R.id.text_orderprog_num);
         text_orderprog_status = (TextView) findViewById(R.id.text_orderprog_status);
-        btn_go = (TextView) findViewById(R.id.text_orderprog_go);
-        btn_go1 = (TextView) findViewById(R.id.text_orderprog_go1);
+        btn_go_evadetail = (TextView) findViewById(R.id.text_orderprog_go_evadetail);
+        btn_go_eva = (TextView) findViewById(R.id.text_orderprog_go_eva);
     }
 
     private void initCtrl() {
         adapter = new ListAdapterOrderTrack(this,R.layout.item_list_track,results);
         listView_full.setAdapter(adapter);
-        btn_go.setOnClickListener(this);
-        btn_go1.setOnClickListener(this);
+        btn_go_evadetail.setOnClickListener(this);
+        btn_go_eva.setOnClickListener(this);
     }
 
     private void freshCtrl(){
@@ -164,12 +158,12 @@ public class OrderProgActivity extends BaseAppCompatActicity implements View.OnC
     public void onClick(View v) {
         Intent intent = new Intent();
         switch (v.getId()){
-            case R.id.text_orderprog_go:
+            case R.id.text_orderprog_go_evadetail:
                 intent.setClass(this,EvaDetailActivity.class);
                 intent.putExtra("orderId",orderId);
                 startActivity(intent);
                 break;
-            case R.id.text_orderprog_go1:
+            case R.id.text_orderprog_go_eva:
                 intent.setClass(this,EvaActivity.class);
                 intent.putExtra("orderId",orderId);
                 startActivity(intent);

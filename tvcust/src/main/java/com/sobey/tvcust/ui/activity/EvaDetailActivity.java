@@ -40,6 +40,8 @@ public class EvaDetailActivity extends BaseAppCompatActicity {
     private TagFlowLayout flow_tech;
     private TagFlowLayout flow_headtech;
     private TagFlowLayout flow_develop;
+    private TagFlowLayout flow_userserver;
+    private TagFlowLayout flow_usertech;
     private RatingBar rating_eva_server_attitude;
     private RatingBar rating_eva_server_speed;
 
@@ -55,10 +57,19 @@ public class EvaDetailActivity extends BaseAppCompatActicity {
     private RatingBar rating_eva_develop_speed;
     private RatingBar rating_eva_develop_product;
 
+    private RatingBar rating_eva_userserver_attitude;
+    private RatingBar rating_eva_userserver_speed;
+
+    private RatingBar rating_eva_usertech_attitude;
+    private RatingBar rating_eva_usertech_speed;
+    private RatingBar rating_eva_usertech_product;
+
     private View lay_eva_server;
     private View lay_eva_tech;
     private View lay_eva_headtech;
     private View lay_eva_develop;
+    private View lay_eva_userserver;
+    private View lay_eva_usertech;
     private TextView text_eva_describe;
 
     private int orderId;
@@ -91,6 +102,8 @@ public class EvaDetailActivity extends BaseAppCompatActicity {
         flow_tech = (TagFlowLayout) findViewById(R.id.flow_tag_tech);
         flow_headtech = (TagFlowLayout) findViewById(R.id.flow_tag_headtech);
         flow_develop = (TagFlowLayout) findViewById(R.id.flow_tag_develop);
+        flow_userserver = (TagFlowLayout) findViewById(R.id.flow_tag_userserver);
+        flow_usertech = (TagFlowLayout) findViewById(R.id.flow_tag_usertech);
         rating_eva_server_attitude = (RatingBar) findViewById(R.id.rating_eva_server_attitude);
         rating_eva_server_speed = (RatingBar) findViewById(R.id.rating_eva_server_speed);
 
@@ -106,10 +119,19 @@ public class EvaDetailActivity extends BaseAppCompatActicity {
         rating_eva_develop_speed = (RatingBar) findViewById(R.id.rating_eva_develop_speed);
         rating_eva_develop_product = (RatingBar) findViewById(R.id.rating_eva_develop_product);
 
+        rating_eva_userserver_attitude = (RatingBar) findViewById(R.id.rating_eva_userserver_attitude);
+        rating_eva_userserver_speed = (RatingBar) findViewById(R.id.rating_eva_userserver_speed);
+
+        rating_eva_usertech_attitude = (RatingBar) findViewById(R.id.rating_eva_usertech_attitude);
+        rating_eva_usertech_speed = (RatingBar) findViewById(R.id.rating_eva_usertech_speed);
+        rating_eva_usertech_product = (RatingBar) findViewById(R.id.rating_eva_usertech_product);
+
         lay_eva_server = findViewById(R.id.lay_eva_server);
         lay_eva_tech = findViewById(R.id.lay_eva_teach);
         lay_eva_headtech = findViewById(R.id.lay_eva_headteach);
         lay_eva_develop = findViewById(R.id.lay_eva_develop);
+        lay_eva_userserver = findViewById(R.id.lay_eva_userserver);
+        lay_eva_usertech = findViewById(R.id.lay_eva_usertech);
 
         text_eva_describe = (TextView) findViewById(R.id.text_eva_describe);
     }
@@ -121,8 +143,9 @@ public class EvaDetailActivity extends BaseAppCompatActicity {
         CommonNet.samplepost(params, EvaPojo.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
-                if (pojo == null) netSetError(code, text);
-                else {
+                if (pojo==null){
+                    LoadingViewUtil.showin(showingroup, R.layout.layout_lack, showin);
+                }else {
                     EvaPojo evaPojo = (EvaPojo) pojo;
                     setData(evaPojo);
                     LoadingViewUtil.showout(showingroup, showin);
@@ -152,8 +175,8 @@ public class EvaDetailActivity extends BaseAppCompatActicity {
             lay_eva_server.setVisibility(View.GONE);
         } else {
             Eva eva = evaPojo.getServiceData();
-            rating_eva_server_attitude.setRating(eva.getServiceAttitude()/20);
-            rating_eva_server_speed.setRating(eva.getDisposeSpeed()/20);
+            rating_eva_server_attitude.setRating(eva.getServiceAttitude() / 20);
+            rating_eva_server_speed.setRating(eva.getDisposeSpeed() / 20);
 
             List<Lable> lables = eva.getLables();
             serverLables.clear();
@@ -164,9 +187,9 @@ public class EvaDetailActivity extends BaseAppCompatActicity {
             lay_eva_tech.setVisibility(View.GONE);
         } else {
             Eva eva = evaPojo.getTscdata();
-            rating_eva_tech_attitude.setRating(eva.getServiceAttitude()/20);
-            rating_eva_tech_speed.setRating(eva.getDisposeSpeed()/20);
-            rating_eva_tech_product.setRating(eva.getProductComment()/20);
+            rating_eva_tech_attitude.setRating(eva.getServiceAttitude() / 20);
+            rating_eva_tech_speed.setRating(eva.getDisposeSpeed() / 20);
+            rating_eva_tech_product.setRating(eva.getProductComment() / 20);
 
             List<Lable> lables = eva.getLables();
             techLables.clear();
@@ -177,9 +200,9 @@ public class EvaDetailActivity extends BaseAppCompatActicity {
             lay_eva_headtech.setVisibility(View.GONE);
         } else {
             Eva eva = evaPojo.getHeadTechData();
-            rating_eva_headtech_attitude.setRating(eva.getServiceAttitude()/20);
-            rating_eva_headtech_speed.setRating(eva.getDisposeSpeed()/20);
-            rating_eva_headtech_product.setRating(eva.getProductComment()/20);
+            rating_eva_headtech_attitude.setRating(eva.getServiceAttitude() / 20);
+            rating_eva_headtech_speed.setRating(eva.getDisposeSpeed() / 20);
+            rating_eva_headtech_product.setRating(eva.getProductComment() / 20);
 
             List<Lable> lables = eva.getLables();
             headTechLables.clear();
@@ -190,14 +213,39 @@ public class EvaDetailActivity extends BaseAppCompatActicity {
             lay_eva_develop.setVisibility(View.GONE);
         } else {
             Eva eva = evaPojo.getHeadDevelopData();
-            rating_eva_develop_attitude.setRating(eva.getServiceAttitude()/20);
-            rating_eva_develop_speed.setRating(eva.getDisposeSpeed()/20);
-            rating_eva_develop_product.setRating(eva.getProductComment()/20);
+            rating_eva_develop_attitude.setRating(eva.getServiceAttitude() / 20);
+            rating_eva_develop_speed.setRating(eva.getDisposeSpeed() / 20);
+            rating_eva_develop_product.setRating(eva.getProductComment() / 20);
 
             List<Lable> lables = eva.getLables();
             developLables.clear();
             developLables.addAll(lables);
             adapterDevelop.notifyDataChanged();
+        }
+        if (evaPojo.getUserServerData() == null) {
+            lay_eva_userserver.setVisibility(View.GONE);
+        } else {
+            Eva eva = evaPojo.getUserServerData();
+            rating_eva_userserver_attitude.setRating(eva.getServiceAttitude() / 20);
+            rating_eva_userserver_speed.setRating(eva.getDisposeSpeed() / 20);
+
+            List<Lable> lables = eva.getLables();
+            userServerLables.clear();
+            userServerLables.addAll(lables);
+            adapterUserServer.notifyDataChanged();
+        }
+        if (evaPojo.getUserTechData() == null) {
+            lay_eva_usertech.setVisibility(View.GONE);
+        } else {
+            Eva eva = evaPojo.getUserTechData();
+            rating_eva_usertech_attitude.setRating(eva.getServiceAttitude() / 20);
+            rating_eva_usertech_speed.setRating(eva.getDisposeSpeed() / 20);
+            rating_eva_usertech_product.setRating(eva.getProductComment() / 20);
+
+            List<Lable> lables = eva.getLables();
+            userTechLables.clear();
+            userTechLables.addAll(lables);
+            adapterUserTech.notifyDataChanged();
         }
 
         text_eva_describe.setText(evaPojo.getCommentContent());
@@ -207,26 +255,36 @@ public class EvaDetailActivity extends BaseAppCompatActicity {
     private List<Lable> techLables = new ArrayList<>();
     private List<Lable> headTechLables = new ArrayList<>();
     private List<Lable> developLables = new ArrayList<>();
+    private List<Lable> userServerLables = new ArrayList<>();
+    private List<Lable> userTechLables = new ArrayList<>();
     private TagAdapter adapterServ;
     private TagAdapter adapterTech;
     private TagAdapter adapterHeadTeach;
     private TagAdapter adapterDevelop;
+    private TagAdapter adapterUserServer;
+    private TagAdapter adapterUserTech;
 
     private void initCtrl() {
         adapterServ = new TagAdapterEva(this, serverLables);
         adapterTech = new TagAdapterEva(this, techLables);
         adapterHeadTeach = new TagAdapterEva(this, headTechLables);
         adapterDevelop = new TagAdapterEva(this, developLables);
+        adapterUserServer = new TagAdapterEva(this, userServerLables);
+        adapterUserTech = new TagAdapterEva(this, userTechLables);
 
         flow_serv.setAdapter(adapterServ);
         flow_tech.setAdapter(adapterTech);
         flow_headtech.setAdapter(adapterHeadTeach);
         flow_develop.setAdapter(adapterDevelop);
+        flow_userserver.setAdapter(adapterUserServer);
+        flow_usertech.setAdapter(adapterUserTech);
 
         flow_serv.setEnabled(false);
         flow_tech.setEnabled(false);
         flow_headtech.setEnabled(false);
         flow_develop.setEnabled(false);
+        flow_userserver.setEnabled(false);
+        flow_usertech.setEnabled(false);
     }
 
     @Override
@@ -243,7 +301,7 @@ public class EvaDetailActivity extends BaseAppCompatActicity {
 
         private Context context;
 
-        public TagAdapterEva(Context context,List<Lable> datas) {
+        public TagAdapterEva(Context context, List<Lable> datas) {
             super(datas);
             this.context = context;
         }
