@@ -399,7 +399,7 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
                     @Override
                     public void run() {
                         btn_go.setProgress(0);
-                        btn_go.setText("操作");
+//                        btn_go.setText("操作");
                         btn_go.setIdleText("操作");
                     }
                 }, 800);

@@ -169,10 +169,17 @@ public class ReqDescribeActicity extends BaseAppCompatActicity implements View.O
         } else {
             lay_reqfix_selectuser.setVisibility(View.GONE);
         }
-        if (isCopy){
+        if (isCopy) {
             lay_reqfix_selectcoper.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             lay_reqfix_selectcoper.setVisibility(View.GONE);
+        }
+
+        //4.x设备必须隐藏CardView
+        if (lay_reqfix_selectuser.getVisibility() == View.GONE && lay_reqfix_selectcoper.getVisibility() == View.GONE) {
+            findViewById(R.id.lay_reqfix_card).setVisibility(View.GONE);
+        }else {
+            findViewById(R.id.lay_reqfix_card).setVisibility(View.VISIBLE);
         }
     }
 
@@ -254,13 +261,13 @@ public class ReqDescribeActicity extends BaseAppCompatActicity implements View.O
         Intent intent = new Intent();
         switch (v.getId()) {
             case R.id.lay_reqfix_selectuser:
-                if (newflag){
+                if (newflag) {
                     intent.setClass(this, OrderAllocateOnlyActivity.class);
                     intent.putExtra("userId", userId);
                     intent.putExtra("orderId", orderId);
                     intent.putExtra("categoryId", categoryId);
                     startActivityForResult(intent, RESULT_SELECTUSER);
-                }else {
+                } else {
                     intent.setClass(this, AssistActivity.class);
                     intent.putExtra("userId", userId);
                     startActivityForResult(intent, RESULT_SELECTUSER);
@@ -464,7 +471,7 @@ public class ReqDescribeActicity extends BaseAppCompatActicity implements View.O
 
                 if (isAccept) {
                     netAssistCommit();
-                }else {
+                } else {
                     Toast.makeText(ReqDescribeActicity.this, text, Toast.LENGTH_SHORT).show();
                     btn_go.setProgress(100);
                     new Handler().postDelayed(new Runnable() {
@@ -495,14 +502,14 @@ public class ReqDescribeActicity extends BaseAppCompatActicity implements View.O
     private void netAssistCommit() {
         RequestParams params;
         if (User.ROLE_HEADCOMTECH == user.getRoleType()) {
-            if (newflag){
+            if (newflag) {
                 //新需求：总部技术向下申请技术
                 params = new RequestParams(AppData.Url.allotorder);
                 params.addHeader("token", AppData.App.getToken());
                 params.addBodyParameter("orderId", orderId + "");
                 params.addBodyParameter("tscId", assisterId + "");
                 params.addBodyParameter("roleType", "10");
-            }else {
+            } else {
                 //总部技术人员申请总部研发
                 params = new RequestParams(AppData.Url.commitdeveloper);
                 params.addHeader("token", AppData.App.getToken());

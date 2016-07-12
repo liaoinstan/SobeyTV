@@ -65,6 +65,7 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
     private User user;
     private Integer status;
     private Integer isCheck;
+    private Integer isComment;
 
     private Callback.Cancelable cancelable;
     private Callback.Cancelable cancelablemore;
@@ -107,7 +108,7 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (dialogSure!=null) dialogSure.dismiss();
+        if (dialogSure != null) dialogSure.dismiss();
     }
 
     @Override
@@ -139,7 +140,7 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
 
     private void initViewTab() {
 
-        switch (user.getRoleType()){
+        switch (user.getRoleType()) {
             //用户
             case User.ROLE_COMMOM:
                 tab.addTab(tab.newTab().setText("全部"));
@@ -197,32 +198,62 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 String text = tab.getText().toString();
-                if ("全部".equals(text)){
+                if ("全部".equals(text)) {
                     status = null;
                     isCheck = null;
-                }else if ("待处理".equals(text)){
-                    status = Order.ORDER_UNDEAL;
-                    isCheck = null;
-                }else if ("处理中".equals(text)){
+                    isComment = null;
+                } else if ("待处理".equals(text)) {
+                    if (user.getRoleType() == User.ROLE_CUSTOMER) {
+                        isCheck = 3;
+                        status = Order.ORDER_UNDEAL;
+                    } else if (user.getRoleType() == User.ROLE_COMMOM) {
+                        isCheck = null;
+                        status = Order.ORDER_UNDEAL;
+                    }else if (user.getRoleType() == User.ROLE_FILIALETECH || user.getRoleType() == User.ROLE_HEADCOMTECH || user.getRoleType() == User.ROLE_INVENT) {
+                        isCheck = 1;
+                        status = null;
+                    }else {
+                        isCheck = null;
+                        status = Order.ORDER_UNDEAL;
+                    }
+                    isComment = null;
+                } else if ("处理中".equals(text)) {
+                    if (user.getRoleType() == User.ROLE_FILIALETECH || user.getRoleType() == User.ROLE_HEADCOMTECH || user.getRoleType() == User.ROLE_INVENT) {
+                        isCheck = 1;
+                    }else {
+                        isCheck = null;
+                    }
                     status = Order.ORDER_INDEAL;
-                    isCheck = null;
-                }else if ("待验收".equals(text)){
+                    isComment = null;
+                } else if ("待验收".equals(text)) {
                     status = Order.ORDER_UNVALI;
                     isCheck = null;
-                }else if ("待评价".equals(text)){
+                    isComment = null;
+                } else if ("待评价".equals(text)) {
                     status = Order.ORDER_UNEVA;
                     isCheck = null;
-                }else if ("已完成".equals(text)){
+                    isComment = 0;
+                } else if ("已完成".equals(text)) {
                     status = Order.ORDER_FINSH;
                     isCheck = null;
-                }else if ("待办任务".equals(text)){
-                    status = Order.ORDER_INDEAL;
+                    isComment = 1;
+                } else if ("待办任务".equals(text)) {
+                    //特殊情况
+                    if (user.getRoleType() == User.ROLE_FILIALETECH || user.getRoleType() == User.ROLE_HEADCOMTECH) {
+                        status = null;
+                    }else if (user.getRoleType() == User.ROLE_INVENT){
+                        status = Order.ORDER_INDEAL;
+                    }else {
+                        status = Order.ORDER_UNDEAL;
+                    }
                     isCheck = 0;
-                }else if ("待分配".equals(text)){
+                    isComment = null;
+                } else if ("待分配".equals(text)) {
                     status = Order.ORDER_UNDEAL;
                     isCheck = 1;
-                }else {
-                    Toast.makeText(getActivity(),"没有该分类",Toast.LENGTH_SHORT).show();
+                    isComment = null;
+                } else {
+                    Toast.makeText(getActivity(), "没有该分类", Toast.LENGTH_SHORT).show();
                 }
                 initData(true);
             }
@@ -321,20 +352,20 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void initData(final boolean isFirst) {
-        if (cancelable!=null){
+        if (cancelable != null) {
             cancelable.cancel();
         }
-        if (cancelablemore!=null){
+        if (cancelablemore != null) {
             cancelablemore.cancel();
         }
         final RequestParams params = new RequestParams(AppData.Url.orderlist);
         params.addHeader("token", AppData.App.getToken());
         params.addBodyParameter("pageNO", 1 + "");
         params.addBodyParameter("pageSize", PAGE_COUNT + "");
-        if (status!=null){
+        if (status != null) {
             params.addBodyParameter("status", status + "");
         }
-        if (isCheck!=null){
+        if (isCheck != null) {
             params.addBodyParameter("isCheck", isCheck + "");
         }
         cancelable = CommonNet.samplepost(params, OrderPojo.class, new CommonNet.SampleNetHander() {
@@ -394,11 +425,14 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
         params.addHeader("token", AppData.App.getToken());
         params.addBodyParameter("pageNO", page + 1 + "");
         params.addBodyParameter("pageSize", PAGE_COUNT + "");
-        if (status!=null){
+        if (status != null) {
             params.addBodyParameter("status", status + "");
         }
-        if (isCheck!=null){
+        if (isCheck != null) {
             params.addBodyParameter("isCheck", isCheck + "");
+        }
+        if (isComment != null) {
+            params.addBodyParameter("isComment", isComment + "");
         }
         cancelablemore = CommonNet.samplepost(params, OrderPojo.class, new CommonNet.SampleNetHander() {
             @Override
@@ -448,30 +482,30 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
         }
     }
 
-    private void netCancleOrder(final int pos){
+    private void netCancleOrder(final int pos) {
         RequestParams params = new RequestParams(AppData.Url.cancleOrder);
         params.addHeader("token", AppData.App.getToken());
-        params.addBodyParameter("orderId", adapter.getResults().get(pos).getId()+"");
-        params.addBodyParameter("userId", adapter.getResults().get(pos).getUserId()+"");
-        CommonNet.samplepost(params,CommonEntity.class,new CommonNet.SampleNetHander(){
+        params.addBodyParameter("orderId", adapter.getResults().get(pos).getId() + "");
+        params.addBodyParameter("userId", adapter.getResults().get(pos).getUserId() + "");
+        CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
-                Toast.makeText(getActivity(),text,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
                 adapter.getResults().remove(pos);
                 adapter.notifyItemRemoved(pos);
             }
 
             @Override
             public void netSetError(int code, String text) {
-                Toast.makeText(getActivity(),text,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void netFinishOrder(final int pos){
+    private void netFinishOrder(final int pos) {
 
         Intent intent = new Intent(getActivity(), ReqDescribeOnlyActicity.class);
-        intent.putExtra("orderId",adapter.getResults().get(pos).getId());
+        intent.putExtra("orderId", adapter.getResults().get(pos).getId());
         startActivity(intent);
 
 //        RequestParams params = new RequestParams(AppData.Url.verifiOrder);
