@@ -8,12 +8,11 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
 import com.google.gson.Gson;
-import com.sobey.common.common.CommonNet;
+import com.sobey.tvcust.common.CommonNet;
 import com.sobey.common.common.MyPlayer;
 import com.sobey.common.helper.CropHelper;
 import com.sobey.common.utils.StrUtils;

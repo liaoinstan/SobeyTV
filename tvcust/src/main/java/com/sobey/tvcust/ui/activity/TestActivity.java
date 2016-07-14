@@ -1,7 +1,6 @@
 package com.sobey.tvcust.ui.activity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +13,13 @@ import com.sobey.common.utils.ACache;
 import com.sobey.common.utils.ClearCacheUtil;
 import com.sobey.tvcust.R;
 import com.sobey.share.sharesdk.dialog.ShareDialog;
+import com.sobey.tvcust.utils.UrlUtils;
+
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
+
+import java.util.HashMap;
 
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
@@ -28,14 +34,14 @@ public class TestActivity extends BaseAppCompatActicity {
 
         updateHelper = new UpdateHelper.Builder(this)
                 .checkUrl("http://xx")
-                        .isAutoInstall(false) //设置为false需在下载完手动点击安装;默认值为true，下载后自动安装。
+                .isAutoInstall(false) //设置为false需在下载完手动点击安装;默认值为true，下载后自动安装。
 //                        .isHintNewVersion(false)
                 .build();
     }
 
-    public void onClick(View v){
+    public void onClick(View v) {
         Intent intent = new Intent();
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.size:
                 String size = "null";
                 try {
@@ -43,7 +49,7 @@ public class TestActivity extends BaseAppCompatActicity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                Toast.makeText(this,size,Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, size, Toast.LENGTH_SHORT).show();
                 break;
             case R.id.clear:
                 ClearCacheUtil.clearExternalCache(this);
@@ -54,30 +60,35 @@ public class TestActivity extends BaseAppCompatActicity {
                 finish();
                 break;
             case R.id.acache:
-                ACache.get(this).put("test","asdasdada");
+                ACache.get(this).put("test", "asdasdada");
                 break;
             case R.id.version:
                 updateHelper.check(new OnUpdateListener() {
                     @Override
                     public void onStartCheck() {
-                        Log.e("liao","onStartCheck");
+                        Log.e("liao", "onStartCheck");
                     }
+
                     @Override
                     public void onFinishCheck(UpdateInfo info) {
-                        Log.e("liao","onFinishCheck");
+                        Log.e("liao", "onFinishCheck");
                     }
+
                     @Override
                     public void onStartDownload() {
-                        Log.e("liao","onStartDownload");
+                        Log.e("liao", "onStartDownload");
                     }
+
                     @Override
                     public void onInstallApk() {
-                        Log.e("liao","onInstallApk");
+                        Log.e("liao", "onInstallApk");
                     }
+
                     @Override
                     public void onFinshDownload() {
-                        Log.e("liao","onFinshDownload");
+                        Log.e("liao", "onFinshDownload");
                     }
+
                     @Override
                     public void onDownloading(int progress) {
 //                        Log.e("liao","onDownloading:"+progress);
@@ -93,6 +104,8 @@ public class TestActivity extends BaseAppCompatActicity {
                 intent.setClass(this, LoginActivity.class);
                 startActivity(intent);
                 finish();
+            case R.id.nettest:
+                nettest();
                 break;
         }
     }
@@ -124,5 +137,43 @@ public class TestActivity extends BaseAppCompatActicity {
 
         // 启动分享GUI
         oks.show(this);
+    }
+
+    private void nettest() {
+        String domain = "http://120.76.165.97";
+//        String murl = "/sobey/center/openservice/host";
+//        String murl = "/sobey/center/openservice/alert/new";
+//        String murl = "/sobey/center/openservice/station";
+        String murl = "/sobey/center/openservice/stats/station";
+        String preurl = domain + murl;
+
+        HashMap<String, String> map = new HashMap<>();
+//        map.put("station","TNTV_20151216");//TNTV_20151216
+        map.put("station","CCTV");//TNTV_20151216
+//        map.put("time", TimeUtil.getDateByStr("yyyy/MM/dd","2016/07/01").getTime()+"");//TNTV_20151216
+        String myurl = UrlUtils.geturl(map, preurl);
+
+        RequestParams params = new RequestParams(myurl);
+        x.http().get(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.e("liao", result);
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 }

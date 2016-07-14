@@ -1,11 +1,7 @@
 package com.sobey.tvcust.ui.activity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -17,13 +13,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.sobey.common.common.CommonNet;
+import com.sobey.tvcust.common.CommonNet;
 import com.sobey.common.helper.CropHelper;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppConstant;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.AppVali;
-import com.sobey.tvcust.common.LoadingViewUtil;
 import com.sobey.tvcust.entity.CommonEntity;
 import com.sobey.tvcust.entity.User;
 import com.sobey.tvcust.ui.dialog.DialogLoading;
@@ -31,8 +26,6 @@ import com.sobey.tvcust.ui.dialog.DialogPopupPhoto;
 
 import org.greenrobot.eventbus.EventBus;
 import org.xutils.http.RequestParams;
-import org.xutils.http.body.MultipartBody;
-import org.xutils.x;
 
 import java.io.File;
 

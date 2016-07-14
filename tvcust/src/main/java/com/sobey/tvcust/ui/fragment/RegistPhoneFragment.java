@@ -7,7 +7,6 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,15 +15,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
-import com.sobey.common.common.CommonNet;
-import com.sobey.common.utils.ValidateUtil;
+import com.sobey.tvcust.common.CommonNet;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.AppVali;
 import com.sobey.tvcust.entity.CommonEntity;
 import com.sobey.tvcust.ui.activity.LoginActivity;
 
-import org.greenrobot.eventbus.EventBus;
 import org.xutils.http.RequestParams;
 
 /**

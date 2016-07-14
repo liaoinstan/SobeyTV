@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
-import com.sobey.common.common.CommonNet;
+import com.sobey.tvcust.common.CommonNet;
 import com.sobey.common.utils.StrUtils;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;

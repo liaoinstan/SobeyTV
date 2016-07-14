@@ -3,13 +3,12 @@ package com.sobey.tvcust.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
-import com.sobey.common.common.CommonNet;
+import com.sobey.tvcust.common.CommonNet;
 import com.sobey.common.utils.MD5Util;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;

@@ -20,9 +20,11 @@ import com.sobey.tvcust.common.AppConstant;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.LoadingViewUtil;
 import com.sobey.tvcust.entity.User;
+import com.sobey.tvcust.ui.activity.CountActivity;
 import com.sobey.tvcust.ui.activity.CountOrderActivity;
 import com.sobey.tvcust.ui.activity.LoginActivity;
 import com.sobey.tvcust.ui.activity.MeDetailActivity;
+import com.sobey.tvcust.ui.activity.PiePolylineChartActivity;
 import com.sobey.tvcust.ui.activity.SettingActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -172,8 +174,12 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
                 startActivity(intent);
                 break;
             case R.id.item_me_question:
+                intent.setClass(getActivity(), CountActivity.class);
+                startActivity(intent);
                 break;
             case R.id.item_me_warning:
+                intent.setClass(getActivity(), CountActivity.class);
+                startActivity(intent);
                 break;
             case R.id.item_me_setting:
                 intent.setClass(getActivity(), SettingActivity.class);

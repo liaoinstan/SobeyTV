@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.dd.CircularProgressButton;
-import com.sobey.common.common.CommonNet;
+import com.sobey.tvcust.common.CommonNet;
 import com.sobey.common.utils.StrUtils;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppConstant;

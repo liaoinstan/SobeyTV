@@ -14,6 +14,7 @@
     <string name="title_activity_video">视频浏览</string>
     <string name="title_activity_web">资讯</string>
     <string name="title_activity_count_order">派单统计</string>
+    <string name="title_activity_count">统计</string>
     <string name="title_activity_device_list">设备</string>
     <string name="title_activity_login">登录</string>
     <string name="title_activity_find_psw">找回密码</string>

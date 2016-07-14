@@ -69,4 +69,7 @@ dependencies {
 
     //事件总线
     compile 'org.greenrobot:eventbus:3.0.0'
+
+    //MPCharts
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.0-beta1'
 }

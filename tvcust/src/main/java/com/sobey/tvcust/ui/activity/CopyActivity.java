@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,19 +17,14 @@ import com.dd.CircularProgressButton;
 import com.liaoinstan.springview.container.AliFooter;
 import com.liaoinstan.springview.container.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
-import com.sobey.common.common.CommonNet;
+import com.sobey.tvcust.common.CommonNet;
 import com.sobey.tvcust.R;
-import com.sobey.tvcust.common.AppConstant;
 import com.sobey.tvcust.common.AppData;
-import com.sobey.tvcust.common.AppVali;
 import com.sobey.tvcust.common.LoadingViewUtil;
 import com.sobey.tvcust.entity.AssisterPojo;
-import com.sobey.tvcust.entity.CommonEntity;
 import com.sobey.tvcust.entity.User;
-import com.sobey.tvcust.ui.adapter.RecycleAdapterAssist;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterCopy;
 
-import org.greenrobot.eventbus.EventBus;
 import org.xutils.http.RequestParams;
 
 import java.util.ArrayList;

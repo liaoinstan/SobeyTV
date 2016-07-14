@@ -38,7 +38,11 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.activity.TestActivity"
-            android:theme="@style/AppTheme.NoTitleFullscreen" />
+            android:theme="@style/AppTheme.NoTitleFullscreen">
+        </activity>
+        <activity android:name=".ui.activity.PiePolylineChartActivity">
+
+        </activity>
         <activity
             android:name=".ui.activity.StartUpActivity"
             android:label="@string/title_activity_start_up"
@@ -99,7 +103,11 @@
         <activity
             android:name=".ui.activity.CountOrderActivity"
             android:label="@string/title_activity_count_order"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".ui.activity.CountActivity"
+            android:label="@string/title_activity_count"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".ui.activity.DeviceListActivity"
             android:label="@string/title_activity_device_list"

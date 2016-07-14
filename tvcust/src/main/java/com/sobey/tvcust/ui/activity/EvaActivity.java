@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,7 +16,7 @@ import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
 import com.google.gson.Gson;
-import com.sobey.common.common.CommonNet;
+import com.sobey.tvcust.common.CommonNet;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.AppVali;
@@ -332,6 +331,7 @@ public class EvaActivity extends BaseAppCompatActicity implements View.OnClickLi
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            setResult(RESULT_OK);
                             finish();
                         }
                     }, 800);

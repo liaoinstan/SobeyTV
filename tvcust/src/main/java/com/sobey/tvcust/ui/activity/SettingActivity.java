@@ -9,7 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.shelwee.update.UpdateHelper;
-import com.sobey.common.common.CommonNet;
+import com.sobey.tvcust.common.CommonNet;
 import com.sobey.common.utils.ClearCacheUtil;
 import com.sobey.common.utils.VersionUtil;
 import com.sobey.tvcust.R;

@@ -14,7 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
-import com.sobey.common.common.CommonNet;
+import com.sobey.tvcust.common.CommonNet;
 import com.sobey.common.utils.ApplicationHelp;
 import com.sobey.common.utils.MD5Util;
 import com.sobey.tvcust.R;

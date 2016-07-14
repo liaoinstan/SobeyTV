@@ -10,7 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sobey.common.common.CommonNet;
+import com.sobey.tvcust.common.CommonNet;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.LoadingViewUtil;
@@ -44,6 +44,8 @@ public class OrderProgActivity extends BaseAppCompatActicity implements View.OnC
 
     private int orderId;
     private User user;
+
+    private static final int RESULT_EVA = 0xf101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -203,6 +205,19 @@ public class OrderProgActivity extends BaseAppCompatActicity implements View.OnC
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case RESULT_EVA:
+                if (resultCode == RESULT_OK) {
+                    btn_go_eva.setVisibility(View.GONE);
+                    btn_go_evadetail.setVisibility(View.VISIBLE);
+                }
+                break;
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -225,6 +240,7 @@ public class OrderProgActivity extends BaseAppCompatActicity implements View.OnC
                 intent.setClass(this,EvaActivity.class);
                 intent.putExtra("orderId",orderId);
                 startActivity(intent);
+                startActivityForResult(intent,RESULT_EVA);
                 break;
         }
     }
