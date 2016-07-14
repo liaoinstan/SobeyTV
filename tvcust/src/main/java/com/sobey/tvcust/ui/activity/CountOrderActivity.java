@@ -12,10 +12,12 @@ import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
@@ -28,11 +30,17 @@ import com.github.mikephil.charting.interfaces.datasets.IPieDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.sobey.common.utils.TimeUtil;
 import com.sobey.tvcust.R;
+import com.sobey.tvcust.common.AppData;
+import com.sobey.tvcust.common.CommonNet;
 import com.sobey.tvcust.common.DividerItemDecoration;
 import com.sobey.tvcust.common.LoadingViewUtil;
+import com.sobey.tvcust.entity.CommonEntity;
+import com.sobey.tvcust.entity.CountEntity;
 import com.sobey.tvcust.entity.TestEntity;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterCountOrder;
 import com.sobey.tvcust.ui.dialog.DialogMouthPicker;
+
+import org.xutils.http.RequestParams;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -42,7 +50,7 @@ import java.util.List;
 public class CountOrderActivity extends BaseAppCompatActicity implements View.OnClickListener {
 
     private RecyclerView recyclerView;
-    private List<TestEntity> results = new ArrayList<>();
+    private List<CountEntity> results = new ArrayList<>();
     private RecycleAdapterCountOrder adapter;
     private ViewGroup showingroup;
     private View showin;
@@ -56,6 +64,9 @@ public class CountOrderActivity extends BaseAppCompatActicity implements View.On
     private DialogMouthPicker dialog;
 
     private String format = "yyyy年MM月";
+    private String yearM;
+
+    ArrayList<Integer> colors = new ArrayList<Integer>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +90,17 @@ public class CountOrderActivity extends BaseAppCompatActicity implements View.On
 
     private void initBase() {
         dialog = new DialogMouthPicker(this);
+        for (int c : ColorTemplate.LIBERTY_COLORS)
+            colors.add(c);
+        for (int c : ColorTemplate.PASTEL_COLORS)
+            colors.add(c);
+        for (int c : ColorTemplate.COLORFUL_COLORS)
+            colors.add(c);
+        for (int c : ColorTemplate.JOYFUL_COLORS)
+            colors.add(c);
+        for (int c : ColorTemplate.VORDIPLOM_COLORS)
+            colors.add(c);
+        colors.add(ColorTemplate.getHoloBlue());
     }
 
     private void initView() {
@@ -92,41 +114,61 @@ public class CountOrderActivity extends BaseAppCompatActicity implements View.On
         text_time = (TextView) findViewById(R.id.text_countorder_time);
 
         String datestr = TimeUtil.getTimeFor(format, new Date());
+        yearM = TimeUtil.getStrByStr(format, "yyyyMM", datestr);
         text_time.setText(datestr);
     }
 
     private void initData() {
-        showin = LoadingViewUtil.showin(showingroup, R.layout.layout_loading, showin, false);
-        new Handler().postDelayed(new Runnable() {
+        RequestParams params = new RequestParams(AppData.Url.countOrdersMonth);
+        params.addHeader("token", AppData.App.getToken());
+        params.addBodyParameter("yearM",yearM);
+        CommonNet.samplepost(params,CommonEntity.class,new CommonNet.SampleNetHander(){
             @Override
-            public void run() {
-                //加载成功
-                results.clear();
-                results.add(new TestEntity());
-                results.add(new TestEntity());
+            public void netGo(int code, Object pojo, String text, Object obj) {
+                if (pojo==null){
+                    netSetError(code,"错误:返回数据为空");
+                }else {
+                    CommonEntity com = (CommonEntity) pojo;
 
-                IPieDataSet dataSet_finish = chart_finish.getData().getDataSet();
-                dataSet_finish.clear();
-                dataSet_finish.addEntry(new PieEntry(25, ""));
-                dataSet_finish.addEntry(new PieEntry(75, ""));
+                    if (com.getFinished()!=0||com.getNonFinished()!=0) {
+                        results.clear();
+                        results.add(new CountEntity("已完成", com.getFinished(), colors.get(0)));
+                        results.add(new CountEntity("未完成", com.getNonFinished(), colors.get(1)));
 
-                IPieDataSet dataSet_unfinish = chart_unfinish.getData().getDataSet();
-                dataSet_unfinish.clear();
-                dataSet_unfinish.addEntry(new PieEntry(75, ""));
-                dataSet_unfinish.addEntry(new PieEntry(25, ""));
+                        IPieDataSet dataSet_finish = chart_finish.getData().getDataSet();
+                        dataSet_finish.clear();
+                        dataSet_finish.addEntry(new PieEntry(com.getFinished()));
+                        dataSet_finish.addEntry(new PieEntry(com.getNonFinished()));
 
-                LoadingViewUtil.showout(showingroup, showin);
+                        IPieDataSet dataSet_unfinish = chart_unfinish.getData().getDataSet();
+                        dataSet_unfinish.clear();
+                        dataSet_unfinish.addEntry(new PieEntry(com.getNonFinished()));
+                        dataSet_unfinish.addEntry(new PieEntry(com.getFinished()));
 
-                freshCtrl();
-                //加载失败
-//                LoadingViewUtil.showin(showingroup,R.layout.layout_lack,showin,new View.OnClickListener(){
-//                    @Override
-//                    public void onClick(View v) {
-//                        initData();
-//                    }
-//                });
+                        freshCtrl();
+
+                        LoadingViewUtil.showout(showingroup, showin);
+                    }else {
+                        showin = LoadingViewUtil.showin(showingroup, R.layout.layout_lack, showin);
+                    }
+                }
             }
-        }, 1000);
+            @Override
+            public void netSetError(int code, String text) {
+                Toast.makeText(CountOrderActivity.this,text, Toast.LENGTH_SHORT).show();
+                showin = LoadingViewUtil.showin(showingroup, R.layout.layout_fail, showin, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        initData();
+                    }
+                });
+            }
+
+            @Override
+            public void netStart(int code) {
+                showin = LoadingViewUtil.showin(showingroup, R.layout.layout_loading, showin, false);
+            }
+        });
     }
 
     private void initCtrl() {
@@ -143,6 +185,7 @@ public class CountOrderActivity extends BaseAppCompatActicity implements View.On
             public void onOkClick(Date date) {
                 String strdate = TimeUtil.getTimeFor("yyyy年MM月", date);
                 text_time.setText(strdate);
+                yearM = TimeUtil.getStrByStr(format, "yyyyMM", strdate);
                 initData();
             }
         });
@@ -210,20 +253,6 @@ public class CountOrderActivity extends BaseAppCompatActicity implements View.On
 
         // add a lot of colors
 
-        ArrayList<Integer> colors = new ArrayList<Integer>();
-        for (int c : ColorTemplate.LIBERTY_COLORS)
-            colors.add(c);
-        for (int c : ColorTemplate.PASTEL_COLORS)
-            colors.add(c);
-        for (int c : ColorTemplate.COLORFUL_COLORS)
-            colors.add(c);
-        for (int c : ColorTemplate.JOYFUL_COLORS)
-            colors.add(c);
-        for (int c : ColorTemplate.VORDIPLOM_COLORS)
-            colors.add(c);
-
-        colors.add(ColorTemplate.getHoloBlue());
-
         dataSet.setColors(colors);
         //dataSet.setSelectionShift(0f);
 
@@ -279,21 +308,23 @@ public class CountOrderActivity extends BaseAppCompatActicity implements View.On
         switch (v.getId()) {
             case R.id.btn_countorder_bank: {
                 String datestr = text_time.getText().toString();
-                String datelaststr = TimeUtil.add("yyyy年MM月", datestr, Calendar.MONTH, -1);
+                String datelaststr = TimeUtil.add(format, datestr, Calendar.MONTH, -1);
                 text_time.setText(datelaststr);
+                yearM = TimeUtil.getStrByStr(format, "yyyyMM", datelaststr);
                 initData();
                 break;
             }
             case R.id.btn_countorder_next: {
                 String datestr = text_time.getText().toString();
-                String datelaststr = TimeUtil.add("yyyy年MM月", datestr, Calendar.MONTH, 1);
+                String datelaststr = TimeUtil.add(format, datestr, Calendar.MONTH, 1);
                 text_time.setText(datelaststr);
+                yearM = TimeUtil.getStrByStr(format, "yyyyMM", datelaststr);
                 initData();
                 break;
             }
             case R.id.text_countorder_time:
                 String datestr = text_time.getText().toString();
-                Date date = TimeUtil.getDateByStr("yyyy年MM月", datestr);
+                Date date = TimeUtil.getDateByStr(format, datestr);
                 dialog.setDate(date);
                 dialog.show();
                 break;

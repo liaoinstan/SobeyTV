@@ -38,4 +38,11 @@ public class UrlUtils {
         String afturl = para + "&sign=" + sign;
         return afturl;
     }
+
+    /**
+     * String url= "http://120.76.165.97/sobey/center/openservice/stats/station";
+     * HashMap<String, String> map = new HashMap<>();
+     * map.put("station","CCTV");
+     * String newurl= UrlUtils.geturl(map, url);
+     */
 }

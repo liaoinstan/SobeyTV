@@ -12,13 +12,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.sobey.common.common.CustomBitmapLoadCallBack;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppConstant;
 import com.sobey.tvcust.common.AppData;
+import com.sobey.tvcust.common.CommonNet;
 import com.sobey.tvcust.common.LoadingViewUtil;
+import com.sobey.tvcust.entity.CommonEntity;
+import com.sobey.tvcust.entity.CommonPojo;
 import com.sobey.tvcust.entity.User;
 import com.sobey.tvcust.ui.activity.CountActivity;
 import com.sobey.tvcust.ui.activity.CountOrderActivity;
@@ -29,6 +33,7 @@ import com.sobey.tvcust.ui.activity.SettingActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.xutils.http.RequestParams;
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
@@ -49,6 +54,11 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
     private View btn_go_medetail;
     private ImageView img_me_header;
     private TextView text_me_name;
+    private TextView text_me_signs;
+    private TextView text_me_warnings;
+    private TextView text_me_orders;
+    private View lay_me_warnings;
+
 
     private User user;
 
@@ -110,9 +120,20 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
         item_me_setting = getView().findViewById(R.id.item_me_setting);
         img_me_header = (ImageView) getView().findViewById(R.id.img_me_header);
         text_me_name = (TextView) getView().findViewById(R.id.text_me_name);
+        text_me_signs = (TextView) getView().findViewById(R.id.text_me_signs);
+        text_me_warnings = (TextView) getView().findViewById(R.id.text_me_warnings);
+        text_me_orders = (TextView) getView().findViewById(R.id.text_me_orders);
+        lay_me_warnings = getView().findViewById(R.id.lay_me_warnings);
 
         btn_go_medetail = getView().findViewById(R.id.btn_go_medetail);
         btn_go_medetail.setOnClickListener(this);
+
+        //只有用户有累计报警
+        if (user.getRoleType()==User.ROLE_COMMOM){
+            lay_me_warnings.setVisibility(View.VISIBLE);
+        }else {
+            lay_me_warnings.setVisibility(View.GONE);
+        }
 
         //本地数据初始化展示
         if (user!=null) {
@@ -121,23 +142,8 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
     }
 
     private void initData() {
-        showin = LoadingViewUtil.showin(showingroup,R.layout.layout_loading,showin,false);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //加载成功
-                initCtrl();
-                LoadingViewUtil.showout(showingroup,showin);
-
-                //加载失败
-//                LoadingViewUtil.showin(showingroup,R.layout.layout_lack,showin,new View.OnClickListener(){
-//                    @Override
-//                    public void onClick(View v) {
-//                        initData();
-//                    }
-//                });
-            }
-        }, 2000);
+        netCountOrder();
+        initCtrl();
     }
 
     private void initCtrl() {
@@ -186,5 +192,26 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
                 startActivity(intent);
                 break;
         }
+    }
+
+    private void netCountOrder(){
+        RequestParams params = new RequestParams(AppData.Url.countOrders);
+        params.addHeader("token", AppData.App.getToken());
+        CommonNet.samplepost(params,CommonEntity.class,new CommonNet.SampleNetHander(){
+            @Override
+            public void netGo(int code, Object pojo, String text, Object obj) {
+                if (pojo==null){
+                    netSetError(code,"错误:返回数据为空");
+                }else {
+                    CommonEntity com = (CommonEntity) pojo;
+                    int count = com.getCount();
+                    text_me_orders.setText(count+"次");
+                }
+            }
+            @Override
+            public void netSetError(int code, String text) {
+                Toast.makeText(getActivity(),text, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

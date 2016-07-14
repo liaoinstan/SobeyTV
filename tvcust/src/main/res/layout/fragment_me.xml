@@ -88,9 +88,10 @@
                                 android:orientation="vertical">
 
                                 <TextView
+                                    android:id="@+id/text_me_signs"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="276天"
+                                    android:text="天"
                                     android:textColor="@color/sb_text_blank_deep"
                                     android:textSize="@dimen/text_small" />
 
@@ -107,6 +108,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/lay_me_warnings"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -126,9 +128,10 @@
                                 android:orientation="vertical">
 
                                 <TextView
+                                    android:id="@+id/text_me_warnings"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="125次"
+                                    android:text="次"
                                     android:textColor="@color/sb_text_blank_deep"
                                     android:textSize="@dimen/text_small" />
 
@@ -164,9 +167,10 @@
                                 android:orientation="vertical">
 
                                 <TextView
+                                    android:id="@+id/text_me_orders"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="126次"
+                                    android:text="次"
                                     android:textColor="@color/sb_text_blank_deep"
                                     android:textSize="@dimen/text_small" />
 
@@ -185,6 +189,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginBottom="16dp"
@@ -345,6 +350,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">

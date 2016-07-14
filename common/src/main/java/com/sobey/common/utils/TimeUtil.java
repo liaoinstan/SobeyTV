@@ -82,6 +82,19 @@ public class TimeUtil {
     }
 
     /**
+     * 把时间字符串转为指定格式的时间字符串
+     * @param formatfrom
+     * @param formatto
+     * @param dateStr
+     * @return
+     */
+    public static String getStrByStr(String formatfrom,String formatto, String dateStr){
+        Date date = getDateByStr(formatfrom, dateStr);
+        String ret = getTimeFor(formatto, date);
+        return ret;
+    }
+
+    /**
      * 去掉日期后面的时分秒
      *
      * @param date

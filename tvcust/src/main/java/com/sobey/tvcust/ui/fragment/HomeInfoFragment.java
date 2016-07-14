@@ -14,14 +14,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.sobey.common.entity.Images;
+import com.sobey.common.view.BannerView;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.LoadingViewUtil;
 import com.sobey.tvcust.ui.activity.SignActivity;
+import com.sobey.tvcust.ui.activity.WebActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2016/6/2 0002.
  */
-public class HomeInfoFragment extends BaseFragment implements View.OnClickListener{
+public class HomeInfoFragment extends BaseFragment implements View.OnClickListener,BannerView.OnBannerClickListener{
 
     private int position;
     private View rootView;
@@ -29,9 +35,12 @@ public class HomeInfoFragment extends BaseFragment implements View.OnClickListen
     private ViewPager viewPager;
     private MyPagerAdapter pagerAdapter;
     private TabLayout tab;
+    private BannerView banner;
 
     private View btn_go_scan;
     private View btn_go_sign;
+
+    private List<Images> images = new ArrayList<>();
 
     public static Fragment newInstance(int position) {
         HomeInfoFragment f = new HomeInfoFragment();
@@ -74,9 +83,16 @@ public class HomeInfoFragment extends BaseFragment implements View.OnClickListen
         btn_go_sign = getView().findViewById(R.id.btn_go_sign);
         viewPager = (ViewPager) getView().findViewById(R.id.pager_info);
         tab = (TabLayout) getView().findViewById(R.id.tab_info);
+        banner = (BannerView) getView().findViewById(R.id.banner);
     }
 
     private void initData() {
+        images.clear();
+        images.add(new Images(1,"夏季衬衫，清凉一夏","http://img2.imgtn.bdimg.com/it/u=2401368128,869327646&fm=21&gp=0.jpg"));
+        images.add(new Images(2,"男子怒打妻儿，竟然只为了买一件衣服","http://img1.imgtn.bdimg.com/it/u=839795904,770645941&fm=21&gp=0.jpg"));
+        images.add(new Images(3,"冠希复出，陈妍希表示呵呵","http://pic44.nipic.com/20140726/6205649_111852997000_2.jpg"));
+        images.add(new Images(4,"iphon7预览版发售，你还在等什么","http://img4.imgtn.bdimg.com/it/u=3831361042,2579496760&fm=21&gp=0.jpg"));
+        images.add(new Images(5,"马云：成功不只是嘴上说说","http://img0.imgtn.bdimg.com/it/u=1415714570,832901974&fm=21&gp=0.jpg"));
     }
 
     private void initCtrl() {
@@ -85,6 +101,10 @@ public class HomeInfoFragment extends BaseFragment implements View.OnClickListen
         pagerAdapter = new MyPagerAdapter(getActivity().getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
         tab.setupWithViewPager(viewPager);
+
+        banner.showTitle(false);
+        banner.setDatas(images);
+        banner.setOnBannerClickListener(this);
     }
 
     @Override
@@ -100,6 +120,13 @@ public class HomeInfoFragment extends BaseFragment implements View.OnClickListen
         }
     }
 
+    @Override
+    public void onBannerClick(int position) {
+        Intent intent = new Intent(getActivity(), WebActivity.class);
+        intent.putExtra("title","资讯");
+        intent.putExtra("url","http://cn.bing.com");//https://github.com    //http://cn.bing.com
+        getActivity().startActivity(intent);
+    }
 
     private class MyPagerAdapter extends FragmentPagerAdapter {
 

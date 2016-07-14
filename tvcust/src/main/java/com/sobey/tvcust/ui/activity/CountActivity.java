@@ -11,10 +11,12 @@ import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
@@ -27,21 +29,29 @@ import com.github.mikephil.charting.interfaces.datasets.IPieDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.sobey.common.utils.TimeUtil;
 import com.sobey.tvcust.R;
+import com.sobey.tvcust.common.AppData;
+import com.sobey.tvcust.common.CommonNet;
 import com.sobey.tvcust.common.DividerItemDecoration;
 import com.sobey.tvcust.common.LoadingViewUtil;
+import com.sobey.tvcust.entity.CommonEntity;
+import com.sobey.tvcust.entity.CountEntity;
+import com.sobey.tvcust.entity.CountPojo;
 import com.sobey.tvcust.entity.TestEntity;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterCountOrder;
 import com.sobey.tvcust.ui.dialog.DialogMouthPicker;
+
+import org.xutils.http.RequestParams;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class CountActivity extends BaseAppCompatActicity implements View.OnClickListener{
 
     private RecyclerView recyclerView;
-    private List<TestEntity> results = new ArrayList<>();
+    private List<CountEntity> results = new ArrayList<>();
     private RecycleAdapterCountOrder adapter;
     private ViewGroup showingroup;
     private View showin;
@@ -54,6 +64,9 @@ public class CountActivity extends BaseAppCompatActicity implements View.OnClick
     private DialogMouthPicker dialog;
 
     private String format = "yyyy年MM月";
+    private String yearM;
+
+    ArrayList<Integer> colors = new ArrayList<Integer>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +90,17 @@ public class CountActivity extends BaseAppCompatActicity implements View.OnClick
 
     private void initBase() {
         dialog = new DialogMouthPicker(this);
+        for (int c : ColorTemplate.LIBERTY_COLORS)
+            colors.add(c);
+        for (int c : ColorTemplate.PASTEL_COLORS)
+            colors.add(c);
+        for (int c : ColorTemplate.COLORFUL_COLORS)
+            colors.add(c);
+        for (int c : ColorTemplate.JOYFUL_COLORS)
+            colors.add(c);
+        for (int c : ColorTemplate.VORDIPLOM_COLORS)
+            colors.add(c);
+        colors.add(ColorTemplate.getHoloBlue());
     }
 
     private void initView() {
@@ -89,40 +113,60 @@ public class CountActivity extends BaseAppCompatActicity implements View.OnClick
         text_time = (TextView) findViewById(R.id.text_countorder_time);
 
         String datestr = TimeUtil.getTimeFor(format, new Date());
+        yearM = TimeUtil.getStrByStr(format, "yyyyMM", datestr);
         text_time.setText(datestr);
     }
 
     private void initData() {
-        showin = LoadingViewUtil.showin(showingroup,R.layout.layout_loading,showin,false);
-        new Handler().postDelayed(new Runnable() {
+        RequestParams params = new RequestParams(AppData.Url.countOrderCategory);
+        params.addHeader("token", AppData.App.getToken());
+        params.addBodyParameter("yearM",yearM);
+        CommonNet.samplepost(params,CountPojo.class,new CommonNet.SampleNetHander(){
             @Override
-            public void run() {
-                //加载成功
-                results.clear();
-                results.add(new TestEntity());
-                results.add(new TestEntity());
-                results.add(new TestEntity());
-                results.add(new TestEntity());
+            public void netGo(int code, Object pojo, String text, Object obj) {
+                if (pojo==null){
+                    netSetError(code,"错误:返回数据为空");
+                }else {
+                    CountPojo com = (CountPojo)pojo;
 
-                IPieDataSet dataSet = chartView.getData().getDataSet();
-                dataSet.clear();
-                dataSet.addEntry(new PieEntry(34,"A"));
-                dataSet.addEntry(new PieEntry(65,"B"));
-                dataSet.addEntry(new PieEntry(12,"C"));
-                dataSet.addEntry(new PieEntry(87,"D"));
+                    Map<String, Integer> dataList = com.getDataList();
+                    List<CountEntity> counts = getCountListFromMap(dataList);
 
-                LoadingViewUtil.showout(showingroup,showin);
+                    if (counts!=null && counts.size()!=0) {
+                        results.clear();
+                        results.addAll(counts);
 
-                freshCtrl();
-                //加载失败
-//                LoadingViewUtil.showin(showingroup,R.layout.layout_lack,showin,new View.OnClickListener(){
-//                    @Override
-//                    public void onClick(View v) {
-//                        initData();
-//                    }
-//                });
+                        IPieDataSet dataSet = chartView.getData().getDataSet();
+                        dataSet.clear();
+
+                        for (CountEntity count : counts) {
+                            dataSet.addEntry(new PieEntry(count.getValue()/**count.getName()**/));
+                        }
+
+                        freshCtrl();
+
+                        LoadingViewUtil.showout(showingroup, showin);
+                    }else {
+                        showin = LoadingViewUtil.showin(showingroup, R.layout.layout_lack, showin);
+                    }
+                }
             }
-        }, 1000);
+            @Override
+            public void netSetError(int code, String text) {
+                Toast.makeText(CountActivity.this,text, Toast.LENGTH_SHORT).show();
+                showin = LoadingViewUtil.showin(showingroup, R.layout.layout_fail, showin, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        initData();
+                    }
+                });
+            }
+
+            @Override
+            public void netStart(int code) {
+                showin = LoadingViewUtil.showin(showingroup, R.layout.layout_loading, showin, false);
+            }
+        });
     }
 
     private void initCtrl() {
@@ -139,6 +183,7 @@ public class CountActivity extends BaseAppCompatActicity implements View.OnClick
             public void onOkClick(Date date) {
                 String strdate = TimeUtil.getTimeFor("yyyy年MM月", date);
                 text_time.setText(strdate);
+                yearM = TimeUtil.getStrByStr(format, "yyyyMM", strdate);
                 initData();
             }
         });
@@ -192,20 +237,6 @@ public class CountActivity extends BaseAppCompatActicity implements View.OnClick
 
         // add a lot of colors
 
-        ArrayList<Integer> colors = new ArrayList<Integer>();
-        for (int c : ColorTemplate.LIBERTY_COLORS)
-            colors.add(c);
-        for (int c : ColorTemplate.PASTEL_COLORS)
-            colors.add(c);
-        for (int c : ColorTemplate.COLORFUL_COLORS)
-            colors.add(c);
-        for (int c : ColorTemplate.JOYFUL_COLORS)
-            colors.add(c);
-        for (int c : ColorTemplate.VORDIPLOM_COLORS)
-            colors.add(c);
-
-        colors.add(ColorTemplate.getHoloBlue());
-
         dataSet.setColors(colors);
         //dataSet.setSelectionShift(0f);
 
@@ -252,6 +283,7 @@ public class CountActivity extends BaseAppCompatActicity implements View.OnClick
                 String datestr = text_time.getText().toString();
                 String datelaststr = TimeUtil.add("yyyy年MM月", datestr, Calendar.MONTH, -1);
                 text_time.setText(datelaststr);
+                yearM = TimeUtil.getStrByStr(format, "yyyyMM", datelaststr);
                 initData();
                 break;
             }
@@ -259,6 +291,7 @@ public class CountActivity extends BaseAppCompatActicity implements View.OnClick
                 String datestr = text_time.getText().toString();
                 String datelaststr = TimeUtil.add("yyyy年MM月", datestr, Calendar.MONTH, 1);
                 text_time.setText(datelaststr);
+                yearM = TimeUtil.getStrByStr(format, "yyyyMM", datelaststr);
                 initData();
                 break;
             }
@@ -269,6 +302,20 @@ public class CountActivity extends BaseAppCompatActicity implements View.OnClick
                 dialog.show();
                 break;
         }
+    }
+
+    private List<CountEntity> getCountListFromMap(Map<String,Integer> map){
+        ArrayList<CountEntity> counts = new ArrayList<>();
+        if (map != null && map.size() > 0) {
+            int i= 0;
+            for (Map.Entry<String, Integer> entry : map.entrySet()) {
+                String key = entry.getKey();
+                int value = entry.getValue();
+                counts.add(new CountEntity(key,value,colors.get(i%colors.size())));
+                i++;
+            }
+        }
+        return counts;
     }
 
     private SpannableString generateCenterSpannableText() {

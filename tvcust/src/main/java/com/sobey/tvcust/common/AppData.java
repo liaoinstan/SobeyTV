@@ -91,8 +91,8 @@ public class AppData {
 		 * 服务器域名
 		 */
 //		private static final String domain = "https://api.cczcrv.com";											//正式服务器
-		private static final String domain = "http://101.201.222.160:8084";								//测试服务器
-//		private static final String domain = "http://192.168.0.144:8080";								//开发服务器
+//		private static final String domain = "http://101.201.222.160:8084";								//测试服务器
+		private static final String domain = "http://192.168.0.144:8080";								//开发服务器
 		
 		/**
 		 * 接口请求地址
@@ -133,8 +133,12 @@ public class AppData {
 		public static final String getEva				= domain + "/SanghaCloud/comment/getcomment";					//获取评论
 		public static final String addcomplain			= domain + "/SanghaCloud/complain/addcomplain";				//提交投诉
 		public static final String statusToAppraise	= domain + "/SanghaCloud/order/statusToAppraise";			//用户接受处理结果
-
 		public static final String isComplain			= domain + "/SanghaCloud/complain/checkcomplain";			//是否被投诉
+		public static final String countOrders			= domain + "/SanghaCloud/order/countOrders";					//派单统计
+
+		public static final String countOrdersMonth	= domain + "/SanghaCloud/order/countOrdersMonth";			//当月已完成未完成派单统计
+		public static final String countOrderCategory	= domain + "/SanghaCloud/order/countOrderCategory";			//当月问题分类统计统计
+
 
 	}
 }

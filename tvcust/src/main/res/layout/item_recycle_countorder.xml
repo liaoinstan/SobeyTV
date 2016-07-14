@@ -7,22 +7,24 @@
     android:gravity="center_vertical"
     android:orientation="horizontal">
 
-    <ImageView
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/img_count_dot"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
         android:layout_marginLeft="20dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/shape_oval_track"/>
+        android:src="@color/sb_bk_dark"/>
 
     <TextView
+        android:id="@+id/text_count_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:textSize="@dimen/text_big_nomal"
         android:textColor="@color/sb_text_blank_deep"
-        android:text="问题1"/>
+        android:text="类型"/>
 
     <TextView
+        android:id="@+id/text_count_value"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="right"

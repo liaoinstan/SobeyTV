@@ -81,7 +81,7 @@ public class OrderProgActivity extends BaseAppCompatActicity implements View.OnC
         CommonNet.samplepost(params,OrderTrackPojo.class,new CommonNet.SampleNetHander(){
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
-                if (pojo == null) netSetError(code, text);
+                if (pojo == null) netSetError(code, "错误:返回数据为空");
                 else {
                     OrderTrackPojo trackPojo = (OrderTrackPojo) pojo;
                     List<OrderTrack> tracks = trackPojo.getDataList();
@@ -93,7 +93,9 @@ public class OrderProgActivity extends BaseAppCompatActicity implements View.OnC
                         setData(trackPojo.getOrder());
                         LoadingViewUtil.showout(showingroup, showin);
                     } else {
-                        LoadingViewUtil.showin(showingroup, R.layout.layout_lack, showin);
+                        LoadingViewUtil.showout(showingroup, showin);
+                        //这个页面没有数据的话直接showout，不显示lack
+                        //LoadingViewUtil.showin(showingroup, R.layout.layout_lack, showin);
                     }
                 }
             }

@@ -18,8 +18,34 @@ public class CommonEntity {
 
     @SerializedName("type")
     private int type;
+
     @SerializedName("url")
     private String filePath;
+
+    @SerializedName("count")
+    private int count;
+
+    @SerializedName("finished")
+    private int finished;
+
+    @SerializedName("nonFinished")
+    private int nonFinished;
+
+    public int getFinished() {
+        return finished;
+    }
+
+    public void setFinished(int finished) {
+        this.finished = finished;
+    }
+
+    public int getNonFinished() {
+        return nonFinished;
+    }
+
+    public void setNonFinished(int nonFinished) {
+        this.nonFinished = nonFinished;
+    }
 
     public String getFilePath() {
         return filePath;
@@ -61,6 +87,14 @@ public class CommonEntity {
         this.valicode = valicode;
     }
 
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
     @Override
     public String toString() {
         return "CommonEntity{" +
@@ -69,6 +103,7 @@ public class CommonEntity {
                 ", categoryName='" + categoryName + '\'' +
                 ", type=" + type +
                 ", filePath='" + filePath + '\'' +
+                ", count=" + count +
                 '}';
     }
 }

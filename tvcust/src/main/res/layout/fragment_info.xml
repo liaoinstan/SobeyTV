@@ -81,6 +81,13 @@
             app:tabSelectedTextColor="@color/white"
             app:tabTextColor="@color/sb_text_light" />
 
+        <com.sobey.common.view.BannerView
+            android:id="@+id/banner"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:banner_selected_drawable="@drawable/shape_oval_dot_glod"
+            app:banner_unselected_drawable="@drawable/shape_oval_dot_line" />
+
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager

@@ -108,7 +108,7 @@ public class AssistActivity extends BaseAppCompatActicity implements View.OnClic
             public void netSetError(int code, String text) {
                 if (isFirst) {
                     Toast.makeText(AssistActivity.this, text, Toast.LENGTH_SHORT).show();
-                    LoadingViewUtil.showin(showingroup, R.layout.layout_fail, showin, new View.OnClickListener() {
+                    showin = LoadingViewUtil.showin(showingroup, R.layout.layout_fail, showin, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             initData(true);

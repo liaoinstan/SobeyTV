@@ -119,7 +119,8 @@ public class InfoQuanFragment extends BaseFragment implements OnRecycleItemClick
     }
 
     private void initCtrl() {
-        adapter = new RecycleAdapterInfoQuan(getActivity(),results,images,position==0?true:false);
+//        adapter = new RecycleAdapterInfoQuan(getActivity(),results,images,position==0?true:false);
+        adapter = new RecycleAdapterInfoQuan(getActivity(),results,images,false);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity()));
         recyclerView.setAdapter(adapter);
