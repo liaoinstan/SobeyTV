@@ -32,6 +32,7 @@
             app:layout_scrollFlags="scroll|enterAlways">
 
             <TextView
+                android:id="@+id/text_sign_do"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

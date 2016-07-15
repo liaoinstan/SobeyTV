@@ -63,7 +63,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:scaleType="center"
-                android:src="@drawable/icon_info_zan"/>
+                android:src="@drawable/hot_zan"/>
 
             <TextView
                 android:layout_width="match_parent"

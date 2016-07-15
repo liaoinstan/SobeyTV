@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.sobey.tvcust.entity.Sign;
 import com.sobey.tvcust.entity.TestEntity;
 import com.sobey.tvcust.interfaces.OnRecycleItemClickListener;
 
@@ -16,13 +17,13 @@ public class RecycleAdapterSignList extends RecyclerView.Adapter<RecycleAdapterS
 
     private Context context;
     private int src;
-    private List<TestEntity> results;
+    private List<Sign> results;
 
-    public List<TestEntity> getResults() {
+    public List<Sign> getResults() {
         return results;
     }
 
-    public RecycleAdapterSignList(Context context, int src, List<TestEntity> results) {
+    public RecycleAdapterSignList(Context context, int src, List<Sign> results) {
         this.context = context;
         this.src = src;
         this.results = results;

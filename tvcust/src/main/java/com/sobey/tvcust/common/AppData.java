@@ -92,8 +92,9 @@ public class AppData {
 		 */
 //		private static final String domain = "https://api.cczcrv.com";											//正式服务器
 //		private static final String domain = "http://101.201.222.160:8084";								//测试服务器
-		private static final String domain = "http://192.168.0.144:8080";								//开发服务器
-		
+//		private static final String domain = "http://192.168.0.144:8080";								//开发服务器
+		private static final String domain = "http://192.168.1.123:8080";								//开发服务器
+
 		/**
 		 * 接口请求地址
 		 */
@@ -135,10 +136,15 @@ public class AppData {
 		public static final String statusToAppraise	= domain + "/SanghaCloud/order/statusToAppraise";			//用户接受处理结果
 		public static final String isComplain			= domain + "/SanghaCloud/complain/checkcomplain";			//是否被投诉
 		public static final String countOrders			= domain + "/SanghaCloud/order/countOrders";					//派单统计
-
 		public static final String countOrdersMonth	= domain + "/SanghaCloud/order/countOrdersMonth";			//当月已完成未完成派单统计
 		public static final String countOrderCategory	= domain + "/SanghaCloud/order/countOrderCategory";			//当月问题分类统计统计
+		public static final String getNewsList			= domain + "/SanghaCloud/news/getNewsList";					//分页获取文章列表
+		public static final String getBanners			= domain + "/SanghaCloud/news/getBanners";					//获取banner
 
+		public static final String zan					= domain + "/SanghaCloud/news/increaseLikes";					//点赞
 
+		public static final String sign					= domain + "/SanghaCloud/news/increaseLikesxx";				//签到
+		public static final String iszan					= domain + "/SanghaCloud/news/increaseLikesxx";				//查询用户是否点赞
+		public static final String getUserSign			= domain + "/SanghaCloud/news/increaseLikesxx";				//查询用户签到次数信息
 	}
 }

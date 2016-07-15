@@ -1,5 +1,6 @@
 package com.sobey.tvcust.ui.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,7 +14,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.lz.hybird.zqrlibrary.activity.MipcaActivityCapture;
 import com.sobey.common.entity.Images;
 import com.sobey.common.view.BannerView;
 import com.sobey.tvcust.R;
@@ -35,12 +38,12 @@ public class HomeInfoFragment extends BaseFragment implements View.OnClickListen
     private ViewPager viewPager;
     private MyPagerAdapter pagerAdapter;
     private TabLayout tab;
-    private BannerView banner;
 
     private View btn_go_scan;
     private View btn_go_sign;
 
     private List<Images> images = new ArrayList<>();
+    private static final int CODE_ZQR = 0xff10;// 结果
 
     public static Fragment newInstance(int position) {
         HomeInfoFragment f = new HomeInfoFragment();
@@ -83,7 +86,6 @@ public class HomeInfoFragment extends BaseFragment implements View.OnClickListen
         btn_go_sign = getView().findViewById(R.id.btn_go_sign);
         viewPager = (ViewPager) getView().findViewById(R.id.pager_info);
         tab = (TabLayout) getView().findViewById(R.id.tab_info);
-        banner = (BannerView) getView().findViewById(R.id.banner);
     }
 
     private void initData() {
@@ -101,10 +103,6 @@ public class HomeInfoFragment extends BaseFragment implements View.OnClickListen
         pagerAdapter = new MyPagerAdapter(getActivity().getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
         tab.setupWithViewPager(viewPager);
-
-        banner.showTitle(false);
-        banner.setDatas(images);
-        banner.setOnBannerClickListener(this);
     }
 
     @Override
@@ -112,10 +110,26 @@ public class HomeInfoFragment extends BaseFragment implements View.OnClickListen
         Intent intent = new Intent();
         switch (v.getId()){
             case R.id.btn_go_scan:
+                intent.setClass(getActivity(), MipcaActivityCapture.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivityForResult(intent,CODE_ZQR);
                 break;
             case R.id.btn_go_sign:
                 intent.setClass(getActivity(), SignActivity.class);
                 startActivity(intent);
+                break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case CODE_ZQR:
+                if (resultCode == Activity.RESULT_OK) {
+                    String result = data.getStringExtra(MipcaActivityCapture.KEY_RESULT);
+                    Toast.makeText(getActivity(),result,Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
     }

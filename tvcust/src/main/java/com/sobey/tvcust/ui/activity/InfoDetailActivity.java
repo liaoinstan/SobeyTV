@@ -14,15 +14,21 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.liaoinstan.springview.container.AliFooter;
 import com.liaoinstan.springview.container.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
 import com.sobey.share.sharesdk.dialog.ShareDialog;
 import com.sobey.tvcust.R;
+import com.sobey.tvcust.common.AppData;
+import com.sobey.tvcust.common.CommonNet;
 import com.sobey.tvcust.common.LoadingViewUtil;
+import com.sobey.tvcust.entity.CommonEntity;
 import com.sobey.tvcust.entity.TestEntity;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterMsg;
+
+import org.xutils.http.RequestParams;
 
 public class InfoDetailActivity extends BaseAppCompatActicity implements View.OnClickListener{
 
@@ -30,6 +36,7 @@ public class InfoDetailActivity extends BaseAppCompatActicity implements View.On
     private ImageView img_infodetail_share;
     private ImageView img_infodetail_zan;
     private String url;
+    private int newsId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +46,19 @@ public class InfoDetailActivity extends BaseAppCompatActicity implements View.On
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        url = getIntent().getStringExtra("url");
-
+        initBase();
         initView();
         initData();
         initCtrl();
+    }
+
+    private void initBase() {
+        if (getIntent().hasExtra("url")){
+            url = getIntent().getStringExtra("url");
+        }
+        if (getIntent().hasExtra("newsId")){
+            newsId = getIntent().getIntExtra("newsId",0);
+        }
     }
 
 
@@ -51,9 +66,36 @@ public class InfoDetailActivity extends BaseAppCompatActicity implements View.On
         img_infodetail_share = (ImageView) findViewById(R.id.img_infodetail_share);
         img_infodetail_zan = (ImageView) findViewById(R.id.img_infodetail_zan);
         webView = (WebView) findViewById(R.id.webview);
+        //默认不可及，获取到用户点赞状态后才显示
+        img_infodetail_zan.setVisibility(View.GONE);
     }
 
     private void initData() {
+        RequestParams params = new RequestParams(AppData.Url.iszan);
+        params.addHeader("token", AppData.App.getToken());
+        params.addBodyParameter("newsId",newsId+"");
+        CommonNet.samplepost(params,CommonEntity.class,new CommonNet.SampleNetHander(){
+            @Override
+            public void netGo(int code, Object pojo, String text, Object obj) {
+                if (pojo==null) netSetError(code,"错误，返回数据为空");
+                else {
+                    CommonEntity com = (CommonEntity) pojo;
+                    boolean izan = com.isZan();
+                    img_infodetail_zan.setVisibility(View.VISIBLE);
+                    //如果该用户赞了就不再赞了
+                    if (izan){
+                        img_infodetail_zan.setEnabled(false);
+                    }else {
+                        img_infodetail_zan.setEnabled(true);
+                    }
+                }
+            }
+
+            @Override
+            public void netSetError(int code, String text) {
+                Toast.makeText(InfoDetailActivity.this,text,Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void initCtrl() {
@@ -74,6 +116,7 @@ public class InfoDetailActivity extends BaseAppCompatActicity implements View.On
         return super.onOptionsItemSelected(item);
     }
 
+    private boolean isZaning = false;
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -82,6 +125,31 @@ public class InfoDetailActivity extends BaseAppCompatActicity implements View.On
                 shareDialog.show();
                 break;
             case R.id.img_infodetail_zan:
+                if (isZaning) return;
+                RequestParams params = new RequestParams(AppData.Url.zan);
+                params.addHeader("token", AppData.App.getToken());
+                params.addBodyParameter("newsId",newsId+"");
+                CommonNet.samplepost(params,CommonEntity.class,new CommonNet.SampleNetHander(){
+                    @Override
+                    public void netGo(int code, Object pojo, String text, Object obj) {
+                        img_infodetail_zan.setEnabled(false);
+                    }
+
+                    @Override
+                    public void netSetError(int code, String text) {
+                        Toast.makeText(InfoDetailActivity.this,text,Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void netStart(int code) {
+                        isZaning = true;
+                    }
+
+                    @Override
+                    public void netEnd(int code) {
+                        isZaning = false;
+                    }
+                });
                 break;
         }
     }

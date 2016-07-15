@@ -37,8 +37,8 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-//    compile 'com.android.support:design:23.3.0'
-//    compile 'com.android.support:cardview-v7:23.3.0'
+    //    compile 'com.android.support:design:23.3.0'
+    //    compile 'com.android.support:cardview-v7:23.3.0'
     compile project(':common')
     compile project(':jpush')
     compile project(':sharesdk')
@@ -51,7 +51,6 @@ dependencies {
     //compile 'com.daimajia.easing:library:1.0.1@aar'
     //compile 'com.daimajia.androidanimations:library:1.1.3@aar'
     //AndroidViewAnimations end
-
     //圆形ImageVIew
     compile 'de.hdodenhof:circleimageview:2.0.0'
     //流式标签布局
@@ -62,14 +61,12 @@ dependencies {
     //compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.0.6@aar'
     //wheelview
     compile 'com.wx.wheelview:wheelview:1.3.3'
-
     //圆形进度按钮
-//    compile 'com.github.dmytrodanylyk.circular-progress-button:library:1.1.3'
-//    compile project(':progressbutton')
-
+    //    compile 'com.github.dmytrodanylyk.circular-progress-button:library:1.1.3'
+    //    compile project(':progressbutton')
     //事件总线
     compile 'org.greenrobot:eventbus:3.0.0'
-
     //MPCharts
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.0-beta1'
+    compile project(':zqrlibrary')
 }

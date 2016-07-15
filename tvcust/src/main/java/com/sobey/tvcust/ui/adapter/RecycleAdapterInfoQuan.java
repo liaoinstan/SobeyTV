@@ -7,10 +7,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.sobey.common.entity.Images;
 import com.sobey.common.view.BannerView;
 import com.sobey.tvcust.R;
+import com.sobey.tvcust.entity.Article;
 import com.sobey.tvcust.entity.TestEntity;
 import com.sobey.tvcust.interfaces.OnRecycleItemClickListener;
 import com.sobey.tvcust.ui.activity.WebActivity;
@@ -22,17 +26,17 @@ public class RecycleAdapterInfoQuan extends RecyclerView.Adapter<RecyclerView.Vi
 
     private Context context;
     private boolean needBanner;
-    private List<TestEntity> results;
+    private List<Article> results;
     private List<Images> images;
 
-    public List<TestEntity> getResults() {
+    public List<Article> getResults() {
         return results;
     }
 
     public static final int TYPE_BANNER = 0xff01;
     public static final int TYPE_ITEM = 0xff02;
 
-    public RecycleAdapterInfoQuan(Context context, List<TestEntity> results,List<Images> images,boolean needBanner) {
+    public RecycleAdapterInfoQuan(Context context, List<Article> results,List<Images> images,boolean needBanner) {
         this.context = context;
         this.results = results;
         this.needBanner = needBanner;
@@ -54,16 +58,16 @@ public class RecycleAdapterInfoQuan extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (listener!=null) listener.onItemClick(holder);
-            }
-        });
         if (holder instanceof HolderBanner){
             bindTypeBanner((HolderBanner) holder, position);
         }else if (holder instanceof HolderItem){
-            bindTypeItem((HolderItem) holder, position);
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener!=null) listener.onItemClick(holder);
+                }
+            });
+            bindTypeItem((HolderItem) holder, position-1);  //因为多了bannder所有position-1
         }
     }
 
@@ -74,11 +78,15 @@ public class RecycleAdapterInfoQuan extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     private void bindTypeItem(HolderItem holder, int position) {
+        Article article = results.get(position);
+        Glide.with(context).load(article.getImageUrl()).placeholder(R.drawable.me_header_defalt).crossFade().into(holder.img_quan_item_pic);
+        holder.text_quan_item_title.setText(article.getTitle());
+        holder.text_quan_item_describe.setText(article.getTitle());
     }
 
     @Override
     public int getItemCount() {
-        return results.size();
+        return results.size()+1;
     }
 
     @Override
@@ -96,9 +104,10 @@ public class RecycleAdapterInfoQuan extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public void onBannerClick(int position) {
+        Images image = this.images.get(position);
         Intent intent = new Intent(context, WebActivity.class);
         intent.putExtra("title","资讯");
-        intent.putExtra("url","http://cn.bing.com");//https://github.com    //http://cn.bing.com
+        intent.putExtra("url",image.getUrl());//https://github.com    //http://cn.bing.com
         context.startActivity(intent);
     }
 
@@ -111,8 +120,14 @@ public class RecycleAdapterInfoQuan extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     public class HolderItem extends RecyclerView.ViewHolder {
+        public ImageView img_quan_item_pic;
+        public TextView text_quan_item_title;
+        public TextView text_quan_item_describe;
         public HolderItem(View itemView) {
             super(itemView);
+            img_quan_item_pic = (ImageView) itemView.findViewById(R.id.img_quan_item_pic);
+            text_quan_item_title = (TextView) itemView.findViewById(R.id.text_quan_item_title);
+            text_quan_item_describe = (TextView) itemView.findViewById(R.id.text_quan_item_describe);
         }
     }
 

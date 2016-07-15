@@ -31,6 +31,51 @@ public class CommonEntity {
     @SerializedName("nonFinished")
     private int nonFinished;
 
+    //是否点赞
+    @SerializedName("isZan")
+    private boolean isZan;
+    //是否签到
+    @SerializedName("isSign")
+    private boolean isSign;
+    //签到天数
+    @SerializedName("signDays")
+    private int signDays;
+    //积分总数
+    @SerializedName("signGrades")
+    private int signGrades;
+
+    public boolean isSign() {
+        return isSign;
+    }
+
+    public void setSign(boolean sign) {
+        isSign = sign;
+    }
+
+    public int getSignDays() {
+        return signDays;
+    }
+
+    public void setSignDays(int signDays) {
+        this.signDays = signDays;
+    }
+
+    public int getSignGrades() {
+        return signGrades;
+    }
+
+    public void setSignGrades(int signGrades) {
+        this.signGrades = signGrades;
+    }
+
+    public boolean isZan() {
+        return isZan;
+    }
+
+    public void setZan(boolean zan) {
+        isZan = zan;
+    }
+
     public int getFinished() {
         return finished;
     }

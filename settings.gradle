@@ -1,1 +1,1 @@
-include  ':tvcust', ':common', ':library_version', ':jpush', ':sharesdk', ':spring'
+include ':tvcust', ':common', ':library_version', ':jpush', ':sharesdk', ':spring', ':zqrlibrary'

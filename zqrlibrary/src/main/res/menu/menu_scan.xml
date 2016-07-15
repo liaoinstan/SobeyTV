@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".main.MainActivity">
+    <item
+        android:id="@+id/menu_scan_sltpic"
+        android:orderInCategory="100"
+        android:title="扫描手机中的图片"
+        app:showAsAction="never" />
+</menu>
