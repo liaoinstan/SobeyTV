@@ -140,11 +140,15 @@ public class AppData {
 		public static final String countOrderCategory	= domain + "/SanghaCloud/order/countOrderCategory";			//当月问题分类统计统计
 		public static final String getNewsList			= domain + "/SanghaCloud/news/getNewsList";					//分页获取文章列表
 		public static final String getBanners			= domain + "/SanghaCloud/news/getBanners";					//获取banner
+		public static final String sign					= domain + "/SanghaCloud/sign/addSign";						//签到
+		public static final String getUserSign			= domain + "/SanghaCloud/sign/getSignInfo";					//查询用户签到次数信息
+		public static final String signPageInfo			= domain + "/SanghaCloud/sign/signPageInfo";					//分页查询签到记录
 
 		public static final String zan					= domain + "/SanghaCloud/news/increaseLikes";					//点赞
+		public static final String iszan					= domain + "/SanghaCloud/xxx/increaseLikesxx";				//查询用户是否点赞
 
-		public static final String sign					= domain + "/SanghaCloud/news/increaseLikesxx";				//签到
-		public static final String iszan					= domain + "/SanghaCloud/news/increaseLikesxx";				//查询用户是否点赞
-		public static final String getUserSign			= domain + "/SanghaCloud/news/increaseLikesxx";				//查询用户签到次数信息
+		public static final String msglist				= domain + "/SanghaCloud/order/getorderlist";					//消息列表
+
+		public static final String newsDetail			= domain + "/SanghaCloud/requestWeb/newsDetail";				//请求文章
 	}
 }

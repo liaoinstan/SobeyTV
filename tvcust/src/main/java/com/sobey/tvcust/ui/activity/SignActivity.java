@@ -40,6 +40,7 @@ public class SignActivity extends BaseAppCompatActicity implements View.OnClickL
     private View btn_sign_do;
 
     private boolean isSign;
+    private int signDays;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,14 +69,14 @@ public class SignActivity extends BaseAppCompatActicity implements View.OnClickL
 
         RequestParams params = new RequestParams(AppData.Url.getUserSign);
         params.addHeader("token", AppData.App.getToken());
-        CommonNet.samplepost(params,CommonEntity.class,new CommonNet.SampleNetHander(){
+        CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
                 if (pojo == null) netSetError(code, "错误:返回数据为空");
                 else {
                     CommonEntity com = (CommonEntity) pojo;
-                    isSign = com.isSign();
-                    int signDays = com.getSignDays();
+                    isSign = com.getIsSign() == 0 ? true : false;
+                    signDays = com.getSignDays();
                     int signGrades = com.getSignGrades();
                     freshCtrl(signDays, signGrades);
 
@@ -127,7 +128,7 @@ public class SignActivity extends BaseAppCompatActicity implements View.OnClickL
     private void freshCtrl(int days, int grades) {
         btn_sign_do.setOnClickListener(this);
         {
-            String strpre = "您已连续签到";
+            String strpre = "您已累计签到";
             String strday = "" + days;
             String straft = "天";
             SpannableString strSpan = new SpannableString(strpre + strday + straft);
@@ -197,20 +198,26 @@ public class SignActivity extends BaseAppCompatActicity implements View.OnClickL
                 if (!isSign) {
                     RequestParams params = new RequestParams(AppData.Url.sign);
                     params.addHeader("token", AppData.App.getToken());
-                    CommonNet.samplepost(params,CommonEntity.class,new CommonNet.SampleNetHander(){
+                    CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
                         @Override
                         public void netGo(int code, Object pojo, String text, Object obj) {
-                            Toast.makeText(SignActivity.this,text,Toast.LENGTH_SHORT).show();
-                            YoYo.with(Techniques.Landing)
-                                    .duration(700)
-                                    .playOn(findViewById(R.id.btn_sign_do));
-                            isSign = true;
-                            text_sign_do.setText("已签到");
+                            if (pojo == null) netSetError(code, "错误:返回数据为空");
+                            else {
+                                Toast.makeText(SignActivity.this, text, Toast.LENGTH_SHORT).show();
+                                CommonEntity com = (CommonEntity) pojo;
+                                int signGrades = com.getSignGrades();
+                                freshCtrl(signDays+1,signGrades);
+                                YoYo.with(Techniques.Landing)
+                                        .duration(700)
+                                        .playOn(findViewById(R.id.btn_sign_do));
+                                isSign = true;
+                                text_sign_do.setText("已签到");
+                            }
                         }
 
                         @Override
                         public void netSetError(int code, String text) {
-                            Toast.makeText(SignActivity.this,text,Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignActivity.this, text, Toast.LENGTH_SHORT).show();
                         }
                     });
                 }

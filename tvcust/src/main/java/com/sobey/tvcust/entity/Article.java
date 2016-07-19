@@ -11,13 +11,22 @@ public class Article implements Serializable {
 	private String content;
 	private String introduction;
 	private String imageUrl;
-	private String typeId;
-	private String likes;
-	private String reads;
-	private String isUrl;
-	private String isShowIcon;
-	private String createTime;
-	private String UpdateTime;
+	private int typeId;
+	private int likes;
+	private int reads;
+	private int isUrl;
+	private String linkUrl;
+	private int isShowIcon;
+	private long createTime;
+	private long UpdateTime;
+
+	public String getLinkUrl() {
+		return linkUrl;
+	}
+
+	public void setLinkUrl(String linkUrl) {
+		this.linkUrl = linkUrl;
+	}
 
 	public int getId() {
 		return id;
@@ -59,59 +68,59 @@ public class Article implements Serializable {
 		this.imageUrl = imageUrl;
 	}
 
-	public String getTypeId() {
+	public int getTypeId() {
 		return typeId;
 	}
 
-	public void setTypeId(String typeId) {
+	public void setTypeId(int typeId) {
 		this.typeId = typeId;
 	}
 
-	public String getLikes() {
+	public int getLikes() {
 		return likes;
 	}
 
-	public void setLikes(String likes) {
+	public void setLikes(int likes) {
 		this.likes = likes;
 	}
 
-	public String getReads() {
+	public int getReads() {
 		return reads;
 	}
 
-	public void setReads(String reads) {
+	public void setReads(int reads) {
 		this.reads = reads;
 	}
 
-	public String getIsUrl() {
+	public int getIsUrl() {
 		return isUrl;
 	}
 
-	public void setIsUrl(String isUrl) {
+	public void setIsUrl(int isUrl) {
 		this.isUrl = isUrl;
 	}
 
-	public String getIsShowIcon() {
+	public int getIsShowIcon() {
 		return isShowIcon;
 	}
 
-	public void setIsShowIcon(String isShowIcon) {
+	public void setIsShowIcon(int isShowIcon) {
 		this.isShowIcon = isShowIcon;
 	}
 
-	public String getCreateTime() {
+	public long getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(String createTime) {
+	public void setCreateTime(long createTime) {
 		this.createTime = createTime;
 	}
 
-	public String getUpdateTime() {
+	public long getUpdateTime() {
 		return UpdateTime;
 	}
 
-	public void setUpdateTime(String updateTime) {
+	public void setUpdateTime(long updateTime) {
 		UpdateTime = updateTime;
 	}
 
@@ -123,13 +132,13 @@ public class Article implements Serializable {
 				", content='" + content + '\'' +
 				", introduction='" + introduction + '\'' +
 				", imageUrl='" + imageUrl + '\'' +
-				", typeId='" + typeId + '\'' +
-				", likes='" + likes + '\'' +
-				", reads='" + reads + '\'' +
-				", isUrl='" + isUrl + '\'' +
-				", isShowIcon='" + isShowIcon + '\'' +
-				", createTime='" + createTime + '\'' +
-				", UpdateTime='" + UpdateTime + '\'' +
+				", typeId=" + typeId +
+				", likes=" + likes +
+				", reads=" + reads +
+				", isUrl=" + isUrl +
+				", isShowIcon=" + isShowIcon +
+				", createTime=" + createTime +
+				", UpdateTime=" + UpdateTime +
 				'}';
 	}
 }

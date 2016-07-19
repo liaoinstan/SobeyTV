@@ -417,7 +417,6 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
     }
 
     private boolean isloadmore = false;
-
     private void loadMoreData() {
         if (isloadmore) return;
         final RequestParams params = new RequestParams(AppData.Url.orderlist);

@@ -75,56 +75,11 @@ public class SignListActivity extends BaseAppCompatActicity {
             cancelablemore.cancel();
         }
         freshDate(true);
-//        showin = LoadingViewUtil.showin(showingroup,R.layout.layout_loading,showin);
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                //加载成功
-//                results.add(new TestEntity());
-//                results.add(new TestEntity());
-//                results.add(new TestEntity());
-//                results.add(new TestEntity());
-//                results.add(new TestEntity());
-//                results.add(new TestEntity());
-//                results.add(new TestEntity());
-//                results.add(new TestEntity());
-//                results.add(new TestEntity());
-//                results.add(new TestEntity());
-//                results.add(new TestEntity());
-//                results.add(new TestEntity());
-//                results.add(new TestEntity());
-//                results.add(new TestEntity());
-//                results.add(new TestEntity());
-//                results.add(new TestEntity());
-//                results.add(new TestEntity());
-//                results.add(new TestEntity());
-//                results.add(new TestEntity());
-//                results.add(new TestEntity());
-//                results.add(new TestEntity());
-//                results.add(new TestEntity());
-//                results.add(new TestEntity());
-//                results.add(new TestEntity());
-//                results.add(new TestEntity());
-//                results.add(new TestEntity());
-//                results.add(new TestEntity());
-//                results.add(new TestEntity());
-//                freshCtrl();
-//                LoadingViewUtil.showout(showingroup,showin);
-//
-//                //加载失败
-////                LoadingViewUtil.showin(showingroup,R.layout.layout_lack,showin,new View.OnClickListener(){
-////                    @Override
-////                    public void onClick(View v) {
-////                        initData();
-////                    }
-////                });
-//            }
-//        }, 1000);
     }
 
 
     private void freshDate(final boolean isFirst){
-        final RequestParams params = new RequestParams(AppData.Url.getNewsList);
+        final RequestParams params = new RequestParams(AppData.Url.signPageInfo);
         params.addHeader("token", AppData.App.getToken());
         params.addBodyParameter("pageNO", 1 + "");
         params.addBodyParameter("pageSize", PAGE_COUNT + "");
@@ -180,7 +135,7 @@ public class SignListActivity extends BaseAppCompatActicity {
     private boolean isloadmore = false;
     private void loadMoreData() {
         if (isloadmore) return;
-        final RequestParams params = new RequestParams(AppData.Url.getNewsList);
+        final RequestParams params = new RequestParams(AppData.Url.signPageInfo);
         params.addHeader("token", AppData.App.getToken());
         params.addBodyParameter("pageNO", page + 1 + "");
         params.addBodyParameter("pageSize", PAGE_COUNT + "");

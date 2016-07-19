@@ -94,7 +94,7 @@ public class ListAdapterOrderTrack extends BaseAdapter {
 		//设置内容
 		OrderTrack track = results.get(position);
 		hoder.text_info.setText(track.getContent());
-		hoder.text_time.setText(TimeUtil.getTimeFor("yyyy-MM-dd  hh:mm", new Date(track.getCreatetime())));
+		hoder.text_time.setText(TimeUtil.getTimeFor("yyyy-MM-dd  HH:mm", new Date(track.getCreatetime())));
 		//第一项为蓝色
 		if (position==0){
 			hoder.text_info.setTextColor(ContextCompat.getColor(context,R.color.sb_blue));

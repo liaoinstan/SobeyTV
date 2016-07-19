@@ -55,7 +55,7 @@ public class RecycleAdapterOrderDetail extends RecyclerView.Adapter<RecycleAdapt
         final int pos = holder.getLayoutPosition();
 
 //        holder.text_title.setText(results.get(pos).getDetail());
-        holder.text_time.setText(TimeUtil.getTimeFor("yyyy-MM-dd  hh:mm",new Date(results.get(pos).getTime())));
+        holder.text_time.setText(TimeUtil.getTimeFor("yyyy-MM-dd  HH:mm",new Date(results.get(pos).getTime())));
         holder.text_detail.setText(results.get(pos).getDetail());
 
         ///bundle

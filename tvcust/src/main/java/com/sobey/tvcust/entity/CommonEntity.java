@@ -36,20 +36,20 @@ public class CommonEntity {
     private boolean isZan;
     //是否签到
     @SerializedName("isSign")
-    private boolean isSign;
+    private int isSign;
     //签到天数
-    @SerializedName("signDays")
+    @SerializedName("signs")
     private int signDays;
     //积分总数
-    @SerializedName("signGrades")
+    @SerializedName("bonus")
     private int signGrades;
 
-    public boolean isSign() {
+    public int getIsSign() {
         return isSign;
     }
 
-    public void setSign(boolean sign) {
-        isSign = sign;
+    public void setIsSign(int isSign) {
+        this.isSign = isSign;
     }
 
     public int getSignDays() {

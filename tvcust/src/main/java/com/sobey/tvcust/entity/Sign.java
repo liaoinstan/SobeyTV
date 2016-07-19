@@ -9,9 +9,9 @@ public class Sign implements Serializable {
 
 	@SerializedName("id")
 	private int id;
-	@SerializedName("title")
-	private String title;
-	@SerializedName("time")
+	@SerializedName("bonus")
+	private int grades;
+	@SerializedName("createTime")
 	private long time;
 
 	public int getId() {
@@ -22,12 +22,12 @@ public class Sign implements Serializable {
 		this.id = id;
 	}
 
-	public String getTitle() {
-		return title;
+	public int getGrades() {
+		return grades;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setGrades(int grades) {
+		this.grades = grades;
 	}
 
 	public long getTime() {
@@ -42,7 +42,7 @@ public class Sign implements Serializable {
 	public String toString() {
 		return "Sign{" +
 				"id=" + id +
-				", title='" + title + '\'' +
+				", grades=" + grades +
 				", time=" + time +
 				'}';
 	}

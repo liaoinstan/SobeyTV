@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,19 +25,21 @@ import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.CommonNet;
 import com.sobey.tvcust.common.LoadingViewUtil;
+import com.sobey.tvcust.entity.Article;
 import com.sobey.tvcust.entity.CommonEntity;
 import com.sobey.tvcust.entity.TestEntity;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterMsg;
 
 import org.xutils.http.RequestParams;
 
-public class InfoDetailActivity extends BaseAppCompatActicity implements View.OnClickListener{
+public class InfoDetailActivity extends BaseAppCompatActicity implements View.OnClickListener {
 
     private WebView webView;
     private ImageView img_infodetail_share;
     private ImageView img_infodetail_zan;
     private String url;
     private int newsId;
+    private Article article;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +56,15 @@ public class InfoDetailActivity extends BaseAppCompatActicity implements View.On
     }
 
     private void initBase() {
-        if (getIntent().hasExtra("url")){
+        if (getIntent().hasExtra("url")) {
             url = getIntent().getStringExtra("url");
+            Log.e("liao", url);
         }
-        if (getIntent().hasExtra("newsId")){
-            newsId = getIntent().getIntExtra("newsId",0);
+        if (getIntent().hasExtra("newsId")) {
+            newsId = getIntent().getIntExtra("newsId", 0);
+        }
+        if (getIntent().hasExtra("article")) {
+            article = (Article) getIntent().getSerializableExtra("article");
         }
     }
 
@@ -73,19 +80,19 @@ public class InfoDetailActivity extends BaseAppCompatActicity implements View.On
     private void initData() {
         RequestParams params = new RequestParams(AppData.Url.iszan);
         params.addHeader("token", AppData.App.getToken());
-        params.addBodyParameter("newsId",newsId+"");
-        CommonNet.samplepost(params,CommonEntity.class,new CommonNet.SampleNetHander(){
+        params.addBodyParameter("newsId", newsId + "");
+        CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
-                if (pojo==null) netSetError(code,"错误，返回数据为空");
+                if (pojo == null) netSetError(code, "错误，返回数据为空");
                 else {
                     CommonEntity com = (CommonEntity) pojo;
                     boolean izan = com.isZan();
                     img_infodetail_zan.setVisibility(View.VISIBLE);
                     //如果该用户赞了就不再赞了
-                    if (izan){
+                    if (izan) {
                         img_infodetail_zan.setEnabled(false);
-                    }else {
+                    } else {
                         img_infodetail_zan.setEnabled(true);
                     }
                 }
@@ -93,7 +100,7 @@ public class InfoDetailActivity extends BaseAppCompatActicity implements View.On
 
             @Override
             public void netSetError(int code, String text) {
-                Toast.makeText(InfoDetailActivity.this,text,Toast.LENGTH_SHORT).show();
+                Toast.makeText(InfoDetailActivity.this, text, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -106,6 +113,7 @@ public class InfoDetailActivity extends BaseAppCompatActicity implements View.On
 //        setting.setDefaultTextEncodingName("utf-8");
         webView.loadUrl(url);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -117,19 +125,23 @@ public class InfoDetailActivity extends BaseAppCompatActicity implements View.On
     }
 
     private boolean isZaning = false;
+
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.img_infodetail_share:
                 ShareDialog shareDialog = new ShareDialog(this);
+                if (article!=null) {
+                    shareDialog.setShareData(article.getTitle(), article.getIntroduction(), url,article.getImageUrl());
+                }
                 shareDialog.show();
                 break;
             case R.id.img_infodetail_zan:
                 if (isZaning) return;
                 RequestParams params = new RequestParams(AppData.Url.zan);
                 params.addHeader("token", AppData.App.getToken());
-                params.addBodyParameter("newsId",newsId+"");
-                CommonNet.samplepost(params,CommonEntity.class,new CommonNet.SampleNetHander(){
+                params.addBodyParameter("newsId", newsId + "");
+                CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
                     @Override
                     public void netGo(int code, Object pojo, String text, Object obj) {
                         img_infodetail_zan.setEnabled(false);
@@ -137,7 +149,7 @@ public class InfoDetailActivity extends BaseAppCompatActicity implements View.On
 
                     @Override
                     public void netSetError(int code, String text) {
-                        Toast.makeText(InfoDetailActivity.this,text,Toast.LENGTH_SHORT).show();
+                        Toast.makeText(InfoDetailActivity.this, text, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override

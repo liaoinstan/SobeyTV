@@ -42,7 +42,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/6/2 0002.
  */
-public class InfoQuanFragment extends BaseFragment implements OnRecycleItemClickListener{
+public class InfoQuanFragment extends BaseFragment implements OnRecycleItemClickListener {
 
     private int position;
     private View rootView;
@@ -113,12 +113,12 @@ public class InfoQuanFragment extends BaseFragment implements OnRecycleItemClick
 
     }
 
-    private void freshDate(final boolean isFirst){
+    private void freshDate(final boolean isFirst) {
         final RequestParams params = new RequestParams(AppData.Url.getNewsList);
         params.addHeader("token", AppData.App.getToken());
         params.addBodyParameter("pageNO", 1 + "");
         params.addBodyParameter("pageSize", PAGE_COUNT + "");
-        params.addBodyParameter("typeId", position+"");
+        params.addBodyParameter("typeId", position + "");
         cancelable = CommonNet.samplepost(params, ArticlePojo.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
@@ -167,14 +167,16 @@ public class InfoQuanFragment extends BaseFragment implements OnRecycleItemClick
             }
         });
     }
+
     private boolean isloadmore = false;
+
     private void loadMoreData() {
         if (isloadmore) return;
         final RequestParams params = new RequestParams(AppData.Url.getNewsList);
         params.addHeader("token", AppData.App.getToken());
         params.addBodyParameter("pageNO", page + 1 + "");
         params.addBodyParameter("pageSize", PAGE_COUNT + "");
-        params.addBodyParameter("typeId", position+"");
+        params.addBodyParameter("typeId", position + 1 + "");
         cancelablemore = CommonNet.samplepost(params, ArticlePojo.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
@@ -182,10 +184,10 @@ public class InfoQuanFragment extends BaseFragment implements OnRecycleItemClick
                 else {
                     ArticlePojo articlePojo = (ArticlePojo) pojo;
                     List<Article> articles = articlePojo.getDataList();
-                    if (articles!=null && articles.size() != 0) {
+                    if (articles != null && articles.size() != 0) {
                         List<Article> results = adapter.getResults();
                         results.addAll(articles);
-                        Toast.makeText(getActivity(),"加载完成",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "加载完成", Toast.LENGTH_SHORT).show();
                         freshCtrl();
                         page++;
                     } else {
@@ -211,10 +213,11 @@ public class InfoQuanFragment extends BaseFragment implements OnRecycleItemClick
             }
         });
     }
-    private void netBanner(){
+
+    private void netBanner() {
         RequestParams params = new RequestParams(AppData.Url.getBanners);
         params.addHeader("token", AppData.App.getToken());
-        CommonNet.samplepost(params,BannerPojo.class,new CommonNet.SampleNetHander(){
+        CommonNet.samplepost(params, BannerPojo.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
                 if (pojo == null) netSetError(code, "错误：返回数据为空");
@@ -234,19 +237,20 @@ public class InfoQuanFragment extends BaseFragment implements OnRecycleItemClick
     }
 
     private void initCtrl() {
-        adapter = new RecycleAdapterInfoQuan(getActivity(),results,images,true);
+        adapter = new RecycleAdapterInfoQuan(getActivity(), results, images, true);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity()));
         recyclerView.setAdapter(adapter);
-        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener(){
+        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             //用来标记是否正在向最后一个滑动，既是否向右滑动或向下滑动
             boolean isSlidingToLast = false;
+
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                LinearLayoutManager manager = (LinearLayoutManager)recyclerView.getLayoutManager();
+                LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     boolean b = !ViewCompat.canScrollVertically(recyclerView, 1);
-                    if (b){
+                    if (b) {
                         loadMoreData();
                     }
                 }
@@ -267,20 +271,29 @@ public class InfoQuanFragment extends BaseFragment implements OnRecycleItemClick
         adapter.setOnItemClickListener(this);
     }
 
-    private void freshCtrl(){
+    private void freshCtrl() {
         adapter.notifyDataSetChanged();
     }
 
     @Override
     public void onItemClick(RecyclerView.ViewHolder viewHolder) {
-        if (position==0 && viewHolder.getLayoutPosition()==0){
+        if (position == 0 && viewHolder.getLayoutPosition() == 0) {
             //banner
-        }else {
+        } else {
             Article article = adapter.getResults().get(viewHolder.getLayoutPosition() - 1);
+
+            int isUrl = article.getIsUrl();
+            String linkUrl;
+            if (isUrl == 1) {
+                linkUrl = article.getLinkUrl();
+            } else {
+                linkUrl = AppData.Url.newsDetail + "?newsId=" + article.getId();
+            }
             Intent intent = new Intent(getActivity(), InfoDetailActivity.class);
-            intent.putExtra("url","http://cn.bing.com");
-            intent.putExtra("izan",false);
-            intent.putExtra("newsId",article.getId());
+            intent.putExtra("url", linkUrl);
+            intent.putExtra("izan", false);
+            intent.putExtra("newsId", article.getId());
+            intent.putExtra("article",article);
             startActivity(intent);
         }
     }

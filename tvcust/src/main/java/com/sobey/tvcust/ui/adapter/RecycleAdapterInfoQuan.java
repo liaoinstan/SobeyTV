@@ -79,9 +79,9 @@ public class RecycleAdapterInfoQuan extends RecyclerView.Adapter<RecyclerView.Vi
 
     private void bindTypeItem(HolderItem holder, int position) {
         Article article = results.get(position);
-        Glide.with(context).load(article.getImageUrl()).placeholder(R.drawable.me_header_defalt).crossFade().into(holder.img_quan_item_pic);
+        Glide.with(context).load(article.getImageUrl()).placeholder(R.drawable.default_bk).crossFade().into(holder.img_quan_item_pic);
         holder.text_quan_item_title.setText(article.getTitle());
-        holder.text_quan_item_describe.setText(article.getTitle());
+        holder.text_quan_item_describe.setText(article.getIntroduction());
     }
 
     @Override
