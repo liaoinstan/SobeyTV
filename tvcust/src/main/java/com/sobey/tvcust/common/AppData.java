@@ -92,8 +92,8 @@ public class AppData {
 		 */
 //		private static final String domain = "https://api.cczcrv.com";											//正式服务器
 //		private static final String domain = "http://101.201.222.160:8084";								//测试服务器
-//		private static final String domain = "http://192.168.0.144:8080";								//开发服务器
-		private static final String domain = "http://192.168.1.123:8080";								//开发服务器
+		private static final String domain = "http://192.168.0.116:8080";								//开发服务器
+//		private static final String domain = "http://192.168.1.123:8080";								//开发服务器
 
 		/**
 		 * 接口请求地址
@@ -121,7 +121,8 @@ public class AppData {
 		public static final String allotorder			= domain + "/SanghaCloud/order/allotorder";					//提交订单分配
 		public static final String cancleOrder			= domain + "/SanghaCloud/order/cancleOrder";					//取消订单
 		public static final String verifiOrder			= domain + "/SanghaCloud/order/statusToVerifi";				//修改订单状态待待验收
-		public static final String acceptOrder			= domain + "/SanghaCloud/order/updateCheck";					//接受订单 技术人员
+		public static final String updateCheck			= domain + "/SanghaCloud/order/updateCheck";					//查看订单
+		public static final String acceptOrder			= domain + "/SanghaCloud/order/acceptOrder";					//接受订单
 		public static final String assistCommit			= domain + "/SanghaCloud/order/applicationHeadTech";			//协助提交
 		public static final String assister				= domain + "/SanghaCloud/mobile/getHeadTechs";				//请求协助人员列表
 		public static final String copyer				= domain + "/SanghaCloud/mobile/getsaleandleader";			//请求抄送人员列表
@@ -143,12 +144,12 @@ public class AppData {
 		public static final String sign					= domain + "/SanghaCloud/sign/addSign";						//签到
 		public static final String getUserSign			= domain + "/SanghaCloud/sign/getSignInfo";					//查询用户签到次数信息
 		public static final String signPageInfo			= domain + "/SanghaCloud/sign/signPageInfo";					//分页查询签到记录
+		public static final String newsDetail			= domain + "/SanghaCloud/requestWeb/newsDetail";				//请求文章
 
 		public static final String zan					= domain + "/SanghaCloud/news/increaseLikes";					//点赞
-		public static final String iszan					= domain + "/SanghaCloud/xxx/increaseLikesxx";				//查询用户是否点赞
+		public static final String iszan					= domain + "/SanghaCloud/news/getIsLikes";					//查询用户是否点赞
 
 		public static final String msglist				= domain + "/SanghaCloud/order/getorderlist";					//消息列表
 
-		public static final String newsDetail			= domain + "/SanghaCloud/requestWeb/newsDetail";				//请求文章
 	}
 }

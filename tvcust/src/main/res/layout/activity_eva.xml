@@ -531,7 +531,7 @@
                         android:layout_marginTop="10dp"
                         android:background="@color/white">
 
-                        <EditText
+                        <com.sobey.common.view.EmojiEditText
                             android:id="@+id/edit_eva_describe"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

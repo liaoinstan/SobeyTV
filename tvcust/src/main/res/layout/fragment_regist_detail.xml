@@ -39,7 +39,7 @@
                         android:textColor="@color/sb_text_login_title"
                         android:textSize="15sp" />
 
-                    <EditText
+                    <com.sobey.common.view.EmojiEditText
                         android:id="@+id/edit_registdetail_name"
                         style="@style/edit_hidden_login"
                         android:layout_width="match_parent"
@@ -71,7 +71,7 @@
                         android:textColor="@color/sb_text_login_title"
                         android:textSize="15sp" />
 
-                    <EditText
+                    <com.sobey.common.view.EmojiEditText
                         android:id="@+id/edit_registdetail_password"
                         style="@style/edit_hidden_login"
                         android:layout_width="match_parent"
@@ -103,7 +103,7 @@
                         android:textColor="@color/sb_text_login_title"
                         android:textSize="15sp" />
 
-                    <EditText
+                    <com.sobey.common.view.EmojiEditText
                         android:id="@+id/edit_registdetail_password_repet"
                         style="@style/edit_hidden_login"
                         android:layout_width="match_parent"
@@ -135,7 +135,7 @@
                         android:textColor="@color/sb_text_login_title"
                         android:textSize="15sp" />
 
-                    <EditText
+                    <com.sobey.common.view.EmojiEditText
                         android:id="@+id/edit_registdetail_mail"
                         style="@style/edit_hidden_login"
                         android:layout_width="match_parent"
@@ -167,7 +167,7 @@
                         android:textColor="@color/sb_text_login_title"
                         android:textSize="15sp" />
 
-                    <EditText
+                    <com.sobey.common.view.EmojiEditText
                         android:focusable="false"
                         android:focusableInTouchMode="false"
                         android:id="@+id/edit_registdetail_comp"

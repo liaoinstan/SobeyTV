@@ -118,7 +118,12 @@ public class OrderAllocateOnlyActivity extends BaseAppCompatActicity implements 
                             swipe.setRefreshing(false);
                         }
                     } else {
-                        LoadingViewUtil.showin(showingroup, R.layout.layout_lack, showin);
+                        showin = LoadingViewUtil.showin(showingroup, R.layout.layout_lack, showin, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                initData(true);
+                            }
+                        });
                     }
                 }
             }

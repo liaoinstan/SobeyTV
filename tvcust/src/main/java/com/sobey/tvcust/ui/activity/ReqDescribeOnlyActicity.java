@@ -26,6 +26,7 @@ import com.sobey.tvcust.entity.User;
 import com.sobey.tvcust.ui.dialog.DialogLoading;
 import com.sobey.tvcust.ui.dialog.DialogPopupPhoto;
 import com.sobey.tvcust.ui.dialog.DialogRecord;
+import com.sobey.tvcust.utils.PermissionsUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.xutils.http.RequestParams;
@@ -54,6 +55,8 @@ public class ReqDescribeOnlyActicity extends BaseAppCompatActicity implements Vi
     private int orderId;
     private int type;
     private User user;
+
+    private boolean hasVideo = false;
 
     private static final int RESULT_SELECTUSER = 0xf103;
     private static final int RESULT_SELECTCOPER = 0xf104;
@@ -142,17 +145,15 @@ public class ReqDescribeOnlyActicity extends BaseAppCompatActicity implements Vi
         bundleView.setOnBundleClickListener(new BundleView2.OnBundleClickListener() {
             @Override
             public void onPhotoDelClick(View v) {
-//                pathphoto = "";
             }
 
             @Override
             public void onVideoDelClick(View v) {
-//                pathvideo = "";
+                hasVideo = false;
             }
 
             @Override
             public void onVoiceDelClick(View v) {
-//                pathvoice = "";
             }
 
             @Override
@@ -211,14 +212,24 @@ public class ReqDescribeOnlyActicity extends BaseAppCompatActicity implements Vi
         Intent intent = new Intent();
         switch (v.getId()) {
             case R.id.img_reqfix_photo:
-                popup.show();
+                if (PermissionsUtil.requsetPhoto(this,findViewById(R.id.showingroup))) {
+                    popup.show();
+                }
                 break;
             case R.id.img_reqfix_vidio:
-                intent.setClass(ReqDescribeOnlyActicity.this, VideoRecorderActivity.class);
-                startActivityForResult(intent, RESULT_VIDEO_RECORDER);
+                if (!hasVideo) {
+                    if (PermissionsUtil.requsetVideo(this,findViewById(R.id.showingroup))) {
+                        intent.setClass(ReqDescribeOnlyActicity.this, VideoRecorderActivity.class);
+                        startActivityForResult(intent, RESULT_VIDEO_RECORDER);
+                    }
+                }else {
+                    Toast.makeText(this,"你只能上传一个视频",Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.img_reqfix_voice:
-                recordDialog.show();
+                if (PermissionsUtil.requsetVoice(this,findViewById(R.id.showingroup))) {
+                    recordDialog.show();
+                }
                 break;
             case R.id.btn_go:
 
@@ -247,6 +258,7 @@ public class ReqDescribeOnlyActicity extends BaseAppCompatActicity implements Vi
                     // 通过路径获取第一帧的缩略图并显示
                     //Bitmap bitmap = VideoUtils.createVideoThumbnail(pathvideo);
                     bundleView.addVideo(pathvideo);
+                    hasVideo = true;
                 } else {
                     // 失败
                 }
@@ -381,12 +393,12 @@ public class ReqDescribeOnlyActicity extends BaseAppCompatActicity implements Vi
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
                 if (type==0) {
-                    EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERDESCRIBE);
-                    EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERLIST);
+//                    EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERDESCRIBE);
+//                    EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERLIST);
                     netFinishOrder();
                 }else if (type==1 || type==2){
-                    EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERDESCRIBE);
-                    EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERLIST);
+//                    EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERDESCRIBE);
+//                    EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERLIST);
                     netValiOrder();
                 }else if (type==3){
                     EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERDESCRIBE);
@@ -425,6 +437,8 @@ public class ReqDescribeOnlyActicity extends BaseAppCompatActicity implements Vi
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERDESCRIBE);
+                        EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERLIST);
                         Intent intent = new Intent(ReqDescribeOnlyActicity.this, OrderProgActivity.class);
                         intent.putExtra("orderId", orderId);
                         startActivity(intent);
@@ -467,6 +481,8 @@ public class ReqDescribeOnlyActicity extends BaseAppCompatActicity implements Vi
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERDESCRIBE);
+                        EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERLIST);
                         Intent intent = new Intent(ReqDescribeOnlyActicity.this, OrderProgActivity.class);
                         intent.putExtra("orderId", orderId);
                         startActivity(intent);

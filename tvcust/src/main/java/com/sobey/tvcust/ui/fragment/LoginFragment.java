@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,6 +111,12 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
         switch (v.getId()){
             case R.id.btn_go:
 
+                //状态为正常状态才发送请求
+                if (btn_go.getProgress()!=0)
+                    break;
+
+                Log.e("liao",btn_go.getProgress()+"");
+
                 String name = edit_name.getText().toString();
                 String password = edit_password.getText().toString();
 
@@ -127,25 +134,6 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
                     Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
                 }
 
-//                if (btn_go.getProgress() == 0) {
-//                    new Handler().postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            btn_go.setProgress(100);
-//                            new Handler().postDelayed(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    intent.setClass(getActivity(), HomeActivity.class);
-//                                    startActivity(intent);
-//                                    getActivity().finish();
-//                                }
-//                            }, 800);
-//                        }
-//                    }, 2000);
-//                }
-//                if (btn_go.getProgress() == 100) {
-//                    btn_go.setProgress(0);
-//                }
                 break;
             case R.id.text_login_regist:
                 fatherPager.setCurrentItem(1);

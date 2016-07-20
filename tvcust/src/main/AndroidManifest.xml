@@ -38,11 +38,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.activity.TestActivity"
-            android:theme="@style/AppTheme.NoTitleFullscreen">
-        </activity>
-        <activity android:name=".ui.activity.PiePolylineChartActivity">
-
-        </activity>
+            android:theme="@style/AppTheme.NoTitleFullscreen"></activity>
+        <activity android:name=".ui.activity.PiePolylineChartActivity"></activity>
         <activity
             android:name=".ui.activity.StartUpActivity"
             android:label="@string/title_activity_start_up"
@@ -103,11 +100,11 @@
         <activity
             android:name=".ui.activity.CountOrderActivity"
             android:label="@string/title_activity_count_order"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.activity.CountActivity"
             android:label="@string/title_activity_count"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.activity.DeviceListActivity"
             android:label="@string/title_activity_device_list"
@@ -171,7 +168,7 @@
         <activity
             android:name=".ui.activity.CompActivity"
             android:label="@string/title_activity_comp"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.activity.ModifyPhoneActivity"
             android:label="@string/title_activity_modify_phone"
@@ -195,7 +192,11 @@
         <activity
             android:name=".ui.activity.SelectUserActivity"
             android:label="@string/title_activity_select_user"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.activity.ScannerActivity"
+            android:label="@string/title_activity_scanner"
+            android:theme="@style/AppTheme.NoTitleFullscreen"></activity>
     </application>
 
 </manifest>

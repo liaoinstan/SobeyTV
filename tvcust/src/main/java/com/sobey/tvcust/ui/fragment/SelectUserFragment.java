@@ -129,7 +129,12 @@ public class SelectUserFragment extends BaseFragment implements View.OnClickList
                         freshCtrl();
                         LoadingViewUtil.showout(showingroup, showin);
                     } else {
-                        LoadingViewUtil.showin(showingroup, R.layout.layout_lack, showin);
+                        showin = LoadingViewUtil.showin(showingroup, R.layout.layout_lack, showin, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                initData();
+                            }
+                        });
                     }
                 }
             }

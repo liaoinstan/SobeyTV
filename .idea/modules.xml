@@ -9,7 +9,6 @@
       <module fileurl="file://$PROJECT_DIR$/sharesdk/sharesdk.iml" filepath="$PROJECT_DIR$/sharesdk/sharesdk.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring/spring.iml" filepath="$PROJECT_DIR$/spring/spring.iml" />
       <module fileurl="file://$PROJECT_DIR$/tvcust/tvcust.iml" filepath="$PROJECT_DIR$/tvcust/tvcust.iml" />
-      <module fileurl="file://$PROJECT_DIR$/zqrlibrary/zqrlibrary.iml" filepath="$PROJECT_DIR$/zqrlibrary/zqrlibrary.iml" />
     </modules>
   </component>
 </project>

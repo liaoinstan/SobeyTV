@@ -66,6 +66,7 @@ public class BundleView2 extends FrameLayout{
 //        results.add(new BundleEntity(BundleEntity.Type.PHOTE,"44444"));
 //        results.add(new BundleEntity(BundleEntity.Type.VOICE,"55555"));
         adapter = new RecycleAdapterBundle(context,R.layout.item_recycle_bundle,results);
+        recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
         recyclerView.setAdapter(adapter);
     }

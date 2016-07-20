@@ -51,11 +51,11 @@
             app:tabMode="scrollable"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@color/sb_bk_dark"
+            android:background="@color/white"
             app:tabIndicatorColor="@color/sb_blue"
             app:tabIndicatorHeight="3dp"
-            app:tabSelectedTextColor="@color/white"
-            app:tabTextColor="@color/sb_text_light" />
+            app:tabSelectedTextColor="@color/sb_text_dark"
+            app:tabTextColor="@color/sb_text_blank" />
 
     </android.support.design.widget.AppBarLayout>
 

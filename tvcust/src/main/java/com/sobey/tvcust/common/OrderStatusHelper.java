@@ -13,18 +13,44 @@ public class OrderStatusHelper {
         switch (order.getStatus()) {
             case Order.ORDER_UNDEAL: {
                 //待处理
-                return "等待客服待处理";
+                if (userType== User.ROLE_COMMOM) {
+                    return "等待客服待处理";
+                }else if (userType== User.ROLE_CUSTOMER){
+                    if (order.getServiceCheck()!=1){
+                        return "等待查看任务";
+                    }else {
+                        if (order.getTscId()!=null && order.getHeadTechId()!=null){
+                            return "等待技术处理";
+                        }else {
+                            return "等待客服分配维修人员";
+                        }
+                    }
+                }else if (userType == User.ROLE_FILIALETECH){
+                    if (order.getTechCheck()!=1){
+                        return "等待查看任务";
+                    }else {
+                        return "等待技术处理";
+                    }
+                }else if (userType == User.ROLE_HEADCOMTECH){
+                    if (order.getHeadTechCheck()!=1){
+                        return "等待查看任务";
+                    }else {
+                        return "等待技术处理";
+                    }
+                }else if (userType == User.ROLE_INVENT){
+                    if (order.getDevelopCheck()!=1){
+                        return "等待查看任务";
+                    }else {
+                        return "等待技术处理";
+                    }
+                }
             }
             case Order.ORDER_INDEAL:
                 //处理中
-                if (order.getTechCheck() != null && order.getTechCheck() == 1) {
-                    return "已分配维修人员，正在维修";
-                } else {
-                    return "已分配维修人员，等待接受";
-                }
+                return "正在维修";
             case Order.ORDER_UNVALI:
                 //带验证
-                return "等待确认";
+                return "技术已处理";
             case Order.ORDER_UNEVA:
                 //待评价
                 return "待评价";
@@ -34,6 +60,19 @@ public class OrderStatusHelper {
             default:
                 return "";
         }
+
+//        switch (userType){
+//            case User.ROLE_COMMOM:
+//                break;
+//            case User.ROLE_CUSTOMER:
+//                break;
+//            case User.ROLE_FILIALETECH:
+//                break;
+//            case User.ROLE_HEADCOMTECH:
+//                break;
+//            case User.ROLE_INVENT:
+//                break;
+//        }
     }
 
     public static int getStatusImgSrc(Order order) {

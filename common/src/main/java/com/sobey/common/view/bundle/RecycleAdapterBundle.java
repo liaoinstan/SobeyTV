@@ -91,6 +91,19 @@ public class RecycleAdapterBundle extends RecyclerView.Adapter<RecycleAdapterBun
             public void onClick(View v) {
                 results.remove(holder.getLayoutPosition());
                 notifyItemRemoved(holder.getLayoutPosition());
+                if (bundleClickListener != null) {
+                    switch (bundle.getType()) {
+                        case PHOTE:
+                            bundleClickListener.onPhotoDelClick(v);
+                            break;
+                        case VIDEO:
+                            bundleClickListener.onVideoDelClick(v);
+                            break;
+                        case VOICE:
+                            bundleClickListener.onVoiceDelClick(v);
+                            break;
+                    }
+                }
             }
         });
     }

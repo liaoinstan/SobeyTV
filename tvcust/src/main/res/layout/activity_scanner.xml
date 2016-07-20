@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.sobey.tvcust.ui.activity.ScannerActivity">
+
+    <FrameLayout
+        android:id="@+id/frame_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimaryTrans"
+        app:titleTextColor="@color/white"
+        app:navigationIcon="@drawable/icon_bank"
+        app:popupTheme="@style/TransparentToolbar" />
+
+    <TextView
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#55ffffff"
+        android:textSize="@dimen/text_nomal_small"
+        android:layout_marginBottom="80dp"
+        android:text="将二维码对准方框扫码"/>
+
+</FrameLayout>

@@ -65,6 +65,7 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
     private Integer status;
     private Integer isCheck;
     private Integer isComment;
+    private Integer isAccept;
 
     private Callback.Cancelable cancelable;
     private Callback.Cancelable cancelablemore;
@@ -133,6 +134,12 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
         springView = (SpringView) getView().findViewById(R.id.spring);
         btn_go_reqfix = getView().findViewById(R.id.btn_go_reqfix);
 
+        //只有用户、客服才能申报维修
+        if (user.getRoleType()==User.ROLE_COMMOM||user.getRoleType()==User.ROLE_CUSTOMER){
+            btn_go_reqfix.setVisibility(View.VISIBLE);
+        }else {
+            btn_go_reqfix.setVisibility(View.GONE);
+        }
 
         initViewTab();
     }
@@ -201,26 +208,33 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
                     status = null;
                     isCheck = null;
                     isComment = null;
+                    isAccept = null;
                 } else if ("待处理".equals(text)) {
                     if (user.getRoleType() == User.ROLE_CUSTOMER) {
                         isCheck = 3;
                         status = Order.ORDER_UNDEAL;
+                        isAccept = null;
                     } else if (user.getRoleType() == User.ROLE_COMMOM) {
                         isCheck = null;
                         status = Order.ORDER_UNDEAL;
+                        isAccept = null;
                     }else if (user.getRoleType() == User.ROLE_FILIALETECH || user.getRoleType() == User.ROLE_HEADCOMTECH || user.getRoleType() == User.ROLE_INVENT) {
                         isCheck = 1;
                         status = null;
+                        isAccept = 0;
                     }else {
                         isCheck = null;
                         status = Order.ORDER_UNDEAL;
+                        isAccept = null;
                     }
                     isComment = null;
                 } else if ("处理中".equals(text)) {
                     if (user.getRoleType() == User.ROLE_FILIALETECH || user.getRoleType() == User.ROLE_HEADCOMTECH || user.getRoleType() == User.ROLE_INVENT) {
                         isCheck = 1;
+                        isAccept = 1;
                     }else {
                         isCheck = null;
+                        isAccept = null;
                     }
                     status = Order.ORDER_INDEAL;
                     isComment = null;
@@ -228,14 +242,17 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
                     status = Order.ORDER_UNVALI;
                     isCheck = null;
                     isComment = null;
+                    isAccept = null;
                 } else if ("待评价".equals(text)) {
                     status = Order.ORDER_UNEVA;
                     isCheck = null;
                     isComment = 0;
+                    isAccept = null;
                 } else if ("已完成".equals(text)) {
                     status = Order.ORDER_FINSH;
                     isCheck = null;
                     isComment = 1;
+                    isAccept = null;
                 } else if ("待办任务".equals(text)) {
                     //特殊情况
                     if (user.getRoleType() == User.ROLE_FILIALETECH || user.getRoleType() == User.ROLE_HEADCOMTECH) {
@@ -247,10 +264,12 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
                     }
                     isCheck = 0;
                     isComment = null;
+                    isAccept = null;
                 } else if ("待分配".equals(text)) {
                     status = Order.ORDER_UNDEAL;
                     isCheck = 1;
                     isComment = null;
+                    isAccept = null;
                 } else {
                     Toast.makeText(getActivity(), "没有该分类", Toast.LENGTH_SHORT).show();
                 }
@@ -367,6 +386,9 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
         if (isCheck != null) {
             params.addBodyParameter("isCheck", isCheck + "");
         }
+        if (isAccept != null) {
+            params.addBodyParameter("isAccept", isAccept + "");
+        }
         cancelable = CommonNet.samplepost(params, OrderPojo.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
@@ -387,7 +409,13 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
                             springView.onFinishFreshAndLoad();
                         }
                     } else {
-                        LoadingViewUtil.showin(showingroup, R.layout.layout_lack, showin);
+//                        LoadingViewUtil.showin(showingroup, R.layout.layout_lack, showin);
+                        showin = LoadingViewUtil.showin(showingroup, R.layout.layout_lack, showin, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                initData(true);
+                            }
+                        });
                     }
                 }
             }
@@ -431,6 +459,9 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
         }
         if (isComment != null) {
             params.addBodyParameter("isComment", isComment + "");
+        }
+        if (isAccept != null) {
+            params.addBodyParameter("isAccept", isAccept + "");
         }
         cancelablemore = CommonNet.samplepost(params, OrderPojo.class, new CommonNet.SampleNetHander() {
             @Override

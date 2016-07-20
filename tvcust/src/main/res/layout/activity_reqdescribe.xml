@@ -135,7 +135,7 @@
             android:background="@color/white"
             android:orientation="vertical">
 
-            <EditText
+            <com.sobey.common.view.EmojiEditText
                 android:id="@+id/edit_reqfix_detail"
                 style="@style/edit_hidden"
                 android:layout_width="match_parent"

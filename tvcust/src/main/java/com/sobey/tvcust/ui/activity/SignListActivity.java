@@ -103,7 +103,12 @@ public class SignListActivity extends BaseAppCompatActicity {
                             springView.onFinishFreshAndLoad();
                         }
                     } else {
-                        showin = LoadingViewUtil.showin(showingroup, R.layout.layout_lack, showin);
+                        showin = LoadingViewUtil.showin(showingroup, R.layout.layout_lack, showin, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                initData();
+                            }
+                        });
                     }
                 }
             }

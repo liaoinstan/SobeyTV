@@ -15,7 +15,6 @@
             <option value="$PROJECT_DIR$/sharesdk" />
             <option value="$PROJECT_DIR$/spring" />
             <option value="$PROJECT_DIR$/tvcust" />
-            <option value="$PROJECT_DIR$/zqrlibrary" />
           </set>
         </option>
         <option name="myModules">
@@ -27,7 +26,6 @@
             <option value="$PROJECT_DIR$/sharesdk" />
             <option value="$PROJECT_DIR$/spring" />
             <option value="$PROJECT_DIR$/tvcust" />
-            <option value="$PROJECT_DIR$/zqrlibrary" />
           </set>
         </option>
       </GradleProjectSettings>

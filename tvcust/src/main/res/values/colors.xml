@@ -3,6 +3,7 @@
     <color name="colorPrimary">@color/sb_bk_dark</color>
     <color name="colorPrimaryDark">#101a20</color>
     <color name="colorAccent">@color/sb_blue</color>
+    <color name="colorPrimaryTrans">#5515222a</color>
 
     <color name="white">#ffffff</color>
     <color name="none">#00000000</color>

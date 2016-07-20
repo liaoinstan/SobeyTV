@@ -2,10 +2,12 @@ package com.sobey.tvcust.entity;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2016/7/4 0004.
  */
-public class OrderCategory {
+public class OrderCategory implements Serializable{
     @SerializedName("id")
     private int id;
 

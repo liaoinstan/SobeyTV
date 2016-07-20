@@ -99,7 +99,12 @@ public class AssistActivity extends BaseAppCompatActicity implements View.OnClic
                             springView.onFinishFreshAndLoad();
                         }
                     } else {
-                        LoadingViewUtil.showin(showingroup, R.layout.layout_lack, showin);
+                        showin = LoadingViewUtil.showin(showingroup, R.layout.layout_lack, showin, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                initData(true);
+                            }
+                        });
                     }
                 }
             }

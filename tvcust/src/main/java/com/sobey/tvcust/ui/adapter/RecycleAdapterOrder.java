@@ -73,6 +73,7 @@ public class RecycleAdapterOrder extends RecyclerView.Adapter<RecycleAdapterOrde
             public void onClick(View v) {
                 Intent intent = new Intent(context, OrderDetailActivity.class);
                 intent.putExtra("id", results.get(holder.getLayoutPosition()).getId());
+                intent.putExtra("order",results.get(holder.getLayoutPosition()));
                 context.startActivity(intent);
             }
         });
@@ -114,8 +115,8 @@ public class RecycleAdapterOrder extends RecyclerView.Adapter<RecycleAdapterOrde
 
         //客服可以分配订单
         if (user.getRoleType() == User.ROLE_CUSTOMER){
-            if (((order.getServiceCheck()!=null && order.getServiceCheck()==1)) && order.getTscId() == null && order.getStatus() == Order.ORDER_UNDEAL) {
-                //客服尚未查看 && 订单尚未分配 && 订单是未处理状态
+            if (order.getServiceCheck()==1 && order.getTscId() == null && order.getStatus() == Order.ORDER_UNDEAL) {
+                //客服查看后 && 订单尚未分配 && 订单是未处理状态
                 holder.text_allocate.setVisibility(View.VISIBLE);
             } else {
                 holder.text_allocate.setVisibility(View.GONE);
@@ -126,52 +127,8 @@ public class RecycleAdapterOrder extends RecyclerView.Adapter<RecycleAdapterOrde
 
 
         holder.text_assist.setVisibility(View.GONE);
-//        //技术人员 or 总部技术人员 可以申请援助
-//        if (user.getRoleType() == User.ROLE_FILIALETECH || user.getRoleType() == User.ROLE_HEADCOMTECH) {
-//            //技术尚未接受订单
-//            if (order.getTechCheck() == null || order.getTechCheck() == 0) {
-//                holder.text_assist.setVisibility(View.GONE);
-//            }
-//            //技术已经接受订单
-//            else {
-////                //技术 申请 总技术
-////                if (user.getRoleType() == User.ROLE_FILIALETECH) {
-////                    if (order.getHeadTechId() == null) {
-////                        //尚未申请给总技术
-////                        holder.text_assist.setVisibility(View.VISIBLE);
-////                    } else {
-////                        //已申请给总技术
-////                        holder.text_assist.setVisibility(View.GONE);
-////                    }
-////                }//总技术 申请 总研发
-////                else if (user.getRoleType() == User.ROLE_HEADCOMTECH) {
-////                    if (order.getDecelopId() == null) {
-////                        //尚未申请总研发
-////                        holder.text_assist.setVisibility(View.VISIBLE);
-////                    } else {
-////                        //已申请总研发
-////                        holder.text_assist.setVisibility(View.GONE);
-////                    }
-////                }
-//                holder.text_assist.setVisibility(View.VISIBLE);
-//            }
-//
-//        } else {
-//            holder.text_assist.setVisibility(View.GONE);
-//        }
 
         holder.text_finish.setVisibility(View.GONE);
-        //技术人员 or 总部技术人员 可以结束订单
-//        if (user.getRoleType() == User.ROLE_FILIALETECH || user.getRoleType() == User.ROLE_HEADCOMTECH) {
-//            //技术尚未接受订单
-//            if ((order.getTechCheck() == null || order.getTechCheck() == 0)&& order.getStatus()==Order.ORDER_INDEAL) {
-//                holder.text_finish.setVisibility(View.GONE);
-//            }else {
-//                holder.text_finish.setVisibility(View.VISIBLE);
-//            }
-//        }else {
-//            holder.text_finish.setVisibility(View.GONE);
-//        }
         //用户可以取消订单
         if (user.getRoleType() == User.ROLE_COMMOM) {
             if (order.getStatus()==Order.ORDER_UNDEAL) {

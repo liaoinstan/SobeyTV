@@ -16,9 +16,9 @@ import java.util.Map;
  */
 public class StrUtils {
     public static boolean isEmpty(String str) {
-        if (str!=null&&!"".equals(str)){
+        if (str != null && !"".equals(str)) {
             return false;
-        }else {
+        } else {
             return true;
         }
     }
@@ -35,7 +35,9 @@ public class StrUtils {
      * @return
      */
     public static boolean isEmpty(Object obj) {
-        if (obj == null) { return true; }
+        if (obj == null) {
+            return true;
+        }
         if (obj instanceof Number) {
             Number num = (Number) obj;
             if (num.intValue() == 0) {
@@ -59,6 +61,15 @@ public class StrUtils {
         } else if (obj.getClass().isArray()) {
             int length = Array.getLength(obj);
             return length == 0 ? true : false;
+        } else {
+            return false;
+        }
+    }
+
+    public static boolean isUrl(String str) {
+        if (str == null) return false;
+        if (str.startsWith("http")) {
+            return true;
         } else {
             return false;
         }

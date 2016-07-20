@@ -92,7 +92,7 @@ public class ListAdapterOrderTrack extends BaseAdapter {
 		}
 
 		//设置内容
-		OrderTrack track = results.get(position);
+		OrderTrack track = results.get(results.size()-1-position);
 		hoder.text_info.setText(track.getContent());
 		hoder.text_time.setText(TimeUtil.getTimeFor("yyyy-MM-dd  HH:mm", new Date(track.getCreatetime())));
 		//第一项为蓝色
@@ -104,7 +104,7 @@ public class ListAdapterOrderTrack extends BaseAdapter {
 
 		return convertView;
 	}
-	
+
 	public class ViewHolder {
 		private View line_top;
 		private View line_bottom;

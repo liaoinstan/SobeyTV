@@ -30,7 +30,7 @@ import org.xutils.http.RequestParams;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CopyActivity extends AppCompatActivity implements View.OnClickListener {
+public class CopyActivity extends BaseAppCompatActicity implements View.OnClickListener {
 
     private RecyclerView recyclerView;
     private SpringView springView;
@@ -97,7 +97,12 @@ public class CopyActivity extends AppCompatActivity implements View.OnClickListe
                             springView.onFinishFreshAndLoad();
                         }
                     } else {
-                        LoadingViewUtil.showin(showingroup, R.layout.layout_lack, showin);
+                        showin = LoadingViewUtil.showin(showingroup, R.layout.layout_lack, showin, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                initData(true);
+                            }
+                        });
                     }
                 }
             }

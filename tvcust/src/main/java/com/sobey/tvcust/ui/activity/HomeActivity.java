@@ -52,7 +52,7 @@ public class HomeActivity extends BaseAppCompatActicity implements View.OnClickL
 //        toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 
-        PermissionsUtil.checkAndRequestPermissions(this,R.id.coordinator);
+        PermissionsUtil.checkAndRequestPermissions(this,findViewById(R.id.coordinator));
 
         initBase();
         initView();

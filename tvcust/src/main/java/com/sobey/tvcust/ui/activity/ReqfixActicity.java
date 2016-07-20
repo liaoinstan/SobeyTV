@@ -28,6 +28,7 @@ import com.sobey.tvcust.ui.dialog.DialogLoading;
 import com.sobey.tvcust.ui.dialog.DialogPopupPhoto;
 import com.sobey.tvcust.ui.dialog.DialogRecord;
 import com.sobey.tvcust.ui.dialog.DialogReqfixChoose;
+import com.sobey.tvcust.utils.PermissionsUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.xutils.http.RequestParams;
@@ -58,6 +59,8 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
     private int categoryId;
     private int userId;
     private User user;
+
+    private boolean hasVideo = false;//狗屎需求：你只能添加一个视频
 
     private static final int RESULT_QUESTION = 0xf102;
     private static final int RESULT_SELECTUSER = 0xf103;
@@ -170,17 +173,15 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
         bundleView.setOnBundleClickListener(new BundleView2.OnBundleClickListener() {
             @Override
             public void onPhotoDelClick(View v) {
-//                pathphoto = "";
             }
 
             @Override
             public void onVideoDelClick(View v) {
-//                pathvideo = "";
+                hasVideo = false;
             }
 
             @Override
             public void onVoiceDelClick(View v) {
-//                pathvoice = "";
             }
 
             @Override
@@ -246,14 +247,24 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
                 startActivityForResult(intent, RESULT_SELECTUSER);
                 break;
             case R.id.img_reqfix_photo:
-                popup.show();
+                if (PermissionsUtil.requsetPhoto(this,findViewById(R.id.showingroup))) {
+                    popup.show();
+                }
                 break;
             case R.id.img_reqfix_vidio:
-                intent.setClass(ReqfixActicity.this, VideoRecorderActivity.class);
-                startActivityForResult(intent, RESULT_VIDEO_RECORDER);
+                if (!hasVideo) {
+                    if (PermissionsUtil.requsetVideo(this,findViewById(R.id.showingroup))) {
+                        intent.setClass(ReqfixActicity.this, VideoRecorderActivity.class);
+                        startActivityForResult(intent, RESULT_VIDEO_RECORDER);
+                    }
+                }else {
+                    Toast.makeText(this,"你只能上传一个视频",Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.img_reqfix_voice:
-                recordDialog.show();
+                if (PermissionsUtil.requsetVoice(this,findViewById(R.id.showingroup))) {
+                    recordDialog.show();
+                }
                 break;
             case R.id.btn_go:
 
@@ -284,6 +295,7 @@ public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClic
                     // 通过路径获取第一帧的缩略图并显示
                     //Bitmap bitmap = VideoUtils.createVideoThumbnail(pathvideo);
                     bundleView.addVideo(pathvideo);
+                    hasVideo = true;
                 } else {
                     // 失败
                 }

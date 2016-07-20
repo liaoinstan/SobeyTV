@@ -33,7 +33,7 @@
                 android:background="@drawable/shape_rect_corner_white_trans"
                 android:orientation="vertical">
 
-                <EditText
+                <com.sobey.common.view.EmojiEditText
                     android:id="@+id/edit_modifypsw_password_old"
                     style="@style/edit_hidden_login"
                     android:layout_width="match_parent"
@@ -53,7 +53,7 @@
                     android:layout_marginRight="10dp"
                     android:background="@drawable/line" />
 
-                <EditText
+                <com.sobey.common.view.EmojiEditText
                     android:id="@+id/edit_modifypsw_password_new"
                     style="@style/edit_hidden_login"
                     android:layout_width="match_parent"
@@ -73,7 +73,7 @@
                     android:layout_marginRight="10dp"
                     android:background="@drawable/line" />
 
-                <EditText
+                <com.sobey.common.view.EmojiEditText
                     android:id="@+id/edit_modifypsw_password_new_repeat"
                     style="@style/edit_hidden_login"
                     android:layout_width="match_parent"

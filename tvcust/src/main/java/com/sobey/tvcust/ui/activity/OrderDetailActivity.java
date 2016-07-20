@@ -104,6 +104,9 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
         if (intent.hasExtra("id")) {
             id = intent.getIntExtra("id", 0);
         }
+        if (intent.hasExtra("order")) {
+            order = (Order) intent.getSerializableExtra("order");
+        }
         pop_describe = new DialogPopupDescribe(this);
         pop_describe.setOnFinishListener(new View.OnClickListener() {
             @Override
@@ -186,6 +189,17 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
 
     private void initData(final boolean isFirst) {
 
+        //如果未查看就查看订单
+        if (user.getRoleType()==User.ROLE_CUSTOMER && order.getServiceCheck()!=1) {
+            netUpdateCheck();
+        }else if (user.getRoleType()==User.ROLE_FILIALETECH && order.getTechCheck()!=1){
+            netUpdateCheck();
+        }else if (user.getRoleType()==User.ROLE_HEADCOMTECH && order.getHeadTechCheck()!=1){
+            netUpdateCheck();
+        }else if (user.getRoleType()==User.ROLE_INVENT && order.getDevelopCheck()!=1){
+            netUpdateCheck();
+        }
+
         final RequestParams params = new RequestParams(AppData.Url.getOrderdecribe);
         params.addHeader("token", AppData.App.getToken());
         params.addBodyParameter("orderId", id + "");
@@ -209,7 +223,12 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
                         }
                     } else {
                         setData(orderDescribePojo.getTsc(), orderDescribePojo.getUser(), orderDescribePojo.getOrder());
-                        LoadingViewUtil.showin(showingroup, R.layout.layout_lack, showin);
+                        showin = LoadingViewUtil.showin(showingroup, R.layout.layout_lack, showin, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                initData(true);
+                            }
+                        });
                     }
                 }
             }
@@ -236,6 +255,7 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
                 }
             }
         });
+
 
     }
 
@@ -298,16 +318,12 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
         } else {
             Glide.with(this).load(user.getAvatar()).placeholder(R.drawable.icon_order_fix).centerCrop().crossFade().into(img_orderdetail_header);
         }
-        //如果是客服 进入页面之后立即接受任务
-        if (user.getRoleType() == User.ROLE_CUSTOMER && (order.getServiceCheck() == null || order.getServiceCheck() == 0)) {
-            netAcceptOrder();
-        }
         //根据角色类型设置提交按钮的状态和功能
         pop_describe.setType(user.getRoleType(), order);
         switch (user.getRoleType()) {
             //技术人员
             case User.ROLE_FILIALETECH:
-                if (order.getTechCheck() == null || order.getTechCheck() == 0) {
+                if (order.getTscIsAccept() != 1) {
                     //如果是技术人员，且未接受，则显示接受按钮
                     btn_go.setText("接受任务");
                     btn_go.setIdleText("接受任务");
@@ -320,7 +336,7 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
             //总部技术
             case User.ROLE_HEADCOMTECH:
                 //新需求变更：如果分公司技术不存在则选择一个到现场查看
-                if (order.getHeadTechCheck() == null || order.getHeadTechCheck() == 0) {
+                if (order.getHeadTechIsAccept() != 1) {
                     btn_go.setText("接受任务");
                     btn_go.setIdleText("接受任务");
                 } else {
@@ -330,7 +346,7 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
                 break;
             //总部研发
             case User.ROLE_INVENT:
-                if (order.getDevelopCheck() == null || order.getDevelopCheck() == 0) {
+                if (order.getDevelopIsAccept() != 1) {
                     btn_go.setText("接受任务");
                     btn_go.setIdleText("接受任务");
                 } else {
@@ -405,6 +421,9 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
                         if (btn_go.getVisibility() == View.VISIBLE) {
                             btn_go.setProgress(0);
                             btn_go.setIdleText("操作");
+
+                            order.setStatus(Order.ORDER_INDEAL);
+                            pop_describe.setType(user.getRoleType(),order);
                         }
                         EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERLIST);
                     }
@@ -545,5 +564,23 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
         intent.putExtra("type", 3);
         intent.putExtra("title", "向总技术反馈");
         startActivity(intent);
+    }
+
+    private void netUpdateCheck() {
+        //进入页面之后立即查看操作
+        RequestParams params = new RequestParams(AppData.Url.updateCheck);
+        params.addHeader("token", AppData.App.getToken());
+        params.addBodyParameter("orderId", id + "");
+        CommonNet.samplepost(params, User.class, new CommonNet.SampleNetHander() {
+            @Override
+            public void netGo(int code, Object pojo, String text, Object obj) {
+                EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERLIST);
+            }
+
+            @Override
+            public void netSetError(int code, String text) {
+                Toast.makeText(OrderDetailActivity.this, text, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

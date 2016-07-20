@@ -2,9 +2,10 @@ package com.sobey.tvcust.ui.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,11 +17,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.lz.hybird.zqrlibrary.activity.MipcaActivityCapture;
 import com.sobey.common.entity.Images;
+import com.sobey.common.utils.StrUtils;
 import com.sobey.common.view.BannerView;
 import com.sobey.tvcust.R;
-import com.sobey.tvcust.common.LoadingViewUtil;
+import com.sobey.tvcust.ui.activity.ScannerActivity;
 import com.sobey.tvcust.ui.activity.SignActivity;
 import com.sobey.tvcust.ui.activity.WebActivity;
 
@@ -30,7 +31,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/6/2 0002.
  */
-public class HomeInfoFragment extends BaseFragment implements View.OnClickListener,BannerView.OnBannerClickListener{
+public class HomeInfoFragment extends BaseFragment implements View.OnClickListener, BannerView.OnBannerClickListener {
 
     private int position;
     private View rootView;
@@ -90,11 +91,11 @@ public class HomeInfoFragment extends BaseFragment implements View.OnClickListen
 
     private void initData() {
         images.clear();
-        images.add(new Images(1,"夏季衬衫，清凉一夏","http://img2.imgtn.bdimg.com/it/u=2401368128,869327646&fm=21&gp=0.jpg"));
-        images.add(new Images(2,"男子怒打妻儿，竟然只为了买一件衣服","http://img1.imgtn.bdimg.com/it/u=839795904,770645941&fm=21&gp=0.jpg"));
-        images.add(new Images(3,"冠希复出，陈妍希表示呵呵","http://pic44.nipic.com/20140726/6205649_111852997000_2.jpg"));
-        images.add(new Images(4,"iphon7预览版发售，你还在等什么","http://img4.imgtn.bdimg.com/it/u=3831361042,2579496760&fm=21&gp=0.jpg"));
-        images.add(new Images(5,"马云：成功不只是嘴上说说","http://img0.imgtn.bdimg.com/it/u=1415714570,832901974&fm=21&gp=0.jpg"));
+        images.add(new Images(1, "夏季衬衫，清凉一夏", "http://img2.imgtn.bdimg.com/it/u=2401368128,869327646&fm=21&gp=0.jpg"));
+        images.add(new Images(2, "男子怒打妻儿，竟然只为了买一件衣服", "http://img1.imgtn.bdimg.com/it/u=839795904,770645941&fm=21&gp=0.jpg"));
+        images.add(new Images(3, "冠希复出，陈妍希表示呵呵", "http://pic44.nipic.com/20140726/6205649_111852997000_2.jpg"));
+        images.add(new Images(4, "iphon7预览版发售，你还在等什么", "http://img4.imgtn.bdimg.com/it/u=3831361042,2579496760&fm=21&gp=0.jpg"));
+        images.add(new Images(5, "马云：成功不只是嘴上说说", "http://img0.imgtn.bdimg.com/it/u=1415714570,832901974&fm=21&gp=0.jpg"));
     }
 
     private void initCtrl() {
@@ -108,11 +109,12 @@ public class HomeInfoFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void onClick(View v) {
         Intent intent = new Intent();
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_go_scan:
-                intent.setClass(getActivity(), MipcaActivityCapture.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivityForResult(intent,CODE_ZQR);
+//                intent.setClass(getActivity(), MipcaActivityCapture.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.setClass(getActivity(), ScannerActivity.class);
+                startActivityForResult(intent, CODE_ZQR);
                 break;
             case R.id.btn_go_sign:
                 intent.setClass(getActivity(), SignActivity.class);
@@ -127,8 +129,15 @@ public class HomeInfoFragment extends BaseFragment implements View.OnClickListen
         switch (requestCode) {
             case CODE_ZQR:
                 if (resultCode == Activity.RESULT_OK) {
-                    String result = data.getStringExtra(MipcaActivityCapture.KEY_RESULT);
-                    Toast.makeText(getActivity(),result,Toast.LENGTH_SHORT).show();
+                    String result = data.getStringExtra(ScannerActivity.KEY_RESULT);
+                    Toast.makeText(getActivity(), result, Toast.LENGTH_SHORT).show();
+                    if (StrUtils.isUrl(result)) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse(result));
+                        startActivity(intent);
+                    }else {
+                        Toast.makeText(getActivity(),"该二维码已经失效",Toast.LENGTH_SHORT).show();
+                    }
                 }
                 break;
         }
@@ -137,8 +146,8 @@ public class HomeInfoFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void onBannerClick(int position) {
         Intent intent = new Intent(getActivity(), WebActivity.class);
-        intent.putExtra("title","资讯");
-        intent.putExtra("url","http://cn.bing.com");//https://github.com    //http://cn.bing.com
+        intent.putExtra("title", "资讯");
+        intent.putExtra("url", "http://cn.bing.com");//https://github.com    //http://cn.bing.com
         getActivity().startActivity(intent);
     }
 

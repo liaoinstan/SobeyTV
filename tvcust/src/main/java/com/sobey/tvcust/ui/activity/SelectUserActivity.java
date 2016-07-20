@@ -22,7 +22,7 @@ import com.sobey.tvcust.ui.fragment.CompTVStationFragment;
 import com.sobey.tvcust.ui.fragment.RegistDetailFragment;
 import com.sobey.tvcust.ui.fragment.SelectUserFragment;
 
-public class SelectUserActivity extends AppCompatActivity implements ActivityGo{
+public class SelectUserActivity extends BaseAppCompatActicity implements ActivityGo{
 
 
     private ViewPager viewPager;

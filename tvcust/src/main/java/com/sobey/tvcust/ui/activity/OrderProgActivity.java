@@ -147,62 +147,66 @@ public class OrderProgActivity extends BaseAppCompatActicity implements View.OnC
             text_orderprog_status.setText(OrderStatusHelper.getStatusStr(user.getRoleType(), order));
 
             //根据身份是否显示评价按钮
-            switch (user.getRoleType()){
-                case User.ROLE_COMMOM:
-                    if (order.getIsUsercomment()==0){
-                        //未评论
-                        btn_go_eva.setVisibility(View.VISIBLE);
-                        btn_go_evadetail.setVisibility(View.GONE);
-                    }else {
-                        btn_go_eva.setVisibility(View.GONE);
-                        btn_go_evadetail.setVisibility(View.VISIBLE);
-                    }
-                    break;
-                case User.ROLE_CUSTOMER:
-                    if (order.getIsServiceComment()==0){
-                        //未评论
-                        btn_go_eva.setVisibility(View.VISIBLE);
-                        btn_go_evadetail.setVisibility(View.GONE);
-                    }else {
-                        btn_go_eva.setVisibility(View.GONE);
-                        btn_go_evadetail.setVisibility(View.VISIBLE);
-                    }
-                    break;
-                case User.ROLE_FILIALETECH:
-                    if (order.getIsTSCComment()==0){
-                        //未评论
-                        btn_go_eva.setVisibility(View.VISIBLE);
-                        btn_go_evadetail.setVisibility(View.GONE);
-                    }else {
-                        btn_go_eva.setVisibility(View.GONE);
-                        btn_go_evadetail.setVisibility(View.VISIBLE);
-                    }
-                    break;
-                case User.ROLE_HEADCOMTECH:
-                    if (order.getIsHeadTechComment()==0){
-                        //未评论
-                        btn_go_eva.setVisibility(View.VISIBLE);
-                        btn_go_evadetail.setVisibility(View.GONE);
-                    }else {
-                        btn_go_eva.setVisibility(View.GONE);
-                        btn_go_evadetail.setVisibility(View.VISIBLE);
-                    }
-                    break;
-                case User.ROLE_INVENT:
-                    if (order.getIsHeadDevelopComment()==0){
-                        //未评论
-                        btn_go_eva.setVisibility(View.VISIBLE);
-                        btn_go_evadetail.setVisibility(View.GONE);
-                    }else {
-                        btn_go_eva.setVisibility(View.GONE);
-                        btn_go_evadetail.setVisibility(View.VISIBLE);
-                    }
-                    break;
-                default:
-                    btn_go_eva.setVisibility(View.GONE);
-                    btn_go_evadetail.setVisibility(View.GONE);
-                    break;
-            }
+//            switch (user.getRoleType()){
+//                case User.ROLE_COMMOM:
+//                    if (order.getIsUsercomment()==0){
+//                        //未评论
+//                        if (order.getStatus()==Order.ORDER_UNEVA) {
+//                            btn_go_eva.setVisibility(View.VISIBLE);
+//                        }else {
+//                            btn_go_eva.setVisibility(View.GONE);
+//                        }
+//                        btn_go_evadetail.setVisibility(View.GONE);
+//                    }else {
+//                        btn_go_eva.setVisibility(View.GONE);
+//                        btn_go_evadetail.setVisibility(View.VISIBLE);
+//                    }
+//                    break;
+//                case User.ROLE_CUSTOMER:
+//                    if (order.getIsServiceComment()==0){
+//                        //未评论
+//                        btn_go_eva.setVisibility(View.VISIBLE);
+//                        btn_go_evadetail.setVisibility(View.GONE);
+//                    }else {
+//                        btn_go_eva.setVisibility(View.GONE);
+//                        btn_go_evadetail.setVisibility(View.VISIBLE);
+//                    }
+//                    break;
+//                case User.ROLE_FILIALETECH:
+//                    if (order.getIsTSCComment()==0){
+//                        //未评论
+//                        btn_go_eva.setVisibility(View.VISIBLE);
+//                        btn_go_evadetail.setVisibility(View.GONE);
+//                    }else {
+//                        btn_go_eva.setVisibility(View.GONE);
+//                        btn_go_evadetail.setVisibility(View.VISIBLE);
+//                    }
+//                    break;
+//                case User.ROLE_HEADCOMTECH:
+//                    if (order.getIsHeadTechComment()==0){
+//                        //未评论
+//                        btn_go_eva.setVisibility(View.VISIBLE);
+//                        btn_go_evadetail.setVisibility(View.GONE);
+//                    }else {
+//                        btn_go_eva.setVisibility(View.GONE);
+//                        btn_go_evadetail.setVisibility(View.VISIBLE);
+//                    }
+//                    break;
+//                case User.ROLE_INVENT:
+//                    if (order.getIsHeadDevelopComment()==0){
+//                        //未评论
+//                        btn_go_eva.setVisibility(View.VISIBLE);
+//                        btn_go_evadetail.setVisibility(View.GONE);
+//                    }else {
+//                        btn_go_eva.setVisibility(View.GONE);
+//                        btn_go_evadetail.setVisibility(View.VISIBLE);
+//                    }
+//                    break;
+//                default:
+//                    btn_go_eva.setVisibility(View.GONE);
+//                    btn_go_evadetail.setVisibility(View.GONE);
+//                    break;
+//            }
         }
     }
 
@@ -241,7 +245,6 @@ public class OrderProgActivity extends BaseAppCompatActicity implements View.OnC
             case R.id.text_orderprog_go_eva:
                 intent.setClass(this,EvaActivity.class);
                 intent.putExtra("orderId",orderId);
-                startActivity(intent);
                 startActivityForResult(intent,RESULT_EVA);
                 break;
         }

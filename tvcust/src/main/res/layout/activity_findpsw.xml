@@ -91,7 +91,7 @@
                 android:layout_marginRight="10dp"
                 android:background="@drawable/line" />
 
-                <EditText
+                <com.sobey.common.view.EmojiEditText
                     android:id="@+id/edit_modifypsw_password_new"
                     style="@style/edit_hidden_login"
                     android:layout_width="match_parent"

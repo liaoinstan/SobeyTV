@@ -36,5 +36,6 @@
     <string name="title_activity_modify_psw">修改密码</string>
     <string name="title_activity_assist">援助选择</string>
     <string name="title_activity_copy">抄送</string>
-    <string name="title_activity_select_user">SelectUserActivity</string>
+    <string name="title_activity_select_user">选择用户</string>
+    <string name="title_activity_scanner">二维码扫描</string>
 </resources>

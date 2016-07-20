@@ -149,7 +149,12 @@ public class EvaDetailActivity extends BaseAppCompatActicity implements View.OnC
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
                 if (pojo==null){
-                    LoadingViewUtil.showin(showingroup, R.layout.layout_lack, showin);
+                    showin = LoadingViewUtil.showin(showingroup, R.layout.layout_lack, showin, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            initData();
+                        }
+                    });
                 }else {
                     EvaPojo evaPojo = (EvaPojo) pojo;
                     setData(evaPojo);

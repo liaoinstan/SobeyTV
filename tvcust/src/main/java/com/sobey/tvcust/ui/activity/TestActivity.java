@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.shelwee.update.UpdateHelper;
@@ -106,6 +107,10 @@ public class TestActivity extends BaseAppCompatActicity {
                 finish();
             case R.id.nettest:
                 nettest();
+                break;
+            case R.id.edit:
+                EditText editText = (EditText) findViewById(R.id.edittext);
+                Log.e("liao",editText.getText().toString());
                 break;
         }
     }

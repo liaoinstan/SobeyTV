@@ -147,7 +147,12 @@ public class CountActivity extends BaseAppCompatActicity implements View.OnClick
 
                         LoadingViewUtil.showout(showingroup, showin);
                     }else {
-                        showin = LoadingViewUtil.showin(showingroup, R.layout.layout_lack, showin);
+                        showin = LoadingViewUtil.showin(showingroup, R.layout.layout_lack, showin, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                initData();
+                            }
+                        });
                     }
                 }
             }

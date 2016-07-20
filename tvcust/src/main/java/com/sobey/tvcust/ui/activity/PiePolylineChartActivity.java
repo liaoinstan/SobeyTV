@@ -35,7 +35,7 @@ import com.sobey.tvcust.R;
 
 import java.util.ArrayList;
 
-public class PiePolylineChartActivity extends AppCompatActivity implements OnSeekBarChangeListener,
+public class PiePolylineChartActivity extends BaseAppCompatActicity implements OnSeekBarChangeListener,
         OnChartValueSelectedListener {
 
     private PieChart mChart;

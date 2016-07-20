@@ -27,6 +27,7 @@ import com.sobey.tvcust.entity.User;
 import com.sobey.tvcust.ui.dialog.DialogLoading;
 import com.sobey.tvcust.ui.dialog.DialogPopupPhoto;
 import com.sobey.tvcust.ui.dialog.DialogRecord;
+import com.sobey.tvcust.utils.PermissionsUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.xutils.http.RequestParams;
@@ -67,6 +68,8 @@ public class ReqDescribeActicity extends BaseAppCompatActicity implements View.O
     private boolean isAccept;
     private boolean isCopy;
     private boolean newflag;
+
+    private boolean hasVideo = false;
 
     private static final int RESULT_SELECTUSER = 0xf103;
     private static final int RESULT_SELECTCOPER = 0xf104;
@@ -195,17 +198,15 @@ public class ReqDescribeActicity extends BaseAppCompatActicity implements View.O
         bundleView.setOnBundleClickListener(new BundleView2.OnBundleClickListener() {
             @Override
             public void onPhotoDelClick(View v) {
-//                pathphoto = "";
             }
 
             @Override
             public void onVideoDelClick(View v) {
-//                pathvideo = "";
+                hasVideo = false;
             }
 
             @Override
             public void onVoiceDelClick(View v) {
-//                pathvoice = "";
             }
 
             @Override
@@ -282,17 +283,26 @@ public class ReqDescribeActicity extends BaseAppCompatActicity implements View.O
                 startActivityForResult(intent, RESULT_SELECTCOPER);
                 break;
             case R.id.img_reqfix_photo:
-                popup.show();
+                if (PermissionsUtil.requsetPhoto(this,findViewById(R.id.showingroup))) {
+                    popup.show();
+                }
                 break;
             case R.id.img_reqfix_vidio:
-                intent.setClass(ReqDescribeActicity.this, VideoRecorderActivity.class);
-                startActivityForResult(intent, RESULT_VIDEO_RECORDER);
+                if (!hasVideo) {
+                    if (PermissionsUtil.requsetVideo(this,findViewById(R.id.showingroup))) {
+                        intent.setClass(ReqDescribeActicity.this, VideoRecorderActivity.class);
+                        startActivityForResult(intent, RESULT_VIDEO_RECORDER);
+                    }
+                }else {
+                    Toast.makeText(this,"你只能上传一个视频",Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.img_reqfix_voice:
-                recordDialog.show();
+                if (PermissionsUtil.requsetVoice(this,findViewById(R.id.showingroup))) {
+                    recordDialog.show();
+                }
                 break;
             case R.id.btn_go:
-
                 photoPaths = bundleView.getPhotoPaths();
                 videoPaths = bundleView.getVideoPaths();
                 voicePaths = bundleView.getVoicePaths();
@@ -320,6 +330,7 @@ public class ReqDescribeActicity extends BaseAppCompatActicity implements View.O
                     // 通过路径获取第一帧的缩略图并显示
                     //Bitmap bitmap = VideoUtils.createVideoThumbnail(pathvideo);
                     bundleView.addVideo(pathvideo);
+                    hasVideo = true;
                 } else {
                     // 失败
                 }

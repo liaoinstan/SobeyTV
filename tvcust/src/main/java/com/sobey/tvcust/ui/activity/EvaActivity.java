@@ -30,6 +30,7 @@ import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
+import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 
 import java.util.ArrayList;
@@ -72,6 +73,8 @@ public class EvaActivity extends BaseAppCompatActicity implements View.OnClickLi
     private int orderId;
     private User user;
 
+    private Callback.Cancelable cancelable;
+
     private static final int RESULT_COMPLAIN = 0xf101;
 
     @Override
@@ -86,6 +89,12 @@ public class EvaActivity extends BaseAppCompatActicity implements View.OnClickLi
         initView();
         initData();
         initCtrl();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (cancelable!=null) cancelable.cancel();
     }
 
     private void initBase() {
@@ -322,7 +331,7 @@ public class EvaActivity extends BaseAppCompatActicity implements View.OnClickLi
                 eva.setCommentLableIds(getSelectIds(flow_develop.getSelectedList(), developLables));
                 params.addBodyParameter("headDevelopData", new Gson().toJson(eva));
             }
-            CommonNet.samplepost(params, CommonPojo.class, new CommonNet.SampleNetHander() {
+            cancelable = CommonNet.samplepost(params, CommonPojo.class, new CommonNet.SampleNetHander() {
                 @Override
                 public void netGo(int code, Object pojo, String text, Object obj) {
                     Toast.makeText(EvaActivity.this, text, Toast.LENGTH_SHORT).show();
