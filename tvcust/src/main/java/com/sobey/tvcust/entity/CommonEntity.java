@@ -32,7 +32,7 @@ public class CommonEntity {
     private int nonFinished;
 
     //是否点赞
-    @SerializedName("isZan")
+    @SerializedName("isLikes")
     private boolean isZan;
     //是否签到
     @SerializedName("isSign")

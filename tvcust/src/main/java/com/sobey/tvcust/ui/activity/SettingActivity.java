@@ -154,7 +154,9 @@ public class SettingActivity extends BaseAppCompatActicity implements View.OnCli
         return super.onOptionsItemSelected(item);
     }
 
+    private boolean islogouting = false;
     private void netLogout(){
+        if (islogouting) return;
         RequestParams params = new RequestParams(AppData.Url.logout);
         params.addHeader("token", AppData.App.getToken());
         CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
@@ -174,6 +176,16 @@ public class SettingActivity extends BaseAppCompatActicity implements View.OnCli
             public void netSetError(int code, String text) {
                 Toast.makeText(SettingActivity.this, text, Toast.LENGTH_SHORT).show();
                 dialogSureClear.hide();
+            }
+
+            @Override
+            public void netEnd(int code) {
+                islogouting = false;
+            }
+
+            @Override
+            public void netStart(int code) {
+                islogouting = true;
             }
         });
     }

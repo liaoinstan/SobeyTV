@@ -75,6 +75,29 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/lay_dialog_describe_eva"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/text_dialog_describe_eva"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/hot_lay_item_dark"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="立即评价"
+            android:textColor="@color/sb_text_blank"
+            android:textSize="@dimen/text_big" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:src="@drawable/line" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/lay_dialog_describe_next"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -156,30 +179,7 @@
             android:background="@drawable/hot_lay_item_dark"
             android:gravity="center"
             android:padding="10dp"
-            android:text="追加给技术"
-            android:textColor="@color/sb_text_blank"
-            android:textSize="@dimen/text_big" />
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:src="@drawable/line" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/lay_dialog_describe_toheadtech"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/text_dialog_describe_toheadtech"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/hot_lay_item_dark"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="追加给总技术"
+            android:text="追加描述"
             android:textColor="@color/sb_text_blank"
             android:textSize="@dimen/text_big" />
 

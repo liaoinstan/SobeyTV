@@ -24,6 +24,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <!--全局dialog-->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"></uses-permission>
 
     <application
         android:name=".app.TVDemoApplication"
@@ -102,8 +104,12 @@
             android:label="@string/title_activity_count_order"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.activity.CountActivity"
-            android:label="@string/title_activity_count"
+            android:name=".ui.activity.CountQuestionActivity"
+            android:label="@string/title_activity_countquestion"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.activity.CountWarningActivity"
+            android:label="@string/title_activity_countwarning"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.activity.DeviceListActivity"

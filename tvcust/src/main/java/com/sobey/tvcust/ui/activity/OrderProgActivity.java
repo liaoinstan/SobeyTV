@@ -27,7 +27,7 @@ import org.xutils.http.RequestParams;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderProgActivity extends BaseAppCompatActicity implements View.OnClickListener{
+public class OrderProgActivity extends BaseAppCompatActicity implements View.OnClickListener {
 
     private ListView listView_full;
     private List<OrderTrack> results = new ArrayList<>();
@@ -78,7 +78,7 @@ public class OrderProgActivity extends BaseAppCompatActicity implements View.OnC
         RequestParams params = new RequestParams(AppData.Url.getOrderTrack);
         params.addHeader("token", AppData.App.getToken());
         params.addBodyParameter("orderId", orderId + "");
-        CommonNet.samplepost(params,OrderTrackPojo.class,new CommonNet.SampleNetHander(){
+        CommonNet.samplepost(params, OrderTrackPojo.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
                 if (pojo == null) netSetError(code, "错误:返回数据为空");
@@ -129,84 +129,38 @@ public class OrderProgActivity extends BaseAppCompatActicity implements View.OnC
     }
 
     private void initCtrl() {
-        adapter = new ListAdapterOrderTrack(this,R.layout.item_list_track,results);
+        adapter = new ListAdapterOrderTrack(this, R.layout.item_list_track, results);
         listView_full.setAdapter(adapter);
         btn_go_evadetail.setOnClickListener(this);
         btn_go_eva.setOnClickListener(this);
     }
 
-    private void freshCtrl(){
+    private void freshCtrl() {
         adapter.notifyDataSetChanged();
     }
 
-    private void setData(Order order){
-        if (order!=null){
+    private void setData(Order order) {
+        if (order != null) {
             OrderCategory category = order.getCategory();
             text_orderprog_question.setText((category.getType() == 0 ? "软件问题：" : "硬件问题：") + category.getCategoryName());
             text_orderprog_num.setText("订单编号：" + order.getOrderNumber());
             text_orderprog_status.setText(OrderStatusHelper.getStatusStr(user.getRoleType(), order));
 
             //根据身份是否显示评价按钮
-//            switch (user.getRoleType()){
-//                case User.ROLE_COMMOM:
-//                    if (order.getIsUsercomment()==0){
-//                        //未评论
-//                        if (order.getStatus()==Order.ORDER_UNEVA) {
-//                            btn_go_eva.setVisibility(View.VISIBLE);
-//                        }else {
-//                            btn_go_eva.setVisibility(View.GONE);
-//                        }
-//                        btn_go_evadetail.setVisibility(View.GONE);
-//                    }else {
-//                        btn_go_eva.setVisibility(View.GONE);
-//                        btn_go_evadetail.setVisibility(View.VISIBLE);
-//                    }
-//                    break;
-//                case User.ROLE_CUSTOMER:
-//                    if (order.getIsServiceComment()==0){
-//                        //未评论
-//                        btn_go_eva.setVisibility(View.VISIBLE);
-//                        btn_go_evadetail.setVisibility(View.GONE);
-//                    }else {
-//                        btn_go_eva.setVisibility(View.GONE);
-//                        btn_go_evadetail.setVisibility(View.VISIBLE);
-//                    }
-//                    break;
-//                case User.ROLE_FILIALETECH:
-//                    if (order.getIsTSCComment()==0){
-//                        //未评论
-//                        btn_go_eva.setVisibility(View.VISIBLE);
-//                        btn_go_evadetail.setVisibility(View.GONE);
-//                    }else {
-//                        btn_go_eva.setVisibility(View.GONE);
-//                        btn_go_evadetail.setVisibility(View.VISIBLE);
-//                    }
-//                    break;
-//                case User.ROLE_HEADCOMTECH:
-//                    if (order.getIsHeadTechComment()==0){
-//                        //未评论
-//                        btn_go_eva.setVisibility(View.VISIBLE);
-//                        btn_go_evadetail.setVisibility(View.GONE);
-//                    }else {
-//                        btn_go_eva.setVisibility(View.GONE);
-//                        btn_go_evadetail.setVisibility(View.VISIBLE);
-//                    }
-//                    break;
-//                case User.ROLE_INVENT:
-//                    if (order.getIsHeadDevelopComment()==0){
-//                        //未评论
-//                        btn_go_eva.setVisibility(View.VISIBLE);
-//                        btn_go_evadetail.setVisibility(View.GONE);
-//                    }else {
-//                        btn_go_eva.setVisibility(View.GONE);
-//                        btn_go_evadetail.setVisibility(View.VISIBLE);
-//                    }
-//                    break;
-//                default:
-//                    btn_go_eva.setVisibility(View.GONE);
-//                    btn_go_evadetail.setVisibility(View.GONE);
-//                    break;
-//            }
+            switch (OrderStatusHelper.getNeedEva(order,user.getRoleType())){
+                case 0:
+                    btn_go_eva.setVisibility(View.GONE);
+                    btn_go_evadetail.setVisibility(View.VISIBLE);
+                    break;
+                case 1:
+                    btn_go_eva.setVisibility(View.VISIBLE);
+                    btn_go_evadetail.setVisibility(View.GONE);
+                    break;
+                case 2:
+                    btn_go_eva.setVisibility(View.GONE);
+                    btn_go_evadetail.setVisibility(View.GONE);
+                    break;
+            }
         }
     }
 
@@ -236,16 +190,16 @@ public class OrderProgActivity extends BaseAppCompatActicity implements View.OnC
     @Override
     public void onClick(View v) {
         Intent intent = new Intent();
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.text_orderprog_go_evadetail:
-                intent.setClass(this,EvaDetailActivity.class);
-                intent.putExtra("orderId",orderId);
+                intent.setClass(this, EvaDetailActivity.class);
+                intent.putExtra("orderId", orderId);
                 startActivity(intent);
                 break;
             case R.id.text_orderprog_go_eva:
-                intent.setClass(this,EvaActivity.class);
-                intent.putExtra("orderId",orderId);
-                startActivityForResult(intent,RESULT_EVA);
+                intent.setClass(this, EvaActivity.class);
+                intent.putExtra("orderId", orderId);
+                startActivityForResult(intent, RESULT_EVA);
                 break;
         }
     }

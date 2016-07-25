@@ -26,7 +26,7 @@ import com.sobey.tvcust.entity.User;
 import com.sobey.tvcust.ui.dialog.DialogLoading;
 import com.sobey.tvcust.ui.dialog.DialogPopupPhoto;
 import com.sobey.tvcust.ui.dialog.DialogRecord;
-import com.sobey.tvcust.utils.PermissionsUtil;
+import com.sobey.common.utils.PermissionsUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.xutils.http.RequestParams;
@@ -37,7 +37,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * type为0 是完成任务 type为1 是验收成功 type 2 验收拒绝 type 3 跨级追加
+ * type为0 是完成任务 type为1 是验收成功 type 2 验收拒绝 type 3 跨级追加  type 4 追加描述
  */
 public class ReqDescribeOnlyActicity extends BaseAppCompatActicity implements View.OnClickListener, CropHelper.CropInterface {
 
@@ -378,6 +378,8 @@ public class ReqDescribeOnlyActicity extends BaseAppCompatActicity implements Vi
             params.addBodyParameter("flag", "0");
         }else if (type==3){
             params.addBodyParameter("flag", "2");
+        }else if (type==4){
+            params.addBodyParameter("flag", "3");
         }
         params.addBodyParameter("content", detail);
         if (!StrUtils.isEmpty(photoUrls)) {
@@ -401,6 +403,14 @@ public class ReqDescribeOnlyActicity extends BaseAppCompatActicity implements Vi
 //                    EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERLIST);
                     netValiOrder();
                 }else if (type==3){
+                    EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERDESCRIBE);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            finish();
+                        }
+                    }, 800);
+                }else if(type ==4){
                     EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERDESCRIBE);
                     new Handler().postDelayed(new Runnable() {
                         @Override

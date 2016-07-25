@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
+import android.support.annotation.RequiresPermission;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -24,6 +24,7 @@ import com.sobey.tvcust.R;
 import com.sobey.tvcust.ui.activity.ScannerActivity;
 import com.sobey.tvcust.ui.activity.SignActivity;
 import com.sobey.tvcust.ui.activity.WebActivity;
+import com.sobey.common.utils.PermissionsUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,16 +112,33 @@ public class HomeInfoFragment extends BaseFragment implements View.OnClickListen
         Intent intent = new Intent();
         switch (v.getId()) {
             case R.id.btn_go_scan:
-//                intent.setClass(getActivity(), MipcaActivityCapture.class);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.setClass(getActivity(), ScannerActivity.class);
-                startActivityForResult(intent, CODE_ZQR);
+                if (PermissionsUtil.requsetScan(getActivity(),getView().findViewById(R.id.coordinator))) {
+                    intent.setClass(getActivity(), ScannerActivity.class);
+                    startActivityForResult(intent, CODE_ZQR);
+                }
+//                if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+//                    startScanner();
+//                }
                 break;
             case R.id.btn_go_sign:
                 intent.setClass(getActivity(), SignActivity.class);
                 startActivity(intent);
                 break;
         }
+    }
+
+    @RequiresPermission(android.Manifest.permission.CAMERA)
+    private void startScanner() {
+        Intent intent = new Intent();
+        intent.setClass(getActivity(), ScannerActivity.class);
+        startActivityForResult(intent, CODE_ZQR);
     }
 
     @Override
@@ -135,8 +153,8 @@ public class HomeInfoFragment extends BaseFragment implements View.OnClickListen
                         Intent intent = new Intent(Intent.ACTION_VIEW);
                         intent.setData(Uri.parse(result));
                         startActivity(intent);
-                    }else {
-                        Toast.makeText(getActivity(),"该二维码已经失效",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getActivity(), "该二维码无效", Toast.LENGTH_SHORT).show();
                     }
                 }
                 break;

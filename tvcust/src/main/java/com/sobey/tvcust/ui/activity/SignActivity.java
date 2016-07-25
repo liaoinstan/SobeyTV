@@ -18,6 +18,7 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.nineoldandroids.animation.Animator;
 import com.sobey.tvcust.R;
+import com.sobey.tvcust.common.AppConstant;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.CommonNet;
 import com.sobey.tvcust.common.LoadingViewUtil;
@@ -25,6 +26,7 @@ import com.sobey.tvcust.entity.CommonEntity;
 import com.sobey.tvcust.entity.OrderTrack;
 import com.sobey.tvcust.entity.OrderTrackPojo;
 
+import org.greenrobot.eventbus.EventBus;
 import org.xutils.http.RequestParams;
 
 import java.util.List;
@@ -41,6 +43,7 @@ public class SignActivity extends BaseAppCompatActicity implements View.OnClickL
 
     private boolean isSign;
     private int signDays;
+    private int signGrades;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +80,7 @@ public class SignActivity extends BaseAppCompatActicity implements View.OnClickL
                     CommonEntity com = (CommonEntity) pojo;
                     isSign = com.getIsSign() == 0 ? true : false;
                     signDays = com.getSignDays();
-                    int signGrades = com.getSignGrades();
+                    signGrades = com.getSignGrades();
                     freshCtrl(signDays, signGrades);
 
                     LoadingViewUtil.showout(showingroup, showin);
@@ -146,8 +149,10 @@ public class SignActivity extends BaseAppCompatActicity implements View.OnClickL
 
         if (isSign) {
             text_sign_do.setText("已签到");
+            btn_sign_do.setBackgroundResource(R.drawable.shape_oval_sign);
         } else {
             text_sign_do.setText("马上签到");
+            btn_sign_do.setBackgroundResource(R.drawable.shape_oval_sign_hot);
         }
 
         //出场动画
@@ -205,13 +210,16 @@ public class SignActivity extends BaseAppCompatActicity implements View.OnClickL
                             else {
                                 Toast.makeText(SignActivity.this, text, Toast.LENGTH_SHORT).show();
                                 CommonEntity com = (CommonEntity) pojo;
-                                int signGrades = com.getSignGrades();
-                                freshCtrl(signDays+1,signGrades);
+                                int grades = com.getSignGrades();
+                                freshCtrl(signDays + 1, signGrades + grades);
                                 YoYo.with(Techniques.Landing)
                                         .duration(700)
                                         .playOn(findViewById(R.id.btn_sign_do));
                                 isSign = true;
                                 text_sign_do.setText("已签到");
+                                btn_sign_do.setBackgroundResource(R.drawable.shape_oval_sign);
+
+                                EventBus.getDefault().post(AppConstant.makeFlagStr(AppConstant.FLAG_UPDATE_ME_SIGN, signDays + 1 + ""));
                             }
                         }
 

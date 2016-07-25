@@ -37,5 +37,7 @@ dependencies {
     //AndroidViewAnimations end
 
     compile 'com.github.dmytrodanylyk.circular-progress-button:library:1.1.3'
+
 //    compile 'com.github.chrisbanes:PhotoView:1.2.6'
+    compile 'org.greenrobot:eventbus:3.0.0'
 }

@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.dd.CircularProgressButton;
+import com.sobey.tvcust.common.CancelableCollector;
 import com.sobey.tvcust.common.CommonNet;
 import com.sobey.common.common.MyPlayer;
 import com.sobey.tvcust.R;
@@ -34,12 +36,13 @@ import com.sobey.tvcust.ui.dialog.DialogPopupDescribe;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderDetailActivity extends BaseAppCompatActicity implements View.OnClickListener {
+public class OrderDetailActivity extends BaseAppCompatActicity implements View.OnClickListener, com.sobey.tvcust.interfaces.OnRecycleItemClickListener {
 
     private MyPlayer player = new MyPlayer();
 
@@ -67,6 +70,8 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
     private int id;
     private User user;
     private Order order;
+
+    private static final int RESULT_EVA = 0xf101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +101,7 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
         EventBus.getDefault().unregister(this);
         if (player != null) player.onDestory();
         if (pop_describe != null) pop_describe.dismiss();
+        CancelableCollector.CancleAll();
     }
 
     private void initBase() {
@@ -157,10 +163,10 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
                 pop_describe.hide();
             }
         });
-        pop_describe.setOnHeadTechListener(new View.OnClickListener() {
+        pop_describe.setOnEvaListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                popHeadTech();
+                popEva();
                 pop_describe.hide();
             }
         });
@@ -203,7 +209,7 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
         final RequestParams params = new RequestParams(AppData.Url.getOrderdecribe);
         params.addHeader("token", AppData.App.getToken());
         params.addBodyParameter("orderId", id + "");
-        CommonNet.samplepost(params, OrderDescribePojo.class, new CommonNet.SampleNetHander() {
+        Callback.Cancelable cancelable = CommonNet.samplepost(params, OrderDescribePojo.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
                 if (pojo == null) netSetError(code, text);
@@ -255,8 +261,7 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
                 }
             }
         });
-
-
+        CancelableCollector.add(cancelable);
     }
 
     private void initCtrl() {
@@ -267,6 +272,10 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new DividerItemDecoration(this));
         recyclerView.setAdapter(adapter);
+        //只有用户才可以点击item
+        if (User.ROLE_COMMOM == user.getRoleType()) {
+            adapter.setOnItemClickListener(this);
+        }
 
         swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -356,6 +365,7 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
                 break;
             //客服
             case User.ROLE_CUSTOMER:
+                //客服，无法操作
                 btn_go.setVisibility(View.GONE);
                 break;
             //用户
@@ -364,6 +374,8 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
                 btn_go.setIdleText("操作");
                 break;
             default:
+                //其他被抄送人员，无法操作
+                btn_go.setVisibility(View.GONE);
                 break;
         }
     }
@@ -403,6 +415,18 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case RESULT_EVA:
+                if (resultCode == RESULT_OK) {
+                    initData(true);
+                }
+                break;
+        }
+    }
+
     //接受订单
     private void netAcceptOrder() {
         //接受任务
@@ -410,7 +434,7 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
         RequestParams params = new RequestParams(AppData.Url.acceptOrder);
         params.addHeader("token", AppData.App.getToken());
         params.addBodyParameter("orderId", id + "");
-        CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
+        Callback.Cancelable cancelable = CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
                 Toast.makeText(OrderDetailActivity.this, text, Toast.LENGTH_SHORT).show();
@@ -423,8 +447,10 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
                             btn_go.setIdleText("操作");
 
                             order.setStatus(Order.ORDER_INDEAL);
-                            pop_describe.setType(user.getRoleType(),order);
+                            pop_describe.setType(user.getRoleType(), order);
                         }
+                        //设置成已经接受，防止请求失败后没有刷新
+                        order.setTscIsAccept(1);
                         EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERLIST);
                     }
                 }, 800);
@@ -442,6 +468,7 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
                 }, 800);
             }
         });
+        CancelableCollector.add(cancelable);
     }
 
     //去添加订单描述（上级或下级）
@@ -452,7 +479,11 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
         intent.putExtra("categoryId", order.getCategory().getId());
         intent.putExtra("flag", type);
         intent.putExtra("userId", order.getUserId());
-        intent.putExtra("title", type == 0 ? "申请协助" : "反馈");
+        if (user.getRoleType()==User.ROLE_COMMOM){
+            intent.putExtra("title", type == 0 ? "向TSC反馈" : "反馈");
+        }else {
+            intent.putExtra("title", type == 0 ? "申请协助" : "反馈");
+        }
         if (order != null) {
             //////////////////
             ///设置是否援助
@@ -514,6 +545,25 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
         startActivity(intent);
     }
 
+    private void netUpdateCheck() {
+        //进入页面之后立即查看操作
+        RequestParams params = new RequestParams(AppData.Url.updateCheck);
+        params.addHeader("token", AppData.App.getToken());
+        params.addBodyParameter("orderId", id + "");
+        Callback.Cancelable cancelable = CommonNet.samplepost(params, User.class, new CommonNet.SampleNetHander() {
+            @Override
+            public void netGo(int code, Object pojo, String text, Object obj) {
+                EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERLIST);
+            }
+
+            @Override
+            public void netSetError(int code, String text) {
+                Toast.makeText(OrderDetailActivity.this, text, Toast.LENGTH_SHORT).show();
+            }
+        });
+        CancelableCollector.add(cancelable);
+    }
+
     private void popFinish() {
         Intent intent = new Intent(this, ReqDescribeOnlyActicity.class);
         intent.putExtra("orderId", id);
@@ -554,33 +604,45 @@ public class OrderDetailActivity extends BaseAppCompatActicity implements View.O
         startActivity(intent);
     }
 
-    private void popDescribe() {
+    private void popUserToTech() {
         goAddDescribe(0);
     }
 
-    private void popHeadTech() {
+    private void popUserToHeadTech() {
         Intent intent = new Intent(this, ReqDescribeOnlyActicity.class);
         intent.putExtra("orderId", id);
         intent.putExtra("type", 3);
         intent.putExtra("title", "向总技术反馈");
         startActivity(intent);
     }
+    private void popEva() {
+        Intent intent = new Intent();
+        intent.setClass(this, EvaActivity.class);
+        intent.putExtra("orderId", id);
+        startActivityForResult(intent, RESULT_EVA);
+    }
 
-    private void netUpdateCheck() {
-        //进入页面之后立即查看操作
-        RequestParams params = new RequestParams(AppData.Url.updateCheck);
-        params.addHeader("token", AppData.App.getToken());
-        params.addBodyParameter("orderId", id + "");
-        CommonNet.samplepost(params, User.class, new CommonNet.SampleNetHander() {
-            @Override
-            public void netGo(int code, Object pojo, String text, Object obj) {
-                EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERLIST);
-            }
+    private void popDescribe() {
+        Intent intent = new Intent(this, ReqDescribeOnlyActicity.class);
+        intent.putExtra("orderId", id);
+        intent.putExtra("type", 4);
+        intent.putExtra("title", "追加描述");
+        startActivity(intent);
+    }
 
-            @Override
-            public void netSetError(int code, String text) {
-                Toast.makeText(OrderDetailActivity.this, text, Toast.LENGTH_SHORT).show();
-            }
-        });
+
+    @Override
+    public void onItemClick(RecyclerView.ViewHolder viewHolder) {
+        OrderDescribe describe = adapter.getResults().get(viewHolder.getLayoutPosition());
+        Log.e("liao",describe.toString());
+        if (describe.getFrom()==User.ROLE_FILIALETECH){
+            //用户点击技术的消息
+            popUserToTech();
+        }else if (describe.getFrom()==User.ROLE_HEADCOMTECH){
+            //用户点击总技术的消息
+            popUserToHeadTech();
+        }else {
+            return;
+        }
     }
 }

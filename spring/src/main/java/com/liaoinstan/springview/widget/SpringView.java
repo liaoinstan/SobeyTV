@@ -111,7 +111,7 @@ public class SpringView extends ViewGroup{
             return;
         }
         setPadding(0,0,0,0);
-//        contentView.setPadding(0,contentView.getPaddingTop(),0,contentView.getPaddingBottom());
+        contentView.setPadding(0,contentView.getPaddingTop(),0,contentView.getPaddingBottom());
         if (headerResoureId!=0){
             inflater.inflate(headerResoureId, this, true);
             header = getChildAt(getChildCount()-1);

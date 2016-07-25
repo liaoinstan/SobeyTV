@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.sobey.common.utils.StrUtils;
 import com.sobey.tvcust.common.CommonNet;
 import com.sobey.common.helper.CropHelper;
 import com.sobey.tvcust.R;
@@ -30,7 +31,7 @@ import org.xutils.http.RequestParams;
 import java.io.File;
 
 public class MeDetailActivity extends BaseAppCompatActicity
-        implements View.OnClickListener, CropHelper.CropInterface{
+        implements View.OnClickListener, CropHelper.CropInterface {
 
     private CropHelper cropHelper = new CropHelper(this);
 
@@ -68,14 +69,15 @@ public class MeDetailActivity extends BaseAppCompatActicity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (popup!=null) popup.dismiss();
-        if (loadingDialog!=null) loadingDialog.dismiss();
+        if (popup != null) popup.dismiss();
+        if (loadingDialog != null) loadingDialog.dismiss();
     }
 
     private void initBase() {
         user = AppData.App.getUser();
+        cropHelper.setNeedCrop(true);
 
-        loadingDialog = new DialogLoading(this,"正在上传");
+        loadingDialog = new DialogLoading(this, "正在上传");
         popup = new DialogPopupPhoto(this);
         popup.setOnCameraListener(new View.OnClickListener() {
             @Override
@@ -104,8 +106,8 @@ public class MeDetailActivity extends BaseAppCompatActicity
         findViewById(R.id.item_go_modifyphone).setOnClickListener(this);
 
         //本地数据初始化展示
-        if (user!=null) {
-            Glide.with(this).load(user.getAvatar()).placeholder(R.drawable.default_bk).crossFade().into(img_header);
+        if (user != null) {
+            Glide.with(this).load(user.getAvatar()).placeholder(R.drawable.me_header_defalt).crossFade().into(img_header);
 
 //            ImageOptions imageOptions = new ImageOptions.Builder()
 //                    .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
@@ -139,6 +141,7 @@ public class MeDetailActivity extends BaseAppCompatActicity
                 if (resultCode == RESULT_OK) {
                     String phone = data.getStringExtra("phone");
                     text_phone.setText(phone);
+                    user = AppData.App.getUser();
                 }
                 break;
         }
@@ -156,39 +159,40 @@ public class MeDetailActivity extends BaseAppCompatActicity
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.img_medetail_header:
                 popup.show();
                 break;
             case R.id.item_go_modifyphone:
                 Intent intent = new Intent(this, ModifyPhoneActivity.class);
-                startActivityForResult(intent,RESULT_MODIFYPHONE);
+                startActivityForResult(intent, RESULT_MODIFYPHONE);
                 break;
             case R.id.btn_submit:
-
                 final String name = edit_name.getText().toString();
                 final String mail = edit_mail.getText().toString();
 
-                String msg = AppVali.me_update(avatar,name,mail);
+                String msg = AppVali.me_update(user,avatar, name, mail);
                 if (msg != null) {
                     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
                     final RequestParams params = new RequestParams(AppData.Url.updateInfo);
                     params.addHeader("token", AppData.App.getToken());
-                    params.addBodyParameter("avatar", avatar);
+                    if (StrUtils.isEmpty(avatar)) {
+                        params.addBodyParameter("avatar", user.getAvatar());
+                    }else {
+                        params.addBodyParameter("avatar", avatar);
+                    }
                     params.addBodyParameter("realName", name);
                     params.addBodyParameter("email", mail);
                     CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
                         @Override
                         public void netGo(int code, Object pojo, String text, Object obj) {
                             Toast.makeText(MeDetailActivity.this, text, Toast.LENGTH_SHORT).show();
-                            user.setAvatar(path);
-                            user.setRealName(name);
-                            user.setEmail(mail);
+                            if (!StrUtils.isEmpty(path)) user.setAvatar(path);
+                            if (!StrUtils.isEmpty(name)) user.setRealName(name);
+                            if (!StrUtils.isEmpty(mail)) user.setEmail(mail);
                             AppData.App.saveUser(user);
-//                            EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ME);
-//                            EventBus.getDefault().post(new PathEntity(path));
-                            EventBus.getDefault().post(AppConstant.makeFlagStr(AppConstant.FLAG_UPDATE_ME,path));
+                            EventBus.getDefault().post(AppConstant.FLAG_UPDATE_ME);
                             finish();
                         }
 
@@ -209,11 +213,11 @@ public class MeDetailActivity extends BaseAppCompatActicity
         RequestParams params = new RequestParams(AppData.Url.upload);
         params.setMultipart(true);
         params.addHeader("token", AppData.App.getToken());
-        params.addBodyParameter("files",new File(path));
+        params.addBodyParameter("files", new File(path));
         CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
-                if (pojo==null) netSetError(code,text);
+                if (pojo == null) netSetError(code, text);
                 else {
                     Toast.makeText(MeDetailActivity.this, text, Toast.LENGTH_SHORT).show();
                     CommonEntity commonEntity = (CommonEntity) pojo;

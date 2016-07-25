@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.sobey.tvcust.R;
+import com.sobey.tvcust.common.OrderStatusHelper;
 import com.sobey.tvcust.entity.Order;
 import com.sobey.tvcust.entity.User;
 
@@ -27,19 +28,19 @@ public class DialogPopupDescribe extends Dialog {
     private TextView text_bank;
     private TextView text_touser;
     private TextView text_describe;
-    private TextView text_toheadtech;
     private TextView text_cancel;
     private TextView text_valipass;
     private TextView text_valirefuse;
+    private TextView text_eva;
     private View lay_finish;
     private View lay_next;
     private View lay_bank;
     private View lay_touser;
     private View lay_describe;
-    private View lay_toheadtech;
     private View lay_cancel;
     private View lay_valipass;
     private View lay_valirefuse;
+    private View lay_eva;
 
     public DialogPopupDescribe(Context context) {
         super(context, R.style.PopupDialog);
@@ -57,8 +58,8 @@ public class DialogPopupDescribe extends Dialog {
         text_bank = (TextView) mView.findViewById(R.id.text_dialog_describe_bank);
         text_touser = (TextView) mView.findViewById(R.id.text_dialog_describe_touser);
         text_describe = (TextView) mView.findViewById(R.id.text_dialog_describe_describe);
-        text_toheadtech = (TextView) mView.findViewById(R.id.text_dialog_describe_toheadtech);
         text_cancel = (TextView) mView.findViewById(R.id.text_dialog_describe_cancel);
+        text_eva = (TextView) mView.findViewById(R.id.text_dialog_describe_eva);
 
         lay_finish = mView.findViewById(R.id.lay_dialog_describe_finish);
         lay_valipass = mView.findViewById(R.id.lay_dialog_describe_vali_pass);
@@ -67,7 +68,7 @@ public class DialogPopupDescribe extends Dialog {
         lay_bank = mView.findViewById(R.id.lay_dialog_describe_bank);
         lay_touser = mView.findViewById(R.id.lay_dialog_describe_touser);
         lay_describe = mView.findViewById(R.id.lay_dialog_describe_describe);
-        lay_toheadtech = mView.findViewById(R.id.lay_dialog_describe_toheadtech);
+        lay_eva = mView.findViewById(R.id.lay_dialog_describe_eva);
 
 
         text_finish.setOnClickListener(listener);
@@ -76,6 +77,7 @@ public class DialogPopupDescribe extends Dialog {
         text_touser.setOnClickListener(listener);
         text_describe.setOnClickListener(listener);
         text_cancel.setOnClickListener(listener);
+        text_eva.setOnClickListener(listener);
 
         this.setCanceledOnTouchOutside(true);    //点击外部关闭
 
@@ -91,15 +93,21 @@ public class DialogPopupDescribe extends Dialog {
     }
 
     public void setType(int type, Order order) {
+        if (OrderStatusHelper.getNeedFinish(order,type)){
+            lay_finish.setVisibility(View.VISIBLE);
+        }else {
+            lay_finish.setVisibility(View.GONE);
+        }
+        if (OrderStatusHelper.getNeedEva(order, type) == 1) {
+            lay_eva.setVisibility(View.VISIBLE);
+        } else {
+            lay_eva.setVisibility(View.GONE);
+        }
         switch (type) {
             //技术人员
             case User.ROLE_FILIALETECH:
                 //只有处理中的订单能提交验收
-                if (order.getStatus().equals(Order.ORDER_INDEAL)) {
-                    lay_finish.setVisibility(View.VISIBLE);
-                } else {
-                    lay_finish.setVisibility(View.GONE);
-                }
+
                 lay_valipass.setVisibility(View.GONE);
                 lay_valirefuse.setVisibility(View.GONE);
                 //只有处理中的订单能反馈和申请
@@ -113,15 +121,9 @@ public class DialogPopupDescribe extends Dialog {
                 }
                 lay_touser.setVisibility(View.GONE);
                 lay_describe.setVisibility(View.GONE);
-                lay_toheadtech.setVisibility(View.GONE);
                 break;
             //总部技术
             case User.ROLE_HEADCOMTECH:
-                if (order.getStatus().equals(Order.ORDER_INDEAL)) {
-                    lay_finish.setVisibility(View.VISIBLE);
-                } else {
-                    lay_finish.setVisibility(View.GONE);
-                }
                 lay_valipass.setVisibility(View.GONE);
                 lay_valirefuse.setVisibility(View.GONE);
                 //只有处理中的订单能反馈和申请
@@ -129,7 +131,7 @@ public class DialogPopupDescribe extends Dialog {
                     lay_next.setVisibility(View.VISIBLE);
                     lay_bank.setVisibility(View.VISIBLE);
                     text_bank.setText("反馈TSC");
-                    if (order.getIsHeadTech().equals(0)) {
+                    if (order.getIsHeadTech().equals(1)) {
                         //如果是直接分配给总部技术
                         lay_touser.setVisibility(View.VISIBLE);
                     } else {
@@ -141,12 +143,9 @@ public class DialogPopupDescribe extends Dialog {
                     lay_touser.setVisibility(View.GONE);
                 }
                 lay_describe.setVisibility(View.GONE);
-                lay_toheadtech.setVisibility(View.GONE);
-
                 break;
             //总部研发
             case User.ROLE_INVENT:
-                lay_finish.setVisibility(View.GONE);
                 lay_valipass.setVisibility(View.GONE);
                 lay_valirefuse.setVisibility(View.GONE);
                 lay_next.setVisibility(View.GONE);
@@ -159,22 +158,18 @@ public class DialogPopupDescribe extends Dialog {
                 }
                 lay_touser.setVisibility(View.GONE);
                 lay_describe.setVisibility(View.GONE);
-                lay_toheadtech.setVisibility(View.GONE);
                 break;
             //客服
             case User.ROLE_CUSTOMER:
-                lay_finish.setVisibility(View.GONE);
                 lay_valipass.setVisibility(View.GONE);
                 lay_valirefuse.setVisibility(View.GONE);
                 lay_next.setVisibility(View.GONE);
                 lay_bank.setVisibility(View.GONE);
                 lay_touser.setVisibility(View.GONE);
                 lay_describe.setVisibility(View.GONE);
-                lay_toheadtech.setVisibility(View.GONE);
                 break;
             //用户
             case User.ROLE_COMMOM:
-                lay_finish.setVisibility(View.GONE);
                 if (order.getStatus().equals(Order.ORDER_UNVALI)) {
                     lay_valipass.setVisibility(View.VISIBLE);
                     lay_valirefuse.setVisibility(View.VISIBLE);
@@ -185,19 +180,7 @@ public class DialogPopupDescribe extends Dialog {
                 lay_next.setVisibility(View.GONE);
                 lay_bank.setVisibility(View.GONE);
                 lay_touser.setVisibility(View.GONE);
-                //分公司技术接受后才可以追加描述给他
-                if (order.getTscId()!=null) {
-                    lay_describe.setVisibility(View.VISIBLE);
-                }else {
-                    lay_describe.setVisibility(View.GONE);
-                }
-                //总公司技术接受后才可以追加描述给他
-                if (order.getIsHeadTech().equals(1) && (order.getHeadTechId() != null)) {
-                    //如果是直接分配给总部技术
-                    lay_toheadtech.setVisibility(View.VISIBLE);
-                } else {
-                    lay_toheadtech.setVisibility(View.GONE);
-                }
+                lay_describe.setVisibility(View.VISIBLE);
                 break;
             default:
                 lay_finish.setVisibility(View.GONE);
@@ -207,7 +190,7 @@ public class DialogPopupDescribe extends Dialog {
                 lay_bank.setVisibility(View.GONE);
                 lay_touser.setVisibility(View.GONE);
                 lay_describe.setVisibility(View.GONE);
-                lay_toheadtech.setVisibility(View.GONE);
+                lay_eva.setVisibility(View.GONE);
                 break;
         }
     }
@@ -245,8 +228,8 @@ public class DialogPopupDescribe extends Dialog {
         text_describe.setOnClickListener(listener);
     }
 
-    public void setOnHeadTechListener(View.OnClickListener listener) {
-        text_toheadtech.setOnClickListener(listener);
+    public void setOnEvaListener(View.OnClickListener listener) {
+        text_eva.setOnClickListener(listener);
     }
 
     public void setOnCancelListener(View.OnClickListener listener) {

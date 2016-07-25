@@ -17,9 +17,12 @@ import com.sobey.tvcust.entity.Order;
 import com.sobey.tvcust.entity.OrderCategory;
 import com.sobey.tvcust.entity.User;
 import com.sobey.tvcust.interfaces.OnRecycleItemClickListener;
+import com.sobey.tvcust.ui.activity.EvaActivity;
+import com.sobey.tvcust.ui.activity.EvaDetailActivity;
 import com.sobey.tvcust.ui.activity.OrderAllocateActivity;
 import com.sobey.tvcust.ui.activity.OrderDetailActivity;
 import com.sobey.tvcust.ui.activity.ReqDescribeActicity;
+import com.sobey.tvcust.ui.activity.ReqDescribeOnlyActicity;
 
 import java.util.Date;
 import java.util.List;
@@ -50,6 +53,7 @@ public class RecycleAdapterOrder extends RecyclerView.Adapter<RecycleAdapterOrde
 
     @Override
     public void onBindViewHolder(final RecycleAdapterOrder.Holder holder, final int position) {
+        final Order order = results.get(holder.getLayoutPosition());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,18 +66,28 @@ public class RecycleAdapterOrder extends RecyclerView.Adapter<RecycleAdapterOrde
                 if (okListener != null) okListener.onCancleClick(holder);
             }
         });
+        holder.text_cui.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (okListener != null) okListener.onCuiClick(holder);
+            }
+        });
         holder.text_finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (okListener != null) okListener.onFinishClick(holder);
+                Intent intent = new Intent(context, ReqDescribeOnlyActicity.class);
+                intent.putExtra("orderId", order.getId());
+                intent.putExtra("type", 0);
+                intent.putExtra("title", "完成任务");
+                context.startActivity(intent);
             }
         });
         holder.text_go.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, OrderDetailActivity.class);
-                intent.putExtra("id", results.get(holder.getLayoutPosition()).getId());
-                intent.putExtra("order",results.get(holder.getLayoutPosition()));
+                intent.putExtra("id", order.getId());
+                intent.putExtra("order", order);
                 context.startActivity(intent);
             }
         });
@@ -81,27 +95,13 @@ public class RecycleAdapterOrder extends RecyclerView.Adapter<RecycleAdapterOrde
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, OrderAllocateActivity.class);
-                Order order = results.get(holder.getLayoutPosition());
                 intent.putExtra("orderId", order.getId());
                 intent.putExtra("userId", order.getUserId());
                 intent.putExtra("categoryId", order.getCategory().getId());
                 context.startActivity(intent);
             }
         });
-        holder.text_assist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, ReqDescribeActicity.class);
-                Order order = results.get(holder.getLayoutPosition());
-                intent.putExtra("type", "0");
-                intent.putExtra("userId", order.getUserId());
-                intent.putExtra("orderId", order.getId());
-                intent.putExtra("title", "申请协助");
-                context.startActivity(intent);
-            }
-        });
 
-        Order order = results.get(holder.getLayoutPosition());
         OrderCategory category = order.getCategory();
         holder.text_num.setText("订单编号：" + order.getOrderNumber());
         holder.text_time.setText(TimeUtil.getTimeFor("yyyy-MM-dd", new Date(order.getCreateTime())));
@@ -114,30 +114,69 @@ public class RecycleAdapterOrder extends RecyclerView.Adapter<RecycleAdapterOrde
         /////////////////////////////////////
 
         //客服可以分配订单
-        if (user.getRoleType() == User.ROLE_CUSTOMER){
-            if (order.getServiceCheck()==1 && order.getTscId() == null && order.getStatus() == Order.ORDER_UNDEAL) {
+        if (user.getRoleType() == User.ROLE_CUSTOMER) {
+            if (order.getServiceCheck() == 1 && (order.getTscId() == null && order.getHeadTechId() == null) && order.getStatus() == Order.ORDER_UNDEAL) {
                 //客服查看后 && 订单尚未分配 && 订单是未处理状态
                 holder.text_allocate.setVisibility(View.VISIBLE);
             } else {
                 holder.text_allocate.setVisibility(View.GONE);
             }
-        }else {
+        } else {
             holder.text_allocate.setVisibility(View.GONE);
         }
 
+        //是否需要查看评价和进行评价
+        switch (OrderStatusHelper.getNeedEva(order,user.getRoleType())){
+            case 0:
+                holder.text_eva.setText("查看评价");
+                holder.text_eva.setVisibility(View.VISIBLE);
+                holder.text_eva.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent();
+                        intent.setClass(context, EvaDetailActivity.class);
+                        intent.putExtra("orderId", order.getId());
+                        context.startActivity(intent);
+                    }
+                });
+                break;
+            case 1:
+                holder.text_eva.setText("立即评价");
+                holder.text_eva.setVisibility(View.VISIBLE);
+                holder.text_eva.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent();
+                        intent.setClass(context, EvaActivity.class);
+                        intent.putExtra("orderId", order.getId());
+                        context.startActivity(intent);
+                    }
+                });
+                break;
+            case 2:
+                holder.text_eva.setVisibility(View.GONE);
+                break;
+        }
 
-        holder.text_assist.setVisibility(View.GONE);
+        //是否需要完成订单
+        if (OrderStatusHelper.getNeedFinish(order,user.getRoleType())){
+            holder.text_finish.setVisibility(View.VISIBLE);
+        }else {
+            holder.text_finish.setVisibility(View.GONE);
+        }
 
-        holder.text_finish.setVisibility(View.GONE);
-        //用户可以取消订单
+        //用户可以取消订单 和 催一催
         if (user.getRoleType() == User.ROLE_COMMOM) {
-            if (order.getStatus()==Order.ORDER_UNDEAL) {
+            if (order.getStatus() == Order.ORDER_UNDEAL) {
                 holder.text_cancle.setVisibility(View.VISIBLE);
-            }else {
+                holder.text_cui.setVisibility(View.VISIBLE);
+            } else {
                 holder.text_cancle.setVisibility(View.GONE);
+                holder.text_cui.setVisibility(View.GONE);
             }
         } else {
             holder.text_cancle.setVisibility(View.GONE);
+            holder.text_cui.setVisibility(View.GONE);
         }
     }
 
@@ -155,9 +194,10 @@ public class RecycleAdapterOrder extends RecyclerView.Adapter<RecycleAdapterOrde
         public TextView text_status;
 
         public TextView text_cancle;
+        public TextView text_cui;
         public TextView text_go;
         public TextView text_allocate;
-        public TextView text_assist;
+        public TextView text_eva;
         public TextView text_finish;
 
         public Holder(View itemView) {
@@ -169,9 +209,10 @@ public class RecycleAdapterOrder extends RecyclerView.Adapter<RecycleAdapterOrde
             text_status = (TextView) itemView.findViewById(R.id.text_order_status);
 
             text_cancle = (TextView) itemView.findViewById(R.id.text_order_cancle);
+            text_cui = (TextView) itemView.findViewById(R.id.text_order_cui);
             text_go = (TextView) itemView.findViewById(R.id.text_order_go);
             text_allocate = (TextView) itemView.findViewById(R.id.text_order_allocate);
-            text_assist = (TextView) itemView.findViewById(R.id.text_order_assist);
+            text_eva = (TextView) itemView.findViewById(R.id.text_order_eva);
             text_finish = (TextView) itemView.findViewById(R.id.text_order_finish);
         }
     }
@@ -190,6 +231,7 @@ public class RecycleAdapterOrder extends RecyclerView.Adapter<RecycleAdapterOrde
 
     public interface OnOkListener {
         void onCancleClick(Holder holder);
-        void onFinishClick(Holder holder);
+
+        void onCuiClick(Holder holder);
     }
 }

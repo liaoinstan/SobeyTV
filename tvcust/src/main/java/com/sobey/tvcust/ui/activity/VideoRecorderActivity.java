@@ -1,30 +1,50 @@
 package com.sobey.tvcust.ui.activity;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.ActionBarActivity;
+import android.provider.Settings;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.sobey.common.utils.ApplicationHelp;
 import com.sobey.common.view.MovieRecorderView;
 import com.sobey.tvcust.R;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 public class VideoRecorderActivity extends BaseAppCompatActicity {
     private MovieRecorderView mRecorderView;
     private Button mShootBtn;
     private boolean isFinish = true;
 
+    private static final int REQUEST_PERMISSION_SETTING =  0xfe12;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+
+        init();
+
+    }
+
+    private void init(){
         setContentView(R.layout.activity_videorecorder);
+
         mRecorderView = (MovieRecorderView) findViewById(R.id.movieRecorderView);
         mShootBtn = (Button) findViewById(R.id.shoot_button);
 
@@ -54,6 +74,59 @@ public class VideoRecorderActivity extends BaseAppCompatActicity {
         });
     }
 
+    @Subscribe
+    public void onEventMainThread(Integer flag) {
+        if (MovieRecorderView.EVENT_UPDATE_EXCEPTION.equals(flag)){
+
+            mShootBtn.setEnabled(false);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("提示");
+            builder.setMessage("需要您启用摄像头和录音权限");
+            builder.setNegativeButton("取消", new Dialog.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            builder.setPositiveButton("前往设置", new Dialog.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    String packageName = null;
+                    try {
+                        final PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), 0);
+                        packageName = info.applicationInfo.packageName;
+                    } catch (PackageManager.NameNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    // 进入App设置页面
+                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    Uri uri = Uri.fromParts("package", packageName, null);
+                    intent.setData(uri);
+                    startActivityForResult(intent, REQUEST_PERMISSION_SETTING);
+                }
+            });
+            final AlertDialog dialog = builder.create();
+            //**//在dialog  show方法之前添加如下代码，表示该dialog是一个系统的dialog**
+            dialog.getWindow().setType((WindowManager.LayoutParams.TYPE_SYSTEM_ALERT));
+            dialog.show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_PERMISSION_SETTING:
+//                if (resultCode == RESULT_OK) {
+//
+//                }
+                Log.e("liao",(resultCode== RESULT_OK)+"");
+                mShootBtn.setEnabled(true);
+                init();
+                break;
+        }
+    }
 
     @Override
     public void onResume() {
@@ -76,6 +149,7 @@ public class VideoRecorderActivity extends BaseAppCompatActicity {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     private Handler handler = new Handler() {
@@ -90,9 +164,9 @@ public class VideoRecorderActivity extends BaseAppCompatActicity {
             mRecorderView.stop();
             // 返回到播放页面
             Intent intent = new Intent();
-            Log.d("TAG",mRecorderView.getmRecordFile().getAbsolutePath());
+            Log.d("TAG", mRecorderView.getmRecordFile().getAbsolutePath());
             intent.putExtra("path", mRecorderView.getmRecordFile().getAbsolutePath());
-            setResult(RESULT_OK,intent);
+            setResult(RESULT_OK, intent);
         }
         // isFinish = false;
         finish();
@@ -102,11 +176,11 @@ public class VideoRecorderActivity extends BaseAppCompatActicity {
      * 录制完成回调
      *
      * @author liuyinjun
-     *
      * @date 2015-2-9
      */
     public interface OnShootCompletionListener {
         public void OnShootSuccess(String path, int second);
+
         public void OnShootFailure();
     }
 
@@ -175,7 +249,7 @@ public class VideoRecorderActivity extends BaseAppCompatActicity {
     *//**
      * 创建文件夹路径
      * @param folderName　文件夹名称
-     * @return  文件夹路径
+     * @return 文件夹路径
      *//*
     public static String createFilePath(String folderName) {
         File file = new File(android.os.Environment.getExternalStorageDirectory()+"/"+folderName);

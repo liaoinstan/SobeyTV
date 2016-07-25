@@ -21,6 +21,26 @@ public class OrderDescribe {
     private String[] pathvideos;
     @SerializedName("jsVoices")
     private String[] pathvoices;
+    @SerializedName("from")
+    private int from;
+    @SerializedName("to")
+    private int to;
+
+    public int getFrom() {
+        return from;
+    }
+
+    public int getTo() {
+        return to;
+    }
+
+    public void setTo(int to) {
+        this.to = to;
+    }
+
+    public void setFrom(int from) {
+        this.from = from;
+    }
 
     public Integer getId() {
         return id;
@@ -79,6 +99,8 @@ public class OrderDescribe {
                 ", pathphotos=" + Arrays.toString(pathphotos) +
                 ", pathvideos=" + Arrays.toString(pathvideos) +
                 ", pathvoices=" + Arrays.toString(pathvoices) +
+                ", from=" + from +
+                ", to=" + to +
                 '}';
     }
 }

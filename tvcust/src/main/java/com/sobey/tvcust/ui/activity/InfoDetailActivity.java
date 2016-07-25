@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -81,20 +82,16 @@ public class InfoDetailActivity extends BaseAppCompatActicity implements View.On
         RequestParams params = new RequestParams(AppData.Url.iszan);
         params.addHeader("token", AppData.App.getToken());
         params.addBodyParameter("newsId", newsId + "");
-        CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
+        CommonNet.samplepost(params, Integer.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
-                if (pojo == null) netSetError(code, "错误，返回数据为空");
-                else {
-                    CommonEntity com = (CommonEntity) pojo;
-                    boolean izan = com.isZan();
-                    img_infodetail_zan.setVisibility(View.VISIBLE);
-                    //如果该用户赞了就不再赞了
-                    if (izan) {
-                        img_infodetail_zan.setEnabled(false);
-                    } else {
-                        img_infodetail_zan.setEnabled(true);
-                    }
+                Integer isLikes = (Integer) pojo;
+                boolean izan = isLikes == 0 ? false : true;
+                img_infodetail_zan.setVisibility(View.VISIBLE);
+                if (izan) {
+                    img_infodetail_zan.setSelected(false);
+                } else {
+                    img_infodetail_zan.setSelected(true);
                 }
             }
 
@@ -110,6 +107,12 @@ public class InfoDetailActivity extends BaseAppCompatActicity implements View.On
         img_infodetail_zan.setOnClickListener(this);
         WebSettings setting = webView.getSettings();
         setting.setJavaScriptEnabled(true);
+        webView.setWebViewClient(new WebViewClient() {
+            public boolean shouldOverrideUrlLoading(WebView view, String url) { //  重写此方法表明点击网页里面的链接还是在当前的webview里跳转，不跳到浏览器那边
+                view.loadUrl(url);
+                return true;
+            }
+        });
 //        setting.setDefaultTextEncodingName("utf-8");
         webView.loadUrl(url);
     }
@@ -131,20 +134,22 @@ public class InfoDetailActivity extends BaseAppCompatActicity implements View.On
         switch (v.getId()) {
             case R.id.img_infodetail_share:
                 ShareDialog shareDialog = new ShareDialog(this);
-                if (article!=null) {
-                    shareDialog.setShareData(article.getTitle(), article.getIntroduction(), url,article.getImageUrl());
+                if (article != null) {
+                    shareDialog.setShareData(article.getTitle(), article.getIntroduction(), url, article.getImageUrl());
                 }
                 shareDialog.show();
                 break;
             case R.id.img_infodetail_zan:
-                if (isZaning) return;
                 RequestParams params = new RequestParams(AppData.Url.zan);
                 params.addHeader("token", AppData.App.getToken());
                 params.addBodyParameter("newsId", newsId + "");
+                if (img_infodetail_zan.isSelected()) {
+                    params.addBodyParameter("flag", 2 + "");
+                }
                 CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
                     @Override
                     public void netGo(int code, Object pojo, String text, Object obj) {
-                        img_infodetail_zan.setEnabled(false);
+                        img_infodetail_zan.setSelected(!img_infodetail_zan.isSelected());
                     }
 
                     @Override
@@ -153,13 +158,13 @@ public class InfoDetailActivity extends BaseAppCompatActicity implements View.On
                     }
 
                     @Override
-                    public void netStart(int code) {
-                        isZaning = true;
+                    public void netEnd(int code) {
+                        img_infodetail_zan.setEnabled(true);
                     }
 
                     @Override
-                    public void netEnd(int code) {
-                        isZaning = false;
+                    public void netStart(int code) {
+                        img_infodetail_zan.setEnabled(false);
                     }
                 });
                 break;

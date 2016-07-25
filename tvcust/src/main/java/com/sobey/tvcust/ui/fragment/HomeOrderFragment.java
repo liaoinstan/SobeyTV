@@ -190,12 +190,13 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
                 tab.addTab(tab.newTab().setText("待处理"));
                 tab.addTab(tab.newTab().setText("处理中"));
                 tab.addTab(tab.newTab().setText("待验收"));
+                tab.addTab(tab.newTab().setText("待评价"));
                 break;
             //其他被抄送人员
             default:
                 tab.addTab(tab.newTab().setText("全部"));
                 tab.addTab(tab.newTab().setText("进行中"));
-                tab.addTab(tab.newTab().setText("待验证"));
+                tab.addTab(tab.newTab().setText("待验收"));
                 tab.addTab(tab.newTab().setText("已完成"));    //ORDER_FINSH
                 break;
         }
@@ -249,7 +250,7 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
                     isComment = 0;
                     isAccept = null;
                 } else if ("已完成".equals(text)) {
-                    status = Order.ORDER_FINSH;
+                    status = 2007;
                     isCheck = null;
                     isComment = 1;
                     isAccept = null;
@@ -270,7 +271,12 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
                     isCheck = 1;
                     isComment = null;
                     isAccept = null;
-                } else {
+                } else if ("进行中".equals(text)) {
+                    status = 2006;
+                    isCheck = null;
+                    isComment = null;
+                    isAccept = null;
+                }else {
                     Toast.makeText(getActivity(), "没有该分类", Toast.LENGTH_SHORT).show();
                 }
                 initData(true);
@@ -286,34 +292,6 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
 
             }
         });
-
-//        tab.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-//            @Override
-//            public void onTabSelected(TabLayout.Tab tab) {
-//                switch (tab.getPosition()) {
-//                    case 0:
-//                        selectflag = Select.ALL;
-//                        break;
-//                    case 1:
-//                        selectflag = Select.PROG;
-//                        break;
-//                    case 2:
-//                        selectflag = Select.FINISH;
-//                        break;
-//                }
-//                initData(true);
-//            }
-//
-//            @Override
-//            public void onTabUnselected(TabLayout.Tab tab) {
-//
-//            }
-//
-//            @Override
-//            public void onTabReselected(TabLayout.Tab tab) {
-//
-//            }
-//        });
     }
 
     private void initCtrl() {
@@ -337,16 +315,8 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
             }
 
             @Override
-            public void onFinishClick(final RecycleAdapterOrder.Holder holder) {
-                dialogSure.setMsg("确定完成订单？");
-                dialogSure.setOnOkListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialogSure.hide();
-                        netFinishOrder(holder.getLayoutPosition());
-                    }
-                });
-                dialogSure.show();
+            public void onCuiClick(final RecycleAdapterOrder.Holder holder) {
+                Snackbar.make(showingroup, "已经为您提醒工作人员，我们会尽快处理", Snackbar.LENGTH_LONG).show();
             }
         });
 
@@ -529,33 +499,5 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
                 Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private void netFinishOrder(final int pos) {
-
-        Intent intent = new Intent(getActivity(), ReqDescribeOnlyActicity.class);
-        intent.putExtra("orderId", adapter.getResults().get(pos).getId());
-        intent.putExtra("type", 0);
-        intent.putExtra("title", "完成任务");
-        startActivity(intent);
-
- //        RequestParams params = new RequestParams(AppData.Url.verifiOrder);
-//        params.addHeader("token", AppData.App.getToken());
-//        params.addBodyParameter("orderId", adapter.getResults().get(pos).getId()+"");
-//        CommonNet.samplepost(params,CommonEntity.class,new CommonNet.SampleNetHander(){
-//            @Override
-//            public void netGo(int code, Object pojo, String text, Object obj) {
-//                Toast.makeText(getActivity(),text,Toast.LENGTH_SHORT).show();
-//                adapter.notifyDataSetChanged();
-//                Intent intent = new Intent(getActivity(), OrderProgActivity.class);
-//                intent.putExtra("orderId",adapter.getResults().get(pos).getId());
-//                startActivity(intent);
-//            }
-//
-//            @Override
-//            public void netSetError(int code, String text) {
-//                Toast.makeText(getActivity(),text,Toast.LENGTH_SHORT).show();
-//            }
-//        });
     }
 }

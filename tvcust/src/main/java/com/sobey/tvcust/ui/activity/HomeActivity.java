@@ -5,24 +5,29 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.shelwee.update.UpdateHelper;
+import com.shelwee.update.listener.OnUpdateListener;
+import com.shelwee.update.pojo.UpdateInfo;
 import com.sobey.tvcust.R;
+import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.ui.fragment.HomeInfoFragment;
 import com.sobey.tvcust.ui.fragment.HomeQwFragment;
 import com.sobey.tvcust.ui.fragment.HomeMeFragment;
 import com.sobey.tvcust.ui.fragment.HomeOrderFragment;
 import com.sobey.tvcust.ui.fragment.HomeServerFragment;
-import com.sobey.tvcust.utils.PermissionsUtil;
+import com.sobey.common.utils.PermissionsUtil;
 
 import java.util.List;
 
 public class HomeActivity extends BaseAppCompatActicity implements View.OnClickListener{
+
+    UpdateHelper updateHelper;
 
     private Fragment homeFragment0;
     private Fragment homeFragment1;
@@ -86,6 +91,38 @@ public class HomeActivity extends BaseAppCompatActicity implements View.OnClickL
 
     private void initBase() {
         mTabs = new Button[5];
+        updateHelper = new UpdateHelper.Builder(this)
+                .checkUrl(AppData.Url.version)
+                .isAutoInstall(false) //设置为false需在下载完手动点击安装;默认值为true，下载后自动安装。
+//                        .isHintNewVersion(false)
+                .build();
+
+        updateHelper.check(new OnUpdateListener() {
+            @Override
+            public void onStartCheck() {
+                Log.e("liao","onStartCheck");
+            }
+            @Override
+            public void onFinishCheck(UpdateInfo info) {
+                Log.e("liao","onFinishCheck");
+            }
+            @Override
+            public void onStartDownload() {
+                Log.e("liao","onStartDownload");
+            }
+            @Override
+            public void onInstallApk() {
+                Log.e("liao","onInstallApk");
+            }
+            @Override
+            public void onFinshDownload() {
+                Log.e("liao","onFinshDownload");
+            }
+            @Override
+            public void onDownloading(int progress) {
+//                        Log.e("liao","onDownloading:"+progress);
+            }
+        });
     }
 
     private void initView() {

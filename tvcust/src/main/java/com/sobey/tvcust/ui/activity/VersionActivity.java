@@ -13,6 +13,7 @@ import com.shelwee.update.listener.OnUpdateListener;
 import com.shelwee.update.pojo.UpdateInfo;
 import com.sobey.common.utils.VersionUtil;
 import com.sobey.tvcust.R;
+import com.sobey.tvcust.common.AppData;
 
 public class VersionActivity extends BaseAppCompatActicity {
 
@@ -43,7 +44,7 @@ public class VersionActivity extends BaseAppCompatActicity {
 
     private void initBase() {
         updateHelper = new UpdateHelper.Builder(this)
-                .checkUrl("http://xx")
+                .checkUrl(AppData.Url.version)
                 .isAutoInstall(false) //设置为false需在下载完手动点击安装;默认值为true，下载后自动安装。
 //                        .isHintNewVersion(false)
                 .build();

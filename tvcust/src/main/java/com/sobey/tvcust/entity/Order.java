@@ -20,6 +20,8 @@ public class Order implements Serializable{
     public static final int ORDER_UNEVA = 2004;
     //已解决
     public static final int ORDER_FINSH = 2005;
+    //进行中
+    public static final int ORDER_DEALING = 2006;
 
     @SerializedName("id")
     private Integer id;

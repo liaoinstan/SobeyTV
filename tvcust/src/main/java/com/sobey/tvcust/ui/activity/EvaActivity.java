@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
 import com.google.gson.Gson;
+import com.sobey.tvcust.common.AppConstant;
 import com.sobey.tvcust.common.CommonNet;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
@@ -30,6 +31,7 @@ import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
+import org.greenrobot.eventbus.EventBus;
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 
@@ -340,6 +342,8 @@ public class EvaActivity extends BaseAppCompatActicity implements View.OnClickLi
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERLIST);
+                            EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERDESCRIBE);
                             setResult(RESULT_OK);
                             finish();
                         }

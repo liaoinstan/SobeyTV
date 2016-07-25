@@ -9,6 +9,7 @@ import android.text.format.Time;
 import android.util.Log;
 
 import com.sobey.common.utils.FileUtil;
+import com.sobey.common.utils.PermissionsUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -65,6 +66,7 @@ public class InsVoiceRecorder {
             recorder.start();
         } catch (IOException e) {
             Log.e("voice", "prepare() failed");
+            PermissionsUtil.showDialog(appContext,"需要您授权录音权限");
         }
         new Thread(new Runnable() {
             @Override

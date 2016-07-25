@@ -2,10 +2,8 @@ package com.sobey.tvcust.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,27 +13,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.sobey.common.common.CustomBitmapLoadCallBack;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppConstant;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.CommonNet;
 import com.sobey.tvcust.common.LoadingViewUtil;
 import com.sobey.tvcust.entity.CommonEntity;
-import com.sobey.tvcust.entity.CommonPojo;
 import com.sobey.tvcust.entity.User;
-import com.sobey.tvcust.ui.activity.CountActivity;
+import com.sobey.tvcust.ui.activity.CountQuestionActivity;
 import com.sobey.tvcust.ui.activity.CountOrderActivity;
-import com.sobey.tvcust.ui.activity.LoginActivity;
+import com.sobey.tvcust.ui.activity.CountWarningActivity;
 import com.sobey.tvcust.ui.activity.MeDetailActivity;
-import com.sobey.tvcust.ui.activity.PiePolylineChartActivity;
 import com.sobey.tvcust.ui.activity.SettingActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.xutils.http.RequestParams;
-import org.xutils.image.ImageOptions;
-import org.xutils.x;
 
 /**
  * Created by Administrator on 2016/6/2 0002.
@@ -86,9 +79,18 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
 
     @Subscribe
     public void onEventMainThread(String flagSpc) {
-        if (AppConstant.FLAG_UPDATE_ME.equals(AppConstant.getFlag(flagSpc))){
-            String path = AppConstant.getStr(flagSpc);
-            Glide.with(this).load(path).placeholder(R.drawable.me_header_defalt).crossFade().into(img_me_header);
+        if (AppConstant.FLAG_UPDATE_ME_SIGN.equals(AppConstant.getFlag(flagSpc))){
+            String days = AppConstant.getStr(flagSpc);
+            text_me_signs.setText(days+"天");
+        }
+    }
+
+    @Subscribe
+    public void onEventMainThread(Integer flag) {
+        if (AppConstant.FLAG_UPDATE_ME.equals(flag)){
+            user = AppData.App.getUser();
+            Glide.with(this).load(user.getAvatar()).placeholder(R.drawable.me_header_defalt).crossFade().into(img_me_header);
+            text_me_name.setText(user.getRealName());
         }
     }
 
@@ -143,6 +145,7 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
 
     private void initData() {
         netCountOrder();
+        netCountSign();
         initCtrl();
     }
 
@@ -154,7 +157,7 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
     }
 
     private void setUserInfo(){
-        Glide.with(this).load(user.getAvatar()).placeholder(R.drawable.default_bk).crossFade().into(img_me_header);
+        Glide.with(this).load(user.getAvatar()).placeholder(R.drawable.me_header_defalt).crossFade().into(img_me_header);
 
 //            ImageOptions imageOptions = new ImageOptions.Builder()
 //                    .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
@@ -180,11 +183,11 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
                 startActivity(intent);
                 break;
             case R.id.item_me_question:
-                intent.setClass(getActivity(), CountActivity.class);
+                intent.setClass(getActivity(), CountQuestionActivity.class);
                 startActivity(intent);
                 break;
             case R.id.item_me_warning:
-                intent.setClass(getActivity(), CountActivity.class);
+                intent.setClass(getActivity(), CountWarningActivity.class);
                 startActivity(intent);
                 break;
             case R.id.item_me_setting:
@@ -214,4 +217,26 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
             }
         });
     }
+
+    private void netCountSign(){
+        RequestParams params = new RequestParams(AppData.Url.getUserSign);
+        params.addHeader("token", AppData.App.getToken());
+        CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
+            @Override
+            public void netGo(int code, Object pojo, String text, Object obj) {
+                if (pojo == null) netSetError(code, "错误:返回数据为空");
+                else {
+                    CommonEntity com = (CommonEntity) pojo;
+                    int signDays = com.getSignDays();
+                    text_me_signs.setText(signDays+"天");
+                }
+            }
+
+            @Override
+            public void netSetError(int code, String text) {
+                Toast.makeText(getActivity(),text, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 }

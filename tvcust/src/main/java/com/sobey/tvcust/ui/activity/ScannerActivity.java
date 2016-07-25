@@ -2,17 +2,18 @@ package com.sobey.tvcust.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.sobey.tvcust.R;
+import com.sobey.common.utils.PermissionsUtil;
 
+import java.util.Collection;
+
+import me.dm7.barcodescanner.zbar.BarcodeFormat;
 import me.dm7.barcodescanner.zbar.Result;
 import me.dm7.barcodescanner.zbar.ZBarScannerView;
 
@@ -26,9 +27,14 @@ public class ScannerActivity extends AppCompatActivity implements ZBarScannerVie
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ViewGroup contentFrame = (ViewGroup) findViewById(R.id.frame_content);
-        mScannerView = new ZBarScannerView(this);
-        contentFrame.addView(mScannerView);
+        try {
+            ViewGroup contentFrame = (ViewGroup) findViewById(R.id.frame_content);
+            mScannerView = new ZBarScannerView(this);
+            contentFrame.addView(mScannerView);
+        }catch (Exception e){
+            e.printStackTrace();
+            PermissionsUtil.showSnack(this,findViewById(R.id.root),"需要您启用摄像头权限");
+        }
     }
 
     public static final String KEY_RESULT = "result";

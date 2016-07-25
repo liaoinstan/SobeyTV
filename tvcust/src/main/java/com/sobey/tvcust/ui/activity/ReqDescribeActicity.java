@@ -27,7 +27,7 @@ import com.sobey.tvcust.entity.User;
 import com.sobey.tvcust.ui.dialog.DialogLoading;
 import com.sobey.tvcust.ui.dialog.DialogPopupPhoto;
 import com.sobey.tvcust.ui.dialog.DialogRecord;
-import com.sobey.tvcust.utils.PermissionsUtil;
+import com.sobey.common.utils.PermissionsUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.xutils.http.RequestParams;

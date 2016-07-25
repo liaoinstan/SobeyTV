@@ -31,6 +31,7 @@ import com.sobey.tvcust.entity.OrderPojo;
 import com.sobey.tvcust.entity.TestEntity;
 import com.sobey.tvcust.ui.activity.InfoDetailActivity;
 import com.sobey.tvcust.interfaces.OnRecycleItemClickListener;
+import com.sobey.tvcust.ui.activity.WebActivity;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterInfoQuan;
 
 import org.xutils.common.Callback;
@@ -118,7 +119,7 @@ public class InfoQuanFragment extends BaseFragment implements OnRecycleItemClick
         params.addHeader("token", AppData.App.getToken());
         params.addBodyParameter("pageNO", 1 + "");
         params.addBodyParameter("pageSize", PAGE_COUNT + "");
-        params.addBodyParameter("typeId", position + "");
+        params.addBodyParameter("typeId", position + 1 + "");
         cancelable = CommonNet.samplepost(params, ArticlePojo.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
@@ -174,9 +175,11 @@ public class InfoQuanFragment extends BaseFragment implements OnRecycleItemClick
     }
 
     private boolean isloadmore = false;
+    private long noTime;
 
     private void loadMoreData() {
         if (isloadmore) return;
+        if ((System.currentTimeMillis() - noTime) < 10000) return;
         final RequestParams params = new RequestParams(AppData.Url.getNewsList);
         params.addHeader("token", AppData.App.getToken());
         params.addBodyParameter("pageNO", page + 1 + "");
@@ -197,6 +200,7 @@ public class InfoQuanFragment extends BaseFragment implements OnRecycleItemClick
                         page++;
                     } else {
                         Snackbar.make(showingroup, "没有更多的数据了", Snackbar.LENGTH_SHORT).show();
+                        noTime = System.currentTimeMillis();
                     }
                 }
             }
@@ -291,15 +295,19 @@ public class InfoQuanFragment extends BaseFragment implements OnRecycleItemClick
             String linkUrl;
             if (isUrl == 1) {
                 linkUrl = article.getLinkUrl();
+                Intent intent = new Intent(getActivity(), WebActivity.class);
+                intent.putExtra("url", linkUrl);
+                intent.putExtra("title", "资讯详情");
+                startActivity(intent);
             } else {
                 linkUrl = AppData.Url.newsDetail + "?newsId=" + article.getId();
+                Intent intent = new Intent(getActivity(), InfoDetailActivity.class);
+                intent.putExtra("url", linkUrl);
+                intent.putExtra("izan", false);
+                intent.putExtra("newsId", article.getId());
+                intent.putExtra("article", article);
+                startActivity(intent);
             }
-            Intent intent = new Intent(getActivity(), InfoDetailActivity.class);
-            intent.putExtra("url", linkUrl);
-            intent.putExtra("izan", false);
-            intent.putExtra("newsId", article.getId());
-            intent.putExtra("article",article);
-            startActivity(intent);
         }
     }
 }

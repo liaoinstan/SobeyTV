@@ -47,6 +47,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:paddingBottom="20dp"
+            android:layout_marginRight="20dp"
             android:orientation="vertical">
 
             <TextView

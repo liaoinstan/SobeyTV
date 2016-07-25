@@ -1,5 +1,7 @@
 package com.sobey.tvcust.common;
 
+import android.view.View;
+
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.entity.Order;
 import com.sobey.tvcust.entity.User;
@@ -13,36 +15,39 @@ public class OrderStatusHelper {
         switch (order.getStatus()) {
             case Order.ORDER_UNDEAL: {
                 //待处理
-                if (userType== User.ROLE_COMMOM) {
+                if (userType == User.ROLE_COMMOM) {
                     return "等待客服待处理";
-                }else if (userType== User.ROLE_CUSTOMER){
-                    if (order.getServiceCheck()!=1){
+                } else if (userType == User.ROLE_CUSTOMER) {
+                    if (order.getServiceCheck() != 1) {
                         return "等待查看任务";
-                    }else {
-                        if (order.getTscId()!=null && order.getHeadTechId()!=null){
+                    } else {
+                        if (order.getTscId() != null && order.getHeadTechId() != null) {
                             return "等待技术处理";
-                        }else {
+                        } else {
                             return "等待客服分配维修人员";
                         }
                     }
-                }else if (userType == User.ROLE_FILIALETECH){
-                    if (order.getTechCheck()!=1){
+                } else if (userType == User.ROLE_FILIALETECH) {
+                    if (order.getTechCheck() != 1) {
                         return "等待查看任务";
-                    }else {
+                    } else {
                         return "等待技术处理";
                     }
-                }else if (userType == User.ROLE_HEADCOMTECH){
-                    if (order.getHeadTechCheck()!=1){
+                } else if (userType == User.ROLE_HEADCOMTECH) {
+                    if (order.getHeadTechCheck() != 1) {
                         return "等待查看任务";
-                    }else {
+                    } else {
                         return "等待技术处理";
                     }
-                }else if (userType == User.ROLE_INVENT){
-                    if (order.getDevelopCheck()!=1){
+                } else if (userType == User.ROLE_INVENT) {
+                    if (order.getDevelopCheck() != 1) {
                         return "等待查看任务";
-                    }else {
+                    } else {
                         return "等待技术处理";
                     }
+                } else {
+                    //其他被抄送的角色
+                    return "正在进行中";
                 }
             }
             case Order.ORDER_INDEAL:
@@ -94,6 +99,104 @@ public class OrderStatusHelper {
                 return R.drawable.icon_finish;
             default:
                 return R.drawable.icon_order_fix;
+        }
+    }
+
+    /**
+     * 根据订单状态和角色区分是否需要评价
+     * 返回 0 不需要  1 需要   2 无法评价（即不能评价也不能查看评价）
+     *
+     * @param order
+     * @param roleType
+     * @return
+     */
+    public static int getNeedEva(Order order, int roleType) {
+        if (order.getStatus() == Order.ORDER_UNEVA || order.getStatus() == Order.ORDER_FINSH) {
+            switch (roleType) {
+                case User.ROLE_COMMOM:
+                    if (order.getIsUsercomment() != 1) {
+                        //未评论
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                case User.ROLE_CUSTOMER:
+                    if (order.getIsServiceComment() != 1) {
+                        //未评论
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                case User.ROLE_FILIALETECH:
+                    if (order.getIsTSCComment() != 1) {
+                        //未评论
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                case User.ROLE_HEADCOMTECH:
+                    if (order.getIsHeadTechComment() != 1) {
+                        //未评论
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                case User.ROLE_INVENT:
+                    if (order.getIsHeadDevelopComment() != 1) {
+                        //未评论
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                default:
+                    return 2;
+            }
+        } else {
+            return 2;
+        }
+    }
+
+    public static boolean getNeedFinish(Order order, int roleType) {
+        //只有tsc和总部技术 在 订单是处理中的情况下可以完成订单
+        if (User.ROLE_FILIALETECH == roleType || User.ROLE_HEADCOMTECH == roleType) {
+            if (order.getStatus().equals(Order.ORDER_INDEAL)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    public static String getRoleNameByType(int roleType) {
+        switch (roleType) {
+            case User.ROLE_COMMOM:
+                return "用户";
+            case User.ROLE_CUSTOMER:
+                return "客服";
+            case User.ROLE_FILIALETECH:
+                return "TSC";
+            case User.ROLE_HEADCOMTECH:
+                return "总部技术";
+            case User.ROLE_INVENT:
+                return "总部研发";
+            default:
+                return "其他人员";
+        }
+    }
+
+    public static String getDescribeName(int roleType,int from, int to) {
+        if (from == 0 && to == 0) {
+            return "订单描述";
+        } else if (from != 0 && to == 0) {
+            return getRoleNameByType(from) + "追加描述";
+        } else {
+            if (roleType==User.ROLE_COMMOM){
+                return "技术" + " 反馈 " + getRoleNameByType(to);
+            }else {
+                return getRoleNameByType(from) + " 反馈 " + getRoleNameByType(to);
+            }
         }
     }
 }

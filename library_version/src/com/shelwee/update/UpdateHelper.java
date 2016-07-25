@@ -495,22 +495,22 @@ public class UpdateHelper {
 				return null;
 			}
 			try {
-//				updateInfo = JSONHandler.toUpdateInfo(HttpRequest.get(url));
-				updateInfo = new UpdateInfo();
-				updateInfo.setApkUrl("http://7xnfyf.com1.z0.glb.clouddn.com/android.zip");
-				updateInfo.setAppName("AppName");
-				updateInfo.setVersionCode("2");
-				updateInfo.setVersionName("2.0");
-				updateInfo.setChangeLog("测试log");
-				updateInfo.setUpdateTips("UpdateTips");
-				updateInfo.setStatus(1);
-				updateInfo.setCreated_at("1992-11-04");
-				updateInfo.setSize("13.6M");
-				updateInfo.setIsForce(0);
+				updateInfo = JSONHandler.toUpdateInfo(HttpRequest.get(url));
+//				updateInfo = new UpdateInfo();
+//				updateInfo.setApkUrl("http://7xnfyf.com1.z0.glb.clouddn.com/android.zip");
+//				updateInfo.setAppName("AppName");
+//				updateInfo.setVersionCode("2");
+//				updateInfo.setVersionName("2.0");
+//				updateInfo.setChangeLog("测试log");
+//				updateInfo.setUpdateTips("UpdateTips");
+//				updateInfo.setStatus(1);
+//				updateInfo.setCreated_at("1992-11-04");
+//				updateInfo.setSize("13.6M");
+//				updateInfo.setIsForce(0);
 
 				if (updateInfo!=null && (updateInfo.getAppName()==null || "".equals(updateInfo.getAppName()))) {
 					String appName = getAppName();
-					updateInfo.setAppName(appName!=null?appName:"CC房车-车主");
+					updateInfo.setAppName(appName!=null?appName:"SOBEY");
 				}
 				if (updateInfo!=null && updateInfo.getIsForce()!=null && updateInfo.getIsForce()==1) {
 					isAutoInstall = true;

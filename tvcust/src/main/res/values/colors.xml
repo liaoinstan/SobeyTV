@@ -25,6 +25,8 @@
     <color name="sb_bk_dark_trans">#55000000</color>
     <color name="sb_bk_dark">#15222a</color>
     <color name="sb_white_trans">#ccffffff</color>
+    <color name="sb_sign_light">#999999</color>
+    <color name="sb_sign_light_trans">#33999999</color>
 
     <color name="sb_tab_bk">#ffffff</color>
     <color name="sb_bk">#e6e6e6</color>

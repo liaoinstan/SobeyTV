@@ -12,7 +12,10 @@ import com.sobey.common.utils.TimeUtil;
 import com.sobey.common.view.BundleView2;
 import com.sobey.common.view.bundle.BundleEntity;
 import com.sobey.tvcust.R;
+import com.sobey.tvcust.common.AppData;
+import com.sobey.tvcust.common.OrderStatusHelper;
 import com.sobey.tvcust.entity.OrderDescribe;
+import com.sobey.tvcust.entity.User;
 import com.sobey.tvcust.interfaces.OnRecycleItemClickListener;
 import com.sobey.tvcust.ui.activity.PhotoActivity;
 import com.sobey.tvcust.ui.activity.VideoActivity;
@@ -27,6 +30,7 @@ public class RecycleAdapterOrderDetail extends RecyclerView.Adapter<RecycleAdapt
     private Context context;
     private int src;
     private List<OrderDescribe> results;
+    private User user;
 //    private List<BundleEntity> resultsbundle = new ArrayList<>();
 
     public List<OrderDescribe> getResults() {
@@ -37,11 +41,12 @@ public class RecycleAdapterOrderDetail extends RecyclerView.Adapter<RecycleAdapt
         this.context = context;
         this.src = src;
         this.results = results;
+        user = AppData.App.getUser();
     }
 
     @Override
     public RecycleAdapterOrderDetail.Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-          return new Holder(LayoutInflater.from(parent.getContext()).inflate(src, parent, false));
+        return new Holder(LayoutInflater.from(parent.getContext()).inflate(src, parent, false));
     }
 
     @Override
@@ -49,13 +54,14 @@ public class RecycleAdapterOrderDetail extends RecyclerView.Adapter<RecycleAdapt
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (listener!=null) listener.onItemClick(holder);
+                if (listener != null) listener.onItemClick(holder);
             }
         });
         final int pos = holder.getLayoutPosition();
+        OrderDescribe describe = results.get(pos);
 
-//        holder.text_title.setText(results.get(pos).getDetail());
-        holder.text_time.setText(TimeUtil.getTimeFor("yyyy-MM-dd  HH:mm",new Date(results.get(pos).getTime())));
+        holder.text_title.setText(OrderStatusHelper.getDescribeName(user.getRoleType(),describe.getFrom(), describe.getTo()));
+        holder.text_time.setText(TimeUtil.getTimeFor("yyyy-MM-dd  HH:mm", new Date(results.get(pos).getTime())));
         holder.text_detail.setText(results.get(pos).getDetail());
 
         ///bundle
@@ -65,17 +71,17 @@ public class RecycleAdapterOrderDetail extends RecyclerView.Adapter<RecycleAdapt
         final String[] pathvoices = results.get(pos).getPathvoices();
 
         List<BundleEntity> resultsbundle = new ArrayList<>();
-        if (pathphotos!=null) {
+        if (pathphotos != null) {
             for (String path : pathphotos) {
                 resultsbundle.add(new BundleEntity(BundleEntity.Type.PHOTE, path));
             }
         }
-        if (pathvideos!=null) {
+        if (pathvideos != null) {
             for (String path : pathvideos) {
                 resultsbundle.add(new BundleEntity(BundleEntity.Type.VIDEO, path));
             }
         }
-        if (pathvoices!=null) {
+        if (pathvoices != null) {
             for (String path : pathvoices) {
                 resultsbundle.add(new BundleEntity(BundleEntity.Type.VOICE, path));
             }
@@ -114,7 +120,7 @@ public class RecycleAdapterOrderDetail extends RecyclerView.Adapter<RecycleAdapt
 
             @Override
             public void onVoiceShowClick(String path) {
-                if (voiceListener!=null) voiceListener.onPlay(path);
+                if (voiceListener != null) voiceListener.onPlay(path);
             }
         });
 
@@ -143,15 +149,18 @@ public class RecycleAdapterOrderDetail extends RecyclerView.Adapter<RecycleAdapt
     }
 
     private OnRecycleItemClickListener listener;
-    public void setOnItemClickListener(OnRecycleItemClickListener listener){
+
+    public void setOnItemClickListener(OnRecycleItemClickListener listener) {
         this.listener = listener;
     }
 
     private onVoiceListener voiceListener;
+
     public void setVoiceListener(onVoiceListener voiceListener) {
         this.voiceListener = voiceListener;
     }
-    public interface onVoiceListener{
+
+    public interface onVoiceListener {
         void onPlay(String path);
     }
 }

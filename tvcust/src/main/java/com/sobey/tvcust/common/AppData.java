@@ -91,8 +91,8 @@ public class AppData {
 		 * 服务器域名
 		 */
 //		private static final String domain = "https://api.cczcrv.com";											//正式服务器
-//		private static final String domain = "http://101.201.222.160:8084";								//测试服务器
-		private static final String domain = "http://192.168.0.116:8080";								//开发服务器
+		private static final String domain = "http://101.201.222.160:8084";								//测试服务器
+//		private static final String domain = "http://192.168.0.123:8080";								//开发服务器
 //		private static final String domain = "http://192.168.1.123:8080";								//开发服务器
 
 		/**
@@ -145,11 +145,11 @@ public class AppData {
 		public static final String getUserSign			= domain + "/SanghaCloud/sign/getSignInfo";					//查询用户签到次数信息
 		public static final String signPageInfo			= domain + "/SanghaCloud/sign/signPageInfo";					//分页查询签到记录
 		public static final String newsDetail			= domain + "/SanghaCloud/requestWeb/newsDetail";				//请求文章
-
 		public static final String zan					= domain + "/SanghaCloud/news/increaseLikes";					//点赞
 		public static final String iszan					= domain + "/SanghaCloud/news/getIsLikes";					//查询用户是否点赞
 
 		public static final String msglist				= domain + "/SanghaCloud/order/getorderlist";					//消息列表
+		public static final String version				= domain + "/SanghaCloud/updateVersion/apk";						//检查更新
 
 	}
 }

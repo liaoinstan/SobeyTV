@@ -1,6 +1,8 @@
 package com.sobey.common.view;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.hardware.Camera;
 import android.media.MediaRecorder;
@@ -11,17 +13,22 @@ import android.media.MediaRecorder.OutputFormat;
 import android.media.MediaRecorder.VideoEncoder;
 import android.media.MediaRecorder.VideoSource;
 import android.os.Environment;
+import android.support.v7.app.AlertDialog;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.sobey.common.R;
 import com.sobey.common.utils.FileUtil;
+import com.sobey.common.utils.PermissionsUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,11 +40,13 @@ import java.util.TimerTask;
  * 视频播放控件
  *
  * @author liuyinjun
- *
  * @date 2015-2-5
  */
 public class MovieRecorderView extends LinearLayout implements OnErrorListener {
 
+    public static final Integer EVENT_UPDATE_EXCEPTION = 0xfe02;
+
+    private Context context;
     private SurfaceView mSurfaceView;
     private SurfaceHolder mSurfaceHolder;
     private ProgressBar mProgressBar;
@@ -64,6 +73,7 @@ public class MovieRecorderView extends LinearLayout implements OnErrorListener {
 
     public MovieRecorderView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        this.context = context;
         // 初始化各项组件
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MovieRecorderView, defStyle, 0);
         mWidth = a.getInteger(R.styleable.MovieRecorderView_video_width, 320);// 默认320
@@ -85,9 +95,7 @@ public class MovieRecorderView extends LinearLayout implements OnErrorListener {
     }
 
     /**
-     *
      * @author liuyinjun
-     *
      * @date 2015-2-5
      */
     private class CustomCallBack implements Callback {
@@ -101,6 +109,10 @@ public class MovieRecorderView extends LinearLayout implements OnErrorListener {
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
+            } catch (RuntimeException e) {
+                e.printStackTrace();
+//                PermissionsUtil.showDialog(context, "需要您启用摄像头和录音权限");
+                EventBus.getDefault().post(EVENT_UPDATE_EXCEPTION);
             }
         }
 
@@ -113,7 +125,11 @@ public class MovieRecorderView extends LinearLayout implements OnErrorListener {
         public void surfaceDestroyed(SurfaceHolder holder) {
             if (!isOpenCamera)
                 return;
-            freeCameraResource();
+            try {
+                freeCameraResource();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
     }
@@ -121,9 +137,9 @@ public class MovieRecorderView extends LinearLayout implements OnErrorListener {
     /**
      * 初始化摄像头
      *
+     * @throws IOException
      * @author liuyinjun
      * @date 2015-2-5
-     * @throws IOException
      */
     private void initCamera() throws IOException {
         if (mCamera != null) {
@@ -186,7 +202,7 @@ public class MovieRecorderView extends LinearLayout implements OnErrorListener {
         // 创建文件
         try {
             mRecordFile = File.createTempFile("recording", ".mp4", vecordDir); //mp4格式
-            Log.i("TAG",mRecordFile.getAbsolutePath());
+            Log.i("TAG", mRecordFile.getAbsolutePath());
         } catch (IOException e) {
         }
     }
@@ -194,9 +210,9 @@ public class MovieRecorderView extends LinearLayout implements OnErrorListener {
     /**
      * 初始化
      *
+     * @throws IOException
      * @author liuyinjun
      * @date 2015-2-5
-     * @throws IOException
      */
     private void initRecord() throws IOException {
         mMediaRecorder = new MediaRecorder();
@@ -231,12 +247,10 @@ public class MovieRecorderView extends LinearLayout implements OnErrorListener {
     /**
      * 开始录制视频
      *
+     * @param
+     * @param onRecordFinishListener 达到指定时间之后回调接口
      * @author liuyinjun
      * @date 2015-2-5
-     * @param
-     *
-     * @param onRecordFinishListener
-     *            达到指定时间之后回调接口
      */
     public void record(final OnRecordFinishListener onRecordFinishListener) {
         this.mOnRecordFinishListener = onRecordFinishListener;
@@ -273,9 +287,13 @@ public class MovieRecorderView extends LinearLayout implements OnErrorListener {
      * @date 2015-2-5
      */
     public void stop() {
-        stopRecord();
-        releaseRecord();
-        freeCameraResource();
+        try {
+            stopRecord();
+            releaseRecord();
+            freeCameraResource();
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -339,7 +357,6 @@ public class MovieRecorderView extends LinearLayout implements OnErrorListener {
      * 录制完成回调接口
      *
      * @author liuyinjun
-     *
      * @date 2015-2-5
      */
     public interface OnRecordFinishListener {
