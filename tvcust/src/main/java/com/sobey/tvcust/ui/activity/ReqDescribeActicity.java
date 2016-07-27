@@ -41,7 +41,7 @@ import java.util.List;
  * 维修申报和追加描述页面
  * type为0 是维修申报 type为1 是追加描述
  */
-public class ReqDescribeActicity extends BaseAppCompatActicity implements View.OnClickListener, CropHelper.CropInterface {
+public class ReqDescribeActicity extends BaseAppCompatActivity implements View.OnClickListener, CropHelper.CropInterface {
 
     private CropHelper cropHelper = new CropHelper(this);
 

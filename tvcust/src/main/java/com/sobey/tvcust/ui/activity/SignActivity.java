@@ -2,7 +2,6 @@ package com.sobey.tvcust.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
@@ -23,15 +22,11 @@ import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.CommonNet;
 import com.sobey.tvcust.common.LoadingViewUtil;
 import com.sobey.tvcust.entity.CommonEntity;
-import com.sobey.tvcust.entity.OrderTrack;
-import com.sobey.tvcust.entity.OrderTrackPojo;
 
 import org.greenrobot.eventbus.EventBus;
 import org.xutils.http.RequestParams;
 
-import java.util.List;
-
-public class SignActivity extends BaseAppCompatActicity implements View.OnClickListener {
+public class SignActivity extends BaseAppCompatActivity implements View.OnClickListener {
 
     private ViewGroup showingroup;
     private View showin;

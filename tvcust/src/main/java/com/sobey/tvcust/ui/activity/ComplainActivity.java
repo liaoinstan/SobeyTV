@@ -25,7 +25,7 @@ import org.xutils.http.RequestParams;
 import java.util.ArrayList;
 import java.util.Set;
 
-public class ComplainActivity extends BaseAppCompatActicity implements View.OnClickListener {
+public class ComplainActivity extends BaseAppCompatActivity implements View.OnClickListener {
 
     private EditText edit_complain_describe;
     private TagFlowLayout flow_complain;

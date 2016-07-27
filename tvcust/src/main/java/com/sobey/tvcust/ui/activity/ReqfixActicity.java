@@ -38,7 +38,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ReqfixActicity extends BaseAppCompatActicity implements View.OnClickListener, CropHelper.CropInterface {
+public class ReqfixActicity extends BaseAppCompatActivity implements View.OnClickListener, CropHelper.CropInterface {
 
     private CropHelper cropHelper = new CropHelper(this);
 

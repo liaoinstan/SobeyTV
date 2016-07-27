@@ -8,7 +8,7 @@ import android.view.View;
 
 import com.sobey.tvcust.R;
 
-public class SettingSecurityActivity extends BaseAppCompatActicity implements View.OnClickListener{
+public class SettingSecurityActivity extends BaseAppCompatActivity implements View.OnClickListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

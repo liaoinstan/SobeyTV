@@ -42,7 +42,7 @@ import org.xutils.http.RequestParams;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderDetailActivity extends BaseAppCompatActicity implements View.OnClickListener, com.sobey.tvcust.interfaces.OnRecycleItemClickListener {
+public class OrderDetailActivity extends BaseAppCompatActivity implements View.OnClickListener, com.sobey.tvcust.interfaces.OnRecycleItemClickListener {
 
     private MyPlayer player = new MyPlayer();
 

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -30,7 +29,7 @@ import org.xutils.http.RequestParams;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CopyActivity extends BaseAppCompatActicity implements View.OnClickListener {
+public class CopyActivity extends BaseAppCompatActivity implements View.OnClickListener {
 
     private RecyclerView recyclerView;
     private SpringView springView;

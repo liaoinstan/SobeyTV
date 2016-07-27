@@ -30,7 +30,7 @@ import org.xutils.http.RequestParams;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AssistActivity extends BaseAppCompatActicity implements View.OnClickListener {
+public class AssistActivity extends BaseAppCompatActivity implements View.OnClickListener {
 
     private RecyclerView recyclerView;
     private SpringView springView;

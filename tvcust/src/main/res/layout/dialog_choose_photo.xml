@@ -7,7 +7,8 @@
 
     <TextView
         android:id="@+id/text_pop_identy_camera"
-        style="@style/text_big_blank"
+        android:textSize="@dimen/text_big"
+        android:textColor="@color/sb_text_blank"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/hot_lay_item_dark"
@@ -22,7 +23,8 @@
 
     <TextView
         android:id="@+id/text_pop_identy_photo"
-        style="@style/text_big_blue"
+        android:textSize="@dimen/text_big"
+        android:textColor="@color/sb_blue"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/hot_lay_item_dark"
@@ -37,7 +39,8 @@
 
     <TextView
         android:id="@+id/text_pop_identy_cancel"
-        style="@style/text_big_blank"
+        android:textSize="@dimen/text_big"
+        android:textColor="@color/sb_text_blank"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/hot_lay_item_dark"

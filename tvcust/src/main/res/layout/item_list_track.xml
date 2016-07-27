@@ -25,7 +25,7 @@
                 android:id="@+id/v_item_track_line_top"
                 android:layout_width="1dp"
                 android:layout_height="20dp"
-                android:background="@drawable/line_track" />
+                android:background="@color/sb_track" />
 
             <ImageView
                 android:id="@+id/img_item_track_oval"
@@ -38,7 +38,7 @@
                 android:layout_width="1dp"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/line_track" />
+                android:background="@color/sb_track" />
 
         </LinearLayout>
 

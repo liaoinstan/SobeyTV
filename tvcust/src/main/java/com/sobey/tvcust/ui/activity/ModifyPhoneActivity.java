@@ -21,7 +21,7 @@ import com.sobey.tvcust.entity.User;
 
 import org.xutils.http.RequestParams;
 
-public class ModifyPhoneActivity extends BaseAppCompatActicity implements View.OnClickListener {
+public class ModifyPhoneActivity extends BaseAppCompatActivity implements View.OnClickListener {
 
     private EditText edit_phone;
     private EditText edit_vali;

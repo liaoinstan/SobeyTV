@@ -2,7 +2,6 @@ package com.sobey.tvcust.ui.activity;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import com.sobey.tvcust.R;
 
@@ -12,7 +11,7 @@ import org.xutils.x;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
-public class PhotoActivity extends BaseAppCompatActicity {
+public class PhotoActivity extends BaseAppCompatActivity {
 
     private PhotoView photoview;
 

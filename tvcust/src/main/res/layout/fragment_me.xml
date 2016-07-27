@@ -189,7 +189,6 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginBottom="16dp"
@@ -350,7 +349,6 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
@@ -358,8 +356,8 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:layout_marginTop="10dp"
                             android:layout_marginBottom="5dp"
+                            android:layout_marginTop="10dp"
                             android:orientation="horizontal">
 
                             <LinearLayout
@@ -483,7 +481,7 @@
                             android:layout_height="1dp"
                             android:layout_marginLeft="20dp"
                             android:layout_marginRight="20dp"
-                            android:background="@drawable/line"/>
+                            android:background="@drawable/line" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -627,9 +625,9 @@
                             android:id="@+id/item_me_order"
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
-                            android:foreground="?attr/selectableItemBackground"
                             android:drawableLeft="@drawable/icon_me_order"
                             android:drawablePadding="20dp"
+                            android:foreground="?attr/selectableItemBackground"
                             android:gravity="center_vertical"
                             android:paddingLeft="22dp"
                             android:text="派单统计" />
@@ -644,9 +642,9 @@
                             android:id="@+id/item_me_question"
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
-                            android:foreground="?attr/selectableItemBackground"
                             android:drawableLeft="@drawable/icon_me_question"
                             android:drawablePadding="20dp"
+                            android:foreground="?attr/selectableItemBackground"
                             android:gravity="center_vertical"
                             android:paddingLeft="22dp"
                             android:text="问题分类统计" />
@@ -661,9 +659,9 @@
                             android:id="@+id/item_me_warning"
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
-                            android:foreground="?attr/selectableItemBackground"
                             android:drawableLeft="@drawable/icon_me_version"
                             android:drawablePadding="20dp"
+                            android:foreground="?attr/selectableItemBackground"
                             android:gravity="center_vertical"
                             android:paddingLeft="22dp"
                             android:text="警报类型统计" />
@@ -675,8 +673,8 @@
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
                     android:layout_marginBottom="15dp"
+                    android:layout_marginTop="15dp"
                     android:background="@color/white"
                     app:cardCornerRadius="0dp">
 
@@ -684,9 +682,9 @@
                         android:id="@+id/item_me_setting"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:foreground="?attr/selectableItemBackground"
                         android:drawableLeft="@drawable/icon_me_setting"
                         android:drawablePadding="20dp"
+                        android:foreground="?attr/selectableItemBackground"
                         android:gravity="center_vertical"
                         android:paddingLeft="22dp"
                         android:text="设置" />

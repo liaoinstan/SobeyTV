@@ -30,8 +30,7 @@ import org.xutils.http.RequestParams;
 
 import java.io.File;
 
-public class MeDetailActivity extends BaseAppCompatActicity
-        implements View.OnClickListener, CropHelper.CropInterface {
+public class MeDetailActivity extends BaseAppCompatActivity implements View.OnClickListener, CropHelper.CropInterface {
 
     private CropHelper cropHelper = new CropHelper(this);
 

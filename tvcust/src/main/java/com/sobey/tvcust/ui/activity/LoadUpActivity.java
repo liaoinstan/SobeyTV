@@ -13,7 +13,7 @@ import com.sobey.tvcust.entity.User;
 import org.xutils.http.RequestParams;
 
 
-public class LoadUpActivity extends BaseAppCompatActicity implements CommonNet.NetHander{
+public class LoadUpActivity extends BaseAppCompatActivity implements CommonNet.NetHander{
 
     private Handler mHandler = new Handler();
 

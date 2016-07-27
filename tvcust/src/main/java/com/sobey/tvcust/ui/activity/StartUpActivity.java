@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.sobey.common.view.DotView;
@@ -15,7 +14,7 @@ import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.entity.User;
 import com.sobey.tvcust.ui.fragment.StartUpFragment;
 
-public class StartUpActivity extends BaseAppCompatActicity {
+public class StartUpActivity extends BaseAppCompatActivity {
 
     private ViewPager viewPager;
     private DotView dotView;

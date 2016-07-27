@@ -94,7 +94,8 @@ public class CommonNet {
         @Override
         public void onSuccess(String result) {
             LogUtil.d("onSuccess");
-            LogUtil.d(result);
+//            LogUtil.d(result);
+            System.out.println(result);
             try {
                 JSONTokener jsonParser = new JSONTokener(result);
                 JSONObject root;

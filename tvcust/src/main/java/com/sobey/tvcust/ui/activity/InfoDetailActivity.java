@@ -1,39 +1,28 @@
 package com.sobey.tvcust.ui.activity;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.liaoinstan.springview.container.AliFooter;
-import com.liaoinstan.springview.container.AliHeader;
-import com.liaoinstan.springview.widget.SpringView;
 import com.sobey.share.sharesdk.dialog.ShareDialog;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.CommonNet;
-import com.sobey.tvcust.common.LoadingViewUtil;
 import com.sobey.tvcust.entity.Article;
 import com.sobey.tvcust.entity.CommonEntity;
-import com.sobey.tvcust.entity.TestEntity;
-import com.sobey.tvcust.ui.adapter.RecycleAdapterMsg;
 
 import org.xutils.http.RequestParams;
 
-public class InfoDetailActivity extends BaseAppCompatActicity implements View.OnClickListener {
+import java.util.HashMap;
+
+public class InfoDetailActivity extends BaseAppCompatActivity implements View.OnClickListener {
 
     private WebView webView;
     private ImageView img_infodetail_share;
@@ -113,8 +102,10 @@ public class InfoDetailActivity extends BaseAppCompatActicity implements View.On
                 return true;
             }
         });
+        HashMap<String, String> map = new HashMap<>();
+        map.put("token", AppData.App.getToken());
 //        setting.setDefaultTextEncodingName("utf-8");
-        webView.loadUrl(url);
+        webView.loadUrl(url,map);
     }
 
     @Override

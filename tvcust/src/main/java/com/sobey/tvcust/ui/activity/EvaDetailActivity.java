@@ -29,7 +29,7 @@ import org.xutils.http.RequestParams;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EvaDetailActivity extends BaseAppCompatActicity implements View.OnClickListener{
+public class EvaDetailActivity extends BaseAppCompatActivity implements View.OnClickListener{
 
     private ViewGroup showingroup;
     private View showin;

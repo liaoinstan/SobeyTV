@@ -25,7 +25,7 @@ import com.sobey.common.utils.PermissionsUtil;
 
 import java.util.List;
 
-public class HomeActivity extends BaseAppCompatActicity implements View.OnClickListener{
+public class HomeActivity extends BaseAppCompatActivity implements View.OnClickListener{
 
     UpdateHelper updateHelper;
 
@@ -79,6 +79,12 @@ public class HomeActivity extends BaseAppCompatActicity implements View.OnClickL
         List fragmentss =getSupportFragmentManager().getFragments();
         if (fragmentss!=null)
         Log.e("liao",fragmentss.size()+"");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (updateHelper!=null) updateHelper.onDestory();
     }
 
     private void hideAllFragment(FragmentTransaction ftx){

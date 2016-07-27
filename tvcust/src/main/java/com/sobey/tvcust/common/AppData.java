@@ -91,8 +91,8 @@ public class AppData {
 		 * 服务器域名
 		 */
 //		private static final String domain = "https://api.cczcrv.com";											//正式服务器
-		private static final String domain = "http://101.201.222.160:8084";								//测试服务器
-//		private static final String domain = "http://192.168.0.123:8080";								//开发服务器
+//		private static final String domain = "http://101.201.222.160:8084";								//测试服务器
+		private static final String domain = "http://192.168.0.123:8080";								//开发服务器
 //		private static final String domain = "http://192.168.1.123:8080";								//开发服务器
 
 		/**

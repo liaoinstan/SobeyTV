@@ -1,7 +1,6 @@
 package com.sobey.tvcust.ui.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -15,7 +14,7 @@ import com.sobey.common.utils.VersionUtil;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
 
-public class VersionActivity extends BaseAppCompatActicity {
+public class VersionActivity extends BaseAppCompatActivity {
 
     UpdateHelper updateHelper;
 

@@ -19,7 +19,7 @@ import com.sobey.tvcust.entity.CommonEntity;
 
 import org.xutils.http.RequestParams;
 
-public class FindPswActivity extends BaseAppCompatActicity implements View.OnClickListener{
+public class FindPswActivity extends BaseAppCompatActivity implements View.OnClickListener{
 
     private CircularProgressButton btn_go;
     private EditText edit_phone;

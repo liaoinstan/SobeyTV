@@ -28,7 +28,7 @@ import org.xutils.http.RequestParams;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderAllocateOnlyActivity extends BaseAppCompatActicity implements View.OnClickListener {
+public class OrderAllocateOnlyActivity extends BaseAppCompatActivity implements View.OnClickListener {
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipe;

@@ -25,7 +25,7 @@ import java.util.HashMap;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
-public class TestActivity extends BaseAppCompatActicity {
+public class TestActivity extends BaseAppCompatActivity {
     UpdateHelper updateHelper;
 
     @Override

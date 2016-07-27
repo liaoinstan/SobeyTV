@@ -39,7 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class EvaActivity extends BaseAppCompatActicity implements View.OnClickListener {
+public class EvaActivity extends BaseAppCompatActivity implements View.OnClickListener {
 
     private ViewGroup showingroup;
     private View showin;

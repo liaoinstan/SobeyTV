@@ -19,14 +19,13 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.sobey.common.utils.ApplicationHelp;
 import com.sobey.common.view.MovieRecorderView;
 import com.sobey.tvcust.R;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-public class VideoRecorderActivity extends BaseAppCompatActicity {
+public class VideoRecorderActivity extends BaseAppCompatActivity {
     private MovieRecorderView mRecorderView;
     private Button mShootBtn;
     private boolean isFinish = true;

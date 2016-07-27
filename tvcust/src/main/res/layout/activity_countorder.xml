@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:navigationIcon="@drawable/icon_bank"
+            app:navigationIcon="@drawable/icon_back"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
@@ -44,7 +44,7 @@
                 android:layout_height="30dp"
                 android:background="@drawable/shape_oval_bk_dark"
                 android:padding="8dp"
-                android:src="@drawable/icon_bank" />
+                android:src="@drawable/icon_back" />
 
             <TextView
                 android:id="@+id/text_countorder_time"

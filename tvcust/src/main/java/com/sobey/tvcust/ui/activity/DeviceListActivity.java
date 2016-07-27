@@ -23,7 +23,7 @@ import com.sobey.tvcust.ui.adapter.RecycleAdapterDevice;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeviceListActivity extends BaseAppCompatActicity implements OnRecycleItemClickListener{
+public class DeviceListActivity extends BaseAppCompatActivity implements OnRecycleItemClickListener{
 
     private RecyclerView recyclerView;
     private SpringView springView;

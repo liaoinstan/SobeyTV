@@ -29,7 +29,7 @@ import org.xutils.http.RequestParams;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestionActivity extends BaseAppCompatActicity implements OnRecycleItemClickListener{
+public class QuestionActivity extends BaseAppCompatActivity implements OnRecycleItemClickListener{
 
     private RecyclerView recyclerView;
     private SpringView springView;

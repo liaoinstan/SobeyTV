@@ -19,7 +19,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimaryTrans"
         app:titleTextColor="@color/white"
-        app:navigationIcon="@drawable/icon_bank"
+        app:navigationIcon="@drawable/icon_back"
         app:popupTheme="@style/TransparentToolbar" />
 
     <TextView

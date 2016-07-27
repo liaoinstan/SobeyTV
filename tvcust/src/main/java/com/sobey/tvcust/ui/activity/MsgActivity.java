@@ -1,9 +1,7 @@
 package com.sobey.tvcust.ui.activity;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -21,9 +19,7 @@ import com.sobey.tvcust.common.CommonNet;
 import com.sobey.tvcust.common.LoadingViewUtil;
 import com.sobey.tvcust.entity.Order;
 import com.sobey.tvcust.entity.OrderPojo;
-import com.sobey.tvcust.entity.TestEntity;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterMsg;
-import com.sobey.tvcust.ui.adapter.RecycleAdapterQuestion;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -31,7 +27,7 @@ import org.xutils.http.RequestParams;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MsgActivity extends BaseAppCompatActicity{
+public class MsgActivity extends BaseAppCompatActivity {
 
     private RecyclerView recyclerView;
     private SpringView springView;

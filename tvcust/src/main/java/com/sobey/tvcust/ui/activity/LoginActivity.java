@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -14,7 +13,7 @@ import com.sobey.tvcust.R;
 import com.sobey.tvcust.ui.fragment.LoginFragment;
 import com.sobey.tvcust.ui.fragment.RegistFragment;
 
-public class LoginActivity extends BaseAppCompatActicity {
+public class LoginActivity extends BaseAppCompatActivity {
 
     private ViewPager viewPager;
     private MyPagerAdapter pagerAdapter;

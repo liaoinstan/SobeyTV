@@ -27,7 +27,7 @@ import org.xutils.http.RequestParams;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderProgActivity extends BaseAppCompatActicity implements View.OnClickListener {
+public class OrderProgActivity extends BaseAppCompatActivity implements View.OnClickListener {
 
     private ListView listView_full;
     private List<OrderTrack> results = new ArrayList<>();

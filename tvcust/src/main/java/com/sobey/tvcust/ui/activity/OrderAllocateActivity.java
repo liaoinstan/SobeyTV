@@ -35,7 +35,7 @@ import org.xutils.http.RequestParams;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderAllocateActivity extends BaseAppCompatActicity implements View.OnClickListener {
+public class OrderAllocateActivity extends BaseAppCompatActivity implements View.OnClickListener {
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipe;

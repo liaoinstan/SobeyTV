@@ -39,7 +39,7 @@ import java.util.List;
 /**
  * type为0 是完成任务 type为1 是验收成功 type 2 验收拒绝 type 3 跨级追加  type 4 追加描述
  */
-public class ReqDescribeOnlyActicity extends BaseAppCompatActicity implements View.OnClickListener, CropHelper.CropInterface {
+public class ReqDescribeOnlyActicity extends BaseAppCompatActivity implements View.OnClickListener, CropHelper.CropInterface {
 
     private CropHelper cropHelper = new CropHelper(this);
 
@@ -375,7 +375,7 @@ public class ReqDescribeOnlyActicity extends BaseAppCompatActicity implements Vi
         if (type==0) {
             params.addBodyParameter("flag", "1");
         }else if (type==1 || type==2){
-            params.addBodyParameter("flag", "0");
+            params.addBodyParameter("flag", "3");
         }else if (type==3){
             params.addBodyParameter("flag", "2");
         }else if (type==4){

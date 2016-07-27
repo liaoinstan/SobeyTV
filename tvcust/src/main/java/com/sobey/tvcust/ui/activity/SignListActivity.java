@@ -1,9 +1,7 @@
 package com.sobey.tvcust.ui.activity;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -20,11 +18,8 @@ import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.CommonNet;
 import com.sobey.tvcust.common.DividerItemDecoration;
 import com.sobey.tvcust.common.LoadingViewUtil;
-import com.sobey.tvcust.entity.Article;
-import com.sobey.tvcust.entity.ArticlePojo;
 import com.sobey.tvcust.entity.Sign;
 import com.sobey.tvcust.entity.SignPojo;
-import com.sobey.tvcust.entity.TestEntity;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterSignList;
 
 import org.xutils.common.Callback;
@@ -33,7 +28,7 @@ import org.xutils.http.RequestParams;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SignListActivity extends BaseAppCompatActicity {
+public class SignListActivity extends BaseAppCompatActivity {
 
     private RecyclerView recyclerView;
     private SpringView springView;

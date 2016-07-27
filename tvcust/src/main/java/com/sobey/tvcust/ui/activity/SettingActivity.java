@@ -20,7 +20,7 @@ import com.sobey.tvcust.ui.dialog.DialogSure;
 
 import org.xutils.http.RequestParams;
 
-public class SettingActivity extends BaseAppCompatActicity implements View.OnClickListener{
+public class SettingActivity extends BaseAppCompatActivity implements View.OnClickListener{
 
     private TextView text_setting_version;
     private TextView text_setting_clear;

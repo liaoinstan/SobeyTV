@@ -18,7 +18,7 @@ import com.sobey.tvcust.entity.CommonEntity;
 
 import org.xutils.http.RequestParams;
 
-public class ModifyPswActivity extends BaseAppCompatActicity implements View.OnClickListener{
+public class ModifyPswActivity extends BaseAppCompatActivity implements View.OnClickListener{
 
     private CircularProgressButton btn_go;
     private EditText edit_password_old;
