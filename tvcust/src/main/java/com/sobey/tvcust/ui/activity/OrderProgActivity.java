@@ -10,6 +10,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sobey.tvcust.common.AppConstant;
+import com.sobey.tvcust.common.CancelableCollector;
 import com.sobey.tvcust.common.CommonNet;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
@@ -22,6 +24,8 @@ import com.sobey.tvcust.entity.OrderTrackPojo;
 import com.sobey.tvcust.entity.User;
 import com.sobey.tvcust.ui.adapter.ListAdapterOrderTrack;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.xutils.http.RequestParams;
 
 import java.util.ArrayList;
@@ -55,6 +59,7 @@ public class OrderProgActivity extends BaseAppCompatActivity implements View.OnC
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        EventBus.getDefault().register(this);
         initBase();
         initView();
         initData();
@@ -63,6 +68,19 @@ public class OrderProgActivity extends BaseAppCompatActivity implements View.OnC
         toolbar.setFocusable(true);
         toolbar.setFocusableInTouchMode(true);
         toolbar.requestFocus();
+    }
+
+    @Subscribe
+    public void onEventMainThread(Integer flag) {
+        if (flag == AppConstant.EVENT_UPDATE_ORDERPROG) {
+            initData();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     private void initBase() {

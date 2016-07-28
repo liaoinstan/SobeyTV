@@ -268,6 +268,8 @@ public class ReqfixActicity extends BaseAppCompatActivity implements View.OnClic
                 break;
             case R.id.btn_go:
 
+                btn_go.setClickable(false);
+
                 photoPaths = bundleView.getPhotoPaths();
                 videoPaths = bundleView.getVideoPaths();
                 voicePaths = bundleView.getVoicePaths();
@@ -466,6 +468,7 @@ public class ReqfixActicity extends BaseAppCompatActivity implements View.OnClic
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        btn_go.setClickable(true);
                         btn_go.setProgress(0);
                     }
                 }, 800);

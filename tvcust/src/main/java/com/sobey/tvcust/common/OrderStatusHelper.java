@@ -114,7 +114,7 @@ public class OrderStatusHelper {
         if (order.getStatus() == Order.ORDER_UNEVA || order.getStatus() == Order.ORDER_FINSH) {
             switch (roleType) {
                 case User.ROLE_COMMOM:
-                    if (order.getIsUsercomment() != 1) {
+                    if (order.getStatus() == Order.ORDER_UNEVA) {
                         //未评论
                         return 1;
                     } else {
@@ -156,10 +156,63 @@ public class OrderStatusHelper {
         }
     }
 
+    /**
+     * 是否显示接受任务按钮
+     * * 返回 0 显示接受任  1 需要操作   2 不显示
+     */
+    public static int getNeedAcceptBtn(Order order, int roleType) {
+        switch (roleType) {
+            //技术人员
+            case User.ROLE_FILIALETECH:
+                if (order.getTscIsAccept() != 1 && (order.getStatus()==Order.ORDER_UNDEAL || order.getStatus()==Order.ORDER_INDEAL)) {
+                    //如果是技术人员，且未接受，则显示接受按钮
+                    return 0;
+                } else {
+                    //如果已经接受，则显示操作按钮
+                    return 1;
+                }
+                //总部技术
+            case User.ROLE_HEADCOMTECH:
+                if (order.getHeadTechIsAccept() != 1 && (order.getStatus()==Order.ORDER_UNDEAL || order.getStatus()==Order.ORDER_INDEAL)) {
+                    return 0;
+                } else {
+                    return 1;
+                }
+                //总部研发
+            case User.ROLE_INVENT:
+                if (order.getDevelopIsAccept() != 1 && (order.getStatus()==Order.ORDER_UNDEAL || order.getStatus()==Order.ORDER_INDEAL)) {
+                    return 0;
+                } else {
+                    return 1;
+                }
+                //客服
+            case User.ROLE_CUSTOMER:
+                //客服，无法操作
+                return 2;
+            //用户
+            case User.ROLE_COMMOM:
+                return 1;
+            default:
+                //其他被抄送人员，无法操作
+                return 2;
+        }
+    }
+    /**
+     * 订单是否可以完成
+     */
     public static boolean getNeedFinish(Order order, int roleType) {
         //只有tsc和总部技术 在 订单是处理中的情况下可以完成订单
-        if (User.ROLE_FILIALETECH == roleType || User.ROLE_HEADCOMTECH == roleType) {
-            if (order.getStatus().equals(Order.ORDER_INDEAL)) {
+        //tsc 已经接受了订单
+        if (User.ROLE_FILIALETECH == roleType && order.getTscIsAccept() == 1) {
+            if (order.getStatus().equals(Order.ORDER_UNDEAL) || order.getStatus().equals(Order.ORDER_INDEAL)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        //总部技术 已经接受了订单
+        else if (User.ROLE_HEADCOMTECH == roleType && order.getHeadTechIsAccept() == 1) {
+            if (order.getStatus().equals(Order.ORDER_UNDEAL) || order.getStatus().equals(Order.ORDER_INDEAL)) {
                 return true;
             } else {
                 return false;
@@ -167,6 +220,15 @@ public class OrderStatusHelper {
         } else {
             return false;
         }
+//        if (User.ROLE_FILIALETECH == roleType || User.ROLE_HEADCOMTECH == roleType) {
+//            if (order.getStatus().equals(Order.ORDER_INDEAL)) {
+//                return true;
+//            } else {
+//                return false;
+//            }
+//        } else {
+//            return false;
+//        }
     }
 
     public static String getRoleNameByType(int roleType) {
@@ -186,15 +248,15 @@ public class OrderStatusHelper {
         }
     }
 
-    public static String getDescribeName(int roleType,int from, int to) {
+    public static String getDescribeName(int roleType, int from, int to) {
         if (from == 0 && to == 0) {
             return "订单描述";
         } else if (from != 0 && to == 0) {
             return getRoleNameByType(from) + "追加描述";
         } else {
-            if (roleType==User.ROLE_COMMOM){
+            if (roleType == User.ROLE_COMMOM) {
                 return "技术" + " 反馈 " + getRoleNameByType(to);
-            }else {
+            } else {
                 return getRoleNameByType(from) + " 反馈 " + getRoleNameByType(to);
             }
         }

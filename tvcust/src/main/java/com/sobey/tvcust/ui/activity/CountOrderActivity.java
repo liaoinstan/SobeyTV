@@ -26,6 +26,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.sobey.common.utils.TimeUtil;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
+import com.sobey.tvcust.common.ColorsHelper;
 import com.sobey.tvcust.common.CommonNet;
 import com.sobey.tvcust.common.DividerItemDecoration;
 import com.sobey.tvcust.common.LoadingViewUtil;
@@ -95,6 +96,7 @@ public class CountOrderActivity extends BaseAppCompatActivity implements View.On
         for (int c : ColorTemplate.VORDIPLOM_COLORS)
             colors.add(c);
         colors.add(ColorTemplate.getHoloBlue());
+        colors.addAll(ColorsHelper.colors);
     }
 
     private void initView() {
@@ -115,34 +117,36 @@ public class CountOrderActivity extends BaseAppCompatActivity implements View.On
     private void initData() {
         RequestParams params = new RequestParams(AppData.Url.countOrdersMonth);
         params.addHeader("token", AppData.App.getToken());
-        params.addBodyParameter("yearM",yearM);
-        CommonNet.samplepost(params,CommonEntity.class,new CommonNet.SampleNetHander(){
+        params.addBodyParameter("yearM", yearM);
+        CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
-                if (pojo==null){
-                    netSetError(code,"错误:返回数据为空");
-                }else {
+                if (pojo == null) {
+                    netSetError(code, "错误:返回数据为空");
+                } else {
                     CommonEntity com = (CommonEntity) pojo;
 
-                    if (com.getFinished()!=0||com.getNonFinished()!=0) {
+                    if (com.getFinished() != 0 || com.getNonFinished() != 0) {
                         results.clear();
                         results.add(new CountEntity("已完成", com.getFinished(), colors.get(0)));
                         results.add(new CountEntity("未完成", com.getNonFinished(), colors.get(1)));
 
+                        int finishpre = (com.getFinished()* 100) / (com.getFinished() + com.getNonFinished()) ;
+                        int nonfinishpre = (com.getNonFinished()* 100) / (com.getFinished() + com.getNonFinished()) ;
                         IPieDataSet dataSet_finish = chart_finish.getData().getDataSet();
                         dataSet_finish.clear();
-                        dataSet_finish.addEntry(new PieEntry(com.getFinished()));
-                        dataSet_finish.addEntry(new PieEntry(com.getNonFinished()));
+                        dataSet_finish.addEntry(new PieEntry(finishpre));
+                        dataSet_finish.addEntry(new PieEntry(nonfinishpre));
 
                         IPieDataSet dataSet_unfinish = chart_unfinish.getData().getDataSet();
                         dataSet_unfinish.clear();
-                        dataSet_unfinish.addEntry(new PieEntry(com.getNonFinished()));
-                        dataSet_unfinish.addEntry(new PieEntry(com.getFinished()));
+                        dataSet_unfinish.addEntry(new PieEntry(nonfinishpre));
+                        dataSet_unfinish.addEntry(new PieEntry(finishpre));
 
                         freshCtrl();
 
                         LoadingViewUtil.showout(showingroup, showin);
-                    }else {
+                    } else {
                         showin = LoadingViewUtil.showin(showingroup, R.layout.layout_lack, showin, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -152,9 +156,10 @@ public class CountOrderActivity extends BaseAppCompatActivity implements View.On
                     }
                 }
             }
+
             @Override
             public void netSetError(int code, String text) {
-                Toast.makeText(CountOrderActivity.this,text, Toast.LENGTH_SHORT).show();
+                Toast.makeText(CountOrderActivity.this, text, Toast.LENGTH_SHORT).show();
                 showin = LoadingViewUtil.showin(showingroup, R.layout.layout_fail, showin, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

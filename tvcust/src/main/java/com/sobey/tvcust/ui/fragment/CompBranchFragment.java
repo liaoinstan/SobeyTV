@@ -139,7 +139,7 @@ public class CompBranchFragment extends BaseFragment{
         sortListView = (ListView) getView().findViewById(R.id.country_lvcountry);
         SourceDateList = filledData(SourceDateList);
 
-        adapter = new ListAdapterComp(getActivity(), SourceDateList);
+        adapter = new ListAdapterComp(getActivity(), SourceDateList,true);
         sortListView.setAdapter(adapter);
         sortListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

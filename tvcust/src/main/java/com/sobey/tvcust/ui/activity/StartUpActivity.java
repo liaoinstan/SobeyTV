@@ -19,7 +19,7 @@ public class StartUpActivity extends BaseAppCompatActivity {
     private ViewPager viewPager;
     private DotView dotView;
 
-    private int[] srcs = new int[]{R.drawable.test,R.drawable.test,R.drawable.test,R.drawable.test};
+    private int[] srcs = new int[]{R.drawable.startup1,R.drawable.startup2,R.drawable.startup3,R.drawable.startup4};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

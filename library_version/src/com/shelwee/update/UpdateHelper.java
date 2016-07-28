@@ -496,6 +496,7 @@ public class UpdateHelper {
 			}
 			try {
 				updateInfo = JSONHandler.toUpdateInfo(HttpRequest.get(url));
+//				updateInfo = JSONHandler.toUpdateInfo(HttpRequest.get(url));
 //				updateInfo = new UpdateInfo();
 //				updateInfo.setApkUrl("http://7xnfyf.com1.z0.glb.clouddn.com/android.zip");
 //				updateInfo.setAppName("AppName");

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.sobey.common.entity.Images;
+import com.sobey.common.utils.StrUtils;
 import com.sobey.common.view.BannerView;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.entity.Article;
@@ -105,10 +106,13 @@ public class RecycleAdapterInfoQuan extends RecyclerView.Adapter<RecyclerView.Vi
     @Override
     public void onBannerClick(int position) {
         Images image = this.images.get(position);
-        Intent intent = new Intent(context, WebActivity.class);
-        intent.putExtra("title","资讯");
-        intent.putExtra("url",image.getUrl());//https://github.com    //http://cn.bing.com
-        context.startActivity(intent);
+
+        if(StrUtils.isUrl(image.getUrl())) {
+            Intent intent = new Intent(context, WebActivity.class);
+            intent.putExtra("title", "资讯");
+            intent.putExtra("url", image.getUrl());//https://github.com    //http://cn.bing.com
+            context.startActivity(intent);
+        }
     }
 
     public class HolderBanner extends RecyclerView.ViewHolder {

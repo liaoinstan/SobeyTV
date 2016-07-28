@@ -153,7 +153,13 @@ public class CompOfficeFragment extends BaseFragment{
         sortListView = (ListView) getView().findViewById(R.id.country_lvcountry);
         SourceDateList = filledData(SourceDateList);
 
-        adapter = new ListAdapterComp(getActivity(), SourceDateList);
+        boolean needNextButton;
+        if (RegistDetailFragment.TYPE_GROUP_USER.equals(activityGo.getType())){
+            needNextButton = false;
+        }else {
+            needNextButton = true;
+        }
+        adapter = new ListAdapterComp(getActivity(), SourceDateList,needNextButton);
         sortListView.setAdapter(adapter);
         sortListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

@@ -234,7 +234,7 @@
                 app:cpb_cornerRadius="48dp"
                 app:cpb_iconComplete="@drawable/ic_action_accept"
                 app:cpb_iconError="@drawable/ic_action_cancel"
-                app:cpb_textIdle="进入SOBEY ＞" />
+                app:cpb_textIdle="注册完成" />
 
             <!--<LinearLayout-->
                 <!--android:id="@+id/btn_go"-->

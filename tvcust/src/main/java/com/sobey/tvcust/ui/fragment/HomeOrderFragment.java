@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.liaoinstan.springview.container.AliFooter;
@@ -23,6 +24,8 @@ import com.sobey.tvcust.common.AppConstant;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.LoadingViewUtil;
 import com.sobey.tvcust.entity.CommonEntity;
+import com.sobey.tvcust.entity.CountTab;
+import com.sobey.tvcust.entity.CountTabPojo;
 import com.sobey.tvcust.entity.Order;
 import com.sobey.tvcust.entity.OrderPojo;
 import com.sobey.tvcust.entity.User;
@@ -94,6 +97,7 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
     @Subscribe
     public void onEventMainThread(Integer flag) {
         if (flag == AppConstant.EVENT_UPDATE_ORDERLIST) {
+            netGetCount();
             initData(true);
         }
     }
@@ -118,6 +122,7 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
         toolbar.setTitle("订单");
         initBase();
         initView();
+        netGetCount();
         initData(true);
         initCtrl();
     }
@@ -135,9 +140,9 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
         btn_go_reqfix = getView().findViewById(R.id.btn_go_reqfix);
 
         //只有用户、客服才能申报维修
-        if (user.getRoleType()==User.ROLE_COMMOM||user.getRoleType()==User.ROLE_CUSTOMER){
+        if (user.getRoleType() == User.ROLE_COMMOM || user.getRoleType() == User.ROLE_CUSTOMER) {
             btn_go_reqfix.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             btn_go_reqfix.setVisibility(View.GONE);
         }
 
@@ -201,16 +206,31 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
                 break;
         }
 
+        for (int i = 0; i < tab.getTabCount(); i++) {
+            TabLayout.Tab t = tab.getTabAt(i);
+            if (t.getCustomView() == null) {
+                View view = LayoutInflater.from(getActivity()).inflate(R.layout.tab, null);
+                t.setCustomView(view);
+            }
+            ViewGroup content = (ViewGroup) t.getCustomView();
+            TextView tabText = (TextView) content.getChildAt(0);
+            TextView tabCount = (TextView) content.getChildAt(1);
+            tabText.setText(t.getText());
+            if (i==0){
+                tabCount.setVisibility(View.GONE);
+            }
+        }
+
         tab.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 String text = tab.getText().toString();
-                if ("全部".equals(text)) {
+                if (text.startsWith("全部")) {
                     status = null;
                     isCheck = null;
                     isComment = null;
                     isAccept = null;
-                } else if ("待处理".equals(text)) {
+                } else if (text.startsWith("待处理")) {
                     if (user.getRoleType() == User.ROLE_CUSTOMER) {
                         isCheck = 3;
                         status = Order.ORDER_UNDEAL;
@@ -219,64 +239,68 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
                         isCheck = null;
                         status = Order.ORDER_UNDEAL;
                         isAccept = null;
-                    }else if (user.getRoleType() == User.ROLE_FILIALETECH || user.getRoleType() == User.ROLE_HEADCOMTECH || user.getRoleType() == User.ROLE_INVENT) {
+                    } else if (user.getRoleType() == User.ROLE_FILIALETECH || user.getRoleType() == User.ROLE_HEADCOMTECH || user.getRoleType() == User.ROLE_INVENT) {
                         isCheck = 1;
                         status = null;
                         isAccept = 0;
-                    }else {
+                    } else {
                         isCheck = null;
                         status = Order.ORDER_UNDEAL;
                         isAccept = null;
                     }
                     isComment = null;
-                } else if ("处理中".equals(text)) {
+                } else if (text.startsWith("处理中")) {
                     if (user.getRoleType() == User.ROLE_FILIALETECH || user.getRoleType() == User.ROLE_HEADCOMTECH || user.getRoleType() == User.ROLE_INVENT) {
                         isCheck = 1;
                         isAccept = 1;
-                    }else {
+                    } else {
                         isCheck = null;
                         isAccept = null;
                     }
                     status = Order.ORDER_INDEAL;
                     isComment = null;
-                } else if ("待验收".equals(text)) {
+                } else if (text.startsWith("待验收")) {
                     status = Order.ORDER_UNVALI;
                     isCheck = null;
                     isComment = null;
                     isAccept = null;
-                } else if ("待评价".equals(text)) {
-                    status = Order.ORDER_UNEVA;
+                } else if (text.startsWith("待评价")) {
+                    if (user.getRoleType() == User.ROLE_COMMOM) {
+                        status = Order.ORDER_UNEVA;
+                    }else {
+                        status = null;
+                    }
                     isCheck = null;
                     isComment = 0;
                     isAccept = null;
-                } else if ("已完成".equals(text)) {
+                } else if (text.startsWith("已完成")) {
                     status = 2007;
                     isCheck = null;
                     isComment = 1;
                     isAccept = null;
-                } else if ("待办任务".equals(text)) {
+                } else if (text.startsWith("待办任务")) {
                     //特殊情况
                     if (user.getRoleType() == User.ROLE_FILIALETECH || user.getRoleType() == User.ROLE_HEADCOMTECH) {
                         status = null;
-                    }else if (user.getRoleType() == User.ROLE_INVENT){
+                    } else if (user.getRoleType() == User.ROLE_INVENT) {
                         status = Order.ORDER_INDEAL;
-                    }else {
+                    } else {
                         status = Order.ORDER_UNDEAL;
                     }
                     isCheck = 0;
                     isComment = null;
                     isAccept = null;
-                } else if ("待分配".equals(text)) {
+                } else if (text.startsWith("待分配")) {
                     status = Order.ORDER_UNDEAL;
                     isCheck = 1;
                     isComment = null;
                     isAccept = null;
-                } else if ("进行中".equals(text)) {
+                } else if (text.startsWith("进行中")) {
                     status = 2006;
                     isCheck = null;
                     isComment = null;
                     isAccept = null;
-                }else {
+                } else {
                     Toast.makeText(getActivity(), "没有该分类", Toast.LENGTH_SHORT).show();
                 }
                 initData(true);
@@ -356,6 +380,9 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
         if (isCheck != null) {
             params.addBodyParameter("isCheck", isCheck + "");
         }
+        if (isComment != null) {
+            params.addBodyParameter("isComment", isComment + "");
+        }
         if (isAccept != null) {
             params.addBodyParameter("isAccept", isAccept + "");
         }
@@ -415,6 +442,7 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
     }
 
     private boolean isloadmore = false;
+
     private void loadMoreData() {
         if (isloadmore) return;
         final RequestParams params = new RequestParams(AppData.Url.orderlist);
@@ -492,6 +520,7 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
                 Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
                 adapter.getResults().remove(pos);
                 adapter.notifyItemRemoved(pos);
+                EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERLIST);
             }
 
             @Override
@@ -499,5 +528,54 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
                 Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void netGetCount(){
+        RequestParams params = new RequestParams(AppData.Url.count);
+        params.addHeader("token", AppData.App.getToken());
+        CommonNet.samplepost(params,CountTab.class,new CommonNet.SampleNetHander(){
+            @Override
+            public void netGo(int code, Object pojo, String text, Object obj) {
+                if (pojo!=null){
+                    CountTab countTab = (CountTab) pojo;
+                    setTabCount(countTab);
+                }
+            }
+
+            @Override
+            public void netSetError(int code, String text) {
+            }
+        });
+    }
+
+    private void setTabCount(CountTab count){
+        for (int i = 0; i < tab.getTabCount(); i++) {
+            TabLayout.Tab t = tab.getTabAt(i);
+            if (t.getCustomView() == null) {
+                View view = LayoutInflater.from(getActivity()).inflate(R.layout.tab, null);
+                t.setCustomView(view);
+            }
+            ViewGroup content = (ViewGroup) t.getCustomView();
+            String text = t.getText().toString();
+            TextView tabCount = (TextView) content.getChildAt(1);
+
+            if (text.startsWith("待处理")){
+                tabCount.setText(count.getPengding()+"");
+            }else if (text.startsWith("处理中")){
+                tabCount.setText(count.getHandling()+"");
+            }else if (text.startsWith("待验收")){
+                tabCount.setText(count.getAccepting()+"");
+            }else if (text.startsWith("待评价")){
+                tabCount.setText(count.getEvaluating()+"");
+            }else if (text.startsWith("已完成")){
+                tabCount.setText(count.getSolved()+"");
+            }else if (text.startsWith("待办任务")){
+                tabCount.setText(count.getBacklog()+"");
+            }else if (text.startsWith("待分配")){
+                tabCount.setText(count.getAssigning()+"");
+            }else if (text.startsWith("进行中")){
+                tabCount.setText(count.getHappening()+"");
+            }
+        }
     }
 }

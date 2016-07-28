@@ -10,6 +10,7 @@ public class AppConstant {
     public static final Integer FLAG_UPDATE_ME = 0xfe01;
     public static final Integer EVENT_UPDATE_ORDERLIST = 0xfe02;
     public static final Integer EVENT_UPDATE_ORDERDESCRIBE = 0xfe03;
+    public static final Integer EVENT_UPDATE_ORDERPROG = 0xfe04;
 
 
     public static final String FLAG_UPDATE_ME_SIGN = "FLAG_UPDATE_ME_SIGN";

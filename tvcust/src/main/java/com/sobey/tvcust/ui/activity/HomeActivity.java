@@ -25,7 +25,7 @@ import com.sobey.common.utils.PermissionsUtil;
 
 import java.util.List;
 
-public class HomeActivity extends BaseAppCompatActivity implements View.OnClickListener{
+public class HomeActivity extends BaseAppCompatActivity implements View.OnClickListener {
 
     UpdateHelper updateHelper;
 
@@ -50,20 +50,20 @@ public class HomeActivity extends BaseAppCompatActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState!=null) {
+        if (savedInstanceState != null) {
             currentTabIndex = savedInstanceState.getInt("currentTabIndex");
         }
         setContentView(R.layout.activity_home);
 //        toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 
-        PermissionsUtil.checkAndRequestPermissions(this,findViewById(R.id.coordinator));
+        PermissionsUtil.checkAndRequestPermissions(this, findViewById(R.id.coordinator));
 
         initBase();
         initView();
         initCtrl();
 
-        if (currentTabIndex==-1){
+        if (currentTabIndex == -1) {
             currentTabIndex = 2;
         }
         mTabs[currentTabIndex].setSelected(true);
@@ -71,25 +71,25 @@ public class HomeActivity extends BaseAppCompatActivity implements View.OnClickL
         FragmentTransaction ftx = getSupportFragmentManager().beginTransaction();
         hideAllFragment(ftx);
         if (!fragments[currentTabIndex].isAdded()) {
-            ftx.add(R.id.fragment_container, fragments[currentTabIndex],currentTabIndex+"");
-        }else {
+            ftx.add(R.id.fragment_container, fragments[currentTabIndex], currentTabIndex + "");
+        } else {
             ftx.show(fragments[currentTabIndex]);
         }
         ftx.commit();
-        List fragmentss =getSupportFragmentManager().getFragments();
-        if (fragmentss!=null)
-        Log.e("liao",fragmentss.size()+"");
+        List fragmentss = getSupportFragmentManager().getFragments();
+        if (fragmentss != null)
+            Log.e("liao", fragmentss.size() + "");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (updateHelper!=null) updateHelper.onDestory();
+        if (updateHelper != null) updateHelper.onDestory();
     }
 
-    private void hideAllFragment(FragmentTransaction ftx){
-        for (int i=0;i<fragments.length;i++){
-            if (fragments[i].isAdded()){
+    private void hideAllFragment(FragmentTransaction ftx) {
+        for (int i = 0; i < fragments.length; i++) {
+            if (fragments[i].isAdded()) {
                 ftx.hide(fragments[i]);
             }
         }
@@ -100,30 +100,35 @@ public class HomeActivity extends BaseAppCompatActivity implements View.OnClickL
         updateHelper = new UpdateHelper.Builder(this)
                 .checkUrl(AppData.Url.version)
                 .isAutoInstall(false) //设置为false需在下载完手动点击安装;默认值为true，下载后自动安装。
-//                        .isHintNewVersion(false)
+                .isHintNewVersion(false)
                 .build();
 
         updateHelper.check(new OnUpdateListener() {
             @Override
             public void onStartCheck() {
-                Log.e("liao","onStartCheck");
+                Log.e("liao", "onStartCheck");
             }
+
             @Override
             public void onFinishCheck(UpdateInfo info) {
-                Log.e("liao","onFinishCheck");
+                Log.e("liao", "onFinishCheck");
             }
+
             @Override
             public void onStartDownload() {
-                Log.e("liao","onStartDownload");
+                Log.e("liao", "onStartDownload");
             }
+
             @Override
             public void onInstallApk() {
-                Log.e("liao","onInstallApk");
+                Log.e("liao", "onInstallApk");
             }
+
             @Override
             public void onFinshDownload() {
-                Log.e("liao","onFinshDownload");
+                Log.e("liao", "onFinshDownload");
             }
+
             @Override
             public void onDownloading(int progress) {
 //                        Log.e("liao","onDownloading:"+progress);
@@ -142,29 +147,29 @@ public class HomeActivity extends BaseAppCompatActivity implements View.OnClickL
     }
 
     private void initCtrl() {
-        FragmentManager fm= getSupportFragmentManager();
+        FragmentManager fm = getSupportFragmentManager();
         //从回退栈获取，防止fragment重复创建
         homeFragment0 = fm.findFragmentByTag("0");
-        if (homeFragment0 == null){
+        if (homeFragment0 == null) {
             homeFragment0 = HomeInfoFragment.newInstance(0);
         }
         homeFragment1 = fm.findFragmentByTag("1");
-        if (homeFragment1 == null){
+        if (homeFragment1 == null) {
             homeFragment1 = HomeQwFragment.newInstance(1);
         }
         homeFragment2 = fm.findFragmentByTag("2");
-        if (homeFragment2 == null){
+        if (homeFragment2 == null) {
             homeFragment2 = HomeOrderFragment.newInstance(2);
         }
         homeFragment3 = fm.findFragmentByTag("3");
-        if (homeFragment3 == null){
+        if (homeFragment3 == null) {
             homeFragment3 = HomeServerFragment.newInstance(3);
         }
         homeFragment4 = fm.findFragmentByTag("4");
-        if (homeFragment4 == null){
+        if (homeFragment4 == null) {
             homeFragment4 = HomeMeFragment.newInstance(4);
         }
-        fragments = new Fragment[] { homeFragment0, homeFragment1, homeFragment2,homeFragment3,homeFragment4 };
+        fragments = new Fragment[]{homeFragment0, homeFragment1, homeFragment2, homeFragment3, homeFragment4};
 
 //        img_msg.setOnClickListener(this);
     }
@@ -216,7 +221,7 @@ public class HomeActivity extends BaseAppCompatActivity implements View.OnClickL
             trx.hide(fragments[currentTabIndex]);
             if (!fragments[index].isAdded()) {
                 fragments[index].setArguments(args);
-                trx.add(R.id.fragment_container, fragments[index],index+"");
+                trx.add(R.id.fragment_container, fragments[index], index + "");
             }
             trx.show(fragments[index]).commit();
         }
@@ -225,26 +230,27 @@ public class HomeActivity extends BaseAppCompatActivity implements View.OnClickL
         mTabs[index].setSelected(true);
         currentTabIndex = index;
 
-        List fragmentss =getSupportFragmentManager().getFragments();
-        if (fragmentss!=null)
-            Log.e("liao",fragmentss.size()+"");
+        List fragmentss = getSupportFragmentManager().getFragments();
+        if (fragmentss != null)
+            Log.e("liao", fragmentss.size() + "");
     }
 
     private long exitTime;
+
     @Override
     public void onBackPressed() {
         //双击退出
-        if ((System.currentTimeMillis() - exitTime) > 2000){
+        if ((System.currentTimeMillis() - exitTime) > 2000) {
             Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
             exitTime = System.currentTimeMillis();
-        } else{
+        } else {
             super.finish();
         }
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_go_medetail:
                 Intent intent = new Intent(this, MsgActivity.class);
 //                Intent intent = new Intent(this, CountOrderActivity.class);

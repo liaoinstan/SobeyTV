@@ -180,7 +180,11 @@ public class DialogPopupDescribe extends Dialog {
                 lay_next.setVisibility(View.GONE);
                 lay_bank.setVisibility(View.GONE);
                 lay_touser.setVisibility(View.GONE);
-                lay_describe.setVisibility(View.VISIBLE);
+                if (order.getStatus() == Order.ORDER_UNEVA || order.getStatus() == Order.ORDER_FINSH) {
+                    lay_describe.setVisibility(View.GONE);
+                }else {
+                    lay_describe.setVisibility(View.VISIBLE);
+                }
                 break;
             default:
                 lay_finish.setVisibility(View.GONE);

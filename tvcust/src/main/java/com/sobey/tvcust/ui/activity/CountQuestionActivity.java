@@ -28,6 +28,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.sobey.common.utils.TimeUtil;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
+import com.sobey.tvcust.common.ColorsHelper;
 import com.sobey.tvcust.common.CommonNet;
 import com.sobey.tvcust.common.DividerItemDecoration;
 import com.sobey.tvcust.common.LoadingViewUtil;
@@ -97,6 +98,7 @@ public class CountQuestionActivity extends BaseAppCompatActivity implements View
         for (int c : ColorTemplate.VORDIPLOM_COLORS)
             colors.add(c);
         colors.add(ColorTemplate.getHoloBlue());
+        colors.addAll(ColorsHelper.colors);
     }
 
     private void initView() {

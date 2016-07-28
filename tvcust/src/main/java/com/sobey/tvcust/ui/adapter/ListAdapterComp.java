@@ -17,13 +17,16 @@ public class ListAdapterComp extends BaseAdapter {
 	private List<CharSort> results = null;
 	private Context mContext;
 
+	private boolean needNextButton;
+
 	public List<CharSort> getResults() {
 		return results;
 	}
 
-	public ListAdapterComp(Context mContext, List<CharSort> list) {
+	public ListAdapterComp(Context mContext, List<CharSort> list,boolean needNextButton) {
 		this.mContext = mContext;
 		this.results = list;
+		this.needNextButton = needNextButton;
 	}
 
 	/**
@@ -65,12 +68,17 @@ public class ListAdapterComp extends BaseAdapter {
 			viewHolder.tvTitle.setText(results.get(position).getCar_title());
 		}
 
-		viewHolder.tvNext.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (onNextClickListenner!=null) onNextClickListenner.onNextClick(position);
-			}
-		});
+		if (needNextButton) {
+			viewHolder.tvNext.setVisibility(View.VISIBLE);
+			viewHolder.tvNext.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (onNextClickListenner != null) onNextClickListenner.onNextClick(position);
+				}
+			});
+		}else {
+			viewHolder.tvNext.setVisibility(View.GONE);
+		}
 
 		//如果是总公司（id为-1）,则没有下级分类
 		if (results.get(position).getId().equals(-1)){

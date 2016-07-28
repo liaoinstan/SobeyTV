@@ -8,16 +8,22 @@
         android:id="@+id/img_startup_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:src="@drawable/startup1"
         android:scaleType="centerCrop"/>
 
-    <Button
+    <TextView
         android:id="@+id/btn_go"
         android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="62dp" />
+        android:padding="15dp"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_big"
+        android:text="进入SOBEY"
+        android:drawableRight="@drawable/icon_next"
+        android:drawablePadding="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

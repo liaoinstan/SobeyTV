@@ -49,16 +49,26 @@ public class AppVali {
         }
     }
 
-    public static String find_psw(String phone_edit, String phone, String vali, String valicode, String psw) {
+    public static String find_psw(String phone_edit, String phone, String vali, String valicode, String psw,String psw_repeat) {
         if (isEmpty(phone_edit)) {
             return "请输入手机号";
-        } else if (!phone_edit.equals(phone)) {
+        }else if (isEmpty(psw)) {
+            return "请输入密码";
+        }
+
+        else if (!phone_edit.equals(phone)) {
             return "你输入的号码没有验证过";
         } else if (!ValidateUtil.Mobile(phone)) {
             return "请输入正确的手机号";
         } else if (!vali.equals(valicode)) {
             return "验证码不正确";
-        } else {
+        }
+
+        else if (!length(psw, 6, 16)) {
+            return "密码长度必须为6-16位";
+        }else if (!psw.equals(psw_repeat)) {
+            return "两次密码输入不一致";
+        }else {
             return null;
         }
     }

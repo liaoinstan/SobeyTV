@@ -22,7 +22,7 @@ public class JSONHandler {
         String byteData = new String(readStream(is));
         is.close();
         JSONObject jsonObject = new JSONObject(byteData);
-        jsonObject = jsonObject.getJSONObject("data");  //取data
+        //jsonObject = jsonObject.getJSONObject("data");  //取data
         UpdateInfo updateInfo = new UpdateInfo();
         Log.d("update", jsonObject.toString());
         if(jsonObject.has("apkUrl")) updateInfo.setApkUrl(jsonObject.getString("apkUrl"));

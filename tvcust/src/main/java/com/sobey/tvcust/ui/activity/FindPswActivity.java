@@ -25,6 +25,7 @@ public class FindPswActivity extends BaseAppCompatActivity implements View.OnCli
     private EditText edit_phone;
     private EditText edit_vali;
     private EditText edit_password_new;
+    private EditText edit_password_new_repeat;
     private TextView text_getvali;
 
     private String valicode;
@@ -50,6 +51,7 @@ public class FindPswActivity extends BaseAppCompatActivity implements View.OnCli
         edit_phone = (EditText)findViewById(R.id.edit_modifypsw_phone);
         edit_vali = (EditText)findViewById(R.id.edit_modifypsw_vali);
         edit_password_new = (EditText)findViewById(R.id.edit_modifypsw_password_new);
+        edit_password_new_repeat = (EditText)findViewById(R.id.edit_modifypsw_password_new_repeat);
         text_getvali = (TextView)findViewById(R.id.text_modifypsw_getvali);
 
         findViewById(R.id.btn_bank).setOnClickListener(this);
@@ -115,8 +117,9 @@ public class FindPswActivity extends BaseAppCompatActivity implements View.OnCli
             case R.id.btn_go: {
                 String vali = edit_vali.getText().toString();
                 String psw = edit_password_new.getText().toString();
+                String psw_repeat = edit_password_new_repeat.getText().toString();
 
-                String msg = AppVali.find_psw(edit_phone.getText().toString(), phone, vali, valicode,psw);
+                String msg = AppVali.find_psw(edit_phone.getText().toString(), phone, vali, valicode,psw,psw_repeat);
                 if (msg != null) {
                     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
                 } else {

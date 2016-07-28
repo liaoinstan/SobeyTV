@@ -141,7 +141,7 @@ public class RegistDetailFragment extends BaseFragment implements View.OnClickLi
         Intent intent = new Intent();
         switch (v.getId()){
             case R.id.btn_go:
-
+                btn_go.setClickable(false);
                 String name = edit_name.getText().toString();
                 String password = edit_password.getText().toString();
                 String password_repet = edit_password_repet.getText().toString();
@@ -197,6 +197,7 @@ public class RegistDetailFragment extends BaseFragment implements View.OnClickLi
                     public void run() {
                         sufatherPager.setCurrentItem(0);
                         fatherPager.setCurrentItem(0,false);
+                        btn_go.setClickable(true);
                         btn_go.setProgress(0);
                     }
                 }, 800);
@@ -232,6 +233,7 @@ public class RegistDetailFragment extends BaseFragment implements View.OnClickLi
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        btn_go.setClickable(true);
                         btn_go.setProgress(0);
                     }
                 }, 800);

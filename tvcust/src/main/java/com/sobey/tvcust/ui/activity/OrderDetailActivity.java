@@ -196,13 +196,13 @@ public class OrderDetailActivity extends BaseAppCompatActivity implements View.O
     private void initData(final boolean isFirst) {
 
         //如果未查看就查看订单
-        if (user.getRoleType()==User.ROLE_CUSTOMER && order.getServiceCheck()!=1) {
+        if (user.getRoleType() == User.ROLE_CUSTOMER && order.getServiceCheck() != 1) {
             netUpdateCheck();
-        }else if (user.getRoleType()==User.ROLE_FILIALETECH && order.getTechCheck()!=1){
+        } else if (user.getRoleType() == User.ROLE_FILIALETECH && order.getTechCheck() != 1) {
             netUpdateCheck();
-        }else if (user.getRoleType()==User.ROLE_HEADCOMTECH && order.getHeadTechCheck()!=1){
+        } else if (user.getRoleType() == User.ROLE_HEADCOMTECH && order.getHeadTechCheck() != 1) {
             netUpdateCheck();
-        }else if (user.getRoleType()==User.ROLE_INVENT && order.getDevelopCheck()!=1){
+        } else if (user.getRoleType() == User.ROLE_INVENT && order.getDevelopCheck() != 1) {
             netUpdateCheck();
         }
 
@@ -329,55 +329,70 @@ public class OrderDetailActivity extends BaseAppCompatActivity implements View.O
         }
         //根据角色类型设置提交按钮的状态和功能
         pop_describe.setType(user.getRoleType(), order);
-        switch (user.getRoleType()) {
-            //技术人员
-            case User.ROLE_FILIALETECH:
-                if (order.getTscIsAccept() != 1) {
-                    //如果是技术人员，且未接受，则显示接受按钮
-                    btn_go.setText("接受任务");
-                    btn_go.setIdleText("接受任务");
-                } else {
-                    //如果已经接受，则显示接受按钮
-                    btn_go.setText("操作");
-                    btn_go.setIdleText("操作");
-                }
+
+        int needAccept = OrderStatusHelper.getNeedAcceptBtn(order, user.getRoleType());
+        switch (needAccept) {
+            case 0:
+                btn_go.setText("接受任务");
+                btn_go.setIdleText("接受任务");
                 break;
-            //总部技术
-            case User.ROLE_HEADCOMTECH:
-                //新需求变更：如果分公司技术不存在则选择一个到现场查看
-                if (order.getHeadTechIsAccept() != 1) {
-                    btn_go.setText("接受任务");
-                    btn_go.setIdleText("接受任务");
-                } else {
-                    btn_go.setText("操作");
-                    btn_go.setIdleText("操作");
-                }
-                break;
-            //总部研发
-            case User.ROLE_INVENT:
-                if (order.getDevelopIsAccept() != 1) {
-                    btn_go.setText("接受任务");
-                    btn_go.setIdleText("接受任务");
-                } else {
-                    btn_go.setText("操作");
-                    btn_go.setIdleText("操作");
-                }
-                break;
-            //客服
-            case User.ROLE_CUSTOMER:
-                //客服，无法操作
-                btn_go.setVisibility(View.GONE);
-                break;
-            //用户
-            case User.ROLE_COMMOM:
+            case 1:
                 btn_go.setText("操作");
                 btn_go.setIdleText("操作");
                 break;
-            default:
-                //其他被抄送人员，无法操作
+            case 2:
                 btn_go.setVisibility(View.GONE);
                 break;
         }
+//        switch (user.getRoleType()) {
+//            //技术人员
+//            case User.ROLE_FILIALETECH:
+//                if (order.getTscIsAccept() != 1) {
+//                    //如果是技术人员，且未接受，则显示接受按钮
+//                    btn_go.setText("接受任务");
+//                    btn_go.setIdleText("接受任务");
+//                } else {
+//                    //如果已经接受，则显示接受按钮
+//                    btn_go.setText("操作");
+//                    btn_go.setIdleText("操作");
+//                }
+//                break;
+//            //总部技术
+//            case User.ROLE_HEADCOMTECH:
+//                //新需求变更：如果分公司技术不存在则选择一个到现场查看
+//                if (order.getHeadTechIsAccept() != 1) {
+//                    btn_go.setText("接受任务");
+//                    btn_go.setIdleText("接受任务");
+//                } else {
+//                    btn_go.setText("操作");
+//                    btn_go.setIdleText("操作");
+//                }
+//                break;
+//            //总部研发
+//            case User.ROLE_INVENT:
+//                if (order.getDevelopIsAccept() != 1) {
+//                    btn_go.setText("接受任务");
+//                    btn_go.setIdleText("接受任务");
+//                } else {
+//                    btn_go.setText("操作");
+//                    btn_go.setIdleText("操作");
+//                }
+//                break;
+//            //客服
+//            case User.ROLE_CUSTOMER:
+//                //客服，无法操作
+//                btn_go.setVisibility(View.GONE);
+//                break;
+//            //用户
+//            case User.ROLE_COMMOM:
+//                btn_go.setText("操作");
+//                btn_go.setIdleText("操作");
+//                break;
+//            default:
+//                //其他被抄送人员，无法操作
+//                btn_go.setVisibility(View.GONE);
+//                break;
+//        }
     }
 
     @Override
@@ -479,9 +494,9 @@ public class OrderDetailActivity extends BaseAppCompatActivity implements View.O
         intent.putExtra("categoryId", order.getCategory().getId());
         intent.putExtra("flag", type);
         intent.putExtra("userId", order.getUserId());
-        if (user.getRoleType()==User.ROLE_COMMOM){
+        if (user.getRoleType() == User.ROLE_COMMOM) {
             intent.putExtra("title", type == 0 ? "向TSC反馈" : "反馈");
-        }else {
+        } else {
             intent.putExtra("title", type == 0 ? "申请协助" : "反馈");
         }
         if (order != null) {
@@ -615,6 +630,7 @@ public class OrderDetailActivity extends BaseAppCompatActivity implements View.O
         intent.putExtra("title", "向总技术反馈");
         startActivity(intent);
     }
+
     private void popEva() {
         Intent intent = new Intent();
         intent.setClass(this, EvaActivity.class);
@@ -634,15 +650,14 @@ public class OrderDetailActivity extends BaseAppCompatActivity implements View.O
     @Override
     public void onItemClick(RecyclerView.ViewHolder viewHolder) {
         OrderDescribe describe = adapter.getResults().get(viewHolder.getLayoutPosition());
-        Log.e("liao",describe.toString());
-        if (describe.getFrom()==User.ROLE_FILIALETECH){
-            //用户点击技术的消息
-            popUserToTech();
-        }else if (describe.getFrom()==User.ROLE_HEADCOMTECH){
-            //用户点击总技术的消息
-            popUserToHeadTech();
-        }else {
-            return;
+        if (order.getStatus() != Order.ORDER_UNEVA && order.getStatus() != Order.ORDER_FINSH) {
+            if (describe.getFrom() == User.ROLE_FILIALETECH) {
+                //用户点击技术的消息
+                popUserToTech();
+            } else if (describe.getFrom() == User.ROLE_HEADCOMTECH) {
+                //用户点击总技术的消息
+                popUserToHeadTech();
+            }
         }
     }
 }

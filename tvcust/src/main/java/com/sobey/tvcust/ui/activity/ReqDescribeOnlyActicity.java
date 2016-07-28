@@ -98,7 +98,7 @@ public class ReqDescribeOnlyActicity extends BaseAppCompatActivity implements Vi
     }
 
     private void initBase() {
-        if (getIntent().hasExtra("title")){
+        if (getIntent().hasExtra("title")) {
             getSupportActionBar().setTitle(getIntent().getStringExtra("title"));
         }
         if (getIntent().hasExtra("orderId")) {
@@ -212,26 +212,28 @@ public class ReqDescribeOnlyActicity extends BaseAppCompatActivity implements Vi
         Intent intent = new Intent();
         switch (v.getId()) {
             case R.id.img_reqfix_photo:
-                if (PermissionsUtil.requsetPhoto(this,findViewById(R.id.showingroup))) {
+                if (PermissionsUtil.requsetPhoto(this, findViewById(R.id.showingroup))) {
                     popup.show();
                 }
                 break;
             case R.id.img_reqfix_vidio:
                 if (!hasVideo) {
-                    if (PermissionsUtil.requsetVideo(this,findViewById(R.id.showingroup))) {
+                    if (PermissionsUtil.requsetVideo(this, findViewById(R.id.showingroup))) {
                         intent.setClass(ReqDescribeOnlyActicity.this, VideoRecorderActivity.class);
                         startActivityForResult(intent, RESULT_VIDEO_RECORDER);
                     }
-                }else {
-                    Toast.makeText(this,"你只能上传一个视频",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "你只能上传一个视频", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.img_reqfix_voice:
-                if (PermissionsUtil.requsetVoice(this,findViewById(R.id.showingroup))) {
+                if (PermissionsUtil.requsetVoice(this, findViewById(R.id.showingroup))) {
                     recordDialog.show();
                 }
                 break;
             case R.id.btn_go:
+
+                btn_go.setClickable(false);
 
                 photoPaths = bundleView.getPhotoPaths();
                 videoPaths = bundleView.getVideoPaths();
@@ -372,13 +374,20 @@ public class ReqDescribeOnlyActicity extends BaseAppCompatActivity implements Vi
         RequestParams params = new RequestParams(AppData.Url.addOrderDecribe);
         params.addHeader("token", AppData.App.getToken());
         params.addBodyParameter("orderId", orderId + "");
-        if (type==0) {
-            params.addBodyParameter("flag", "1");
-        }else if (type==1 || type==2){
+        if (type == 0) {
+            if (User.ROLE_FILIALETECH == user.getRoleType()) {
+                //技术完成任务向下反馈 flag1
+                params.addBodyParameter("flag", "1");
+            }else if (User.ROLE_HEADCOMTECH == user.getRoleType()){
+                //总技术完成任务跨级反馈 flag2
+                params.addBodyParameter("flag", "2");
+            }
+        } else if (type == 1 || type == 2) {
+            //用户拒绝和通过验收，全局反馈 flag 3
             params.addBodyParameter("flag", "3");
-        }else if (type==3){
+        } else if (type == 3) {
             params.addBodyParameter("flag", "2");
-        }else if (type==4){
+        } else if (type == 4) {
             params.addBodyParameter("flag", "3");
         }
         params.addBodyParameter("content", detail);
@@ -394,15 +403,15 @@ public class ReqDescribeOnlyActicity extends BaseAppCompatActivity implements Vi
         CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
-                if (type==0) {
+                if (type == 0) {
 //                    EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERDESCRIBE);
 //                    EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERLIST);
                     netFinishOrder();
-                }else if (type==1 || type==2){
+                } else if (type == 1 || type == 2) {
 //                    EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERDESCRIBE);
 //                    EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERLIST);
                     netValiOrder();
-                }else if (type==3){
+                } else if (type == 3) {
                     EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERDESCRIBE);
                     new Handler().postDelayed(new Runnable() {
                         @Override
@@ -410,7 +419,7 @@ public class ReqDescribeOnlyActicity extends BaseAppCompatActivity implements Vi
                             finish();
                         }
                     }, 800);
-                }else if(type ==4){
+                } else if (type == 4) {
                     EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERDESCRIBE);
                     new Handler().postDelayed(new Runnable() {
                         @Override
@@ -422,12 +431,13 @@ public class ReqDescribeOnlyActicity extends BaseAppCompatActivity implements Vi
             }
 
             @Override
-            public void netSetError(int code, String text) {
+            public void netSetError(int code, final String text) {
                 Toast.makeText(ReqDescribeOnlyActicity.this, text, Toast.LENGTH_SHORT).show();
                 btn_go.setProgress(-1);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        btn_go.setClickable(true);
                         btn_go.setProgress(0);
                     }
                 }, 800);
@@ -464,6 +474,7 @@ public class ReqDescribeOnlyActicity extends BaseAppCompatActivity implements Vi
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        btn_go.setClickable(true);
                         btn_go.setProgress(0);
                     }
                 }, 800);
@@ -476,12 +487,12 @@ public class ReqDescribeOnlyActicity extends BaseAppCompatActivity implements Vi
         RequestParams params = new RequestParams(AppData.Url.statusToAppraise);
         params.addHeader("token", AppData.App.getToken());
         params.addBodyParameter("orderId", orderId + "");
-        if (type==1){
+        if (type == 1) {
             //验收通过
-            params.addBodyParameter("isaccept", 0+"");
-        }else if(type==2){
+            params.addBodyParameter("isaccept", 0 + "");
+        } else if (type == 2) {
             //验收拒绝
-            params.addBodyParameter("isaccept", 1+"");
+            params.addBodyParameter("isaccept", 1 + "");
         }
         CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
             @Override
@@ -508,6 +519,7 @@ public class ReqDescribeOnlyActicity extends BaseAppCompatActivity implements Vi
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        btn_go.setClickable(true);
                         btn_go.setProgress(0);
                     }
                 }, 800);

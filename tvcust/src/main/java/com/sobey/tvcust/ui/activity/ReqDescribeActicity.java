@@ -303,6 +303,9 @@ public class ReqDescribeActicity extends BaseAppCompatActivity implements View.O
                 }
                 break;
             case R.id.btn_go:
+
+                btn_go.setClickable(false);
+
                 photoPaths = bundleView.getPhotoPaths();
                 videoPaths = bundleView.getVideoPaths();
                 voicePaths = bundleView.getVoicePaths();
@@ -500,12 +503,13 @@ public class ReqDescribeActicity extends BaseAppCompatActivity implements View.O
             }
 
             @Override
-            public void netSetError(int code, String text) {
+            public void netSetError(int code, final String text) {
                 Toast.makeText(ReqDescribeActicity.this, text, Toast.LENGTH_SHORT).show();
                 btn_go.setProgress(-1);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        btn_go.setClickable(true);
                         btn_go.setProgress(0);
                     }
                 }, 800);
@@ -523,6 +527,9 @@ public class ReqDescribeActicity extends BaseAppCompatActivity implements View.O
                 params.addBodyParameter("orderId", orderId + "");
                 params.addBodyParameter("tscId", assisterId + "");
                 params.addBodyParameter("roleType", "10");
+                if (!StrUtils.isEmpty(ids)) {
+                    params.addBodyParameter("ccs", new Gson().toJson(ids));
+                }
             } else {
                 //总部技术人员申请总部研发
                 params = new RequestParams(AppData.Url.commitdeveloper);
@@ -564,6 +571,7 @@ public class ReqDescribeActicity extends BaseAppCompatActivity implements View.O
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        btn_go.setClickable(true);
                         btn_go.setProgress(0);
                     }
                 }, 800);

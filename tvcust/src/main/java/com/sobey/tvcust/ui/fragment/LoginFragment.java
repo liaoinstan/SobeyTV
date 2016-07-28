@@ -111,9 +111,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
         switch (v.getId()){
             case R.id.btn_go:
 
-                //状态为正常状态才发送请求
-                if (btn_go.getProgress()!=0)
-                    break;
+                btn_go.setClickable(false);
 
                 Log.e("liao",btn_go.getProgress()+"");
 
@@ -194,6 +192,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                btn_go.setClickable(true);
                 btn_go.setProgress(0);
             }
         }, 800);

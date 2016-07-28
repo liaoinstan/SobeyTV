@@ -101,6 +101,7 @@ public class RegistPhoneFragment extends BaseFragment implements View.OnClickLis
         Intent intent = new Intent();
         switch (v.getId()) {
             case R.id.btn_go:
+                btn_go.setClickable(false);
                 btn_go.setProgress(50);
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -116,6 +117,7 @@ public class RegistPhoneFragment extends BaseFragment implements View.OnClickLis
                                 @Override
                                 public void run() {
                                     fatherpager.setCurrentItem(1);
+                                    btn_go.setClickable(true);
                                     btn_go.setProgress(0);
                                 }
                             }, 800);
@@ -124,6 +126,7 @@ public class RegistPhoneFragment extends BaseFragment implements View.OnClickLis
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
+                                    btn_go.setClickable(true);
                                     btn_go.setProgress(0);
                                 }
                             }, 800);

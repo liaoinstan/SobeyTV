@@ -116,6 +116,10 @@ public class CommonNet {
                     try {
                         pojo = new Gson().fromJson(data, entityClass);
                         System.out.println(pojo);
+                        JSONObject datajson = new JSONObject(data);
+                        if (datajson.has("valicode")){
+                            Toast.makeText(ApplicationHelp.getApplicationContext(),datajson.getString("valicode"),Toast.LENGTH_LONG).show();
+                        }
                     }catch (Exception e){
                         e.printStackTrace();
                     }

@@ -268,7 +268,7 @@ public class EvaActivity extends BaseAppCompatActivity implements View.OnClickLi
                 startActivityForResult(intent,RESULT_COMPLAIN);
                 break;
             case R.id.btn_go:
-
+                btn_go.setClickable(false);
                 netCommitEVA();
 
                 break;
@@ -294,6 +294,7 @@ public class EvaActivity extends BaseAppCompatActivity implements View.OnClickLi
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    btn_go.setClickable(true);
                     btn_go.setProgress(0);
                 }
             }, 800);
@@ -351,12 +352,13 @@ public class EvaActivity extends BaseAppCompatActivity implements View.OnClickLi
                 }
 
                 @Override
-                public void netSetError(int code, String text) {
+                public void netSetError(int code, final String text) {
                     Toast.makeText(EvaActivity.this, text, Toast.LENGTH_SHORT).show();
                     btn_go.setProgress(-1);
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            btn_go.setClickable(true);
                             btn_go.setProgress(0);
                         }
                     }, 800);
