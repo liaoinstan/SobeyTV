@@ -18,117 +18,120 @@
             android:layout_height="wrap_content"
             android:theme="@style/AppTheme.AppBarOverlay">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                app:layout_scrollFlags="scroll|enterAlways"
-                app:navigationIcon="@drawable/icon_back"
-                app:popupTheme="@style/AppTheme.PopupOverlay">
-
-                <LinearLayout
-                    android:id="@+id/btn_go_orderprog"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="20dp"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/icon_allocate_orderprog" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:text="查看进度"
-                        android:textColor="@color/sb_blue"
-                        android:textSize="@dimen/text_tiny" />
-
-                </LinearLayout>
-            </android.support.v7.widget.Toolbar>
-
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:paddingBottom="15dp"
-                android:paddingTop="15dp"
-                app:layout_scrollFlags="scroll|enterAlways">
+                android:orientation="vertical"
+                app:layout_scrollFlags="scroll|enterAlwaysCollapsed|snap">
 
-                <ImageView
-                    android:id="@+id/img_orderdetail_header"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="20dp"
-                    android:scaleType="center"
-                    android:src="@drawable/icon_order_fix" />
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="?attr/colorPrimary"
 
-                <TextView
-                    android:id="@+id/text_orderdetail_name"
-                    android:layout_width="wrap_content"
+                    app:navigationIcon="@drawable/icon_back"
+                    app:popupTheme="@style/AppTheme.PopupOverlay">
+
+                    <LinearLayout
+                        android:id="@+id/btn_go_orderprog"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginRight="20dp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/icon_allocate_orderprog" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="查看进度"
+                            android:textColor="@color/sb_blue"
+                            android:textSize="@dimen/text_tiny" />
+
+                    </LinearLayout>
+                </android.support.v7.widget.Toolbar>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/img_orderdetail_header"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toEndOf="@+id/img_orderdetail_header"
-                    android:layout_toRightOf="@+id/img_orderdetail_header"
-                    android:textColor="@color/sb_text_blank"
-                    android:textSize="@dimen/text_nomal" />
+                    android:background="@color/white"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
 
-                <TextView
-                    android:id="@+id/text_orderdetail_problem"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/text_orderdetail_name"
-                    android:layout_alignStart="@+id/text_orderdetail_name"
-                    android:layout_below="@+id/text_orderdetail_name"
-                    android:layout_marginTop="2dp"
-                    android:text="问题："
-                    android:textColor="@color/sb_text_dark_blank"
-                    android:textSize="@dimen/text_nomal_small" />
+                    <ImageView
+                        android:id="@+id/img_orderdetail_header"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:scaleType="center"
+                        android:src="@drawable/icon_order_fix" />
 
-                <TextView
-                    android:id="@+id/text_orderdetail_num"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/text_orderdetail_problem"
-                    android:layout_alignStart="@+id/text_orderdetail_problem"
-                    android:layout_below="@+id/text_orderdetail_problem"
-                    android:layout_marginTop="2dp"
-                    android:text="订单号："
-                    android:textColor="@color/sb_text_dark_blank"
-                    android:textSize="@dimen/text_nomal_small" />
-            </RelativeLayout>
+                    <TextView
+                        android:id="@+id/text_orderdetail_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/img_orderdetail_header"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toEndOf="@+id/img_orderdetail_header"
+                        android:layout_toRightOf="@+id/img_orderdetail_header"
+                        android:textColor="@color/sb_text_blank"
+                        android:textSize="@dimen/text_nomal" />
 
-            <FrameLayout
+                    <TextView
+                        android:id="@+id/text_orderdetail_problem"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/text_orderdetail_name"
+                        android:layout_alignStart="@+id/text_orderdetail_name"
+                        android:layout_below="@+id/text_orderdetail_name"
+                        android:layout_marginTop="2dp"
+                        android:text="问题："
+                        android:textColor="@color/sb_text_dark_blank"
+                        android:textSize="@dimen/text_nomal_small" />
+
+                    <TextView
+                        android:id="@+id/text_orderdetail_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/text_orderdetail_problem"
+                        android:layout_alignStart="@+id/text_orderdetail_problem"
+                        android:layout_below="@+id/text_orderdetail_problem"
+                        android:layout_marginTop="2dp"
+                        android:text="订单号："
+                        android:textColor="@color/sb_text_dark_blank"
+                        android:textSize="@dimen/text_nomal_small" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:background="@color/white">
+                android:layout_height="wrap_content"
+                app:layout_scrollFlags="scroll|enterAlways"
+                android:background="@color/white"
+                android:orientation="vertical">
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@drawable/line" />
-            </FrameLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingBottom="20dp">
+                    android:paddingBottom="20dp"
+                    android:paddingTop="20dp">
 
                     <TextView
                         android:id="@+id/text_orderdetail_user_name"

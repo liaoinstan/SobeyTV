@@ -11,6 +11,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -38,7 +39,7 @@
             android:id="@+id/text_dialog_sure"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="30dp"
             android:layout_marginBottom="25dp"
             android:paddingLeft="27dp"
             android:paddingRight="27dp"

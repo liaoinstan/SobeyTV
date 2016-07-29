@@ -265,4 +265,11 @@ public class OrderStatusHelper {
             }
         }
     }
+
+    /**
+     * 是否需要选择援助对象，第一次选择后之后不再需要
+     */
+    public static boolean needAccept(){
+        return false;
+    }
 }

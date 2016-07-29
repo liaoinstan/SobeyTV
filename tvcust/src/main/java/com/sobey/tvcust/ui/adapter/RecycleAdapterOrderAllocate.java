@@ -67,7 +67,7 @@ public class RecycleAdapterOrderAllocate extends RecyclerView.Adapter<RecyclerVi
 
     private void bindTypeHeader(HolderHeader holder, int position) {
         if (position == 0) {
-            holder.text_header.setText("TCS");
+            holder.text_header.setText("TSC");
         } else {
             holder.text_header.setText("非编技术专家");
         }

@@ -542,9 +542,13 @@ public class OrderDetailActivity extends BaseAppCompatActivity implements View.O
                     }
                 }
             } else {
-                if (order.getTscId() == null || order.getTscId() == 0) {
-                    isAccept = true;
-                } else {
+                if (user.getRoleType() == User.ROLE_HEADCOMTECH) {
+                    if (order.getTscId() == null || order.getTscId() == 0) {
+                        isAccept = true;
+                    } else {
+                        isAccept = false;
+                    }
+                }else {
                     isAccept = false;
                 }
             }

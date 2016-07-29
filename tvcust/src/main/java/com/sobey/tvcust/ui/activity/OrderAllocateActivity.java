@@ -194,6 +194,7 @@ public class OrderAllocateActivity extends BaseAppCompatActivity implements View
         recyclerView.setLayoutManager(new GridLayoutManager(recyclerView.getContext(), 3, GridLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
 
+        swipe.setEnabled(false);
         swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
