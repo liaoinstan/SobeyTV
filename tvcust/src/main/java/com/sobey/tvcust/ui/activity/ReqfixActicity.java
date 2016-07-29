@@ -348,6 +348,7 @@ public class ReqfixActicity extends BaseAppCompatActivity implements View.OnClic
             msg = AppVali.reqfix_commit_withuser(categoryId, userId, detail);
         }
         if (msg != null) {
+            btn_go.setClickable(true);
             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
         } else {
 

@@ -129,6 +129,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
 
                     btn_go.setProgress(50);
                 } else {
+                    btn_go.setClickable(true);
                     Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
                 }
 

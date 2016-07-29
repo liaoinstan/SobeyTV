@@ -44,4 +44,5 @@
 
     <color name="sb_track">#8699aa</color>
     <color name="defaut">#cccccc</color>
+    <color name="enable">#cccccc</color>
 </resources>

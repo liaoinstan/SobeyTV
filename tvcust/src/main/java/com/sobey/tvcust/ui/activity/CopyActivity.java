@@ -177,6 +177,7 @@ public class CopyActivity extends BaseAppCompatActivity implements View.OnClickL
 
         switch (v.getId()) {
             case R.id.btn_go:
+                btn_go.setClickable(false);
                 final ArrayList<Integer> ids = adapter.getSelectUsers();
                 final String nameStr = adapter.getSelectNameStr();
 
@@ -187,6 +188,7 @@ public class CopyActivity extends BaseAppCompatActivity implements View.OnClickL
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            btn_go.setClickable(true);
                             btn_go.setProgress(0);
                         }
                     }, 800);

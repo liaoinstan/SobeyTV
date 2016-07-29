@@ -255,7 +255,11 @@ public class OrderStatusHelper {
             return getRoleNameByType(from) + "追加描述";
         } else {
             if (roleType == User.ROLE_COMMOM) {
-                return "技术" + " 反馈 " + getRoleNameByType(to);
+                if (from == User.ROLE_COMMOM) {
+                    return "用户" + " 反馈 " + "技术";
+                }else {
+                    return "技术" + " 反馈 " + "用户";
+                }
             } else {
                 return getRoleNameByType(from) + " 反馈 " + getRoleNameByType(to);
             }

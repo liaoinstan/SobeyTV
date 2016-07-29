@@ -386,6 +386,7 @@ public class ReqDescribeActicity extends BaseAppCompatActivity implements View.O
             msg = AppVali.reqfix_addDescribe(detail);
         }
         if (msg != null) {
+            btn_go.setClickable(true);
             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
         } else {
 
@@ -451,6 +452,7 @@ public class ReqDescribeActicity extends BaseAppCompatActivity implements View.O
 
             @Override
             public void netSetError(int code, String text) {
+                btn_go.setClickable(true);
                 Toast.makeText(ReqDescribeActicity.this, text, Toast.LENGTH_SHORT).show();
             }
 

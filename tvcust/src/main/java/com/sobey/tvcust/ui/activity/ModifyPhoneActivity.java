@@ -99,10 +99,12 @@ public class ModifyPhoneActivity extends BaseAppCompatActivity implements View.O
                 break;
             }
             case R.id.btn_go: {
+                btn_go.setClickable(false);
                 String vali = edit_vali.getText().toString();
 
                 String msg = AppVali.regist_phone(edit_phone.getText().toString(),phone, vali, valicode);
                 if (msg != null) {
+                    btn_go.setClickable(true);
                     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
                 }else {
                     btn_go.setProgress(50);
@@ -138,6 +140,7 @@ public class ModifyPhoneActivity extends BaseAppCompatActivity implements View.O
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
+                                    btn_go.setClickable(true);
                                     btn_go.setProgress(0);
                                 }
                             }, 800);

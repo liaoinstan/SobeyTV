@@ -163,6 +163,7 @@ public class RegistDetailFragment extends BaseFragment implements View.OnClickLi
 
                     btn_go.setProgress(50);
                 } else {
+                    btn_go.setClickable(true);
                     Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
                 }
 

@@ -180,6 +180,7 @@ public class AssistActivity extends BaseAppCompatActivity implements View.OnClic
         Intent intent = new Intent();
         switch (v.getId()) {
             case R.id.btn_go:
+                btn_go.setClickable(false);
 //                netAssistCommit();
                 selectAccepter();
                 break;
@@ -257,6 +258,7 @@ public class AssistActivity extends BaseAppCompatActivity implements View.OnClic
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    btn_go.setClickable(true);
                     btn_go.setProgress(0);
                 }
             }, 800);

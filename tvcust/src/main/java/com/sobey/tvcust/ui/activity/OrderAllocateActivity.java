@@ -244,10 +244,12 @@ public class OrderAllocateActivity extends BaseAppCompatActivity implements View
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_go:
+                btn_go.setClickable(false);
                 User allocater = adapter.getSelectUser();
 
                 String msg = AppVali.allocate_commit(allocater);
                 if (msg != null) {
+                    btn_go.setClickable(true);
                     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
                 } else {
                     if (type==0) {
@@ -269,6 +271,7 @@ public class OrderAllocateActivity extends BaseAppCompatActivity implements View
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    btn_go.setClickable(true);
                     btn_go.setProgress(0);
                 }
             }, 800);
@@ -315,6 +318,7 @@ public class OrderAllocateActivity extends BaseAppCompatActivity implements View
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        btn_go.setClickable(true);
                         btn_go.setProgress(0);
                     }
                 }, 800);

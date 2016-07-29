@@ -277,6 +277,7 @@ public class OrderDetailActivity extends BaseAppCompatActivity implements View.O
             adapter.setOnItemClickListener(this);
         }
 
+        swipe.setEnabled(false);
         swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -339,6 +340,11 @@ public class OrderDetailActivity extends BaseAppCompatActivity implements View.O
             case 1:
                 btn_go.setText("操作");
                 btn_go.setIdleText("操作");
+                if (pop_describe.isAllHide()){
+                    btn_go.setEnabled(false);
+                }else {
+                    btn_go.setEnabled(true);
+                }
                 break;
             case 2:
                 btn_go.setVisibility(View.GONE);
@@ -461,8 +467,22 @@ public class OrderDetailActivity extends BaseAppCompatActivity implements View.O
                             btn_go.setProgress(0);
                             btn_go.setIdleText("操作");
 
-                            order.setStatus(Order.ORDER_INDEAL);
+                            //接受任务后设置本地order的状态（不刷新 减小压力），更新弹窗和按钮状态
+                            order.setStatus(Order.ORDER_INDEAL);    //订单状态变为处理中
+                            /** 修改任务接受状态值*/
+                            if(user.getRoleType()==User.ROLE_FILIALETECH){
+                                order.setTscIsAccept(1);
+                            }else if (user.getRoleType()==User.ROLE_HEADCOMTECH){
+                                order.setHeadTechIsAccept(1);
+                            }else if (user.getRoleType()==User.ROLE_INVENT){
+                                order.setDevelopIsAccept(1);
+                            }
                             pop_describe.setType(user.getRoleType(), order);
+                            if (pop_describe.isAllHide()){
+                                btn_go.setEnabled(false);
+                            }else {
+                                btn_go.setEnabled(true);
+                            }
                         }
                         //设置成已经接受，防止请求失败后没有刷新
                         order.setTscIsAccept(1);

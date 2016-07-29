@@ -194,6 +194,7 @@ public class SelectUserFragment extends BaseFragment implements View.OnClickList
         Intent intent = new Intent();
         switch (v.getId()) {
             case R.id.btn_go:
+                btn_go.setClickable(false);
                 final User selectUser = adapter.getSelectUser();
 
                 btn_go.setProgress(50);
@@ -204,6 +205,7 @@ public class SelectUserFragment extends BaseFragment implements View.OnClickList
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            btn_go.setClickable(true);
                             btn_go.setProgress(0);
                         }
                     }, 800);

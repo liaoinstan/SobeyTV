@@ -289,6 +289,7 @@ public class ReqDescribeOnlyActicity extends BaseAppCompatActivity implements Vi
         String msg = null;
         msg = AppVali.reqfix_addDescribe(detail);
         if (msg != null) {
+            btn_go.setClickable(true);
             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
         } else {
 
@@ -354,6 +355,7 @@ public class ReqDescribeOnlyActicity extends BaseAppCompatActivity implements Vi
 
             @Override
             public void netSetError(int code, String text) {
+                btn_go.setClickable(true);
                 Toast.makeText(ReqDescribeOnlyActicity.this, text, Toast.LENGTH_SHORT).show();
             }
 

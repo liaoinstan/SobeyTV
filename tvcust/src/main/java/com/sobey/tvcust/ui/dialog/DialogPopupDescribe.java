@@ -93,9 +93,9 @@ public class DialogPopupDescribe extends Dialog {
     }
 
     public void setType(int type, Order order) {
-        if (OrderStatusHelper.getNeedFinish(order,type)){
+        if (OrderStatusHelper.getNeedFinish(order, type)) {
             lay_finish.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             lay_finish.setVisibility(View.GONE);
         }
         if (OrderStatusHelper.getNeedEva(order, type) == 1) {
@@ -182,7 +182,7 @@ public class DialogPopupDescribe extends Dialog {
                 lay_touser.setVisibility(View.GONE);
                 if (order.getStatus() == Order.ORDER_UNEVA || order.getStatus() == Order.ORDER_FINSH) {
                     lay_describe.setVisibility(View.GONE);
-                }else {
+                } else {
                     lay_describe.setVisibility(View.VISIBLE);
                 }
                 break;
@@ -196,6 +196,22 @@ public class DialogPopupDescribe extends Dialog {
                 lay_describe.setVisibility(View.GONE);
                 lay_eva.setVisibility(View.GONE);
                 break;
+        }
+    }
+
+    public boolean isAllHide() {
+        boolean v1 = lay_finish.getVisibility() == View.VISIBLE;
+        boolean v2 = lay_valipass.getVisibility() == View.VISIBLE;
+        boolean v3 = lay_valirefuse.getVisibility() == View.VISIBLE;
+        boolean v4 = lay_next.getVisibility() == View.VISIBLE;
+        boolean v5 = lay_bank.getVisibility() == View.VISIBLE;
+        boolean v6 = lay_touser.getVisibility() == View.VISIBLE;
+        boolean v7 = lay_describe.getVisibility() == View.VISIBLE;
+        boolean v8 = lay_eva.getVisibility() == View.VISIBLE;
+        if (!v1 && !v2 && !v3 && !v4 && !v5 && !v6 && !v7 && !v8){
+            return true;
+        }else {
+            return false;
         }
     }
 

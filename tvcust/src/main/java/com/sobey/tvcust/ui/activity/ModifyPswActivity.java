@@ -72,12 +72,14 @@ public class ModifyPswActivity extends BaseAppCompatActivity implements View.OnC
                 finish();
                 break;
             case R.id.btn_go: {
+                btn_go.setClickable(false);
                 String psw_old = edit_password_old.getText().toString();
                 String psw_new = edit_password_new.getText().toString();
                 String psw_new_repeat = edit_password_new_repeat.getText().toString();
 
                 String msg = AppVali.modify_psw(psw_old,psw_new,psw_new_repeat);
                 if (msg != null) {
+                    btn_go.setClickable(true);
                     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
                 } else {
                     btn_go.setProgress(50);
@@ -113,6 +115,7 @@ public class ModifyPswActivity extends BaseAppCompatActivity implements View.OnC
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
+                                    btn_go.setClickable(true);
                                     btn_go.setProgress(0);
                                 }
                             }, 800);

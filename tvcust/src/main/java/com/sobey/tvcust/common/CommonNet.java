@@ -133,7 +133,19 @@ public class CommonNet {
                         //已被挤下线
                         try {
                             Toast.makeText(ApplicationHelp.getApplicationContext(),"你的账号在其他设备登陆，强制下线",Toast.LENGTH_SHORT).show();
-                            Log.e("netHander","你的账号在其他设备登陆，强制下线");
+                            MyActivityCollector.finishAll();
+                            Intent intent = new Intent(ApplicationHelp.getApplicationContext(), LoginActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            ApplicationHelp.getApplicationContext().startActivity(intent);
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                        break;
+
+                    case 1007:
+                        //已被挤下线
+                        try {
+                            Toast.makeText(ApplicationHelp.getApplicationContext(),"你的账号已被冻结，请联系管理员",Toast.LENGTH_SHORT).show();
                             MyActivityCollector.finishAll();
                             Intent intent = new Intent(ApplicationHelp.getApplicationContext(), LoginActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
