@@ -180,6 +180,7 @@ public class SettingActivity extends BaseAppCompatActivity implements View.OnCli
                 Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
                 startActivity(intent);
                 MyActivityCollector.finishAll();
+
             }
             @Override
             public void netSetError(int code, String text) {
