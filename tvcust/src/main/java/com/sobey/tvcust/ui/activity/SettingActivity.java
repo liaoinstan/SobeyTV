@@ -2,7 +2,9 @@ package com.sobey.tvcust.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -18,9 +20,10 @@ import com.sobey.tvcust.common.MyActivityCollector;
 import com.sobey.tvcust.entity.CommonEntity;
 import com.sobey.tvcust.ui.dialog.DialogSure;
 
+import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 
-public class SettingActivity extends BaseAppCompatActivity implements View.OnClickListener{
+public class SettingActivity extends BaseAppCompatActivity implements View.OnClickListener {
 
     private TextView text_setting_version;
     private TextView text_setting_clear;
@@ -29,6 +32,10 @@ public class SettingActivity extends BaseAppCompatActivity implements View.OnCli
     private DialogSure dialogSureLogout;
 
     private UpdateHelper updateHelper;
+
+    private Callback.Cancelable cancelable;
+    private Handler handler;
+    private Runnable runnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,18 +54,19 @@ public class SettingActivity extends BaseAppCompatActivity implements View.OnCli
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (dialogSureClear !=null) dialogSureClear.dismiss();
-        if (dialogSureLogout !=null) dialogSureLogout.dismiss();
+        if (dialogSureClear != null) dialogSureClear.dismiss();
+        if (dialogSureLogout != null) dialogSureLogout.dismiss();
     }
 
     private void initBase() {
+        handler = new Handler();
         updateHelper = new UpdateHelper.Builder(this)
                 .checkUrl("http://xx")
                 .isAutoInstall(false) //设置为false需在下载完手动点击安装;默认值为true，下载后自动安装。
 //                        .isHintNewVersion(false)
                 .build();
 
-        dialogSureClear = new DialogSure(this,"该操作会清除使用过程中录制的音频、视频等，且不可恢复，你确认继续？");
+        dialogSureClear = new DialogSure(this, "该操作会清除使用过程中录制的音频、视频等，且不可恢复，你确认继续？");
         dialogSureClear.setOnOkListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,7 +74,7 @@ public class SettingActivity extends BaseAppCompatActivity implements View.OnCli
                 String size = "";
                 try {
                     size = ClearCacheUtil.getSobeyCacheSize(SettingActivity.this);
-                    Toast.makeText(SettingActivity.this,"清理完毕",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SettingActivity.this, "清理完毕", Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -75,7 +83,7 @@ public class SettingActivity extends BaseAppCompatActivity implements View.OnCli
             }
         });
 
-        dialogSureLogout = new DialogSure(this,"确认退出当前账号？");
+        dialogSureLogout = new DialogSure(this, "确认退出当前账号？");
         dialogSureLogout.setOnOkListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,25 +121,25 @@ public class SettingActivity extends BaseAppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         Intent intent = new Intent();
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.item_setting_about:
                 intent.setClass(this, WebActivity.class);
-                intent.putExtra("title","关于我们");
-                intent.putExtra("url","http://cn.bing.com");//https://github.com    //http://cn.bing.com
+                intent.putExtra("title", "关于我们");
+                intent.putExtra("url", "http://cn.bing.com");//https://github.com    //http://cn.bing.com
                 startActivity(intent);
                 break;
             case R.id.item_setting_clause:
                 intent.setClass(this, WebActivity.class);
-                intent.putExtra("title","服务条款");
-                intent.putExtra("url","http://cn.bing.com");//https://github.com    //http://cn.bing.com
+                intent.putExtra("title", "服务条款");
+                intent.putExtra("url", "http://cn.bing.com");//https://github.com    //http://cn.bing.com
                 startActivity(intent);
                 break;
             case R.id.item_setting_version:
-                intent.setClass(this,VersionActivity.class);
+                intent.setClass(this, VersionActivity.class);
                 startActivity(intent);
                 break;
             case R.id.item_setting_safe:
-                intent.setClass(this,SettingSecurityActivity.class);
+                intent.setClass(this, SettingSecurityActivity.class);
                 startActivity(intent);
                 break;
             case R.id.item_setting_clear:
@@ -155,14 +163,16 @@ public class SettingActivity extends BaseAppCompatActivity implements View.OnCli
     }
 
     private boolean islogouting = false;
-    private void netLogout(){
+
+    private void netLogout() {
         if (islogouting) return;
         RequestParams params = new RequestParams(AppData.Url.logout);
         params.addHeader("token", AppData.App.getToken());
-        CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
+        cancelable = CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
                 Toast.makeText(SettingActivity.this, text, Toast.LENGTH_SHORT).show();
+                handler.removeCallbacks(runnable);
                 dialogSureClear.hide();
                 AppData.App.removeUser();
                 AppData.App.removeToken();
@@ -188,5 +198,20 @@ public class SettingActivity extends BaseAppCompatActivity implements View.OnCli
                 islogouting = true;
             }
         });
+
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                cancelable.cancel();
+                dialogSureClear.hide();
+                AppData.App.removeUser();
+                AppData.App.removeToken();
+
+                Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
+                startActivity(intent);
+                MyActivityCollector.finishAll();
+            }
+        };
+        handler.postDelayed(runnable, 2000);
     }
 }

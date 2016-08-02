@@ -98,25 +98,6 @@ public class SignActivity extends BaseAppCompatActivity implements View.OnClickL
                 showin = LoadingViewUtil.showin(showingroup, R.layout.layout_loading, showin);
             }
         });
-
-//        showin = LoadingViewUtil.showin(showingroup, R.layout.layout_loading, showin);
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                //加载成功
-//                isSign = false;
-//                freshCtrl(19, 5698);
-//                LoadingViewUtil.showout(showingroup, showin);
-//
-//                //加载失败
-////                LoadingViewUtil.showin(showingroup,R.layout.layout_lack,showin,new View.OnClickListener(){
-////                    @Override
-////                    public void onClick(View v) {
-////                        initData();
-////                    }
-////                });
-//            }
-//        }, 2000);
     }
 
     private void initCtrl() {

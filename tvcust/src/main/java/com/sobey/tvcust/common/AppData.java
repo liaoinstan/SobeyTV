@@ -149,9 +149,21 @@ public class AppData {
 		public static final String zan					= domain + "/SanghaCloud/news/increaseLikes";					//点赞
 		public static final String iszan					= domain + "/SanghaCloud/news/getIsLikes";					//查询用户是否点赞
 		public static final String count					= domain + "/SanghaCloud/order/countOrderByRole";			//查询订单总数
+		public static final String getTVs				= domain + "/SanghaCloud/mobile/tv/getTVs";					//查询用户对应的电视台
 
 		public static final String msglist				= domain + "/SanghaCloud/order/getorderlist";					//消息列表
 
 
+		private static final String sobey = "http://120.76.165.97";
+		//        String murl = "/sobey/center/openservice/host";
+//        String murl = "/sobey/center/openservice/alert/new";
+//        String murl = "/sobey/center/openservice/station";
+
+		public static final String deviceList				= domain + "/SanghaCloud/deviceManage/getDeviceList";				//获取设备列表
+		public static final String conuntDevice				= sobey + "/sobey/center/openservice/stats/station";					//设备统计
+		public static final String group						= sobey + "/sobey/center/openservice/station/group";					//获取电视台的分组定义
+		public static final String deviceDetail				= sobey + "/sobey/center/openservice/host";							//获取设备详情
+
+		public static final String news						= sobey + "/sobey/center/openservice/alert/new";						//获取最新事件
 	}
 }

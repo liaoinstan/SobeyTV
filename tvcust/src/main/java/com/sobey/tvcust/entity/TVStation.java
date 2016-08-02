@@ -14,9 +14,19 @@ public class TVStation implements CharSort {
     private String car_title;   //显示的数据
     private String sortLetters;  //显示数据拼音的首字母
 
+    private String stationCode;
+
     private String car_title_html;
 
     public TVStation() {
+    }
+
+    public String getStationCode() {
+        return stationCode;
+    }
+
+    public void setStationCode(String stationCode) {
+        this.stationCode = stationCode;
     }
 
     public TVStation(Integer id) {
@@ -66,10 +76,11 @@ public class TVStation implements CharSort {
 
     @Override
     public String toString() {
-        return "Office{" +
+        return "TVStation{" +
                 "id=" + id +
                 ", car_title='" + car_title + '\'' +
                 ", sortLetters='" + sortLetters + '\'' +
+                ", stationCode='" + stationCode + '\'' +
                 ", car_title_html='" + car_title_html + '\'' +
                 '}';
     }

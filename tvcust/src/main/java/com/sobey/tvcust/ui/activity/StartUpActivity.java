@@ -19,7 +19,7 @@ public class StartUpActivity extends BaseAppCompatActivity {
     private ViewPager viewPager;
     private DotView dotView;
 
-    private int[] srcs = new int[]{R.drawable.startup1,R.drawable.startup2,R.drawable.startup3,R.drawable.startup4};
+    private int[] srcs = new int[]{R.drawable.startup1, R.drawable.startup2, R.drawable.startup3, R.drawable.startup4, R.drawable.startup5};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,19 +60,19 @@ public class StartUpActivity extends BaseAppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return StartUpFragment.newInstance(srcs[position], position == srcs.length-1);
+            return StartUpFragment.newInstance(srcs[position], position == srcs.length - 1);
         }
     }
 
-    public void onGo(View v){
+    public void onGo(View v) {
         Intent intent = new Intent();
         User user = AppData.App.getUser();
         if (user != null) {
             //去首页
-            intent.setClass(this,HomeActivity.class);
+            intent.setClass(this, HomeActivity.class);
         } else {
             //去登录页
-            intent.setClass(this,LoginActivity.class);
+            intent.setClass(this, LoginActivity.class);
         }
         startActivity(intent);
         finish();

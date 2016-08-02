@@ -116,6 +116,10 @@
             android:label="@string/title_activity_device_list"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".ui.activity.WarningListActivity"
+            android:label="@string/title_activity_warning_list"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".ui.activity.LoginActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoTitleFullscreen" />
@@ -203,6 +207,10 @@
             android:name=".ui.activity.ScannerActivity"
             android:label="@string/title_activity_scanner"
             android:theme="@style/AppTheme.NoTitleFullscreen"></activity>
+        <activity
+            android:name=".ui.activity.SelectStationActivity"
+            android:label="@string/title_activity_selectstation"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -1,4 +1,5 @@
 package com.sobey.tvcust.ui.dialog;
+
 import android.app.Dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -15,32 +16,40 @@ import com.sobey.tvcust.R;
 
 
 /**
+ * @author Tom.Cai
  * @Function: 自定义对话框
  * @Date: 2013-10-28
  * @Time: 下午12:37:43
- * @author Tom.Cai
  */
-public class DialogSure extends Dialog{
+public class DialogSure extends Dialog {
 
     private Context context;
     private TextView text_dialog_sure;
     private TextView text_cancle;
     private TextView text_ok;
     private String msg;
+    private String cancelStr;
+    private String sureStr;
 
     public DialogSure(Context context) {
-        this(context,"确定？");
+        this(context, "确定？", "取消", "确定");
     }
 
-    public DialogSure(Context context,String msg) {
-        super(context,R.style.MyDialog);
+    public DialogSure(Context context, String msg) {
+        this(context, msg, "取消", "确定");
+    }
+
+    public DialogSure(Context context, String msg, String cancelStr, String sureStr) {
+        super(context, R.style.MyDialog);
         this.context = context;
         this.msg = msg;
+        this.cancelStr = cancelStr;
+        this.sureStr = sureStr;
         setLoadingDialog();
     }
 
     private void setLoadingDialog() {
-    	LayoutInflater inflater = LayoutInflater.from(getContext());
+        LayoutInflater inflater = LayoutInflater.from(getContext());
         View v = inflater.inflate(R.layout.dialog_sure, null);// 得到加载view
 
         text_dialog_sure = (TextView) v.findViewById(R.id.text_dialog_sure);
@@ -48,6 +57,8 @@ public class DialogSure extends Dialog{
         text_ok = (TextView) v.findViewById(R.id.dialog_ok);
 
         text_dialog_sure.setText(msg);
+        text_cancle.setText(cancelStr);
+        text_ok.setText(sureStr);
         text_cancle.setOnClickListener(listener);
         text_ok.setOnClickListener(listener);
 
@@ -64,7 +75,8 @@ public class DialogSure extends Dialog{
         WindowManager.LayoutParams lp = dialogWindow.getAttributes();
         /////////获取屏幕宽度
         DisplayMetrics dm = new DisplayMetrics();
-        WindowManager wm = (WindowManager)getContext().getSystemService(Context.WINDOW_SERVICE);;
+        WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        ;
         wm.getDefaultDisplay().getMetrics(dm);
         int screenWidth = dm.widthPixels;
         /////////设置高宽
@@ -77,11 +89,11 @@ public class DialogSure extends Dialog{
         text_dialog_sure.setText(msg);
     }
 
-    public void setOnCancleListener(View.OnClickListener listener){
+    public void setOnCancleListener(View.OnClickListener listener) {
         text_cancle.setOnClickListener(listener);
     }
 
-    public void setOnOkListener(View.OnClickListener listener){
+    public void setOnOkListener(View.OnClickListener listener) {
         text_ok.setOnClickListener(listener);
     }
 

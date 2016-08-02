@@ -134,99 +134,12 @@
                             android:layout_height="1px"
                             android:background="@drawable/line" />
 
-                        <LinearLayout
+                        <com.sobey.common.view.FullyListView
+                            android:id="@+id/list_centerprog"
                             android:layout_width="match_parent"
-                            android:layout_height="48dp"
-                            android:gravity="center"
-                            android:orientation="horizontal"
-                            android:paddingLeft="20dp"
-                            android:paddingRight="20dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="非编"
-                                android:textColor="@color/sb_text_blank_deep_light"
-                                android:textSize="@dimen/text_nomal" />
-
-                            <View
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="启动"
-                                android:textColor="@color/sb_green"
-                                android:textSize="@dimen/text_nomal" />
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1px"
-                            android:background="@drawable/line" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="48dp"
-                            android:gravity="center"
-                            android:orientation="horizontal"
-                            android:paddingLeft="20dp"
-                            android:paddingRight="20dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="审片"
-                                android:textColor="@color/sb_text_blank_deep_light"
-                                android:textSize="@dimen/text_nomal" />
-
-                            <View
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="未启动"
-                                android:textColor="@color/sb_red"
-                                android:textSize="@dimen/text_nomal" />
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1px"
-                            android:background="@drawable/line" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="48dp"
-                            android:gravity="center"
-                            android:orientation="horizontal"
-                            android:paddingLeft="20dp"
-                            android:paddingRight="20dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="网管"
-                                android:textColor="@color/sb_text_blank_deep_light"
-                                android:textSize="@dimen/text_nomal" />
-
-                            <View
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="启动"
-                                android:textColor="@color/sb_green"
-                                android:textSize="@dimen/text_nomal" />
-                        </LinearLayout>
+                            android:layout_height="match_parent"
+                            android:divider="@drawable/line"
+                            android:dividerHeight="1px" />
 
                     </LinearLayout>
 
@@ -284,6 +197,7 @@
                                 android:layout_weight="1" />
 
                             <TextView
+                                android:id="@+id/text_devicedetail_todaytotaltime"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="8小时"
@@ -317,6 +231,7 @@
                                 android:layout_weight="1" />
 
                             <TextView
+                                android:id="@+id/text_devicedetail_todayonlinerange"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="9:00~17:00"
@@ -350,6 +265,7 @@
                                 android:layout_weight="1" />
 
                             <TextView
+                                android:id="@+id/text_devicedetail_weektotaltime"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="40小时"

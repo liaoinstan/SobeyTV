@@ -131,6 +131,13 @@ public class TimeUtil {
         return TimeUtil.getTimeFor(format, datelast);
     }
 
+    /**
+     * 两天相减获取天数
+     */
+    public static int subDate(Date beginDate,Date endDate){
+        return (int) ((endDate.getTime()-beginDate.getTime())/(24*60*60*1000));
+    }
+
     public static String cutDateStr(String dateStr) {
         return dateStr.substring(0, 7);
     }

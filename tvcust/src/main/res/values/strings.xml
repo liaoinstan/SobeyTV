@@ -17,6 +17,7 @@
     <string name="title_activity_countquestion">问题分类统计</string>
     <string name="title_activity_countwarning">报警类型统计</string>
     <string name="title_activity_device_list">设备</string>
+    <string name="title_activity_warning_list">告警</string>
     <string name="title_activity_login">登录</string>
     <string name="title_activity_find_psw">找回密码</string>
     <string name="title_activity_eva_detail">评价详情</string>
@@ -39,4 +40,5 @@
     <string name="title_activity_copy">抄送</string>
     <string name="title_activity_select_user">选择用户</string>
     <string name="title_activity_scanner">二维码扫描</string>
+    <string name="title_activity_selectstation">选择电视台</string>
 </resources>

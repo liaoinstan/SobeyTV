@@ -1,9 +1,13 @@
 package com.sobey.tvcust.utils;
 
+import android.text.format.DateUtils;
 import android.util.Log;
 
 import com.sobey.common.utils.MD5Util;
+import com.sobey.common.utils.TimeUtil;
+import com.sobey.tvcust.common.AppData;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,6 +27,8 @@ public class UrlUtils {
                 String key = entry.getKey();
                 String value = entry.getValue();
                 para += key + "=" + value + "&";
+
+                Log.e("UrlUtils", key + ":" + value);
             }
         }
         return url + "?" + getafturl(para);
@@ -32,7 +38,6 @@ public class UrlUtils {
         String timestamp = System.currentTimeMillis() + "";
         String para = pp + "app=" + app + "&timestamp=" + timestamp + "&type=" + type;
         String usign = (secretKey + para).toLowerCase();
-        Log.e("before md5->", usign);
         String sign = MD5Util.md5(usign);
 
         String afturl = para + "&sign=" + sign;
@@ -45,4 +50,15 @@ public class UrlUtils {
      * map.put("station","CCTV");
      * String newurl= UrlUtils.geturl(map, url);
      */
+
+    public static void main(String[] arg){
+        HashMap<String, String> map = new HashMap<>();
+//        Date date = new Date();
+        Date date = TimeUtil.getDateByStr("yyyy-MM-dd HH:mm:ss","2016-07-31 09:34:10");
+        map.put("time",date.getTime()+"");
+        map.put("count",12000+"");
+//        map.put("station","tctc_20160527");
+        String url = geturl(map, AppData.Url.news);
+        System.out.println(url);
+    }
 }

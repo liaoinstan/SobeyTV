@@ -3,36 +3,66 @@ package com.sobey.tvcust.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.liaoinstan.springview.container.AliFooter;
 import com.liaoinstan.springview.container.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
+import com.sobey.common.utils.StrUtils;
+import com.sobey.common.utils.TimeUtil;
 import com.sobey.tvcust.R;
+import com.sobey.tvcust.common.AppData;
+import com.sobey.tvcust.common.CommonNet;
 import com.sobey.tvcust.common.LoadingViewUtil;
+import com.sobey.tvcust.common.SobeyNet;
+import com.sobey.tvcust.entity.Order;
+import com.sobey.tvcust.entity.OrderPojo;
+import com.sobey.tvcust.entity.SBCountDevice;
+import com.sobey.tvcust.entity.SBDevice;
+import com.sobey.tvcust.entity.SBDevicePojo;
+import com.sobey.tvcust.entity.SBGroup;
+import com.sobey.tvcust.entity.SBGroupPojo;
 import com.sobey.tvcust.entity.TestEntity;
 import com.sobey.tvcust.interfaces.OnRecycleItemClickListener;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterDevice;
+import com.sobey.tvcust.utils.UrlUtils;
+
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
-public class DeviceListActivity extends BaseAppCompatActivity implements OnRecycleItemClickListener{
+public class DeviceListActivity extends BaseAppCompatActivity implements OnRecycleItemClickListener {
 
     private RecyclerView recyclerView;
     private SpringView springView;
-    private List<TestEntity> results = new ArrayList<>();
+    private List<SBDevice> results = new ArrayList<>();
     private RecycleAdapterDevice adapter;
     private TabLayout tab;
 
     private ViewGroup showingroup;
     private View showin;
+
+    private Callback.Cancelable cancelable;
+    private Callback.Cancelable cancelablemore;
+
+    private String stationCode;
+    private String groupcode = "";
+
+    private int page;
+    private final int PAGE_COUNT = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +72,16 @@ public class DeviceListActivity extends BaseAppCompatActivity implements OnRecyc
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        initBase();
         initView();
         initData();
         initCtrl();
+    }
+
+    private void initBase() {
+        if (getIntent().hasExtra("stationCode")) {
+            stationCode = getIntent().getStringExtra("stationCode");
+        }
     }
 
     private void initView() {
@@ -55,73 +92,49 @@ public class DeviceListActivity extends BaseAppCompatActivity implements OnRecyc
     }
 
     private void initData() {
-        showin = LoadingViewUtil.showin(showingroup,R.layout.layout_loading,showin);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //加载成功
-                results.add(new TestEntity());
-                results.add(new TestEntity());
-                results.add(new TestEntity());
-                results.add(new TestEntity());
-                results.add(new TestEntity());
-                results.add(new TestEntity());
-                results.add(new TestEntity());
-                freshCtrl();
-                LoadingViewUtil.showout(showingroup,showin);
-
-                //加载失败
-//                LoadingViewUtil.showin(showingroup,R.layout.layout_lack,showin,new View.OnClickListener(){
-//                    @Override
-//                    public void onClick(View v) {
-//                        initData();
-//                    }
-//                });
-            }
-        }, 2000);
+        netGroup();
+//        netlist();
     }
 
     private void initCtrl() {
-        tab.addTab(tab.newTab().setText("所有"));
-        tab.addTab(tab.newTab().setText("警告"));
-        tab.addTab(tab.newTab().setText("存储"));
-        tab.addTab(tab.newTab().setText("数据库"));
-        tab.addTab(tab.newTab().setText("服务器"));
-        tab.addTab(tab.newTab().setText("工作站"));
 
-        adapter = new RecycleAdapterDevice(this,R.layout.item_recycle_home_qw,results);
+        adapter = new RecycleAdapterDevice(this, R.layout.item_recycle_device, results);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
-        springView.setHeader(new AliHeader(this,false));
-        springView.setFooter(new AliFooter(this,false));
+        springView.setHeader(new AliHeader(this, false));
+        springView.setFooter(new AliFooter(this, false));
         springView.setListener(new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        springView.onFinishFreshAndLoad();
-                    }
-                }, 2000);
+                netlist(false);
             }
 
             @Override
             public void onLoadmore() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        results.add(new TestEntity());
-                        results.add(new TestEntity());
-                        freshCtrl();
-                        springView.onFinishFreshAndLoad();
-                    }
-                }, 2000);
+                loadMoreData();
+            }
+        });
+        tab.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                groupcode = (String) tab.getTag();
+                netlist(true);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
             }
         });
     }
 
-    private void freshCtrl(){
+    private void freshCtrl() {
         adapter.notifyDataSetChanged();
     }
 
@@ -139,5 +152,152 @@ public class DeviceListActivity extends BaseAppCompatActivity implements OnRecyc
     public void onItemClick(RecyclerView.ViewHolder viewHolder) {
         Intent intent = new Intent(this, DeviceDetailActivity.class);
         startActivity(intent);
+    }
+
+    private void netlist(final boolean isFirst) {
+        if (cancelable != null) {
+            cancelable.cancel();
+        }
+        if (cancelablemore != null) {
+            cancelablemore.cancel();
+        }
+        final RequestParams params = new RequestParams(AppData.Url.deviceList);
+        params.addHeader("token", AppData.App.getToken());
+        params.addBodyParameter("pageNO", 1 + "");
+        params.addBodyParameter("pageSize", PAGE_COUNT + "");
+        params.addBodyParameter("stationCode", stationCode);
+        if (!StrUtils.isEmpty(groupcode)) {
+            params.addBodyParameter("groupcode", groupcode);
+        }
+        cancelable = CommonNet.samplepost(params, SBDevicePojo.class, new CommonNet.SampleNetHander() {
+            @Override
+            public void netGo(int code, Object pojo, String text, Object obj) {
+                if (pojo == null) netSetError(code, text);
+                else {
+                    SBDevicePojo devicePojo = (SBDevicePojo) pojo;
+                    List<SBDevice> devices = devicePojo.getHostList();
+                    //有数据才添加，否则显示lack信息
+                    if (devices != null && devices.size() != 0) {
+                        List<SBDevice> results = adapter.getResults();
+                        results.clear();
+                        results.addAll(devices);
+                        freshCtrl();
+                        page = 1;
+                        if (isFirst) {
+                            LoadingViewUtil.showout(showingroup, showin);
+                        } else {
+                            springView.onFinishFreshAndLoad();
+                        }
+                    } else {
+                        showin = LoadingViewUtil.showin(showingroup, R.layout.layout_lack, showin, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                netlist(true);
+                            }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void netSetError(int code, String text) {
+                Toast.makeText(DeviceListActivity.this, text, Toast.LENGTH_SHORT).show();
+                if (isFirst) {
+                    showin = LoadingViewUtil.showin(showingroup, R.layout.layout_fail, showin, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            netlist(true);
+                        }
+                    });
+                } else {
+                    springView.onFinishFreshAndLoad();
+                }
+            }
+
+            @Override
+            public void netStart(int code) {
+                if (isFirst) {
+                    showin = LoadingViewUtil.showin(showingroup, R.layout.layout_loading, showin);
+                }
+            }
+        });
+    }
+
+    private boolean isloadmore = false;
+
+    private void loadMoreData() {
+        if (isloadmore) return;
+
+        final RequestParams params = new RequestParams(AppData.Url.deviceList);
+        params.addHeader("token", AppData.App.getToken());
+        params.addBodyParameter("pageNO", page + 1 + "");
+        params.addBodyParameter("pageSize", PAGE_COUNT + "");
+        params.addBodyParameter("stationCode", stationCode);
+        if (!StrUtils.isEmpty(groupcode)) {
+            params.addBodyParameter("groupcode", groupcode);
+        }
+        cancelablemore = CommonNet.samplepost(params, SBDevicePojo.class, new CommonNet.SampleNetHander() {
+            @Override
+            public void netGo(int code, Object pojo, String text, Object obj) {
+                if (pojo == null) netSetError(code, text);
+                else {
+                    SBDevicePojo devicePojo = (SBDevicePojo) pojo;
+                    List<SBDevice> devices = devicePojo.getHostList();
+                    //有数据才添加，否则显示lack信息
+                    if (devices != null && devices.size() != 0) {
+                        List<SBDevice> results = adapter.getResults();
+                        results.addAll(devices);
+                        freshCtrl();
+                        page++;
+                        springView.onFinishFreshAndLoad();
+                    } else {
+                        Snackbar.make(showingroup, "没有更多的数据了", Snackbar.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void netSetError(int code, String text) {
+                Toast.makeText(DeviceListActivity.this, text, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void netStart(int code) {
+                isloadmore = true;
+            }
+
+            @Override
+            public void netEnd(int code) {
+                isloadmore = false;
+                springView.onFinishFreshAndLoad();
+            }
+        });
+    }
+
+    private void netGroup() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("station", stationCode);
+        String myurl = UrlUtils.geturl(map, AppData.Url.group);
+
+        RequestParams params = new RequestParams(myurl);
+        SobeyNet.sampleget(params, SBGroupPojo.class, new SobeyNet.SampleNetHander() {
+            @Override
+            public void netGo(int code, Object pojo, String text, Object obj) {
+                SBGroupPojo groupPojo = (SBGroupPojo) pojo;
+                List<SBGroup> groupList = groupPojo.getGroupList();
+                if (groupList != null && groupList.size() != 0) {
+                    tab.addTab(tab.newTab().setText("全部").setTag(""));
+                    for (SBGroup group : groupList) {
+                        tab.addTab(tab.newTab().setText(group.getName()).setTag(group.getCode()));
+                    }
+                } else {
+                }
+            }
+
+            @Override
+            public void netSetError(int code, String text) {
+                Toast.makeText(DeviceListActivity.this, text, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

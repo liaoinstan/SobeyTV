@@ -12,84 +12,106 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="37dp"
-        android:paddingTop="37dp">
+        android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:paddingBottom="37dp"
+            android:paddingTop="37dp">
 
-            <TextView
-                style="@style/text_nomal_blue"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:drawablePadding="11dp"
-                android:drawableTop="@drawable/home_qw_weihu"
-                android:text="持续维护" />
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-            <TextView
-                style="@style/text_subig_blue"
-                android:layout_width="wrap_content"
+                <TextView
+                    style="@style/text_nomal_blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawablePadding="11dp"
+                    android:drawableTop="@drawable/home_qw_weihu"
+                    android:text="持续维护" />
+
+                <TextView
+                    android:id="@+id/text_item_qw_days"
+                    style="@style/text_subig_blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="7dp"
+                    android:text="-天" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="7dp"
-                android:text="30天" />
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/text_nomal_blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawablePadding="11dp"
+                    android:drawableTop="@drawable/home_qw_fuwuqi"
+                    android:text="服务器" />
+
+                <TextView
+                    android:id="@+id/text_item_qw_servcount"
+                    style="@style/text_subig_blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="7dp"
+                    android:text="-台" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/text_nomal_blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawablePadding="11dp"
+                    android:drawableTop="@drawable/home_qw_shichang"
+                    android:text="在线时长" />
+
+                <TextView
+                    android:id="@+id/text_item_qw_hours"
+                    style="@style/text_subig_blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="7dp"
+                    android:text="-小时" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/text_nomal_blue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:drawablePadding="11dp"
-                android:drawableTop="@drawable/home_qw_fuwuqi"
-                android:text="服务器" />
-
-            <TextView
-                style="@style/text_subig_blue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="7dp"
-                android:text="68台" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/text_nomal_blue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:drawablePadding="11dp"
-                android:drawableTop="@drawable/home_qw_shichang"
-                android:text="在线时长" />
-
-            <TextView
-                style="@style/text_subig_blue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="7dp"
-                android:text="168小时" />
-
-        </LinearLayout>
+        <TextView
+            android:id="@+id/btn_go_device"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="25dp"
+            android:layout_width="160dp"
+            android:layout_height="45dp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_big"
+            android:background="@drawable/hot_rect_corner_blue_full"
+            android:text="我的设备"/>
 
     </LinearLayout>
 

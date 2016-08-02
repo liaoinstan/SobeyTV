@@ -11,17 +11,27 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.shelwee.update.UpdateHelper;
 import com.shelwee.update.listener.OnUpdateListener;
 import com.shelwee.update.pojo.UpdateInfo;
 import com.sobey.tvcust.R;
+import com.sobey.tvcust.common.AppConstant;
 import com.sobey.tvcust.common.AppData;
+import com.sobey.tvcust.common.CommonNet;
+import com.sobey.tvcust.common.LoadingViewUtil;
+import com.sobey.tvcust.entity.CommonEntity;
+import com.sobey.tvcust.ui.dialog.DialogSure;
 import com.sobey.tvcust.ui.fragment.HomeInfoFragment;
 import com.sobey.tvcust.ui.fragment.HomeQwFragment;
 import com.sobey.tvcust.ui.fragment.HomeMeFragment;
 import com.sobey.tvcust.ui.fragment.HomeOrderFragment;
 import com.sobey.tvcust.ui.fragment.HomeServerFragment;
 import com.sobey.common.utils.PermissionsUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.xutils.http.RequestParams;
 
 import java.util.List;
 
@@ -40,6 +50,8 @@ public class HomeActivity extends BaseAppCompatActivity implements View.OnClickL
 //    private Toolbar toolbar;
 
     private int currentTabIndex = -1;
+
+    private DialogSure dialogSure;
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -62,6 +74,7 @@ public class HomeActivity extends BaseAppCompatActivity implements View.OnClickL
         initBase();
         initView();
         initCtrl();
+        netIsSign();
 
         if (currentTabIndex == -1) {
             currentTabIndex = 2;
@@ -84,6 +97,7 @@ public class HomeActivity extends BaseAppCompatActivity implements View.OnClickL
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (dialogSure != null) dialogSure.dismiss();
         if (updateHelper != null) updateHelper.onDestory();
     }
 
@@ -96,6 +110,14 @@ public class HomeActivity extends BaseAppCompatActivity implements View.OnClickL
     }
 
     private void initBase() {
+        dialogSure = new DialogSure(this, "亲，您还没有签到哦~", "取消", "立刻签到");
+        dialogSure.setOnOkListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogSure.hide();
+                netSign();
+            }
+        });
         mTabs = new Button[5];
         updateHelper = new UpdateHelper.Builder(this)
                 .checkUrl(AppData.Url.version)
@@ -259,12 +281,49 @@ public class HomeActivity extends BaseAppCompatActivity implements View.OnClickL
         }
     }
 
-//    public void setToolbarLight(){
-//        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this,R.color.white)));
-//        toolbar.setTitleTextColor(ContextCompat.getColor(this,R.color.sb_text_blank));
-//    }
-//    public void setToolbarDark(){
-//        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this,R.color.sb_bk_dark)));
-//        toolbar.setTitleTextColor(ContextCompat.getColor(this,R.color.sb_text_light));
-//    }
+    private int signDays;
+
+    private void netIsSign() {
+        RequestParams params = new RequestParams(AppData.Url.getUserSign);
+        params.addHeader("token", AppData.App.getToken());
+        CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
+            @Override
+            public void netGo(int code, Object pojo, String text, Object obj) {
+                if (pojo == null) netSetError(code, "错误:返回数据为空");
+                else {
+                    CommonEntity com = (CommonEntity) pojo;
+                    boolean isSign = com.getIsSign() == 0 ? true : false;
+                    signDays = com.getSignDays();
+                    if (!isSign) {
+                        dialogSure.show();
+                    }
+                }
+            }
+
+            @Override
+            public void netSetError(int code, String text) {
+                Toast.makeText(HomeActivity.this, text, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void netSign() {
+        RequestParams params = new RequestParams(AppData.Url.sign);
+        params.addHeader("token", AppData.App.getToken());
+        CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
+            @Override
+            public void netGo(int code, Object pojo, String text, Object obj) {
+                if (pojo == null) netSetError(code, "错误:返回数据为空");
+                else {
+                    Toast.makeText(HomeActivity.this, text, Toast.LENGTH_SHORT).show();
+                    EventBus.getDefault().post(AppConstant.makeFlagStr(AppConstant.FLAG_UPDATE_ME_SIGN, signDays + 1 + ""));
+                }
+            }
+
+            @Override
+            public void netSetError(int code, String text) {
+                Toast.makeText(HomeActivity.this, text, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }

@@ -38,37 +38,5 @@
             android:textColor="@color/sb_text_blank_deep_light"
             android:textSize="@dimen/text_nomal" />
 
-        <TextView
-            android:id="@+id/text_item_home_qw_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/text_item_device_ip"
-            android:layout_alignStart="@+id/text_item_device_ip"
-            android:layout_below="@+id/text_item_device_ip"
-            android:layout_marginTop="5dp"
-            android:text="CPU占用已经超过99%"
-            android:textColor="@color/sb_text_blank_deep_light"
-            android:textSize="@dimen/text_nomal" />
-
-        <TextView
-            android:id="@+id/text_item_home_qw_time"
-            style="@style/text_tiny_dark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="20dp"
-            android:text="2016.09.12  12:31"
-            android:textColor="#999999"
-            android:textSize="10sp" />
-
-        <ImageView
-            android:id="@+id/img_item_home_qw_warning"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/text_item_home_qw_time"
-            android:layout_alignRight="@+id/text_item_home_qw_time"
-            android:layout_alignTop="@+id/text_item_home_qw_info"
-            android:src="@drawable/home_qw_warning" />
     </RelativeLayout>
 </android.support.v7.widget.CardView>
