@@ -181,7 +181,6 @@ public class SettingActivity extends BaseAppCompatActivity implements View.OnCli
                 startActivity(intent);
                 MyActivityCollector.finishAll();
             }
-
             @Override
             public void netSetError(int code, String text) {
                 Toast.makeText(SettingActivity.this, text, Toast.LENGTH_SHORT).show();
