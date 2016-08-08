@@ -17,9 +17,11 @@ import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.CommonNet;
 import com.sobey.tvcust.common.LoadingViewUtil;
+import com.sobey.tvcust.entity.MsgOrder;
+import com.sobey.tvcust.entity.MsgOrderPojo;
 import com.sobey.tvcust.entity.Order;
 import com.sobey.tvcust.entity.OrderPojo;
-import com.sobey.tvcust.ui.adapter.RecycleAdapterMsg;
+import com.sobey.tvcust.ui.adapter.RecycleAdapterMsgOrder;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -27,12 +29,12 @@ import org.xutils.http.RequestParams;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MsgActivity extends BaseAppCompatActivity {
+public class MsgOrderActivity extends BaseAppCompatActivity {
 
     private RecyclerView recyclerView;
     private SpringView springView;
-    private List<Order> results = new ArrayList<>();
-    private RecycleAdapterMsg adapter;
+    private List<MsgOrder> results = new ArrayList<>();
+    private RecycleAdapterMsgOrder adapter;
 
     private ViewGroup showingroup;
     private View showin;
@@ -42,14 +44,10 @@ public class MsgActivity extends BaseAppCompatActivity {
     private Callback.Cancelable cancelable;
     private Callback.Cancelable cancelablemore;
 
-    private Integer status;
-    private Integer isCheck;
-    private Integer isComment;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_msg);
+        setContentView(R.layout.activity_msgorder);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -78,26 +76,21 @@ public class MsgActivity extends BaseAppCompatActivity {
         }
         final RequestParams params = new RequestParams(AppData.Url.msglist);
         params.addHeader("token", AppData.App.getToken());
+        params.addBodyParameter("type", 1 + "");
         params.addBodyParameter("pageNO", 1 + "");
         params.addBodyParameter("pageSize", PAGE_COUNT + "");
-        if (status != null) {
-            params.addBodyParameter("status", status + "");
-        }
-        if (isCheck != null) {
-            params.addBodyParameter("isCheck", isCheck + "");
-        }
-        cancelable = CommonNet.samplepost(params, OrderPojo.class, new CommonNet.SampleNetHander() {
+        cancelable = CommonNet.samplepost(params, MsgOrderPojo.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
                 if (pojo == null) netSetError(code, text);
                 else {
-                    OrderPojo orderPojo = (OrderPojo) pojo;
-                    List<Order> orders = orderPojo.getDataList();
+                    MsgOrderPojo msgOrderPojo = (MsgOrderPojo) pojo;
+                    List<MsgOrder> msgs = msgOrderPojo.getDataList();
                     //有数据才添加，否则显示lack信息
-                    if (orders != null && orders.size() != 0) {
-                        List<Order> results = adapter.getResults();
+                    if (msgs != null && msgs.size() != 0) {
+                        List<MsgOrder> results = adapter.getResults();
                         results.clear();
-                        results.addAll(orders);
+                        results.addAll(msgs);
                         freshCtrl();
                         page = 1;
                         if (isFirst) {
@@ -119,7 +112,7 @@ public class MsgActivity extends BaseAppCompatActivity {
             @Override
             public void netSetError(int code, String text) {
                 if (isFirst) {
-                    Toast.makeText(MsgActivity.this, text, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MsgOrderActivity.this, text, Toast.LENGTH_SHORT).show();
                     showin = LoadingViewUtil.showin(showingroup, R.layout.layout_fail, showin, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -145,27 +138,19 @@ public class MsgActivity extends BaseAppCompatActivity {
         if (isloadmore) return;
         final RequestParams params = new RequestParams(AppData.Url.msglist);
         params.addHeader("token", AppData.App.getToken());
+        params.addBodyParameter("type", 1 + "");
         params.addBodyParameter("pageNO", page + 1 + "");
         params.addBodyParameter("pageSize", PAGE_COUNT + "");
-        if (status != null) {
-            params.addBodyParameter("status", status + "");
-        }
-        if (isCheck != null) {
-            params.addBodyParameter("isCheck", isCheck + "");
-        }
-        if (isComment != null) {
-            params.addBodyParameter("isComment", isComment + "");
-        }
-        cancelablemore = CommonNet.samplepost(params, OrderPojo.class, new CommonNet.SampleNetHander() {
+        cancelablemore = CommonNet.samplepost(params, MsgOrderPojo.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
                 if (pojo == null) netSetError(code, text);
                 else {
-                    OrderPojo orderPojo = (OrderPojo) pojo;
-                    List<Order> orders = orderPojo.getDataList();
-                    if (orders.size() != 0) {
-                        List<Order> results = adapter.getResults();
-                        results.addAll(orders);
+                    MsgOrderPojo msgOrderPojo = (MsgOrderPojo) pojo;
+                    List<MsgOrder> msgs = msgOrderPojo.getDataList();
+                    if (msgs.size() != 0) {
+                        List<MsgOrder> results = adapter.getResults();
+                        results.addAll(msgs);
                         freshCtrl();
                         page++;
                     } else {
@@ -177,7 +162,7 @@ public class MsgActivity extends BaseAppCompatActivity {
 
             @Override
             public void netSetError(int code, String text) {
-                Toast.makeText(MsgActivity.this, text, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MsgOrderActivity.this, text, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -194,7 +179,7 @@ public class MsgActivity extends BaseAppCompatActivity {
     }
 
     private void initCtrl() {
-        adapter = new RecycleAdapterMsg(this,R.layout.item_recycle_msg,results);
+        adapter = new RecycleAdapterMsgOrder(this,R.layout.item_recycle_msgorder,results);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
         springView.setHeader(new AliHeader(this,false));

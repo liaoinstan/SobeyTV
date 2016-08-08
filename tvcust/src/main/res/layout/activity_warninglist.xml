@@ -25,20 +25,21 @@
         <android.support.design.widget.TabLayout
             android:id="@+id/tab_devicelist"
             android:layout_width="match_parent"
-            app:tabMode="scrollable"
             android:layout_height="50dp"
             android:background="@color/white"
             app:tabIndicatorColor="@color/sb_blue"
             app:tabIndicatorHeight="3dp"
+            app:tabMode="scrollable"
             app:tabSelectedTextColor="@color/sb_text_blank_deep"
             app:tabTextColor="@color/sb_text_blank" />
 
     </android.support.design.widget.AppBarLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/showingroup"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <com.liaoinstan.springview.widget.SpringView
@@ -52,9 +53,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
-                android:paddingBottom="10dp"/>
+                android:paddingBottom="10dp" />
 
         </com.liaoinstan.springview.widget.SpringView>
-    </RelativeLayout>
+    </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

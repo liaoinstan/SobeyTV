@@ -64,15 +64,35 @@ public class ListAdapterCenterProg extends BaseAdapter {
 		hoder.text_item_value.setText(centerProg.getValue());
 		if ("Running".equals(centerProg.getValue())){
 			hoder.text_item_value.setTextColor(ContextCompat.getColor(context,R.color.sb_green));
-			hoder.text_item_value.setText("运行");
+			hoder.text_item_value.setText("运行中");
 		}else if ("NotStartup".equals(centerProg.getValue())){
 			hoder.text_item_value.setTextColor(ContextCompat.getColor(context,R.color.sb_red));
 			hoder.text_item_value.setText("未启动");
+		}else if ("Unknown".equals(centerProg.getValue())){
+			hoder.text_item_value.setTextColor(ContextCompat.getColor(context,R.color.sb_text_blank));
+			hoder.text_item_value.setText("未知");
+		}else if ("Startup".equals(centerProg.getValue())){
+			hoder.text_item_value.setTextColor(ContextCompat.getColor(context,R.color.sb_green));
+			hoder.text_item_value.setText("启动");
+		}else if ("Suspended".equals(centerProg.getValue())){
+			hoder.text_item_value.setTextColor(ContextCompat.getColor(context,R.color.sb_red));
+			hoder.text_item_value.setText("假死");
+		}else if ("Exited".equals(centerProg.getValue())){
+			hoder.text_item_value.setTextColor(ContextCompat.getColor(context,R.color.sb_text_blank));
+			hoder.text_item_value.setText("已退出");
 		}else {
 			hoder.text_item_value.setTextColor(ContextCompat.getColor(context,R.color.sb_text_blank));
 			hoder.text_item_value.setText(centerProg.getValue());
 		}
 
+		/**
+		 Running, //运行中
+		 NotStartup, //未启动
+		 Unknown,//未知
+		 Startup,//启动
+		 Suspended, //假死
+		 Exited //已退出
+		 */
 		return convertView;
 	}
 

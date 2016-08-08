@@ -11,8 +11,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 import com.shelwee.update.UpdateHelper;
 import com.shelwee.update.listener.OnUpdateListener;
 import com.shelwee.update.pojo.UpdateInfo;
@@ -20,9 +18,8 @@ import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppConstant;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.CommonNet;
-import com.sobey.tvcust.common.LoadingViewUtil;
 import com.sobey.tvcust.entity.CommonEntity;
-import com.sobey.tvcust.ui.dialog.DialogSure;
+import com.sobey.tvcust.ui.dialog.DialogSign;
 import com.sobey.tvcust.ui.fragment.HomeInfoFragment;
 import com.sobey.tvcust.ui.fragment.HomeQwFragment;
 import com.sobey.tvcust.ui.fragment.HomeMeFragment;
@@ -51,7 +48,7 @@ public class HomeActivity extends BaseAppCompatActivity implements View.OnClickL
 
     private int currentTabIndex = -1;
 
-    private DialogSure dialogSure;
+    private DialogSign dialogSign;
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -97,7 +94,7 @@ public class HomeActivity extends BaseAppCompatActivity implements View.OnClickL
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (dialogSure != null) dialogSure.dismiss();
+        if (dialogSign != null) dialogSign.dismiss();
         if (updateHelper != null) updateHelper.onDestory();
     }
 
@@ -110,11 +107,11 @@ public class HomeActivity extends BaseAppCompatActivity implements View.OnClickL
     }
 
     private void initBase() {
-        dialogSure = new DialogSure(this, "亲，您还没有签到哦~", "取消", "立刻签到");
-        dialogSure.setOnOkListener(new View.OnClickListener() {
+        dialogSign = new DialogSign(this);
+        dialogSign.setOnOkListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialogSure.hide();
+                dialogSign.hide();
                 netSign();
             }
         });
@@ -274,7 +271,7 @@ public class HomeActivity extends BaseAppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_go_medetail:
-                Intent intent = new Intent(this, MsgActivity.class);
+                Intent intent = new Intent(this, MsgSysActivity.class);
 //                Intent intent = new Intent(this, CountOrderActivity.class);
                 startActivity(intent);
                 break;
@@ -295,7 +292,8 @@ public class HomeActivity extends BaseAppCompatActivity implements View.OnClickL
                     boolean isSign = com.getIsSign() == 0 ? true : false;
                     signDays = com.getSignDays();
                     if (!isSign) {
-                        dialogSure.show();
+                        dialogSign.setGrade(com.getSignGrades());
+                        dialogSign.show();
                     }
                 }
             }

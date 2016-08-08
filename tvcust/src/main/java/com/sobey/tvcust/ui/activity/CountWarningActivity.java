@@ -25,27 +25,36 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IPieDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.sobey.common.utils.StrUtils;
 import com.sobey.common.utils.TimeUtil;
+import com.sobey.common.utils.DateUtils;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.ColorsHelper;
 import com.sobey.tvcust.common.CommonNet;
 import com.sobey.tvcust.common.DividerItemDecoration;
 import com.sobey.tvcust.common.LoadingViewUtil;
+import com.sobey.tvcust.common.SobeyNet;
 import com.sobey.tvcust.entity.CountEntity;
-import com.sobey.tvcust.entity.CountPojo;
+import com.sobey.tvcust.entity.SBCountWarningPojo;
+import com.sobey.tvcust.entity.SBCountWarningStates;
+import com.sobey.tvcust.entity.SBWarningCount;
+import com.sobey.tvcust.entity.TVStation;
+import com.sobey.tvcust.entity.TVStationPojo;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterCountOrder;
 import com.sobey.tvcust.ui.dialog.DialogMouthPicker;
+import com.sobey.tvcust.utils.UrlUtils;
 
+import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class CountWarningActivity extends BaseAppCompatActivity implements View.OnClickListener{
+public class CountWarningActivity extends BaseAppCompatActivity implements View.OnClickListener {
 
     private RecyclerView recyclerView;
     private List<CountEntity> results = new ArrayList<>();
@@ -65,6 +74,10 @@ public class CountWarningActivity extends BaseAppCompatActivity implements View.
 
     ArrayList<Integer> colors = new ArrayList<Integer>();
 
+    private String stationCode;
+
+    private Callback.Cancelable cancelable;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,14 +88,14 @@ public class CountWarningActivity extends BaseAppCompatActivity implements View.
 
         initBase();
         initView();
-        initData();
+        netGetStation_warningCount();//代替initData
         initCtrl();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (dialog!=null) dialog.dismiss();
+        if (dialog != null) dialog.dismiss();
     }
 
     private void initBase() {
@@ -116,64 +129,11 @@ public class CountWarningActivity extends BaseAppCompatActivity implements View.
     }
 
     private void initData() {
-        RequestParams params = new RequestParams(AppData.Url.countOrderCategory);
-        params.addHeader("token", AppData.App.getToken());
-        params.addBodyParameter("yearM",yearM);
-        CommonNet.samplepost(params,CountPojo.class,new CommonNet.SampleNetHander(){
-            @Override
-            public void netGo(int code, Object pojo, String text, Object obj) {
-                if (pojo==null){
-                    netSetError(code,"错误:返回数据为空");
-                }else {
-                    CountPojo com = (CountPojo)pojo;
-
-                    Map<String, Integer> dataList = com.getDataList();
-                    List<CountEntity> counts = getCountListFromMap(dataList);
-
-                    if (counts!=null && counts.size()!=0) {
-                        results.clear();
-                        results.addAll(counts);
-
-                        IPieDataSet dataSet = chartView.getData().getDataSet();
-                        dataSet.clear();
-
-                        for (CountEntity count : counts) {
-                            dataSet.addEntry(new PieEntry(count.getValue()/**count.getName()**/));
-                        }
-
-                        freshCtrl();
-
-                        LoadingViewUtil.showout(showingroup, showin);
-                    }else {
-                        showin = LoadingViewUtil.showin(showingroup, R.layout.layout_lack, showin, new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                initData();
-                            }
-                        });
-                    }
-                }
-            }
-            @Override
-            public void netSetError(int code, String text) {
-                Toast.makeText(CountWarningActivity.this,text, Toast.LENGTH_SHORT).show();
-                showin = LoadingViewUtil.showin(showingroup, R.layout.layout_fail, showin, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        initData();
-                    }
-                });
-            }
-
-            @Override
-            public void netStart(int code) {
-                showin = LoadingViewUtil.showin(showingroup, R.layout.layout_loading, showin, false);
-            }
-        });
+        netGetWarningCount();
     }
 
     private void initCtrl() {
-        adapter = new RecycleAdapterCountOrder(this,R.layout.item_recycle_countorder,results);
+        adapter = new RecycleAdapterCountOrder(this, R.layout.item_recycle_countorder, results);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new DividerItemDecoration(this));
         recyclerView.setAdapter(adapter);
@@ -196,7 +156,7 @@ public class CountWarningActivity extends BaseAppCompatActivity implements View.
         setChartData();
     }
 
-    private void initChat(){
+    private void initChat() {
         chartView.setUsePercentValues(true);
         chartView.setDescription("");
         chartView.setExtraOffsets(5, 10, 5, 5);
@@ -263,7 +223,7 @@ public class CountWarningActivity extends BaseAppCompatActivity implements View.
         chartView.invalidate();
     }
 
-    public void freshCtrl(){
+    public void freshCtrl() {
         adapter.notifyDataSetChanged();
         chartView.notifyDataSetChanged();
         chartView.animateY(800, Easing.EasingOption.EaseInOutQuad);
@@ -281,7 +241,7 @@ public class CountWarningActivity extends BaseAppCompatActivity implements View.
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_countorder_bank: {
                 String datestr = text_time.getText().toString();
                 String datelaststr = TimeUtil.add("yyyy年MM月", datestr, Calendar.MONTH, -1);
@@ -307,16 +267,51 @@ public class CountWarningActivity extends BaseAppCompatActivity implements View.
         }
     }
 
-    private List<CountEntity> getCountListFromMap(Map<String,Integer> map){
-        ArrayList<CountEntity> counts = new ArrayList<>();
-        if (map != null && map.size() > 0) {
-            int i= 0;
-            for (Map.Entry<String, Integer> entry : map.entrySet()) {
-                String key = entry.getKey();
-                int value = entry.getValue();
-                counts.add(new CountEntity(key,value,colors.get(i%colors.size())));
-                i++;
+    private String getStationCodeStr(List<TVStation> stations) {
+        if (stations == null) {
+            return "";
+        } else if (stations.size() == 1) {
+            return stations.get(0).getStationCode();
+        } else {
+            String ret = "";
+            for (TVStation station : stations) {
+                ret += station.getStationCode() + "|";
             }
+            ret = ret.substring(0, ret.length() - 1);
+            return ret;
+        }
+    }
+
+    private long getStartTimestamp() {
+        Date selectDate = TimeUtil.getDateByStr("yyyyMM", yearM);
+        return DateUtils.getFirstDayOfMonth(selectDate).getTime();
+    }
+
+    private long getEndTimestamp() {
+        Date selectDate = TimeUtil.getDateByStr("yyyyMM", yearM);
+        return DateUtils.getLastDayOfMonth(selectDate).getTime();
+    }
+
+    private List<CountEntity> getCountListWarningList(List<SBWarningCount> list) {
+        ArrayList<CountEntity> counts = new ArrayList<>();
+        int i = 0;
+        for (SBWarningCount warningCount : list) {
+            CountEntity countEntity = new CountEntity();
+            String name;
+            if (!StrUtils.isEmpty(warningCount.getGroupName())) {
+                name = warningCount.getGroupName();
+            } else {
+                if (!StrUtils.isEmpty(warningCount.getGroupCode())) {
+                    name = warningCount.getGroupCode();
+                } else {
+                    name = "未分组";
+                }
+            }
+            countEntity.setName(name);
+            countEntity.setValue(warningCount.getCount());
+            countEntity.setColor(colors.get(i % colors.size()));
+            counts.add(countEntity);
+            i++;
         }
         return counts;
     }
@@ -330,5 +325,104 @@ public class CountWarningActivity extends BaseAppCompatActivity implements View.
         s.setSpan(new StyleSpan(Typeface.ITALIC), s.length() - 14, s.length(), 0);
         s.setSpan(new ForegroundColorSpan(ColorTemplate.getHoloBlue()), s.length() - 14, s.length(), 0);
         return s;
+    }
+
+    private void netGetWarningCount() {
+        if (cancelable != null) {
+            cancelable.cancel();
+        }
+        HashMap<String, String> map = new HashMap<>();
+        map.put("station", stationCode);
+//        map.put("station", "PTTV_20160325");
+        map.put("begin", getStartTimestamp() + "");
+        map.put("end", getEndTimestamp() + "");
+        map.put("grouplevel", "station");
+        String myurl = UrlUtils.geturl(map, AppData.Url.countWarning);
+
+        RequestParams params = new RequestParams(myurl);
+        cancelable = SobeyNet.sampleget(params, SBCountWarningPojo.class, new SobeyNet.SampleNetHander() {
+            @Override
+            public void netGo(int code, Object pojo, String text, Object obj) {
+                if (pojo == null) {
+                    netSetError(code, "错误:返回数据为空");
+                } else {
+                    SBCountWarningPojo countWarningPojo = (SBCountWarningPojo) pojo;
+                    List<SBCountWarningStates> statsList = countWarningPojo.getStatsList();
+                    List<SBWarningCount> warningCounts = null;
+                    if (statsList != null && statsList.size() != 0) {
+                        warningCounts = statsList.get(0).getKitGroupDetail();
+                    } else {
+                        warningCounts = null;
+                    }
+                    List<CountEntity> counts = null;
+                    if (warningCounts != null && warningCounts.size() != 0) {
+                        counts = getCountListWarningList(warningCounts);
+                    }
+                    if (counts != null && counts.size() != 0) {
+                        results.clear();
+                        results.addAll(counts);
+
+                        IPieDataSet dataSet = chartView.getData().getDataSet();
+                        dataSet.clear();
+
+                        for (CountEntity count : counts) {
+                            dataSet.addEntry(new PieEntry(count.getValue()/**count.getName()**/));
+                        }
+
+                        freshCtrl();
+
+                        LoadingViewUtil.showout(showingroup, showin);
+                    } else {
+                        showin = LoadingViewUtil.showin(showingroup, R.layout.layout_lack, showin, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                initData();
+                            }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void netSetError(int code, String text) {
+                Toast.makeText(CountWarningActivity.this, text, Toast.LENGTH_SHORT).show();
+                showin = LoadingViewUtil.showin(showingroup, R.layout.layout_fail, showin, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        initData();
+                    }
+                });
+            }
+
+            @Override
+            public void netStart(int code) {
+                showin = LoadingViewUtil.showin(showingroup, R.layout.layout_loading, showin, false);
+            }
+        });
+    }
+
+    private void netGetStation_warningCount() {
+        RequestParams params = new RequestParams(AppData.Url.getTVs);
+        params.addHeader("token", AppData.App.getToken());
+        CommonNet.samplepost(params, TVStationPojo.class, new CommonNet.SampleNetHander() {
+            @Override
+            public void netGo(int code, Object pojo, String text, Object obj) {
+                if (pojo == null) netSetError(code, "接口异常");
+                else {
+                    TVStationPojo tvStationPojo = (TVStationPojo) pojo;
+                    List<TVStation> tvStations = tvStationPojo.getDataList();
+                    if (tvStations != null && tvStations.size() != 0) {
+                        stationCode = getStationCodeStr(tvStations);
+                        netGetWarningCount();
+                    } else {
+                    }
+                }
+            }
+
+            @Override
+            public void netSetError(int code, String text) {
+                Toast.makeText(CountWarningActivity.this, text, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

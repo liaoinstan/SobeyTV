@@ -92,8 +92,8 @@ public class AppData {
 		 */
 //		private static final String domain = "https://api.cczcrv.com";											//正式服务器
 //		private static final String domain = "http://101.201.222.160:8085";								//客服测试服务器
-//		private static final String domain = "http://101.201.222.160:8084";								//内部测试服务器
-		private static final String domain = "http://192.168.0.123:8080";								//开发服务器
+//		private static final String domain = "http://10.0.0.18:8080";								//内部测试服务器
+		private static final String domain = "http://10.0.0.123:8080";								//开发服务器
 
 		/**
 		 * 接口请求地址
@@ -150,20 +150,17 @@ public class AppData {
 		public static final String iszan					= domain + "/SanghaCloud/news/getIsLikes";					//查询用户是否点赞
 		public static final String count					= domain + "/SanghaCloud/order/countOrderByRole";			//查询订单总数
 		public static final String getTVs				= domain + "/SanghaCloud/mobile/tv/getTVs";					//查询用户对应的电视台
-
-		public static final String msglist				= domain + "/SanghaCloud/order/getorderlist";					//消息列表
+		public static final String msglist				= domain + "/SanghaCloud/msgCenter/getMsg";					//消息列表
+		public static final String msgSys				= domain + "/SanghaCloud/requestWeb/getSystemPage";			//系统消息详情
 
 
 		private static final String sobey = "http://120.76.165.97";
-		//        String murl = "/sobey/center/openservice/host";
-//        String murl = "/sobey/center/openservice/alert/new";
-//        String murl = "/sobey/center/openservice/station";
 
-		public static final String deviceList				= domain + "/SanghaCloud/deviceManage/getDeviceList";				//获取设备列表
-		public static final String conuntDevice				= sobey + "/sobey/center/openservice/stats/station";					//设备统计
-		public static final String group						= sobey + "/sobey/center/openservice/station/group";					//获取电视台的分组定义
-		public static final String deviceDetail				= sobey + "/sobey/center/openservice/host";							//获取设备详情
-
-		public static final String news						= sobey + "/sobey/center/openservice/alert/new";						//获取最新事件
+		public static final String deviceList			= domain + "/SanghaCloud/deviceManage/getDeviceList";		//获取设备列表
+		public static final String warningList			= domain + "/SanghaCloud/deviceManage/getReport";			//获取告警列表
+		public static final String conuntDevice			= sobey + "/sobey/center/openservice/stats/station";			//设备统计
+		public static final String group					= sobey + "/sobey/center/openservice/station/group";			//获取电视台的分组定义
+		public static final String deviceDetail			= sobey + "/sobey/center/openservice/host";					//获取设备详情
+		public static final String countWarning			= sobey + "/sobey/center/openservice/stats/alert";			//报警统计
 	}
 }

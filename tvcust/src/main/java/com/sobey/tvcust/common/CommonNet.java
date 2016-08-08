@@ -116,10 +116,7 @@ public class CommonNet {
                     try {
                         pojo = new Gson().fromJson(data, entityClass);
                         System.out.println(pojo);
-                        JSONObject datajson = new JSONObject(data);
-                        if (datajson.has("valicode")){
-                            Toast.makeText(ApplicationHelp.getApplicationContext(),datajson.getString("valicode"),Toast.LENGTH_LONG).show();
-                        }
+                        printValiCode(data);
                     }catch (Exception e){
                         e.printStackTrace();
                     }
@@ -206,6 +203,20 @@ public class CommonNet {
         public void onFinished() {
             LogUtil.d("onFinished");
             hander.netEnd(code);
+        }
+    }
+
+    /**
+     * 打印出验证码
+     */
+    private static void printValiCode(String data){
+        try {
+            JSONObject datajson = new JSONObject(data);
+            if (datajson.has("valicode")){
+                Toast.makeText(ApplicationHelp.getApplicationContext(),datajson.getString("valicode"),Toast.LENGTH_LONG).show();
+            }
+        }catch (Exception e){
+            Log.e("CommonNet","解析验证码失败");
         }
     }
 

@@ -1,12 +1,11 @@
 package com.sobey.tvcust.utils;
 
-import android.text.format.DateUtils;
 import android.util.Log;
 
 import com.sobey.common.utils.MD5Util;
 import com.sobey.common.utils.TimeUtil;
-import com.sobey.tvcust.common.AppData;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,13 +51,29 @@ public class UrlUtils {
      */
 
     public static void main(String[] arg){
-        HashMap<String, String> map = new HashMap<>();
-//        Date date = new Date();
-        Date date = TimeUtil.getDateByStr("yyyy-MM-dd HH:mm:ss","2016-07-31 09:34:10");
-        map.put("time",date.getTime()+"");
-        map.put("count",12000+"");
+//        HashMap<String, String> map = new HashMap<>();
+////        Date date = new Date();
+//        Date date = TimeUtil.getDateByStr("yyyy-MM-dd HH:mm:ss","2016-07-31 09:34:10");
+//        map.put("time",date.getTime()+"");
+//        map.put("count",12000+"");
 //        map.put("station","tctc_20160527");
-        String url = geturl(map, AppData.Url.news);
-        System.out.println(url);
+//        String url = geturl(map, AppData.Url.news);
+//        System.out.println(url);
+
+//        //测试数组
+//        int[] a = new int[]{2,3,5,3,8};
+//        //输入的数
+//        int num = 3;
+//        //临时存储的数组,和a的大小一样大
+//        int[] temp = new int[a.length];
+//        int index = 0;
+//
+//        for (int i=0;i<a.length;i++){
+//            if (a[i]==num){
+//                temp[index] = a[i];
+//            }
+//        }
+//        //b 就是结果数组
+//        Integer[] b = (Integer[]) list.toArray(new Integer[]{});
     }
 }

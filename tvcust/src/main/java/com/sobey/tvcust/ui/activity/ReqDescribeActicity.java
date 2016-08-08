@@ -102,6 +102,14 @@ public class ReqDescribeActicity extends BaseAppCompatActivity implements View.O
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        if (player!=null){
+            player.stop();
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         if (player != null) player.onDestory();
@@ -207,6 +215,7 @@ public class ReqDescribeActicity extends BaseAppCompatActivity implements View.O
 
             @Override
             public void onVoiceDelClick(View v) {
+                if (player!=null) player.stop();
             }
 
             @Override

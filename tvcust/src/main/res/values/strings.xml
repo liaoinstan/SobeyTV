@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SOBEY</string>
+    <string name="app_name">口袋小贝</string>
     <string name="action_settings">设置</string>
     <string name="title_activity_start_up">启动页</string>
     <string name="title_activity_reqfix">维修申报</string>
@@ -7,12 +7,15 @@
     <string name="title_activity_reqfixdescribeonly">提交反馈</string>
     <string name="title_activity_question">问题</string>
     <string name="title_activity_device_detail">设备详情</string>
-    <string name="title_activity_msg">消息</string>
+    <string name="title_activity_msgsys">系统消息</string>
+    <string name="title_activity_msgorder">订单消息</string>
+    <string name="title_activity_msgselect">消息</string>
     <string name="title_activity_order_prog">订单进度</string>
     <string name="title_activity_video_recorder">拍摄</string>
     <string name="title_activity_photo">图片浏览</string>
     <string name="title_activity_video">视频浏览</string>
     <string name="title_activity_web">资讯</string>
+    <string name="title_activity_webmsgsys">消息详情</string>
     <string name="title_activity_count_order">派单统计</string>
     <string name="title_activity_countquestion">问题分类统计</string>
     <string name="title_activity_countwarning">报警类型统计</string>

@@ -59,7 +59,8 @@ public class EmojiEditText extends EditText{
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (!resetText) {
                     if (count >= 2) {//表情符号的字符长度最小为2
-                        CharSequence input = s.subSequence(cursorPos, cursorPos + count);
+                        int selectionEnd = getSelectionEnd();
+                        CharSequence input = s.subSequence(start, start + count);
                         if (containsEmoji(input.toString())) {
                             resetText = true;
                             Toast.makeText(mContext, "不支持输入Emoji表情符号", Toast.LENGTH_SHORT).show();

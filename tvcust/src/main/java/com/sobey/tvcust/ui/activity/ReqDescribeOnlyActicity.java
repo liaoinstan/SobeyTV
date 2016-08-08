@@ -89,6 +89,14 @@ public class ReqDescribeOnlyActicity extends BaseAppCompatActivity implements Vi
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        if (player!=null){
+            player.stop();
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         if (player != null) player.onDestory();
@@ -154,6 +162,7 @@ public class ReqDescribeOnlyActicity extends BaseAppCompatActivity implements Vi
 
             @Override
             public void onVoiceDelClick(View v) {
+                if (player!=null) player.stop();
             }
 
             @Override

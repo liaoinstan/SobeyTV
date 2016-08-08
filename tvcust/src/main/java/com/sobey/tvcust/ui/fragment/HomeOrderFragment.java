@@ -71,6 +71,7 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
     private Integer isAccept;
 
     private Callback.Cancelable cancelable;
+    private Callback.Cancelable cancelablecount;
     private Callback.Cancelable cancelablemore;
 
     public static Fragment newInstance(int position) {
@@ -122,7 +123,6 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
         toolbar.setTitle("订单");
         initBase();
         initView();
-        netGetCount();
         initData(true);
         initCtrl();
     }
@@ -216,7 +216,7 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
             TextView tabText = (TextView) content.getChildAt(0);
             TextView tabCount = (TextView) content.getChildAt(1);
             tabText.setText(t.getText());
-            if (i==0){
+            if (i == 0) {
                 tabCount.setVisibility(View.GONE);
             }
         }
@@ -267,7 +267,7 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
                 } else if (text.startsWith("待评价")) {
                     if (user.getRoleType() == User.ROLE_COMMOM) {
                         status = Order.ORDER_UNEVA;
-                    }else {
+                    } else {
                         status = null;
                     }
                     isCheck = null;
@@ -370,6 +370,81 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
         if (cancelablemore != null) {
             cancelablemore.cancel();
         }
+//        if (!isFirst) {
+            netGetCount();
+//        }
+        netOrderList(isFirst);
+    }
+
+    private boolean isloadmore = false;
+
+    private void loadMoreData() {
+        if (isloadmore) return;
+        final RequestParams params = new RequestParams(AppData.Url.orderlist);
+        params.addHeader("token", AppData.App.getToken());
+        params.addBodyParameter("pageNO", page + 1 + "");
+        params.addBodyParameter("pageSize", PAGE_COUNT + "");
+        if (status != null) {
+            params.addBodyParameter("status", status + "");
+        }
+        if (isCheck != null) {
+            params.addBodyParameter("isCheck", isCheck + "");
+        }
+        if (isComment != null) {
+            params.addBodyParameter("isComment", isComment + "");
+        }
+        if (isAccept != null) {
+            params.addBodyParameter("isAccept", isAccept + "");
+        }
+        cancelablemore = CommonNet.samplepost(params, OrderPojo.class, new CommonNet.SampleNetHander() {
+            @Override
+            public void netGo(int code, Object pojo, String text, Object obj) {
+                if (pojo == null) netSetError(code, text);
+                else {
+                    OrderPojo orderPojo = (OrderPojo) pojo;
+                    List<Order> orders = orderPojo.getDataList();
+                    if (orders.size() != 0) {
+                        List<Order> results = adapter.getResults();
+                        results.addAll(orders);
+                        freshCtrl();
+                        page++;
+                    } else {
+                        Snackbar.make(showingroup, "没有更多的数据了", Snackbar.LENGTH_SHORT).show();
+//                        Toast.makeText(getActivity(),"没有更多的数据了",Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void netSetError(int code, String text) {
+                Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void netStart(int code) {
+                isloadmore = true;
+            }
+
+            @Override
+            public void netEnd(int code) {
+                isloadmore = false;
+                springView.onFinishFreshAndLoad();
+            }
+        });
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent();
+        switch (v.getId()) {
+            case R.id.btn_go_reqfix:
+                intent.setClass(getActivity(), ReqfixActicity.class);
+                startActivity(intent);
+                break;
+        }
+    }
+
+    private void netOrderList(final boolean isFirst) {
         final RequestParams params = new RequestParams(AppData.Url.orderlist);
         params.addHeader("token", AppData.App.getToken());
         params.addBodyParameter("pageNO", 1 + "");
@@ -441,74 +516,6 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
         });
     }
 
-    private boolean isloadmore = false;
-
-    private void loadMoreData() {
-        if (isloadmore) return;
-        final RequestParams params = new RequestParams(AppData.Url.orderlist);
-        params.addHeader("token", AppData.App.getToken());
-        params.addBodyParameter("pageNO", page + 1 + "");
-        params.addBodyParameter("pageSize", PAGE_COUNT + "");
-        if (status != null) {
-            params.addBodyParameter("status", status + "");
-        }
-        if (isCheck != null) {
-            params.addBodyParameter("isCheck", isCheck + "");
-        }
-        if (isComment != null) {
-            params.addBodyParameter("isComment", isComment + "");
-        }
-        if (isAccept != null) {
-            params.addBodyParameter("isAccept", isAccept + "");
-        }
-        cancelablemore = CommonNet.samplepost(params, OrderPojo.class, new CommonNet.SampleNetHander() {
-            @Override
-            public void netGo(int code, Object pojo, String text, Object obj) {
-                if (pojo == null) netSetError(code, text);
-                else {
-                    OrderPojo orderPojo = (OrderPojo) pojo;
-                    List<Order> orders = orderPojo.getDataList();
-                    if (orders.size() != 0) {
-                        List<Order> results = adapter.getResults();
-                        results.addAll(orders);
-                        freshCtrl();
-                        page++;
-                    } else {
-                        Snackbar.make(showingroup, "没有更多的数据了", Snackbar.LENGTH_SHORT).show();
-//                        Toast.makeText(getActivity(),"没有更多的数据了",Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-
-            @Override
-            public void netSetError(int code, String text) {
-                Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void netStart(int code) {
-                isloadmore = true;
-            }
-
-            @Override
-            public void netEnd(int code) {
-                isloadmore = false;
-                springView.onFinishFreshAndLoad();
-            }
-        });
-    }
-
-    @Override
-    public void onClick(View v) {
-        Intent intent = new Intent();
-        switch (v.getId()) {
-            case R.id.btn_go_reqfix:
-                intent.setClass(getActivity(), ReqfixActicity.class);
-                startActivity(intent);
-                break;
-        }
-    }
-
     private void netCancleOrder(final int pos) {
         RequestParams params = new RequestParams(AppData.Url.cancleOrder);
         params.addHeader("token", AppData.App.getToken());
@@ -530,13 +537,16 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
         });
     }
 
-    private void netGetCount(){
+    private void netGetCount() {
+        if (cancelablecount != null) {
+            cancelablecount.cancel();
+        }
         RequestParams params = new RequestParams(AppData.Url.count);
         params.addHeader("token", AppData.App.getToken());
-        CommonNet.samplepost(params,CountTab.class,new CommonNet.SampleNetHander(){
+        cancelablecount = CommonNet.samplepost(params, CountTab.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
-                if (pojo!=null){
+                if (pojo != null) {
                     CountTab countTab = (CountTab) pojo;
                     setTabCount(countTab);
                 }
@@ -548,7 +558,7 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
         });
     }
 
-    private void setTabCount(CountTab count){
+    private void setTabCount(CountTab count) {
         for (int i = 0; i < tab.getTabCount(); i++) {
             TabLayout.Tab t = tab.getTabAt(i);
             if (t.getCustomView() == null) {
@@ -559,22 +569,22 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
             String text = t.getText().toString();
             TextView tabCount = (TextView) content.getChildAt(1);
 
-            if (text.startsWith("待处理")){
-                tabCount.setText(count.getPengding()+"");
-            }else if (text.startsWith("处理中")){
-                tabCount.setText(count.getHandling()+"");
-            }else if (text.startsWith("待验收")){
-                tabCount.setText(count.getAccepting()+"");
-            }else if (text.startsWith("待评价")){
-                tabCount.setText(count.getEvaluating()+"");
-            }else if (text.startsWith("已完成")){
-                tabCount.setText(count.getSolved()+"");
-            }else if (text.startsWith("待办任务")){
-                tabCount.setText(count.getBacklog()+"");
-            }else if (text.startsWith("待分配")){
-                tabCount.setText(count.getAssigning()+"");
-            }else if (text.startsWith("进行中")){
-                tabCount.setText(count.getHappening()+"");
+            if (text.startsWith("待处理")) {
+                tabCount.setText(count.getPengding() + "");
+            } else if (text.startsWith("处理中")) {
+                tabCount.setText(count.getHandling() + "");
+            } else if (text.startsWith("待验收")) {
+                tabCount.setText(count.getAccepting() + "");
+            } else if (text.startsWith("待评价")) {
+                tabCount.setText(count.getEvaluating() + "");
+            } else if (text.startsWith("已完成")) {
+                tabCount.setText(count.getSolved() + "");
+            } else if (text.startsWith("待办任务")) {
+                tabCount.setText(count.getBacklog() + "");
+            } else if (text.startsWith("待分配")) {
+                tabCount.setText(count.getAssigning() + "");
+            } else if (text.startsWith("进行中")) {
+                tabCount.setText(count.getHappening() + "");
             }
         }
     }

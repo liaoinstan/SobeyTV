@@ -35,6 +35,7 @@ import com.sobey.tvcust.entity.CountEntity;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterCountOrder;
 import com.sobey.tvcust.ui.dialog.DialogMouthPicker;
 
+import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 
 import java.util.ArrayList;
@@ -62,6 +63,8 @@ public class CountOrderActivity extends BaseAppCompatActivity implements View.On
     private String yearM;
 
     ArrayList<Integer> colors = new ArrayList<Integer>();
+
+    private Callback.Cancelable cancelable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,10 +118,13 @@ public class CountOrderActivity extends BaseAppCompatActivity implements View.On
     }
 
     private void initData() {
+        if (cancelable != null) {
+            cancelable.cancel();
+        }
         RequestParams params = new RequestParams(AppData.Url.countOrdersMonth);
         params.addHeader("token", AppData.App.getToken());
         params.addBodyParameter("yearM", yearM);
-        CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
+        cancelable = CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
                 if (pojo == null) {
@@ -131,8 +137,8 @@ public class CountOrderActivity extends BaseAppCompatActivity implements View.On
                         results.add(new CountEntity("已完成", com.getFinished(), colors.get(0)));
                         results.add(new CountEntity("未完成", com.getNonFinished(), colors.get(1)));
 
-                        int finishpre = (com.getFinished()* 100) / (com.getFinished() + com.getNonFinished()) ;
-                        int nonfinishpre = (com.getNonFinished()* 100) / (com.getFinished() + com.getNonFinished()) ;
+                        int finishpre = (com.getFinished() * 100) / (com.getFinished() + com.getNonFinished());
+                        int nonfinishpre = (com.getNonFinished() * 100) / (com.getFinished() + com.getNonFinished());
                         IPieDataSet dataSet_finish = chart_finish.getData().getDataSet();
                         dataSet_finish.clear();
                         dataSet_finish.addEntry(new PieEntry(finishpre));

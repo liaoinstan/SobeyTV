@@ -76,8 +76,16 @@
             android:label="@string/title_activity_device_detail"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.activity.MsgActivity"
-            android:label="@string/title_activity_msg"
+            android:name=".ui.activity.MsgSysActivity"
+            android:label="@string/title_activity_msgsys"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.activity.MsgOrderActivity"
+            android:label="@string/title_activity_msgorder"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.activity.MsgSelectActivity"
+            android:label="@string/title_activity_msgselect"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.activity.OrderProgActivity"
@@ -98,6 +106,10 @@
         <activity
             android:name=".ui.activity.WebActivity"
             android:label="@string/title_activity_web"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.activity.WebMsgSysActivity"
+            android:label="@string/title_activity_webmsgsys"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.activity.CountOrderActivity"

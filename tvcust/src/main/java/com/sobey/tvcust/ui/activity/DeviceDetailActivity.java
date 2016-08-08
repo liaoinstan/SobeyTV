@@ -2,6 +2,7 @@ package com.sobey.tvcust.ui.activity;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,7 @@ public class DeviceDetailActivity extends BaseAppCompatActivity {
     private TextView text_todaytotaltime;
     private TextView text_todayonlinerange;
     private TextView text_weektotaltime;
+    private View card_centerprog;
 
     private String hostkey;
 
@@ -60,7 +62,7 @@ public class DeviceDetailActivity extends BaseAppCompatActivity {
         if (getIntent().hasExtra("hostkey")) {
             hostkey = getIntent().getStringExtra("hostkey");
         }
-        hostkey = "BFEBFBFF000206A7_D43D7E258717";
+        //hostkey = "BFEBFBFF000206A7_D43D7E258717";
     }
 
     private void initView() {
@@ -71,6 +73,7 @@ public class DeviceDetailActivity extends BaseAppCompatActivity {
         text_todaytotaltime = (TextView) findViewById(R.id.text_devicedetail_todaytotaltime);
         text_todayonlinerange = (TextView) findViewById(R.id.text_devicedetail_todayonlinerange);
         text_weektotaltime = (TextView) findViewById(R.id.text_devicedetail_weektotaltime);
+        card_centerprog = findViewById(R.id.card_centerprog);
     }
 
     private void initData() {
@@ -84,13 +87,12 @@ public class DeviceDetailActivity extends BaseAppCompatActivity {
                 else {
                     SBDeviceDetailPojo detailPojo = (SBDeviceDetailPojo) pojo;
                     SBDevice device = detailPojo.getHostInfo();
-//                    results.add(new SBKeyValue("非编","Running"));
-//                    results.add(new SBKeyValue("片审","NotStartup"));
-//                    results.add(new SBKeyValue("核心","NotStartup"));
-                    if (device.getCoreProcess() != null) {
+                    if (device.getCoreProcess() != null && device.getCoreProcess().size()!=0) {
                         results.addAll(device.getCoreProcess());
+                        freshCtrl(device);
+                    }else {
+                        card_centerprog.setVisibility(View.GONE);
                     }
-                    freshCtrl(device);
                     LoadingViewUtil.showout(showingroup, showin);
                 }
             }
@@ -111,24 +113,6 @@ public class DeviceDetailActivity extends BaseAppCompatActivity {
                 showin = LoadingViewUtil.showin(showingroup, R.layout.layout_loading, showin);
             }
         });
-
-//        showin = LoadingViewUtil.showin(showingroup,R.layout.layout_loading,showin);
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                //加载成功
-//                initCtrl();
-//                LoadingViewUtil.showout(showingroup,showin);
-//
-//                //加载失败
-////                LoadingViewUtil.showin(showingroup,R.layout.layout_lack,showin,new View.OnClickListener(){
-////                    @Override
-////                    public void onClick(View v) {
-////                        initData();
-////                    }
-////                });
-//            }
-//        }, 1000);
     }
 
     private void initCtrl() {

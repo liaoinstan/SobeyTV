@@ -8,6 +8,9 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.sobey.tvcust.R;
+import com.sobey.tvcust.common.AppData;
+
+import java.util.HashMap;
 
 public class WebActivity extends BaseAppCompatActivity {
 
@@ -35,7 +38,6 @@ public class WebActivity extends BaseAppCompatActivity {
             }
         });
 
-//        setting.setDefaultTextEncodingName("utf-8");
         webView.loadUrl(url);
     }
 

@@ -30,7 +30,7 @@ public class JSONHandler {
         if(jsonObject.has("versionCode")) updateInfo.setVersionCode(jsonObject.getString("versionCode"));
         if(jsonObject.has("versionName")) updateInfo.setVersionName(jsonObject.getString("versionName"));
 //        if(jsonObject.has("changeLog")) updateInfo.setChangeLog(jsonObject.getString("changeLog").replaceAll("<br />", "\n").replaceAll("<br/>", "\n").replaceAll("<br >", "\n").replaceAll("<br>", "\n"));
-        if(jsonObject.has("changeLog")) updateInfo.setChangeLog(jsonObject.getString("changeLog").replaceAll("<br\\s*/?>", "\n"));
+        if(jsonObject.has("changeLog")) updateInfo.setChangeLog(URLUtils.replaceBlank(jsonObject.getString("changeLog")).replaceAll("<br\\s*/?>", "\n"));
         if(jsonObject.has("updateTips")) updateInfo.setUpdateTips(jsonObject.getString("updateTips"));
         if(jsonObject.has("status")) updateInfo.setStatus(jsonObject.getInt("status"));
         if(jsonObject.has("created_at")) updateInfo.setCreated_at(jsonObject.getString("created_at"));

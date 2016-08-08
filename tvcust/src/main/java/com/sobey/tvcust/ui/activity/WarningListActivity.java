@@ -2,12 +2,11 @@ package com.sobey.tvcust.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,18 +15,24 @@ import android.widget.Toast;
 import com.liaoinstan.springview.container.AliFooter;
 import com.liaoinstan.springview.container.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
+import com.sobey.common.utils.StrUtils;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
+import com.sobey.tvcust.common.CommonNet;
 import com.sobey.tvcust.common.LoadingViewUtil;
 import com.sobey.tvcust.common.SobeyNet;
-import com.sobey.tvcust.entity.SBDevice;
+import com.sobey.tvcust.entity.Warning;
+import com.sobey.tvcust.entity.WarningPojo;
 import com.sobey.tvcust.entity.SBGroup;
 import com.sobey.tvcust.entity.SBGroupPojo;
-import com.sobey.tvcust.entity.TestEntity;
+import com.sobey.tvcust.entity.TVStation;
+import com.sobey.tvcust.entity.TVStationPojo;
+import com.sobey.tvcust.entity.User;
 import com.sobey.tvcust.interfaces.OnRecycleItemClickListener;
-import com.sobey.tvcust.ui.adapter.RecycleAdapterDevice;
+import com.sobey.tvcust.ui.adapter.RecycleAdapterWarning;
 import com.sobey.tvcust.utils.UrlUtils;
 
+import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 
 import java.util.ArrayList;
@@ -38,14 +43,21 @@ public class WarningListActivity extends BaseAppCompatActivity implements OnRecy
 
     private RecyclerView recyclerView;
     private SpringView springView;
-    private List<SBDevice> results = new ArrayList<>();
-    private RecycleAdapterDevice adapter;
+    private List<Warning> results = new ArrayList<>();
+    private RecycleAdapterWarning adapter;
     private TabLayout tab;
 
     private ViewGroup showingroup;
     private View showin;
 
+    private Callback.Cancelable cancelable;
+    private Callback.Cancelable cancelablemore;
+
     private String stationCode;
+    private String groupCode = "";
+
+    private int page;
+    private final int PAGE_COUNT = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +76,6 @@ public class WarningListActivity extends BaseAppCompatActivity implements OnRecy
     private void initBase() {
         if (getIntent().hasExtra("stationCode")) {
             stationCode = getIntent().getStringExtra("stationCode");
-            Log.e("liao", stationCode);
         }
     }
 
@@ -76,43 +87,17 @@ public class WarningListActivity extends BaseAppCompatActivity implements OnRecy
     }
 
     private void initData() {
-        netGroup();
-
-        showin = LoadingViewUtil.showin(showingroup, R.layout.layout_loading, showin);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //加载成功
-                results.add(new SBDevice());
-                results.add(new SBDevice());
-                results.add(new SBDevice());
-                results.add(new SBDevice());
-                results.add(new SBDevice());
-                results.add(new SBDevice());
-                results.add(new SBDevice());
-                freshCtrl();
-                LoadingViewUtil.showout(showingroup, showin);
-
-                //加载失败
-//                LoadingViewUtil.showin(showingroup,R.layout.layout_lack,showin,new View.OnClickListener(){
-//                    @Override
-//                    public void onClick(View v) {
-//                        initData();
-//                    }
-//                });
-            }
-        }, 2000);
+        if (AppData.App.getUser().getRoleType() == User.ROLE_COMMOM){
+            netGetStation_group();
+        }else {
+            netGroup();
+        }
+//        netlist();
     }
 
     private void initCtrl() {
-//        tab.addTab(tab.newTab().setText("所有"));
-//        tab.addTab(tab.newTab().setText("警告"));
-//        tab.addTab(tab.newTab().setText("存储"));
-//        tab.addTab(tab.newTab().setText("数据库"));
-//        tab.addTab(tab.newTab().setText("服务器"));
-//        tab.addTab(tab.newTab().setText("工作站"));
 
-        adapter = new RecycleAdapterDevice(this, R.layout.item_recycle_home_qw, results);
+        adapter = new RecycleAdapterWarning(this, R.layout.item_recycle_home_qw, results);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
@@ -121,25 +106,29 @@ public class WarningListActivity extends BaseAppCompatActivity implements OnRecy
         springView.setListener(new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        springView.onFinishFreshAndLoad();
-                    }
-                }, 2000);
+                netlist(false);
             }
 
             @Override
             public void onLoadmore() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        results.add(new SBDevice());
-                        results.add(new SBDevice());
-                        freshCtrl();
-                        springView.onFinishFreshAndLoad();
-                    }
-                }, 2000);
+                loadMoreData();
+            }
+        });
+        tab.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                groupCode = (String) tab.getTag();
+                netlist(true);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
             }
         });
     }
@@ -160,8 +149,132 @@ public class WarningListActivity extends BaseAppCompatActivity implements OnRecy
 
     @Override
     public void onItemClick(RecyclerView.ViewHolder viewHolder) {
+        Warning warning = adapter.getResults().get(viewHolder.getLayoutPosition());
         Intent intent = new Intent(this, DeviceDetailActivity.class);
+        intent.putExtra("hostkey",warning.getHostKey());
         startActivity(intent);
+    }
+
+    private void netlist(final boolean isFirst) {
+        if (cancelable != null) {
+            cancelable.cancel();
+        }
+        if (cancelablemore != null) {
+            cancelablemore.cancel();
+        }
+        final RequestParams params = new RequestParams(AppData.Url.warningList);
+        params.addHeader("token", AppData.App.getToken());
+        params.addBodyParameter("pageNO", 1 + "");
+        params.addBodyParameter("pageSize", PAGE_COUNT + "");
+        if (AppData.App.getUser().getRoleType()!=User.ROLE_COMMOM) {
+            params.addBodyParameter("stationCode", stationCode);
+        }
+        if (!StrUtils.isEmpty(groupCode)) {
+            params.addBodyParameter("groupCode", groupCode);
+        }
+        cancelable = CommonNet.samplepost(params, WarningPojo.class, new CommonNet.SampleNetHander() {
+            @Override
+            public void netGo(int code, Object pojo, String text, Object obj) {
+                if (pojo == null) netSetError(code, text);
+                else {
+                    WarningPojo devicePojo = (WarningPojo) pojo;
+                    List<Warning> devices = devicePojo.getLists();
+                    //有数据才添加，否则显示lack信息
+                    if (devices != null && devices.size() != 0) {
+                        List<Warning> results = adapter.getResults();
+                        results.clear();
+                        results.addAll(devices);
+                        freshCtrl();
+                        page = 1;
+                        if (isFirst) {
+                            LoadingViewUtil.showout(showingroup, showin);
+                        } else {
+                            springView.onFinishFreshAndLoad();
+                        }
+                    } else {
+                        showin = LoadingViewUtil.showin(showingroup, R.layout.layout_lack, showin, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                netlist(true);
+                            }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void netSetError(int code, String text) {
+                Toast.makeText(WarningListActivity.this, text, Toast.LENGTH_SHORT).show();
+                if (isFirst) {
+                    showin = LoadingViewUtil.showin(showingroup, R.layout.layout_fail, showin, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            netlist(true);
+                        }
+                    });
+                } else {
+                    springView.onFinishFreshAndLoad();
+                }
+            }
+
+            @Override
+            public void netStart(int code) {
+                if (isFirst) {
+                    showin = LoadingViewUtil.showin(showingroup, R.layout.layout_loading, showin);
+                }
+            }
+        });
+    }
+
+    private boolean isloadmore = false;
+
+    private void loadMoreData() {
+        if (isloadmore) return;
+
+        final RequestParams params = new RequestParams(AppData.Url.warningList);
+        params.addHeader("token", AppData.App.getToken());
+        params.addBodyParameter("pageNO", page + 1 + "");
+        params.addBodyParameter("pageSize", PAGE_COUNT + "");
+        params.addBodyParameter("stationCode", stationCode);
+        if (!StrUtils.isEmpty(groupCode)) {
+            params.addBodyParameter("groupCode", groupCode);
+        }
+        cancelablemore = CommonNet.samplepost(params, WarningPojo.class, new CommonNet.SampleNetHander() {
+            @Override
+            public void netGo(int code, Object pojo, String text, Object obj) {
+                if (pojo == null) netSetError(code, text);
+                else {
+                    WarningPojo devicePojo = (WarningPojo) pojo;
+                    List<Warning> devices = devicePojo.getLists();
+                    //有数据才添加，否则显示lack信息
+                    if (devices != null && devices.size() != 0) {
+                        List<Warning> results = adapter.getResults();
+                        results.addAll(devices);
+                        freshCtrl();
+                        page++;
+                        springView.onFinishFreshAndLoad();
+                    } else {
+                        Snackbar.make(showingroup, "没有更多的数据了", Snackbar.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void netSetError(int code, String text) {
+                Toast.makeText(WarningListActivity.this, text, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void netStart(int code) {
+                isloadmore = true;
+            }
+
+            @Override
+            public void netEnd(int code) {
+                isloadmore = false;
+                springView.onFinishFreshAndLoad();
+            }
+        });
     }
 
     private void netGroup() {
@@ -176,11 +289,36 @@ public class WarningListActivity extends BaseAppCompatActivity implements OnRecy
                 SBGroupPojo groupPojo = (SBGroupPojo) pojo;
                 List<SBGroup> groupList = groupPojo.getGroupList();
                 if (groupList != null && groupList.size() != 0) {
-                    tab.addTab(tab.newTab().setText("全部").setTag("0"));
-                    for (SBGroup group:groupList){
+                    tab.addTab(tab.newTab().setText("全部").setTag(""));
+                    for (SBGroup group : groupList) {
                         tab.addTab(tab.newTab().setText(group.getName()).setTag(group.getCode()));
                     }
                 } else {
+                }
+            }
+
+            @Override
+            public void netSetError(int code, String text) {
+                Toast.makeText(WarningListActivity.this, text, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void netGetStation_group() {
+        RequestParams params = new RequestParams(AppData.Url.getTVs);
+        params.addHeader("token", AppData.App.getToken());
+        CommonNet.samplepost(params, TVStationPojo.class, new CommonNet.SampleNetHander() {
+            @Override
+            public void netGo(int code, Object pojo, String text, Object obj) {
+                if (pojo == null) netSetError(code, "接口异常");
+                else {
+                    TVStationPojo tvStationPojo = (TVStationPojo) pojo;
+                    List<TVStation> tvStations = tvStationPojo.getDataList();
+                    if (tvStations != null && tvStations.size() != 0) {
+                        stationCode = tvStations.get(0).getStationCode();
+                        netGroup();
+                    } else {
+                    }
                 }
             }
 

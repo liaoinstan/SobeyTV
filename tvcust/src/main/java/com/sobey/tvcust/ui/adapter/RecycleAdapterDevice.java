@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.sobey.tvcust.R;
+import com.sobey.tvcust.entity.Device;
 import com.sobey.tvcust.entity.SBDevice;
 import com.sobey.tvcust.interfaces.OnRecycleItemClickListener;
 
@@ -18,13 +19,13 @@ public class RecycleAdapterDevice extends RecyclerView.Adapter<RecycleAdapterDev
 
     private Context context;
     private int src;
-    private List<SBDevice> results;
+    private List<Device> results;
 
-    public List<SBDevice> getResults() {
+    public List<Device> getResults() {
         return results;
     }
 
-    public RecycleAdapterDevice(Context context, int src, List<SBDevice> results) {
+    public RecycleAdapterDevice(Context context, int src, List<Device> results) {
         this.context = context;
         this.src = src;
         this.results = results;
@@ -44,7 +45,7 @@ public class RecycleAdapterDevice extends RecyclerView.Adapter<RecycleAdapterDev
             }
         });
 
-        SBDevice device = results.get(holder.getLayoutPosition());
+        Device device = results.get(holder.getLayoutPosition());
 
         holder.text_name.setText(device.getHostName());
         holder.text_ip.setText(device.getInterIPAddress());

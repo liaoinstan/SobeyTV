@@ -77,7 +77,7 @@ public class InfoDetailActivity extends BaseAppCompatActivity implements View.On
                 Integer isLikes = (Integer) pojo;
                 boolean izan = isLikes == 0 ? false : true;
                 img_infodetail_zan.setVisibility(View.VISIBLE);
-                if (izan) {
+                if (!izan) {
                     img_infodetail_zan.setSelected(false);
                 } else {
                     img_infodetail_zan.setSelected(true);

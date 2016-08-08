@@ -93,6 +93,14 @@ public class ReqfixActicity extends BaseAppCompatActivity implements View.OnClic
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        if (player!=null){
+            player.stop();
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         if (player != null) player.onDestory();
@@ -182,6 +190,7 @@ public class ReqfixActicity extends BaseAppCompatActivity implements View.OnClic
 
             @Override
             public void onVoiceDelClick(View v) {
+                if (player!=null) player.stop();
             }
 
             @Override

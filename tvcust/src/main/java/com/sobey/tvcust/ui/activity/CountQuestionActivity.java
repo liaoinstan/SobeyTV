@@ -37,6 +37,7 @@ import com.sobey.tvcust.entity.CountPojo;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterCountOrder;
 import com.sobey.tvcust.ui.dialog.DialogMouthPicker;
 
+import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-public class CountQuestionActivity extends BaseAppCompatActivity implements View.OnClickListener{
+public class CountQuestionActivity extends BaseAppCompatActivity implements View.OnClickListener {
 
     private RecyclerView recyclerView;
     private List<CountEntity> results = new ArrayList<>();
@@ -65,6 +66,8 @@ public class CountQuestionActivity extends BaseAppCompatActivity implements View
 
     ArrayList<Integer> colors = new ArrayList<Integer>();
 
+    private Callback.Cancelable cancelable;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +85,7 @@ public class CountQuestionActivity extends BaseAppCompatActivity implements View
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (dialog!=null) dialog.dismiss();
+        if (dialog != null) dialog.dismiss();
     }
 
     private void initBase() {
@@ -116,21 +119,24 @@ public class CountQuestionActivity extends BaseAppCompatActivity implements View
     }
 
     private void initData() {
+        if (cancelable != null) {
+            cancelable.cancel();
+        }
         RequestParams params = new RequestParams(AppData.Url.countOrderCategory);
         params.addHeader("token", AppData.App.getToken());
-        params.addBodyParameter("yearM",yearM);
-        CommonNet.samplepost(params,CountPojo.class,new CommonNet.SampleNetHander(){
+        params.addBodyParameter("yearM", yearM);
+        cancelable = CommonNet.samplepost(params, CountPojo.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
-                if (pojo==null){
-                    netSetError(code,"错误:返回数据为空");
-                }else {
-                    CountPojo com = (CountPojo)pojo;
+                if (pojo == null) {
+                    netSetError(code, "错误:返回数据为空");
+                } else {
+                    CountPojo com = (CountPojo) pojo;
 
                     Map<String, Integer> dataList = com.getDataList();
                     List<CountEntity> counts = getCountListFromMap(dataList);
 
-                    if (counts!=null && counts.size()!=0) {
+                    if (counts != null && counts.size() != 0) {
                         results.clear();
                         results.addAll(counts);
 
@@ -144,7 +150,7 @@ public class CountQuestionActivity extends BaseAppCompatActivity implements View
                         freshCtrl();
 
                         LoadingViewUtil.showout(showingroup, showin);
-                    }else {
+                    } else {
                         showin = LoadingViewUtil.showin(showingroup, R.layout.layout_lack, showin, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -154,9 +160,10 @@ public class CountQuestionActivity extends BaseAppCompatActivity implements View
                     }
                 }
             }
+
             @Override
             public void netSetError(int code, String text) {
-                Toast.makeText(CountQuestionActivity.this,text, Toast.LENGTH_SHORT).show();
+                Toast.makeText(CountQuestionActivity.this, text, Toast.LENGTH_SHORT).show();
                 showin = LoadingViewUtil.showin(showingroup, R.layout.layout_fail, showin, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -173,7 +180,7 @@ public class CountQuestionActivity extends BaseAppCompatActivity implements View
     }
 
     private void initCtrl() {
-        adapter = new RecycleAdapterCountOrder(this,R.layout.item_recycle_countorder,results);
+        adapter = new RecycleAdapterCountOrder(this, R.layout.item_recycle_countorder, results);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new DividerItemDecoration(this));
         recyclerView.setAdapter(adapter);
@@ -196,7 +203,7 @@ public class CountQuestionActivity extends BaseAppCompatActivity implements View
         setChartData();
     }
 
-    private void initChat(){
+    private void initChat() {
         chartView.setUsePercentValues(true);
         chartView.setDescription("");
         chartView.setExtraOffsets(5, 10, 5, 5);
@@ -263,7 +270,7 @@ public class CountQuestionActivity extends BaseAppCompatActivity implements View
         chartView.invalidate();
     }
 
-    public void freshCtrl(){
+    public void freshCtrl() {
         adapter.notifyDataSetChanged();
         chartView.notifyDataSetChanged();
         chartView.animateY(800, Easing.EasingOption.EaseInOutQuad);
@@ -281,7 +288,7 @@ public class CountQuestionActivity extends BaseAppCompatActivity implements View
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_countorder_bank: {
                 String datestr = text_time.getText().toString();
                 String datelaststr = TimeUtil.add("yyyy年MM月", datestr, Calendar.MONTH, -1);
@@ -307,14 +314,14 @@ public class CountQuestionActivity extends BaseAppCompatActivity implements View
         }
     }
 
-    private List<CountEntity> getCountListFromMap(Map<String,Integer> map){
+    private List<CountEntity> getCountListFromMap(Map<String, Integer> map) {
         ArrayList<CountEntity> counts = new ArrayList<>();
         if (map != null && map.size() > 0) {
-            int i= 0;
+            int i = 0;
             for (Map.Entry<String, Integer> entry : map.entrySet()) {
                 String key = entry.getKey();
                 int value = entry.getValue();
-                counts.add(new CountEntity(key,value,colors.get(i%colors.size())));
+                counts.add(new CountEntity(key, value, colors.get(i % colors.size())));
                 i++;
             }
         }

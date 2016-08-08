@@ -2,7 +2,6 @@ package com.sobey.tvcust.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,22 +23,19 @@ import com.sobey.tvcust.common.SobeyNet;
 import com.sobey.tvcust.entity.SBCountDevice;
 import com.sobey.tvcust.entity.TVStation;
 import com.sobey.tvcust.entity.TVStationPojo;
-import com.sobey.tvcust.entity.TestEntity;
 import com.sobey.tvcust.entity.User;
+import com.sobey.tvcust.entity.Warning;
+import com.sobey.tvcust.entity.WarningPojo;
 import com.sobey.tvcust.ui.activity.DeviceDetailActivity;
-import com.sobey.tvcust.ui.activity.DeviceListActivity;
-import com.sobey.tvcust.ui.activity.MsgActivity;
+import com.sobey.tvcust.ui.activity.MsgSelectActivity;
+import com.sobey.tvcust.ui.activity.MsgSysActivity;
 import com.sobey.tvcust.interfaces.OnRecycleItemClickListener;
 import com.sobey.tvcust.ui.activity.SelectStationActivity;
 import com.sobey.tvcust.ui.activity.WarningListActivity;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterQW;
 import com.sobey.tvcust.utils.UrlUtils;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
-import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -59,7 +55,7 @@ public class HomeQwFragment extends BaseFragment implements View.OnClickListener
 
     private int position;
     private View rootView;
-    private List<TestEntity> results = new ArrayList<>();
+    private List<Warning> results = new ArrayList<>();
 
     public static Fragment newInstance(int position) {
         HomeQwFragment f = new HomeQwFragment();
@@ -112,34 +108,40 @@ public class HomeQwFragment extends BaseFragment implements View.OnClickListener
     private void initData() {
         netGetStations();
 
-//        loadingDialog.show();
-        showin = LoadingViewUtil.showin(showingroup, R.layout.layout_loading, showin);
-        new Handler().postDelayed(new Runnable() {
+        final RequestParams params = new RequestParams(AppData.Url.warningList);
+        params.addHeader("token", AppData.App.getToken());
+        params.addBodyParameter("pageNO", 1 + "");
+        params.addBodyParameter("pageSize", 3 + "");
+        CommonNet.samplepost(params, WarningPojo.class, new CommonNet.SampleNetHander() {
             @Override
-            public void run() {
-                //加载成功
-                results.add(new TestEntity());
-                results.add(new TestEntity());
-                results.add(new TestEntity());
-                results.add(new TestEntity());
-                results.add(new TestEntity());
-                results.add(new TestEntity());
-
-//                initCtrl();
-                freshCtrl();
-                LoadingViewUtil.showout(showingroup, showin);
-
-                //加载失败
-//                LoadingViewUtil.showin(showingroup,R.layout.layout_lack,showin,new View.OnClickListener(){
-//                    @Override
-//                    public void onClick(View v) {
-//                        initData();
-//                    }
-//                });
-
-//                loadingDialog.hide();
+            public void netGo(int code, Object pojo, String text, Object obj) {
+                if (pojo == null) netSetError(code, text);
+                else {
+                    WarningPojo devicePojo = (WarningPojo) pojo;
+                    List<Warning> devices = devicePojo.getLists();
+                    //有数据才添加，否则显示lack信息
+                    if (devices != null && devices.size() != 0) {
+                        List<Warning> results = adapter.getResults();
+                        results.clear();
+                        results.addAll(devices);
+                        freshCtrl();
+                        LoadingViewUtil.showout(showingroup, showin);
+                    } else {
+                        LoadingViewUtil.showout(showingroup, showin);
+                    }
+                }
             }
-        }, 1000);
+
+            @Override
+            public void netSetError(int code, String text) {
+                Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void netStart(int code) {
+                showin = LoadingViewUtil.showin(showingroup, R.layout.layout_loading, showin);
+            }
+        });
     }
 
     private void initCtrl() {
@@ -151,7 +153,8 @@ public class HomeQwFragment extends BaseFragment implements View.OnClickListener
     }
 
     private void freshCtrl() {
-        adapter.notifyDataSetChanged();
+//        adapter.notifyDataSetChanged();
+        adapter.notifyItemRangeChanged(1,adapter.getResults().size());
     }
 
     @Override
@@ -159,7 +162,7 @@ public class HomeQwFragment extends BaseFragment implements View.OnClickListener
         Intent intent = new Intent();
         switch (v.getId()) {
             case R.id.btn_go_msg:
-                intent.setClass(getActivity(), MsgActivity.class);
+                intent.setClass(getActivity(), MsgSelectActivity.class);
                 startActivity(intent);
                 break;
         }
@@ -170,16 +173,19 @@ public class HomeQwFragment extends BaseFragment implements View.OnClickListener
         int position = viewHolder.getLayoutPosition();
         if (position == 0) {
 
-        } else if (position > 0 && position < adapter.getResults().size() - 1) {
+        } else if (position > 0 && position < adapter.getResults().size() +
+                1) {
+            Warning warning = adapter.getResults().get(position - 1);
             Intent intent = new Intent(getActivity(), DeviceDetailActivity.class);
+            intent.putExtra("hostkey", warning.getHostKey());
             startActivity(intent);
         } else {
             Intent intent = new Intent();
-            if (AppData.App.getUser().getRoleType()== User.ROLE_COMMOM){
+            if (AppData.App.getUser().getRoleType() == User.ROLE_COMMOM) {
                 //用户直接进入告警列表
                 intent.setClass(getActivity(), WarningListActivity.class);
                 startActivity(intent);
-            }else {
+            } else {
                 //其他人需要先筛选电视台
                 intent.setClass(getActivity(), SelectStationActivity.class);
                 intent.putExtra("type", 2);
@@ -196,7 +202,7 @@ public class HomeQwFragment extends BaseFragment implements View.OnClickListener
         for (TVStation station : stations) {
             ret += station.getStationCode() + "|";
         }
-        return ret.substring(0, ret.length() - 1).replaceAll("\\|","%7C");
+        return ret.substring(0, ret.length() - 1).replaceAll("\\|", "%7C");
     }
 
     private void netGetStations() {

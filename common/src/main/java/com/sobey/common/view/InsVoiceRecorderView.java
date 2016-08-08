@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.PowerManager;
+import android.support.v4.view.MotionEventCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -103,7 +104,9 @@ public class InsVoiceRecorderView extends RelativeLayout {
      * @param event
      */
     public boolean onPressToSpeakBtnTouch(View v, MotionEvent event, InsVoiceRecorderCallback recorderCallback) {
-        switch (event.getAction()) {
+//        final int action = event.getAction();
+        final int action = MotionEventCompat.getActionMasked(event);
+        switch (action) {
         case MotionEvent.ACTION_DOWN:
             try {
 //                if (EaseChatRowVoicePlayClickListener.isPlaying)
@@ -123,6 +126,7 @@ public class InsVoiceRecorderView extends RelativeLayout {
             }
             return true;
         case MotionEvent.ACTION_UP:
+            micImage.setImageDrawable(micImages[0]);
             showNoHint();
             v.setPressed(false);
             if (event.getY() < 0) {
@@ -147,6 +151,9 @@ public class InsVoiceRecorderView extends RelativeLayout {
                 }
             }
             return true;
+            case MotionEvent.ACTION_POINTER_DOWN:
+            case MotionEvent.ACTION_POINTER_UP:
+                return true;
         default:
             discardRecording();
             return false;

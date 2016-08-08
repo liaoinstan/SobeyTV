@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/sb_bk"
     android:fitsSystemWindows="true"
-    tools:context="com.sobey.tvcust.ui.activity.MsgActivity">
+    tools:context=".ui.activity.MsgSysActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -23,8 +23,9 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/showingroup"
+        android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -38,10 +39,12 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycle_msg"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:paddingBottom="10dp"
+                android:clipToPadding="false"/>
 
         </com.liaoinstan.springview.widget.SpringView>
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

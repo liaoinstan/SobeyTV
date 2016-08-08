@@ -2,13 +2,11 @@ package com.sobey.tvcust.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,20 +16,18 @@ import com.liaoinstan.springview.container.AliFooter;
 import com.liaoinstan.springview.container.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
 import com.sobey.common.utils.StrUtils;
-import com.sobey.common.utils.TimeUtil;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.CommonNet;
 import com.sobey.tvcust.common.LoadingViewUtil;
 import com.sobey.tvcust.common.SobeyNet;
-import com.sobey.tvcust.entity.Order;
-import com.sobey.tvcust.entity.OrderPojo;
-import com.sobey.tvcust.entity.SBCountDevice;
-import com.sobey.tvcust.entity.SBDevice;
-import com.sobey.tvcust.entity.SBDevicePojo;
+import com.sobey.tvcust.entity.Device;
+import com.sobey.tvcust.entity.DevicePojo;
 import com.sobey.tvcust.entity.SBGroup;
 import com.sobey.tvcust.entity.SBGroupPojo;
-import com.sobey.tvcust.entity.TestEntity;
+import com.sobey.tvcust.entity.TVStation;
+import com.sobey.tvcust.entity.TVStationPojo;
+import com.sobey.tvcust.entity.User;
 import com.sobey.tvcust.interfaces.OnRecycleItemClickListener;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterDevice;
 import com.sobey.tvcust.utils.UrlUtils;
@@ -40,7 +36,6 @@ import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -48,7 +43,7 @@ public class DeviceListActivity extends BaseAppCompatActivity implements OnRecyc
 
     private RecyclerView recyclerView;
     private SpringView springView;
-    private List<SBDevice> results = new ArrayList<>();
+    private List<Device> results = new ArrayList<>();
     private RecycleAdapterDevice adapter;
     private TabLayout tab;
 
@@ -59,7 +54,7 @@ public class DeviceListActivity extends BaseAppCompatActivity implements OnRecyc
     private Callback.Cancelable cancelablemore;
 
     private String stationCode;
-    private String groupcode = "";
+    private String groupCode = "";
 
     private int page;
     private final int PAGE_COUNT = 10;
@@ -92,7 +87,11 @@ public class DeviceListActivity extends BaseAppCompatActivity implements OnRecyc
     }
 
     private void initData() {
-        netGroup();
+        if (AppData.App.getUser().getRoleType() == User.ROLE_COMMOM){
+            netGetStation_group();
+        }else {
+            netGroup();
+        }
 //        netlist();
     }
 
@@ -118,7 +117,7 @@ public class DeviceListActivity extends BaseAppCompatActivity implements OnRecyc
         tab.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                groupcode = (String) tab.getTag();
+                groupCode = (String) tab.getTag();
                 netlist(true);
             }
 
@@ -150,7 +149,9 @@ public class DeviceListActivity extends BaseAppCompatActivity implements OnRecyc
 
     @Override
     public void onItemClick(RecyclerView.ViewHolder viewHolder) {
+        Device device = adapter.getResults().get(viewHolder.getLayoutPosition());
         Intent intent = new Intent(this, DeviceDetailActivity.class);
+        intent.putExtra("hostkey",device.getHostKey());
         startActivity(intent);
     }
 
@@ -165,20 +166,23 @@ public class DeviceListActivity extends BaseAppCompatActivity implements OnRecyc
         params.addHeader("token", AppData.App.getToken());
         params.addBodyParameter("pageNO", 1 + "");
         params.addBodyParameter("pageSize", PAGE_COUNT + "");
-        params.addBodyParameter("stationCode", stationCode);
-        if (!StrUtils.isEmpty(groupcode)) {
-            params.addBodyParameter("groupcode", groupcode);
+        //用户不传stationCode
+        if (AppData.App.getUser().getRoleType()!=User.ROLE_COMMOM) {
+            params.addBodyParameter("stationCode", stationCode);
         }
-        cancelable = CommonNet.samplepost(params, SBDevicePojo.class, new CommonNet.SampleNetHander() {
+        if (!StrUtils.isEmpty(groupCode)) {
+            params.addBodyParameter("groupCode", groupCode);
+        }
+        cancelable = CommonNet.samplepost(params, DevicePojo.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
                 if (pojo == null) netSetError(code, text);
                 else {
-                    SBDevicePojo devicePojo = (SBDevicePojo) pojo;
-                    List<SBDevice> devices = devicePojo.getHostList();
+                    DevicePojo devicePojo = (DevicePojo) pojo;
+                    List<Device> devices = devicePojo.getLists();
                     //有数据才添加，否则显示lack信息
                     if (devices != null && devices.size() != 0) {
-                        List<SBDevice> results = adapter.getResults();
+                        List<Device> results = adapter.getResults();
                         results.clear();
                         results.addAll(devices);
                         freshCtrl();
@@ -233,19 +237,19 @@ public class DeviceListActivity extends BaseAppCompatActivity implements OnRecyc
         params.addBodyParameter("pageNO", page + 1 + "");
         params.addBodyParameter("pageSize", PAGE_COUNT + "");
         params.addBodyParameter("stationCode", stationCode);
-        if (!StrUtils.isEmpty(groupcode)) {
-            params.addBodyParameter("groupcode", groupcode);
+        if (!StrUtils.isEmpty(groupCode)) {
+            params.addBodyParameter("groupCode", groupCode);
         }
-        cancelablemore = CommonNet.samplepost(params, SBDevicePojo.class, new CommonNet.SampleNetHander() {
+        cancelablemore = CommonNet.samplepost(params, DevicePojo.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
                 if (pojo == null) netSetError(code, text);
                 else {
-                    SBDevicePojo devicePojo = (SBDevicePojo) pojo;
-                    List<SBDevice> devices = devicePojo.getHostList();
+                    DevicePojo devicePojo = (DevicePojo) pojo;
+                    List<Device> devices = devicePojo.getLists();
                     //有数据才添加，否则显示lack信息
                     if (devices != null && devices.size() != 0) {
-                        List<SBDevice> results = adapter.getResults();
+                        List<Device> results = adapter.getResults();
                         results.addAll(devices);
                         freshCtrl();
                         page++;
@@ -291,6 +295,31 @@ public class DeviceListActivity extends BaseAppCompatActivity implements OnRecyc
                         tab.addTab(tab.newTab().setText(group.getName()).setTag(group.getCode()));
                     }
                 } else {
+                }
+            }
+
+            @Override
+            public void netSetError(int code, String text) {
+                Toast.makeText(DeviceListActivity.this, text, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void netGetStation_group() {
+        RequestParams params = new RequestParams(AppData.Url.getTVs);
+        params.addHeader("token", AppData.App.getToken());
+        CommonNet.samplepost(params, TVStationPojo.class, new CommonNet.SampleNetHander() {
+            @Override
+            public void netGo(int code, Object pojo, String text, Object obj) {
+                if (pojo == null) netSetError(code, "接口异常");
+                else {
+                    TVStationPojo tvStationPojo = (TVStationPojo) pojo;
+                    List<TVStation> tvStations = tvStationPojo.getDataList();
+                    if (tvStations != null && tvStations.size() != 0) {
+                        stationCode = tvStations.get(0).getStationCode();
+                        netGroup();
+                    } else {
+                    }
                 }
             }
 
