@@ -19,8 +19,10 @@ import com.sobey.tvcust.common.AppConstant;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.CommonNet;
 import com.sobey.tvcust.entity.CommonEntity;
+import com.sobey.tvcust.entity.User;
 import com.sobey.tvcust.ui.dialog.DialogSign;
 import com.sobey.tvcust.ui.fragment.HomeInfoFragment;
+import com.sobey.tvcust.ui.fragment.HomeIntroFragment;
 import com.sobey.tvcust.ui.fragment.HomeQwFragment;
 import com.sobey.tvcust.ui.fragment.HomeMeFragment;
 import com.sobey.tvcust.ui.fragment.HomeOrderFragment;
@@ -174,7 +176,13 @@ public class HomeActivity extends BaseAppCompatActivity implements View.OnClickL
         }
         homeFragment1 = fm.findFragmentByTag("1");
         if (homeFragment1 == null) {
-            homeFragment1 = HomeQwFragment.newInstance(1);
+            User user = AppData.App.getUser();
+            //非产品用户没有全网页面
+            if (user.getRoleType() == User.ROLE_COMMOM && user.getIsPUser() == 1) {
+                homeFragment1 = HomeIntroFragment.newInstance(1);
+            } else {
+                homeFragment1 = HomeQwFragment.newInstance(1);
+            }
         }
         homeFragment2 = fm.findFragmentByTag("2");
         if (homeFragment2 == null) {

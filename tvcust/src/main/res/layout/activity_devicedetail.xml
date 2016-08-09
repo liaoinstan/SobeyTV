@@ -47,232 +47,235 @@
                     android:orientation="vertical">
 
                     <android.support.v7.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@color/white"
-                    app:cardCornerRadius="0dp">
-
-                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="15dp"
-                        android:paddingTop="15dp">
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/white"
+                        app:cardElevation="0dp"
+                        app:cardCornerRadius="0dp">
 
-                        <ImageView
-                            android:id="@+id/imageView2"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="20dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/icon_order_device" />
-
-                        <TextView
-                            android:id="@+id/text_devicedetail_ip"
-                            android:layout_width="wrap_content"
+                        <RelativeLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_alignTop="@+id/imageView2"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_toEndOf="@+id/imageView2"
-                            android:layout_toRightOf="@+id/imageView2"
-                            android:text="IP:192.168.0.12"
-                            android:textColor="@color/sb_text_dark_blank"
-                            android:textSize="@dimen/text_big_nomal" />
+                            android:paddingBottom="15dp"
+                            android:paddingTop="15dp">
 
-                        <TextView
-                            android:id="@+id/text_devicedetail_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignLeft="@+id/text_devicedetail_ip"
-                            android:layout_alignStart="@+id/text_devicedetail_ip"
-                            android:layout_below="@+id/text_devicedetail_ip"
-                            android:layout_marginTop="5dp"
-                            android:text="机器名:ENET-1"
-                            android:textColor="@color/sb_text_dark_blank"
-                            android:textSize="@dimen/text_big_nomal" />
-                    </RelativeLayout>
+                            <ImageView
+                                android:id="@+id/imageView2"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="20dp"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/icon_order_device" />
 
-                </android.support.v7.widget.CardView>
+                            <TextView
+                                android:id="@+id/text_devicedetail_ip"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignTop="@+id/imageView2"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_toEndOf="@+id/imageView2"
+                                android:layout_toRightOf="@+id/imageView2"
+                                android:text="IP:192.168.0.12"
+                                android:textColor="@color/sb_text_dark_blank"
+                                android:textSize="@dimen/text_big_nomal" />
+
+                            <TextView
+                                android:id="@+id/text_devicedetail_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignLeft="@+id/text_devicedetail_ip"
+                                android:layout_alignStart="@+id/text_devicedetail_ip"
+                                android:layout_below="@+id/text_devicedetail_ip"
+                                android:layout_marginTop="5dp"
+                                android:text="机器名:ENET-1"
+                                android:textColor="@color/sb_text_dark_blank"
+                                android:textSize="@dimen/text_big_nomal" />
+                        </RelativeLayout>
+
+                    </android.support.v7.widget.CardView>
 
                     <android.support.v7.widget.CardView
-                    android:id="@+id/card_centerprog"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@color/white"
-                    app:cardCornerRadius="0dp">
-
-                    <LinearLayout
+                        android:id="@+id/card_centerprog"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingBottom="5dp"
-                        android:paddingTop="20dp">
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/white"
+                        app:cardElevation="0dp"
+                        app:cardCornerRadius="0dp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="10dp"
-                            android:layout_marginLeft="20dp"
-                            android:text="核心进程"
-                            android:textColor="@color/sb_text_blank_deep_light"
-                            android:textSize="@dimen/text_big" />
+                            android:orientation="vertical"
+                            android:paddingBottom="5dp"
+                            android:paddingTop="20dp">
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1px"
-                            android:background="@drawable/line" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginLeft="20dp"
+                                android:text="核心进程"
+                                android:textColor="@color/sb_text_blank_deep_light"
+                                android:textSize="@dimen/text_big" />
 
-                        <com.sobey.common.view.FullyListView
-                            android:id="@+id/list_centerprog"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:divider="@drawable/line"
-                            android:dividerHeight="1px" />
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1px"
+                                android:background="@drawable/line" />
 
-                    </LinearLayout>
+                            <com.sobey.common.view.FullyListView
+                                android:id="@+id/list_centerprog"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:divider="@drawable/line"
+                                android:dividerHeight="1px" />
 
-                </android.support.v7.widget.CardView>
+                        </LinearLayout>
+
+                    </android.support.v7.widget.CardView>
 
                     <android.support.v7.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="20dp"
-                    android:background="@color/white"
-                    app:cardCornerRadius="0dp">
-
-                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingBottom="5dp"
-                        android:paddingTop="20dp">
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/white"
+                        app:cardElevation="0dp"
+                        app:cardCornerRadius="0dp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="10dp"
-                            android:layout_marginLeft="20dp"
-                            android:text="在线时长"
-                            android:textColor="@color/sb_text_blank_deep_light"
-                            android:textSize="@dimen/text_big" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1px"
-                            android:background="@drawable/line" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="48dp"
-                            android:gravity="center"
-                            android:orientation="horizontal"
-                            android:paddingLeft="20dp"
-                            android:paddingRight="20dp">
+                            android:orientation="vertical"
+                            android:paddingBottom="5dp"
+                            android:paddingTop="20dp">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="今日时长"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginLeft="20dp"
+                                android:text="在线时长"
                                 android:textColor="@color/sb_text_blank_deep_light"
-                                android:textSize="@dimen/text_nomal" />
+                                android:textSize="@dimen/text_big" />
 
                             <View
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1" />
+                                android:layout_width="match_parent"
+                                android:layout_height="1px"
+                                android:background="@drawable/line" />
 
-                            <TextView
-                                android:id="@+id/text_devicedetail_todaytotaltime"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="8小时"
-                                android:textColor="@color/sb_text_blank_deep_light"
-                                android:textSize="@dimen/text_nomal" />
-                        </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:paddingLeft="20dp"
+                                android:paddingRight="20dp">
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1px"
-                            android:background="@drawable/line" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="今日时长"
+                                    android:textColor="@color/sb_text_blank_deep_light"
+                                    android:textSize="@dimen/text_nomal" />
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="48dp"
-                            android:gravity="center"
-                            android:orientation="horizontal"
-                            android:paddingLeft="20dp"
-                            android:paddingRight="20dp">
+                                <View
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="今日时段"
-                                android:textColor="@color/sb_text_blank_deep_light"
-                                android:textSize="@dimen/text_nomal" />
-
-                            <View
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1" />
-
-                            <TextView
-                                android:id="@+id/text_devicedetail_todayonlinerange"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="9:00~17:00"
-                                android:textColor="@color/sb_text_blank_deep_light"
-                                android:textSize="@dimen/text_nomal" />
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1px"
-                            android:background="@drawable/line" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="48dp"
-                            android:gravity="center"
-                            android:orientation="horizontal"
-                            android:paddingLeft="20dp"
-                            android:paddingRight="20dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="本周时长"
-                                android:textColor="@color/sb_text_blank_deep_light"
-                                android:textSize="@dimen/text_nomal" />
+                                <TextView
+                                    android:id="@+id/text_devicedetail_todaytotaltime"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="8小时"
+                                    android:textColor="@color/sb_text_blank_deep_light"
+                                    android:textSize="@dimen/text_nomal" />
+                            </LinearLayout>
 
                             <View
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1" />
+                                android:layout_width="match_parent"
+                                android:layout_height="1px"
+                                android:background="@drawable/line" />
 
-                            <TextView
-                                android:id="@+id/text_devicedetail_weektotaltime"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="40小时"
-                                android:textColor="@color/sb_text_blank_deep_light"
-                                android:textSize="@dimen/text_nomal" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:paddingLeft="20dp"
+                                android:paddingRight="20dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="今日时段"
+                                    android:textColor="@color/sb_text_blank_deep_light"
+                                    android:textSize="@dimen/text_nomal" />
+
+                                <View
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1" />
+
+                                <TextView
+                                    android:id="@+id/text_devicedetail_todayonlinerange"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="9:00~17:00"
+                                    android:textColor="@color/sb_text_blank_deep_light"
+                                    android:textSize="@dimen/text_nomal" />
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1px"
+                                android:background="@drawable/line" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:paddingLeft="20dp"
+                                android:paddingRight="20dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="本周时长"
+                                    android:textColor="@color/sb_text_blank_deep_light"
+                                    android:textSize="@dimen/text_nomal" />
+
+                                <View
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1" />
+
+                                <TextView
+                                    android:id="@+id/text_devicedetail_weektotaltime"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="40小时"
+                                    android:textColor="@color/sb_text_blank_deep_light"
+                                    android:textSize="@dimen/text_nomal" />
+                            </LinearLayout>
+
                         </LinearLayout>
 
-                    </LinearLayout>
-
-                </android.support.v7.widget.CardView>
+                    </android.support.v7.widget.CardView>
 
                 </LinearLayout>
 

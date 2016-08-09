@@ -32,7 +32,6 @@ import java.util.List;
 public class QuestionActivity extends BaseAppCompatActivity implements OnRecycleItemClickListener{
 
     private RecyclerView recyclerView;
-    private SpringView springView;
     private List<OrderCategory> results = new ArrayList<>();
     private RecycleAdapterQuestion adapter;
 
@@ -63,7 +62,6 @@ public class QuestionActivity extends BaseAppCompatActivity implements OnRecycle
 
     private void initView() {
         showingroup = (ViewGroup) findViewById(R.id.showingroup);
-        springView = (SpringView) findViewById(R.id.spring);
         recyclerView = (RecyclerView) findViewById(R.id.recycle_question);
     }
 
@@ -116,31 +114,6 @@ public class QuestionActivity extends BaseAppCompatActivity implements OnRecycle
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
-
-        springView.setHeader(new AliHeader(this, false));
-        springView.setFooter(new AliFooter(this, false));
-        springView.setListener(new SpringView.OnFreshListener() {
-            @Override
-            public void onRefresh() {
-                initData();new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        springView.onFinishFreshAndLoad();
-                    }
-                }, 2000);
-            }
-
-            @Override
-            public void onLoadmore() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        Snackbar.make(showingroup, "没有更多的数据了", Snackbar.LENGTH_SHORT).show();
-                        springView.onFinishFreshAndLoad();
-                    }
-                }, 2000);
-            }
-        });
     }
 
     private void freshCtrl(){

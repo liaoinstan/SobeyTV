@@ -19,10 +19,12 @@ import android.support.multidex.MultiDex;
 
 import com.sobey.common.utils.ApplicationHelp;
 import com.sobey.tvcust.BuildConfig;
+import com.sobey.tvcust.R;
 
 import org.xutils.x;
 
 import cn.jpush.android.api.JPushInterface;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 public class TVDemoApplication extends Application {
 
@@ -38,6 +40,7 @@ public class TVDemoApplication extends Application {
 		super.onCreate();
 		ApplicationHelp.getApplicationContext(this);
 
+		initFonts();
 		initJpush();
 		initXutils();
 //		initHuanxin();
@@ -57,6 +60,14 @@ public class TVDemoApplication extends Application {
 	private void initXutils(){
 		x.Ext.init(this);
 		x.Ext.setDebug(BuildConfig.DEBUG); // 是否输出debug日志, 开启debug会影响性能.
+	}
+
+	private void initFonts(){
+		CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+				.setDefaultFontPath("fonts/ltx.ttf")
+				.setFontAttrId(R.attr.fontPath)
+				.build()
+		);
 	}
 //	private void initHuanxin(){
 //		TVHelper.getInstance().init(this);

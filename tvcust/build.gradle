@@ -76,4 +76,8 @@ dependencies {
     //permission
 //    compile 'com.github.hotchemi:permissionsdispatcher:2.1.3'
 //    apt 'com.github.hotchemi:permissionsdispatcher-processor:2.1.3'
+    //加载自定义字体
+    compile 'uk.co.chrisjenx:calligraphy:2.2.0'
+    //recycleView header
+    compile 'com.bartoszlipinski:recyclerviewheader2:2.0.1'
 }

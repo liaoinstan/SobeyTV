@@ -390,9 +390,9 @@ public class ReqDescribeActicity extends BaseAppCompatActivity implements View.O
 
         String msg = null;
         if (isAccept) {
-            msg = AppVali.reqfix_addDescribe_withuser(assisterId, detail);
+            msg = AppVali.reqfix_addDescribe_withuser(assisterId, detail,bundleView.getResults());
         } else {
-            msg = AppVali.reqfix_addDescribe(detail);
+            msg = AppVali.reqfix_addDescribe(detail,bundleView.getResults());
         }
         if (msg != null) {
             btn_go.setClickable(true);

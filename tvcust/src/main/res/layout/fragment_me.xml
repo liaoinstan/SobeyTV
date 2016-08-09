@@ -189,12 +189,12 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginBottom="16dp"
                         android:layout_marginTop="10dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -350,10 +350,10 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -480,7 +480,7 @@
 
                         <View
                             android:layout_width="match_parent"
-                            android:layout_height="1dp"
+                            android:layout_height="1px"
                             android:layout_marginLeft="20dp"
                             android:layout_marginRight="20dp"
                             android:background="@drawable/line" />
@@ -616,7 +616,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:background="@color/white"
-                    app:cardCornerRadius="0dp">
+                    app:cardCornerRadius="0dp"
+                    app:cardElevation="0dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -651,22 +652,30 @@
                             android:paddingLeft="22dp"
                             android:text="问题分类统计" />
 
-                        <View
+                        <LinearLayout
+                            android:id="@+id/lay_me_warning"
                             android:layout_width="match_parent"
-                            android:layout_height="1px"
-                            android:layout_marginLeft="58dp"
-                            android:background="@drawable/line" />
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/item_me_warning"
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:drawableLeft="@drawable/icon_me_version"
-                            android:drawablePadding="20dp"
-                            android:foreground="?attr/selectableItemBackground"
-                            android:gravity="center_vertical"
-                            android:paddingLeft="22dp"
-                            android:text="警报类型统计" />
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1px"
+                                android:layout_marginLeft="58dp"
+                                android:background="@drawable/line" />
+
+                            <TextView
+                                android:id="@+id/item_me_warning"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:drawableLeft="@drawable/icon_me_version"
+                                android:drawablePadding="20dp"
+                                android:foreground="?attr/selectableItemBackground"
+                                android:gravity="center_vertical"
+                                android:paddingLeft="22dp"
+                                android:text="警报类型统计" />
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
@@ -678,7 +687,8 @@
                     android:layout_marginBottom="15dp"
                     android:layout_marginTop="15dp"
                     android:background="@color/white"
-                    app:cardCornerRadius="0dp">
+                    app:cardCornerRadius="0dp"
+                    app:cardElevation="0dp">
 
                     <TextView
                         android:id="@+id/item_me_setting"

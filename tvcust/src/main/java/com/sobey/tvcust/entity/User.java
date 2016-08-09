@@ -49,11 +49,20 @@ public class User implements Serializable {
     private int roleType;
     private int roleId;
     private String tvName;
+    private int isPUser;
 
     //本地实例字段
 
     //是否被选中
     private boolean select;
+
+    public int getIsPUser() {
+        return isPUser;
+    }
+
+    public void setIsPUser(int isPUser) {
+        this.isPUser = isPUser;
+    }
 
     public int getRoleId() {
         return roleId;
@@ -219,6 +228,7 @@ public class User implements Serializable {
                 ", roleType=" + roleType +
                 ", roleId=" + roleId +
                 ", tvName='" + tvName + '\'' +
+                ", isPUser=" + isPUser +
                 ", select=" + select +
                 '}';
     }

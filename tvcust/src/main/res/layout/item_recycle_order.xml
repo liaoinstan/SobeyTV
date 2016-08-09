@@ -3,6 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardElevation="0dp"
     app:cardCornerRadius="0dp"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
@@ -131,13 +133,14 @@
 
             <TextView
                 android:id="@+id/text_order_allocate"
-                android:textColor="@color/white"
+                android:textColor="@color/sb_blue"
                 android:textSize="@dimen/text_nomal"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:gravity="center"
-                android:background="@drawable/shape_rect_corner_blue"
+                android:background="@drawable/shape_rect_corner_blue_line"
+                android:foreground="?attr/selectableItemBackground"
                 android:paddingBottom="5dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
@@ -146,13 +149,14 @@
 
             <TextView
                 android:id="@+id/text_order_eva"
-                android:textColor="@color/white"
+                android:textColor="@color/sb_blue"
                 android:textSize="@dimen/text_nomal"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:gravity="center"
-                android:background="@drawable/shape_rect_corner_blue"
+                android:background="@drawable/shape_rect_corner_blue_line"
+                android:foreground="?attr/selectableItemBackground"
                 android:paddingBottom="5dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
@@ -161,13 +165,14 @@
 
             <TextView
                 android:id="@+id/text_order_finish"
-                android:textColor="@color/white"
+                android:textColor="@color/sb_blue"
                 android:textSize="@dimen/text_nomal"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:gravity="center"
-                android:background="@drawable/shape_rect_corner_blue"
+                android:background="@drawable/shape_rect_corner_blue_line"
+                android:foreground="?attr/selectableItemBackground"
                 android:paddingBottom="5dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
@@ -176,18 +181,19 @@
 
             <TextView
                 android:id="@+id/text_order_go"
-                android:textColor="@color/white"
+                android:textColor="@color/sb_blue"
                 android:textSize="@dimen/text_nomal"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:gravity="center"
-                android:background="@drawable/shape_rect_corner_blue"
+                android:background="@drawable/shape_rect_corner_blue_line"
+                android:foreground="?attr/selectableItemBackground"
                 android:paddingBottom="5dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:paddingTop="5dp"
-                android:text="查看订单" />
+                android:text="查看进度" />
         </LinearLayout>
 
     </LinearLayout>

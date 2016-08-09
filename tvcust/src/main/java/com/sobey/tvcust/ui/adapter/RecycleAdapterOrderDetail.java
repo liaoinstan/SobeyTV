@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.sobey.common.utils.StrUtils;
 import com.sobey.common.utils.TimeUtil;
 import com.sobey.common.view.BundleView2;
 import com.sobey.common.view.bundle.BundleEntity;
@@ -60,9 +61,15 @@ public class RecycleAdapterOrderDetail extends RecyclerView.Adapter<RecycleAdapt
         final int pos = holder.getLayoutPosition();
         OrderDescribe describe = results.get(pos);
 
+
         holder.text_title.setText(OrderStatusHelper.getDescribeName(user.getRoleType(),describe.getFrom(), describe.getTo()));
-        holder.text_time.setText(TimeUtil.getTimeFor("yyyy-MM-dd  HH:mm", new Date(results.get(pos).getTime())));
-        holder.text_detail.setText(results.get(pos).getDetail());
+        holder.text_time.setText(TimeUtil.getTimeFor("yyyy-MM-dd  HH:mm", new Date(describe.getTime())));
+        if (!StrUtils.isEmpty(describe.getDetail())) {
+            holder.text_detail.setVisibility(View.VISIBLE);
+            holder.text_detail.setText(describe.getDetail());
+        }else {
+            holder.text_detail.setVisibility(View.GONE);
+        }
 
         ///bundle
 

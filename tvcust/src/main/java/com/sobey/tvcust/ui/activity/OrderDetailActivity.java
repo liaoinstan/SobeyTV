@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bartoszlipinski.recyclerviewheader2.RecyclerViewHeader;
 import com.bumptech.glide.Glide;
 import com.dd.CircularProgressButton;
 import com.sobey.tvcust.common.CancelableCollector;
@@ -274,6 +275,9 @@ public class OrderDetailActivity extends BaseAppCompatActivity implements View.O
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new DividerItemDecoration(this));
         recyclerView.setAdapter(adapter);
+        RecyclerViewHeader header = (RecyclerViewHeader) findViewById(R.id.header);
+        header.attachTo(recyclerView);
+
         //只有用户才可以点击item
         if (User.ROLE_COMMOM == user.getRoleType()) {
             adapter.setOnItemClickListener(this);

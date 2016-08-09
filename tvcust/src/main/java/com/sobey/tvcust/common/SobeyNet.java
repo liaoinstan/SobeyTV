@@ -153,13 +153,13 @@ public class SobeyNet {
                         hander.netSetError(code, "服务器异常：" + nex.getCode());
                     }
                 } else if (ex instanceof ConnectException) {
-                    LogUtil.d(ex.getMessage());
+                    LogUtil.d("ConnectException");
                     hander.netSetError(code, "请检查网络连接");
                 } else if (ex instanceof SocketTimeoutException) {
-                    LogUtil.d(ex.getMessage());
+                    LogUtil.d("SocketTimeoutException");
                     hander.netSetError(code, "请检查网络连接");
                 } else {
-                    LogUtil.d(ex.getMessage());
+                    LogUtil.d("other Exception");
                     hander.netSetError(code, "请检查网络连接");
                 }
             } catch (Exception e) {

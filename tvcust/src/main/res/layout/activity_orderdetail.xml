@@ -16,20 +16,20 @@
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:elevation="0dp"
             android:theme="@style/AppTheme.AppBarOverlay">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_scrollFlags="scroll|enterAlwaysCollapsed|snap">
+                app:layout_scrollFlags="enterAlwaysCollapsed|snap">
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     android:background="?attr/colorPrimary"
-
                     app:navigationIcon="@drawable/icon_back"
                     app:popupTheme="@style/AppTheme.PopupOverlay">
 
@@ -58,144 +58,9 @@
                     </LinearLayout>
                 </android.support.v7.widget.Toolbar>
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:paddingBottom="15dp"
-                    android:paddingTop="15dp">
-
-                    <ImageView
-                        android:id="@+id/img_orderdetail_header"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="20dp"
-                        android:scaleType="center"
-                        android:src="@drawable/icon_order_fix" />
-
-                    <TextView
-                        android:id="@+id/text_orderdetail_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignTop="@+id/img_orderdetail_header"
-                        android:layout_marginLeft="10dp"
-                        android:layout_toEndOf="@+id/img_orderdetail_header"
-                        android:layout_toRightOf="@+id/img_orderdetail_header"
-                        android:textColor="@color/sb_text_blank"
-                        android:textSize="@dimen/text_nomal" />
-
-                    <TextView
-                        android:id="@+id/text_orderdetail_problem"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignLeft="@+id/text_orderdetail_name"
-                        android:layout_alignStart="@+id/text_orderdetail_name"
-                        android:layout_below="@+id/text_orderdetail_name"
-                        android:layout_marginTop="2dp"
-                        android:text="问题："
-                        android:textColor="@color/sb_text_dark_blank"
-                        android:textSize="@dimen/text_nomal_small" />
-
-                    <TextView
-                        android:id="@+id/text_orderdetail_num"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignLeft="@+id/text_orderdetail_problem"
-                        android:layout_alignStart="@+id/text_orderdetail_problem"
-                        android:layout_below="@+id/text_orderdetail_problem"
-                        android:layout_marginTop="2dp"
-                        android:text="订单号："
-                        android:textColor="@color/sb_text_dark_blank"
-                        android:textSize="@dimen/text_nomal_small" />
-                </RelativeLayout>
-
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_scrollFlags="scroll|enterAlways"
-                android:background="@color/white"
-                android:orientation="vertical">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@drawable/line" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingBottom="20dp"
-                    android:paddingTop="20dp">
-
-                    <TextView
-                        android:id="@+id/text_orderdetail_user_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:text="申请人："
-                        android:textColor="@color/sb_text_blank"
-                        android:textSize="@dimen/text_nomal" />
-
-                    <TextView
-                        android:id="@+id/text_orderdetail_user_phone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="5dp"
-                        android:text="电话："
-                        android:textColor="@color/sb_text_dark_blank"
-                        android:textSize="@dimen/text_nomal_small" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/lay_orderdetail_tsc"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="gone">
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@drawable/line" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingBottom="20dp"
-                        android:paddingTop="20dp">
-
-                        <TextView
-                            android:id="@+id/text_orderdetail_tsc_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="20dp"
-                            android:text="处理人："
-                            android:textColor="@color/sb_text_blank"
-                            android:textSize="@dimen/text_nomal" />
-
-                        <TextView
-                            android:id="@+id/text_orderdetail_tsc_phone"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginTop="5dp"
-                            android:text="电话："
-                            android:textColor="@color/sb_text_dark_blank"
-                            android:textSize="@dimen/text_nomal_small" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-            </LinearLayout>
 
         </android.support.design.widget.AppBarLayout>
 
@@ -212,12 +77,163 @@
                 android:layout_height="0dp"
                 android:layout_weight="1">
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycle_orderdetail"
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clipToPadding="false"
-                    android:paddingBottom="10dp" />
+                    android:layout_height="match_parent">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycle_orderdetail"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clipToPadding="false"
+                        android:paddingBottom="10dp" />
+
+                    <com.bartoszlipinski.recyclerviewheader2.RecyclerViewHeader
+                        android:id="@+id/header"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|top">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layout_scrollFlags="scroll|enterAlways"
+                            android:background="@color/white"
+                            android:orientation="vertical">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/white"
+                                android:paddingBottom="15dp"
+                                android:paddingTop="15dp">
+
+                                <ImageView
+                                    android:id="@+id/img_orderdetail_header"
+                                    android:layout_width="60dp"
+                                    android:layout_height="60dp"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="20dp"
+                                    android:scaleType="center"
+                                    android:src="@drawable/icon_order_fix" />
+
+                                <TextView
+                                    android:id="@+id/text_orderdetail_name"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignTop="@+id/img_orderdetail_header"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_toEndOf="@+id/img_orderdetail_header"
+                                    android:layout_toRightOf="@+id/img_orderdetail_header"
+                                    android:textColor="@color/sb_text_blank"
+                                    android:textSize="@dimen/text_nomal" />
+
+                                <TextView
+                                    android:id="@+id/text_orderdetail_problem"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignLeft="@+id/text_orderdetail_name"
+                                    android:layout_alignStart="@+id/text_orderdetail_name"
+                                    android:layout_below="@+id/text_orderdetail_name"
+                                    android:layout_marginTop="2dp"
+                                    android:text="问题："
+                                    android:textColor="@color/sb_text_dark_blank"
+                                    android:textSize="@dimen/text_nomal_small" />
+
+                                <TextView
+                                    android:id="@+id/text_orderdetail_num"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignLeft="@+id/text_orderdetail_problem"
+                                    android:layout_alignStart="@+id/text_orderdetail_problem"
+                                    android:layout_below="@+id/text_orderdetail_problem"
+                                    android:layout_marginTop="2dp"
+                                    android:text="订单号："
+                                    android:textColor="@color/sb_text_dark_blank"
+                                    android:textSize="@dimen/text_nomal_small" />
+                            </RelativeLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1px"
+                                android:background="@drawable/line" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:paddingBottom="20dp"
+                                android:paddingTop="20dp">
+
+                                <TextView
+                                    android:id="@+id/text_orderdetail_user_name"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="20dp"
+                                    android:text="申请人："
+                                    android:textColor="@color/sb_text_blank"
+                                    android:textSize="@dimen/text_nomal" />
+
+                                <TextView
+                                    android:id="@+id/text_orderdetail_user_phone"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="20dp"
+                                    android:layout_marginTop="5dp"
+                                    android:text="电话："
+                                    android:textColor="@color/sb_text_dark_blank"
+                                    android:textSize="@dimen/text_nomal_small" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/lay_orderdetail_tsc"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:visibility="gone">
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1px"
+                                    android:background="@drawable/line" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:paddingBottom="20dp"
+                                    android:paddingTop="20dp">
+
+                                    <TextView
+                                        android:id="@+id/text_orderdetail_tsc_name"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="20dp"
+                                        android:text="处理人："
+                                        android:textColor="@color/sb_text_blank"
+                                        android:textSize="@dimen/text_nomal" />
+
+                                    <TextView
+                                        android:id="@+id/text_orderdetail_tsc_phone"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="20dp"
+                                        android:layout_marginTop="5dp"
+                                        android:text="电话："
+                                        android:textColor="@color/sb_text_dark_blank"
+                                        android:textSize="@dimen/text_nomal_small" />
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+                    </com.bartoszlipinski.recyclerviewheader2.RecyclerViewHeader>
+
+                </FrameLayout>
 
             </android.support.v4.widget.SwipeRefreshLayout>
 

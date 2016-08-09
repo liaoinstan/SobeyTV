@@ -19,14 +19,6 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay">
             <!--app:layout_scrollFlags="scroll|enterAlways"-->
-            <ImageView
-                android:id="@+id/btn_go_msg"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="right"
-                android:scaleType="center"
-                android:src="@drawable/home_qw_msg_hot" />
-
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
@@ -207,25 +199,6 @@
                                 android:textSize="@dimen/text_nomal" />
 
                         </LinearLayout>
-
-                        <View
-                            android:visibility="gone"
-                            android:layout_width="match_parent"
-                            android:layout_height="1px"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginRight="20dp"
-                            android:background="@drawable/line" />
-
-                        <TextView
-                            android:visibility="gone"
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:layout_weight="1"
-                            android:layout_marginBottom="5dp"
-                            android:gravity="center"
-                            android:text="点击信息即可复制"
-                            android:textColor="@color/sb_text_dark"
-                            android:textSize="@dimen/text_nomal" />
 
 
                     </LinearLayout>

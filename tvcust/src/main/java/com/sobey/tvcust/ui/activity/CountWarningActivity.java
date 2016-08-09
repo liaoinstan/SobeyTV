@@ -277,7 +277,7 @@ public class CountWarningActivity extends BaseAppCompatActivity implements View.
             for (TVStation station : stations) {
                 ret += station.getStationCode() + "|";
             }
-            ret = ret.substring(0, ret.length() - 1);
+            ret = ret.substring(0, ret.length() - 1).replaceAll("\\|", "%7C");
             return ret;
         }
     }

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.sobey.common.utils.FontUtils;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppConstant;
 import com.sobey.tvcust.common.AppData;
@@ -33,7 +34,7 @@ import org.xutils.http.RequestParams;
 /**
  * Created by Administrator on 2016/6/2 0002.
  */
-public class HomeMeFragment extends BaseFragment implements View.OnClickListener{
+public class HomeMeFragment extends BaseFragment implements View.OnClickListener {
 
     private int position;
     private View rootView;
@@ -44,6 +45,7 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
     private View item_me_question;
     private View item_me_warning;
     private View item_me_setting;
+    private View lay_me_warning;
     private View btn_go_medetail;
     private ImageView img_me_header;
     private TextView text_me_name;
@@ -72,22 +74,22 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
     }
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
 
     @Subscribe
     public void onEventMainThread(String flagSpc) {
-        if (AppConstant.FLAG_UPDATE_ME_SIGN.equals(AppConstant.getFlag(flagSpc))){
+        if (AppConstant.FLAG_UPDATE_ME_SIGN.equals(AppConstant.getFlag(flagSpc))) {
             String days = AppConstant.getStr(flagSpc);
-            text_me_signs.setText(days+"天");
+            text_me_signs.setText(days + "天");
         }
     }
 
     @Subscribe
     public void onEventMainThread(Integer flag) {
-        if (AppConstant.FLAG_UPDATE_ME.equals(flag)){
+        if (AppConstant.FLAG_UPDATE_ME.equals(flag)) {
             user = AppData.App.getUser();
             Glide.with(this).load(user.getAvatar()).placeholder(R.drawable.me_header_defalt).crossFade().into(img_me_header);
             text_me_name.setText(user.getRealName());
@@ -104,6 +106,7 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        //FontUtils.font_ltx(getActivity(),getView().findViewById(R.id.showingroup));
         initBase();
         initView();
         initData();
@@ -119,6 +122,7 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
         item_me_order = getView().findViewById(R.id.item_me_order);
         item_me_question = getView().findViewById(R.id.item_me_question);
         item_me_warning = getView().findViewById(R.id.item_me_warning);
+        lay_me_warning = getView().findViewById(R.id.lay_me_warning);
         item_me_setting = getView().findViewById(R.id.item_me_setting);
         img_me_header = (ImageView) getView().findViewById(R.id.img_me_header);
         text_me_name = (TextView) getView().findViewById(R.id.text_me_name);
@@ -131,14 +135,22 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
         btn_go_medetail.setOnClickListener(this);
 
         //只有用户有累计报警
-        if (user.getRoleType()==User.ROLE_COMMOM){
+        if (user.getRoleType() == User.ROLE_COMMOM) {
             lay_me_warnings.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             lay_me_warnings.setVisibility(View.GONE);
         }
 
+        //是产品用户才显示报警类型统计按钮
+        if (user.getRoleType() == User.ROLE_COMMOM && user.getIsPUser() == 1) {
+            //是非产品用户
+            lay_me_warning.setVisibility(View.GONE);
+        } else {
+            lay_me_warning.setVisibility(View.VISIBLE);
+        }
+
         //本地数据初始化展示
-        if (user!=null) {
+        if (user != null) {
             setUserInfo();
         }
     }
@@ -156,7 +168,7 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
         item_me_setting.setOnClickListener(this);
     }
 
-    private void setUserInfo(){
+    private void setUserInfo() {
         Glide.with(this).load(user.getAvatar()).placeholder(R.drawable.me_header_defalt).crossFade().into(img_me_header);
 
 //            ImageOptions imageOptions = new ImageOptions.Builder()
@@ -173,7 +185,7 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
     @Override
     public void onClick(View v) {
         Intent intent = new Intent();
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_go_medetail:
                 intent.setClass(getActivity(), MeDetailActivity.class);
                 startActivity(intent);
@@ -197,28 +209,29 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
         }
     }
 
-    private void netCountOrder(){
+    private void netCountOrder() {
         RequestParams params = new RequestParams(AppData.Url.countOrders);
         params.addHeader("token", AppData.App.getToken());
-        CommonNet.samplepost(params,CommonEntity.class,new CommonNet.SampleNetHander(){
+        CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
-                if (pojo==null){
-                    netSetError(code,"错误:返回数据为空");
-                }else {
+                if (pojo == null) {
+                    netSetError(code, "错误:返回数据为空");
+                } else {
                     CommonEntity com = (CommonEntity) pojo;
                     int count = com.getCount();
-                    text_me_orders.setText(count+"次");
+                    text_me_orders.setText(count + "次");
                 }
             }
+
             @Override
             public void netSetError(int code, String text) {
-                Toast.makeText(getActivity(),text, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void netCountSign(){
+    private void netCountSign() {
         RequestParams params = new RequestParams(AppData.Url.getUserSign);
         params.addHeader("token", AppData.App.getToken());
         CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
@@ -228,13 +241,13 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
                 else {
                     CommonEntity com = (CommonEntity) pojo;
                     int signDays = com.getSignDays();
-                    text_me_signs.setText(signDays+"天");
+                    text_me_signs.setText(signDays + "天");
                 }
             }
 
             @Override
             public void netSetError(int code, String text) {
-                Toast.makeText(getActivity(),text, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
             }
         });
     }

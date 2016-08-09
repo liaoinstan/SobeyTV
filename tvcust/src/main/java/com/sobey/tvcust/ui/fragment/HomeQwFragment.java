@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.sobey.common.utils.FontUtils;
 import com.sobey.common.utils.StrUtils;
 import com.sobey.common.utils.TimeUtil;
 import com.sobey.tvcust.R;
@@ -45,13 +46,13 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/6/2 0002.
  */
-public class HomeQwFragment extends BaseFragment implements View.OnClickListener, OnRecycleItemClickListener {
+public class HomeQwFragment extends BaseFragment implements OnRecycleItemClickListener {
 
     private RecyclerView recyclerView;
     private RecycleAdapterQW adapter;
     private View showin;
     private ViewGroup showingroup;
-    private View btn_go_msg;
+
 
     private int position;
     private View rootView;
@@ -102,7 +103,6 @@ public class HomeQwFragment extends BaseFragment implements View.OnClickListener
     private void initView() {
         recyclerView = (RecyclerView) getView().findViewById(R.id.recycle_home_qw);
         showingroup = (ViewGroup) getView().findViewById(R.id.showingroup);
-        btn_go_msg = getView().findViewById(R.id.btn_go_msg);
     }
 
     private void initData() {
@@ -149,23 +149,11 @@ public class HomeQwFragment extends BaseFragment implements View.OnClickListener
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), LinearLayoutManager.VERTICAL, false));
         adapter.setOnItemClickListener(this);
-        btn_go_msg.setOnClickListener(this);
     }
 
     private void freshCtrl() {
 //        adapter.notifyDataSetChanged();
         adapter.notifyItemRangeChanged(1,adapter.getResults().size());
-    }
-
-    @Override
-    public void onClick(View v) {
-        Intent intent = new Intent();
-        switch (v.getId()) {
-            case R.id.btn_go_msg:
-                intent.setClass(getActivity(), MsgSelectActivity.class);
-                startActivity(intent);
-                break;
-        }
     }
 
     @Override

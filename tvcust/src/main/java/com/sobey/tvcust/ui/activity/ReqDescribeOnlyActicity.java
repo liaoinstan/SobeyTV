@@ -296,7 +296,7 @@ public class ReqDescribeOnlyActicity extends BaseAppCompatActivity implements Vi
         String detail = edit_reqfix_detail.getText().toString();
 
         String msg = null;
-        msg = AppVali.reqfix_addDescribe(detail);
+        msg = AppVali.reqfix_addDescribe(detail,bundleView.getResults());
         if (msg != null) {
             btn_go.setClickable(true);
             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();

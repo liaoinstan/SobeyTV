@@ -21,6 +21,7 @@ import com.sobey.tvcust.ui.activity.EvaActivity;
 import com.sobey.tvcust.ui.activity.EvaDetailActivity;
 import com.sobey.tvcust.ui.activity.OrderAllocateActivity;
 import com.sobey.tvcust.ui.activity.OrderDetailActivity;
+import com.sobey.tvcust.ui.activity.OrderProgActivity;
 import com.sobey.tvcust.ui.activity.ReqDescribeActicity;
 import com.sobey.tvcust.ui.activity.ReqDescribeOnlyActicity;
 
@@ -85,9 +86,13 @@ public class RecycleAdapterOrder extends RecyclerView.Adapter<RecycleAdapterOrde
         holder.text_go.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, OrderDetailActivity.class);
-                intent.putExtra("id", order.getId());
-                intent.putExtra("order", order);
+//                Intent intent = new Intent(context, OrderDetailActivity.class);
+//                intent.putExtra("id", order.getId());
+//                intent.putExtra("order", order);
+//                context.startActivity(intent);
+                //新改动：这个按钮不再是跳转详情页而是进度页
+                Intent intent = new Intent(context, OrderProgActivity.class);
+                intent.putExtra("orderId", order.getId());
                 context.startActivity(intent);
             }
         });

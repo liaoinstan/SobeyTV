@@ -26,6 +26,8 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <!--全局dialog-->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"></uses-permission>
+    <!--拨打电话-->
+    <uses-permission android:name="android.permission.CALL_PHONE"></uses-permission>
 
     <application
         android:name=".app.TVDemoApplication"

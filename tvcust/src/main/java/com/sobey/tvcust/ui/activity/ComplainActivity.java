@@ -119,7 +119,7 @@ public class ComplainActivity extends BaseAppCompatActivity implements View.OnCl
         String describe = edit_complain_describe.getText().toString();
 
         btn_go.setProgress(50);
-        String msg = AppVali.reqfix_addDescribe(describe);
+        String msg = AppVali.complain_commit(describe);
         if (msg != null) {
             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
             btn_go.setProgress(-1);

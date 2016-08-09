@@ -29,6 +29,8 @@ import com.sobey.tvcust.entity.CountTabPojo;
 import com.sobey.tvcust.entity.Order;
 import com.sobey.tvcust.entity.OrderPojo;
 import com.sobey.tvcust.entity.User;
+import com.sobey.tvcust.interfaces.OnRecycleItemClickListener;
+import com.sobey.tvcust.ui.activity.OrderDetailActivity;
 import com.sobey.tvcust.ui.activity.ReqDescribeOnlyActicity;
 import com.sobey.tvcust.ui.activity.ReqfixActicity;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterOrder;
@@ -45,7 +47,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/6/2 0002.
  */
-public class HomeOrderFragment extends BaseFragment implements View.OnClickListener {
+public class HomeOrderFragment extends BaseFragment implements View.OnClickListener,OnRecycleItemClickListener {
 
     private int position;
     private View rootView;
@@ -218,13 +220,18 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
             tabText.setText(t.getText());
             if (i == 0) {
                 tabCount.setVisibility(View.GONE);
+                //进入的时候把全部设置为选中状态，（android bug 特殊处理）
+                tabText.setSelected(true);
             }
         }
-
         tab.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 String text = tab.getText().toString();
+                if (!text.startsWith("全部")){
+                    //点击其他按钮把全部变成未选择状态，（android bug 特殊处理）
+                    ((ViewGroup)HomeOrderFragment.this.tab.getTabAt(0).getCustomView()).getChildAt(0).setSelected(false);
+                }
                 if (text.startsWith("全部")) {
                     status = null;
                     isCheck = null;
@@ -324,6 +331,7 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
         adapter = new RecycleAdapterOrder(getActivity(), R.layout.item_recycle_order, results);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener(this);
         adapter.setOkListener(new RecycleAdapterOrder.OnOkListener() {
             @Override
             public void onCancleClick(final RecycleAdapterOrder.Holder holder) {
@@ -587,5 +595,14 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
                 tabCount.setText(count.getHappening() + "");
             }
         }
+    }
+
+    @Override
+    public void onItemClick(RecyclerView.ViewHolder viewHolder) {
+        Order order = adapter.getResults().get(viewHolder.getLayoutPosition());
+        Intent intent = new Intent(getActivity(), OrderDetailActivity.class);
+        intent.putExtra("id", order.getId());
+        intent.putExtra("order", order);
+        getActivity().startActivity(intent);
     }
 }

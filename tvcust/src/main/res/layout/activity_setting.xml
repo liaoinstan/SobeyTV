@@ -33,6 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
+            app:cardElevation="0dp"
             app:cardCornerRadius="0dp">
 
             <LinearLayout
@@ -113,6 +114,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@color/white"
+            app:cardElevation="0dp"
             app:cardCornerRadius="0dp">
 
             <LinearLayout
@@ -176,6 +178,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@color/white"
+            app:cardElevation="0dp"
             app:cardCornerRadius="0dp">
 
             <TextView

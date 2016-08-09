@@ -161,6 +161,7 @@ public class CommonNet {
             } catch (Exception e) {
                 e.printStackTrace();
                 hander.netException(code, "未知错误");
+                Toast.makeText(ApplicationHelp.getApplicationContext(),"未知错误",Toast.LENGTH_SHORT).show();
             }
         }
 
