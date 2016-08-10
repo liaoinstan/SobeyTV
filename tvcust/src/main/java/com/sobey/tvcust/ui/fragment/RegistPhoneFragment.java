@@ -116,6 +116,7 @@ public class RegistPhoneFragment extends BaseFragment implements View.OnClickLis
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
+                                    valicode = "";
                                     fatherpager.setCurrentItem(1);
                                     btn_go.setClickable(true);
                                     btn_go.setProgress(0);

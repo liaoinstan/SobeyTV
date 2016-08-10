@@ -133,13 +133,12 @@ public class HomeServerFragment extends BaseFragment implements View.OnClickList
                 break;
             }
             case R.id.item_server_dialog_phone:
-//                c.setPrimaryClip(ClipData.newPlainText(null, text_phone.getText().toString()));
                 //用intent启动拨打电话
-                if (PermissionsUtil.requsetCall(getActivity(), getView().findViewById(R.id.showingroup))) {
-                    String number = text_phone.getText().toString();
-                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + number));
-                    startActivity(intent);
-                }
+                String number = text_phone.getText().toString();
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                Uri data = Uri.parse("tel:" + number);
+                intent.setData(data);
+                startActivity(intent);
                 break;
             case R.id.item_server_dialog_qq:
                 c.setPrimaryClip(ClipData.newPlainText(null, text_qq.getText().toString()));

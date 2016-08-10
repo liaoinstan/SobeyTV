@@ -125,13 +125,13 @@ public class SettingActivity extends BaseAppCompatActivity implements View.OnCli
             case R.id.item_setting_about:
                 intent.setClass(this, WebActivity.class);
                 intent.putExtra("title", "关于我们");
-                intent.putExtra("url", "http://cn.bing.com");//https://github.com    //http://cn.bing.com
+                intent.putExtra("url", AppData.Url.pageAbout);//https://github.com    //http://cn.bing.com
                 startActivity(intent);
                 break;
             case R.id.item_setting_clause:
                 intent.setClass(this, WebActivity.class);
                 intent.putExtra("title", "服务条款");
-                intent.putExtra("url", "http://cn.bing.com");//https://github.com    //http://cn.bing.com
+                intent.putExtra("url", AppData.Url.pageClause);//https://github.com    //http://cn.bing.com
                 startActivity(intent);
                 break;
             case R.id.item_setting_version:

@@ -47,7 +47,6 @@ public class PermissionsUtil {
             Manifest.permission.INTERNET, Manifest.permission.CAMERA,
             Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.ACCESS_WIFI_STATE,
             Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_CONTACTS,
-            Manifest.permission.CALL_PHONE
     };
 
     public static void checkAndRequestPermissions(final Activity activity, View showgroup) {
@@ -111,11 +110,6 @@ public class PermissionsUtil {
 
     public static boolean requsetScan(final Activity activity, View showgroup) {
         String[] permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
-        return checkAndRequestLocalPermissions(activity, showgroup, permissions);
-    }
-
-    public static boolean requsetCall(final Activity activity, View showgroup) {
-        String[] permissions = new String[]{Manifest.permission.CALL_PHONE};
         return checkAndRequestLocalPermissions(activity, showgroup, permissions);
     }
 

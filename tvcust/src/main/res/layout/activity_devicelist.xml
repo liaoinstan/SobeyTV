@@ -11,6 +11,7 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:elevation="0dp"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
@@ -30,7 +31,7 @@
             android:background="@color/white"
             app:tabIndicatorColor="@color/sb_blue"
             app:tabIndicatorHeight="3dp"
-            app:tabSelectedTextColor="@color/sb_text_blank_deep"
+            app:tabSelectedTextColor="@color/sb_blue"
             app:tabTextColor="@color/sb_text_blank" />
 
     </android.support.design.widget.AppBarLayout>

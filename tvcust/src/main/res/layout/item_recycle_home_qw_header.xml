@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
-    android:layout_marginTop="10dp"
+    android:layout_marginLeft="0dp"
+    android:layout_marginRight="0dp"
+    android:layout_marginTop="0dp"
     app:cardElevation="0dp"
     android:background="@color/white"
     app:cardCornerRadius="0dp">
@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="37dp"
+            android:paddingBottom="10dp"
             android:paddingTop="37dp">
 
             <LinearLayout
@@ -29,7 +29,8 @@
                 android:orientation="vertical">
 
                 <TextView
-                    style="@style/text_nomal_blue"
+                    android:textColor="@color/sb_text_blank"
+                    android:textSize="@dimen/text_nomal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -39,7 +40,8 @@
 
                 <TextView
                     android:id="@+id/text_item_qw_days"
-                    style="@style/text_subig_blue"
+                    android:textSize="@dimen/text_subig"
+                    android:textColor="@color/sb_text_blank_deep"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -55,7 +57,8 @@
                 android:orientation="vertical">
 
                 <TextView
-                    style="@style/text_nomal_blue"
+                    android:textColor="@color/sb_text_blank"
+                    android:textSize="@dimen/text_nomal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -65,7 +68,8 @@
 
                 <TextView
                     android:id="@+id/text_item_qw_servcount"
-                    style="@style/text_subig_blue"
+                    android:textSize="@dimen/text_subig"
+                    android:textColor="@color/sb_text_blank_deep"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -81,7 +85,8 @@
                 android:orientation="vertical">
 
                 <TextView
-                    style="@style/text_nomal_blue"
+                    android:textColor="@color/sb_text_blank"
+                    android:textSize="@dimen/text_nomal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -91,7 +96,8 @@
 
                 <TextView
                     android:id="@+id/text_item_qw_hours"
-                    style="@style/text_subig_blue"
+                    android:textSize="@dimen/text_subig"
+                    android:textColor="@color/sb_text_blank_deep"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

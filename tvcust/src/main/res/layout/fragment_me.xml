@@ -668,7 +668,7 @@
                                 android:id="@+id/item_me_warning"
                                 android:layout_width="match_parent"
                                 android:layout_height="50dp"
-                                android:drawableLeft="@drawable/icon_me_version"
+                                android:drawableLeft="@drawable/icon_me_countwarning"
                                 android:drawablePadding="20dp"
                                 android:foreground="?attr/selectableItemBackground"
                                 android:gravity="center_vertical"
@@ -717,6 +717,7 @@
         <!--app:layout_scrollFlags="scroll|enterAlways"-->
 
         <ImageView
+            android:visibility="gone"
             android:id="@+id/btn_go_medetail"
             android:layout_width="40dp"
             android:layout_height="40dp"

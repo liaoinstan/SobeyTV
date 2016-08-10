@@ -90,6 +90,7 @@ public class CountQuestionActivity extends BaseAppCompatActivity implements View
 
     private void initBase() {
         dialog = new DialogMouthPicker(this);
+        colors.addAll(ColorsHelper.colors);
         for (int c : ColorTemplate.LIBERTY_COLORS)
             colors.add(c);
         for (int c : ColorTemplate.PASTEL_COLORS)
@@ -101,7 +102,6 @@ public class CountQuestionActivity extends BaseAppCompatActivity implements View
         for (int c : ColorTemplate.VORDIPLOM_COLORS)
             colors.add(c);
         colors.add(ColorTemplate.getHoloBlue());
-        colors.addAll(ColorsHelper.colors);
     }
 
     private void initView() {

@@ -1,6 +1,7 @@
 package com.sobey.common.view.bundle;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.sobey.common.R;
 import com.sobey.common.common.CustomBitmapLoadCallBack;
+import com.sobey.common.utils.DensityUtil;
 import com.sobey.common.view.BundleView2;
 
 import org.xutils.image.ImageOptions;
@@ -111,6 +113,14 @@ public class RecycleAdapterBundle extends RecyclerView.Adapter<RecycleAdapterBun
                 }
             }
         });
+        if (enable){
+            int padding = DensityUtil.dp2px(context, 5);
+            holder.card_bundle.setContentPadding(padding,padding,padding,padding);
+            holder.card_bundle.setRadius(DensityUtil.dp2px(context, 4));
+        }else {
+            holder.card_bundle.setRadius(0);
+            holder.card_bundle.setContentPadding(0,0,0,0);
+        }
     }
 
     @Override
@@ -122,12 +132,14 @@ public class RecycleAdapterBundle extends RecyclerView.Adapter<RecycleAdapterBun
         private ImageView img_bundle_show;
         private ImageView img_bundle_delete;
         private ImageView img_bundle_play;
+        private CardView card_bundle;
 
         public Holder(View itemView) {
             super(itemView);
             img_bundle_show = (ImageView) itemView.findViewById(R.id.img_bundle_show);
             img_bundle_delete = (ImageView) itemView.findViewById(R.id.img_bundle_delete);
             img_bundle_play = (ImageView) itemView.findViewById(R.id.img_bundle_play);
+            card_bundle = (CardView) itemView.findViewById(R.id.card_bundle);
             if (enable) {
                 img_bundle_delete.setVisibility(View.VISIBLE);
             } else {

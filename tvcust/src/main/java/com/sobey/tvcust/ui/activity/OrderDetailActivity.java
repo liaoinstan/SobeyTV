@@ -332,7 +332,7 @@ public class OrderDetailActivity extends BaseAppCompatActivity implements View.O
         if (user.getRoleType() == User.ROLE_COMMOM) {
             img_orderdetail_header.setImageResource(OrderStatusHelper.getStatusImgSrc(order));
         } else {
-            Glide.with(this).load(user.getAvatar()).placeholder(R.drawable.icon_order_fix).centerCrop().crossFade().into(img_orderdetail_header);
+            Glide.with(this).load(user.getAvatar()).placeholder(R.drawable.default_bk).centerCrop().crossFade().into(img_orderdetail_header);
         }
         //根据角色类型设置提交按钮的状态和功能
         pop_describe.setType(user.getRoleType(), order);

@@ -425,6 +425,7 @@ public class ReqfixActicity extends BaseAppCompatActivity implements View.OnClic
             @Override
             public void netSetError(int code, String text) {
                 Toast.makeText(ReqfixActicity.this, text, Toast.LENGTH_SHORT).show();
+                btn_go.setClickable(true);
             }
 
             @Override

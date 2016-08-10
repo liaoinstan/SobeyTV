@@ -6,8 +6,8 @@
     android:foreground="?attr/selectableItemBackground"
     app:cardElevation="0dp"
     app:cardCornerRadius="0dp"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
+    android:layout_marginLeft="0dp"
+    android:layout_marginRight="0dp"
     android:layout_marginTop="10dp">
 
     <LinearLayout
@@ -28,6 +28,8 @@
             android:layout_marginBottom="12dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="16dp"
+            android:drawableLeft="@drawable/icon_item_order_title"
+            android:drawablePadding="10dp"
             android:textColor="@color/cc_text_blank"
             android:textSize="@dimen/text_small"
             android:text="订单编号:685478954898" />
@@ -56,8 +58,8 @@
 
             <ImageView
                 android:id="@+id/img_order_pic"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
@@ -77,19 +79,19 @@
                     android:id="@+id/text_order_question"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="10dp"
                     android:text="硬件问题：CPU过载报警"
                     android:textColor="@color/sb_text_blank"
-                    android:textSize="@dimen/text_nomal"/>
+                    android:textSize="@dimen/text_nomal_small"/>
 
                 <TextView
                     android:id="@+id/text_order_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="6dp"
                     android:text="正在派单"
                     android:textColor="@color/sb_blue"
-                    android:textSize="@dimen/text_nomal"/>
+                    android:textSize="@dimen/text_nomal_small"/>
             </LinearLayout>
 
         </LinearLayout>
@@ -118,13 +120,14 @@
 
             <TextView
                 android:id="@+id/text_order_cui"
-                android:textColor="@color/white"
+                android:textColor="@color/sb_blue"
                 android:textSize="@dimen/text_nomal"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:gravity="center"
-                android:background="@drawable/shape_rect_corner_blue"
+                android:background="@drawable/shape_rect_corner_blue_line"
+                android:foreground="?attr/selectableItemBackground"
                 android:paddingBottom="5dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"

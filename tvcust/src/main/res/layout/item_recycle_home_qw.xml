@@ -36,7 +36,7 @@
             android:layout_below="@+id/text_item_device_name"
             android:layout_marginTop="5dp"
             android:text="192.168.3.12"
-            android:textColor="@color/sb_text_blank_deep_light"
+            android:textColor="@color/sb_text_blank"
             android:textSize="@dimen/text_nomal" />
 
         <TextView
@@ -48,8 +48,12 @@
             android:layout_below="@+id/text_item_device_ip"
             android:layout_marginTop="5dp"
             android:text="CPU占用已经超过99%"
-            android:textColor="@color/sb_text_blank_deep_light"
-            android:textSize="@dimen/text_nomal" />
+            android:paddingRight="5dp"
+            android:lineSpacingExtra="3dp"
+            android:textColor="@color/sb_text_blank"
+            android:textSize="@dimen/text_nomal"
+            android:layout_toLeftOf="@+id/img_item_home_qw_warning"
+            android:layout_toStartOf="@+id/img_item_home_qw_warning" />
 
         <TextView
             android:id="@+id/text_item_home_qw_time"

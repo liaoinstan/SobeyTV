@@ -1,7 +1,5 @@
 package com.sobey.tvcust.common;
 
-import android.view.View;
-
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.entity.Order;
 import com.sobey.tvcust.entity.User;
@@ -21,7 +19,7 @@ public class OrderStatusHelper {
                     if (order.getServiceCheck() != 1) {
                         return "等待查看任务";
                     } else {
-                        if (order.getTscId() != null && order.getHeadTechId() != null) {
+                        if (order.getTscId() != null || order.getHeadTechId() != null) {
                             return "等待技术处理";
                         } else {
                             return "等待客服分配维修人员";
@@ -65,40 +63,78 @@ public class OrderStatusHelper {
             default:
                 return "";
         }
-
-//        switch (userType){
-//            case User.ROLE_COMMOM:
-//                break;
-//            case User.ROLE_CUSTOMER:
-//                break;
-//            case User.ROLE_FILIALETECH:
-//                break;
-//            case User.ROLE_HEADCOMTECH:
-//                break;
-//            case User.ROLE_INVENT:
-//                break;
-//        }
     }
 
     public static int getStatusImgSrc(Order order) {
+        int userType = AppData.App.getUser().getRoleType();
         switch (order.getStatus()) {
-            case Order.ORDER_UNDEAL:
+            case Order.ORDER_UNDEAL: {
                 //待处理
-                return R.drawable.icon_order_serv;
+                if (userType == User.ROLE_COMMOM) {
+//                    return "等待客服待处理";
+                    return R.drawable.icon_order_serv;
+                } else if (userType == User.ROLE_CUSTOMER) {
+                    if (order.getServiceCheck() != 1) {
+//                        return "等待查看任务";
+                        return R.drawable.icon_order_device;
+                    } else {
+                        if (order.getTscId() != null || order.getHeadTechId() != null) {
+//                            return "等待技术处理";
+                            return R.drawable.icon_order_run;
+                        } else {
+//                            return "等待客服分配维修人员";
+                            return R.drawable.icon_order_serv;
+                        }
+                    }
+                } else if (userType == User.ROLE_FILIALETECH) {
+                    if (order.getTechCheck() != 1) {
+//                        return "等待查看任务";
+                        return R.drawable.icon_order_device;
+                    } else {
+//                        return "等待技术处理";
+                        return R.drawable.icon_order_run;
+                    }
+                } else if (userType == User.ROLE_HEADCOMTECH) {
+                    if (order.getHeadTechCheck() != 1) {
+//                        return "等待查看任务";
+                        return R.drawable.icon_order_device;
+                    } else {
+//                        return "等待技术处理";
+                        return R.drawable.icon_order_run;
+                    }
+                } else if (userType == User.ROLE_INVENT) {
+                    if (order.getDevelopCheck() != 1) {
+//                        return "等待查看任务";
+                        return R.drawable.icon_order_device;
+                    } else {
+//                        return "等待技术处理";
+                        return R.drawable.icon_order_run;
+                    }
+                } else {
+                    //其他被抄送的角色
+//                    return "正在进行中";
+                    return R.drawable.icon_order_fix;
+                }
+            }
             case Order.ORDER_INDEAL:
                 //处理中
-                return R.drawable.icon_order_run;
+//                return "正在维修";
+                return R.drawable.icon_order_fix;
             case Order.ORDER_UNVALI:
                 //带验证
+//                return "技术已处理";
                 return R.drawable.icon_order_cpu;
             case Order.ORDER_UNEVA:
                 //待评价
-                return R.drawable.icon_order_cpu;
+//                return "待评价";
+                return R.drawable.icon_order_finish;
             case Order.ORDER_FINSH:
                 //已完成
-                return R.drawable.icon_finish;
+//                return "已解决";
+                return R.drawable.icon_order_finish;
             default:
-                return R.drawable.icon_order_fix;
+//                return "";
+                return R.drawable.icon_order_serv;
         }
     }
 

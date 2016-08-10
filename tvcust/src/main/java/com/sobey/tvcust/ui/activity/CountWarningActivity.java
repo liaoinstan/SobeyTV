@@ -43,6 +43,7 @@ import com.sobey.tvcust.entity.TVStation;
 import com.sobey.tvcust.entity.TVStationPojo;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterCountOrder;
 import com.sobey.tvcust.ui.dialog.DialogMouthPicker;
+import com.sobey.tvcust.utils.AppUtils;
 import com.sobey.tvcust.utils.UrlUtils;
 
 import org.xutils.common.Callback;
@@ -100,6 +101,7 @@ public class CountWarningActivity extends BaseAppCompatActivity implements View.
 
     private void initBase() {
         dialog = new DialogMouthPicker(this);
+        colors.addAll(ColorsHelper.colors);
         for (int c : ColorTemplate.LIBERTY_COLORS)
             colors.add(c);
         for (int c : ColorTemplate.PASTEL_COLORS)
@@ -111,7 +113,6 @@ public class CountWarningActivity extends BaseAppCompatActivity implements View.
         for (int c : ColorTemplate.VORDIPLOM_COLORS)
             colors.add(c);
         colors.add(ColorTemplate.getHoloBlue());
-        colors.addAll(ColorsHelper.colors);
     }
 
     private void initView() {
@@ -267,21 +268,6 @@ public class CountWarningActivity extends BaseAppCompatActivity implements View.
         }
     }
 
-    private String getStationCodeStr(List<TVStation> stations) {
-        if (stations == null) {
-            return "";
-        } else if (stations.size() == 1) {
-            return stations.get(0).getStationCode();
-        } else {
-            String ret = "";
-            for (TVStation station : stations) {
-                ret += station.getStationCode() + "|";
-            }
-            ret = ret.substring(0, ret.length() - 1).replaceAll("\\|", "%7C");
-            return ret;
-        }
-    }
-
     private long getStartTimestamp() {
         Date selectDate = TimeUtil.getDateByStr("yyyyMM", yearM);
         return DateUtils.getFirstDayOfMonth(selectDate).getTime();
@@ -412,7 +398,7 @@ public class CountWarningActivity extends BaseAppCompatActivity implements View.
                     TVStationPojo tvStationPojo = (TVStationPojo) pojo;
                     List<TVStation> tvStations = tvStationPojo.getDataList();
                     if (tvStations != null && tvStations.size() != 0) {
-                        stationCode = getStationCodeStr(tvStations);
+                        stationCode = AppUtils.getStationCodeStr(tvStations);
                         netGetWarningCount();
                     } else {
                     }

@@ -320,14 +320,14 @@ public class CompTVStationFragment extends BaseFragment{
         int sellingCount = matchText(sortModel,filterStr);
         if (sellingCount!=0) {
             isMatch = true;
-            sortModel.setCar_title_html("<font color='#f08519'><b>" + car_title.substring(0,sellingCount) + "</b></font>" + car_title.substring(sellingCount));
+            sortModel.setCar_title_html("<font color='#5793e6'><b>" + car_title.substring(0,sellingCount) + "</b></font>" + car_title.substring(sellingCount));
         }
 
         int index = car_title.toLowerCase().indexOf(filterStr.toLowerCase().toString());
         int length = filterStr.length();
         if (index != -1) {
             isMatch = true;
-            sortModel.setCar_title_html(car_title.substring(0,index) + "<font color='#f08519'><b>" + filterStr + "</b></font>" + car_title.substring(index+length));
+            sortModel.setCar_title_html(car_title.substring(0,index) + "<font color='#5793e6'><b>" + filterStr + "</b></font>" + car_title.substring(index+length));
         }
 
         if (isMatch) {

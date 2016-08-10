@@ -16,7 +16,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.bartoszlipinski.recyclerviewheader2.RecyclerViewHeader;
 import com.sobey.common.entity.Images;
+import com.sobey.common.utils.StrUtils;
+import com.sobey.common.view.BannerView;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.CommonNet;
@@ -43,13 +46,14 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/6/2 0002.
  */
-public class InfoQuanFragment extends BaseFragment implements OnRecycleItemClickListener {
+public class InfoQuanFragment extends BaseFragment implements OnRecycleItemClickListener, BannerView.OnBannerClickListener {
 
     private int position;
     private View rootView;
     private ViewGroup showingroup;
     private View showin;
 
+    private BannerView banner;
     private RecyclerView recyclerView;
     private RecycleAdapterInfoQuan adapter;
     private List<Article> results = new ArrayList<>();
@@ -100,6 +104,7 @@ public class InfoQuanFragment extends BaseFragment implements OnRecycleItemClick
         showingroup = (ViewGroup) getView().findViewById(R.id.showingroup);
         recyclerView = (RecyclerView) getView().findViewById(R.id.recycle_info_quan);
         swipe = (SwipeRefreshLayout) getView().findViewById(R.id.swipe_info_quan);
+        banner = (BannerView) getView().findViewById(R.id.banner);
     }
 
     private void initData(boolean isFirst) {
@@ -111,7 +116,6 @@ public class InfoQuanFragment extends BaseFragment implements OnRecycleItemClick
         }
         netBanner();
         freshDate(isFirst);
-
     }
 
     private void freshDate(final boolean isFirst) {
@@ -140,6 +144,7 @@ public class InfoQuanFragment extends BaseFragment implements OnRecycleItemClick
                             swipe.setRefreshing(false);
                         }
                     } else {
+                        swipe.setRefreshing(false);
                         showin = LoadingViewUtil.showin(showingroup, R.layout.layout_lack, showin, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -235,7 +240,7 @@ public class InfoQuanFragment extends BaseFragment implements OnRecycleItemClick
                     List<Images> imagelist = bannerPojo.getDataList();
                     images.clear();
                     images.addAll(imagelist);
-                    adapter.notifyItemChanged(0);
+                    freshBanner();
                 }
             }
 
@@ -246,10 +251,12 @@ public class InfoQuanFragment extends BaseFragment implements OnRecycleItemClick
     }
 
     private void initCtrl() {
-        adapter = new RecycleAdapterInfoQuan(getActivity(), results, images, true);
+        adapter = new RecycleAdapterInfoQuan(getActivity(), results);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity()));
         recyclerView.setAdapter(adapter);
+        RecyclerViewHeader header = (RecyclerViewHeader) getView().findViewById(R.id.header);
+        header.attachTo(recyclerView);
         recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             //用来标记是否正在向最后一个滑动，既是否向右滑动或向下滑动
             boolean isSlidingToLast = false;
@@ -269,12 +276,6 @@ public class InfoQuanFragment extends BaseFragment implements OnRecycleItemClick
             @Override
             public void onRefresh() {
                 initData(false);
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        swipe.setRefreshing(false);
-//                    }
-//                },2000);
             }
         });
         adapter.setOnItemClickListener(this);
@@ -284,30 +285,44 @@ public class InfoQuanFragment extends BaseFragment implements OnRecycleItemClick
         adapter.notifyDataSetChanged();
     }
 
+    private void freshBanner() {
+        banner.showTitle(false);
+        banner.setDatas(images);
+        banner.setOnBannerClickListener(this);
+    }
+
     @Override
     public void onItemClick(RecyclerView.ViewHolder viewHolder) {
-        if (position == 0 && viewHolder.getLayoutPosition() == 0) {
-            //banner
-        } else {
-            Article article = adapter.getResults().get(viewHolder.getLayoutPosition() - 1);
+        Article article = adapter.getResults().get(viewHolder.getLayoutPosition());
 
-            int isUrl = article.getIsUrl();
-            String linkUrl;
-            if (isUrl == 1) {
-                linkUrl = article.getLinkUrl();
-                Intent intent = new Intent(getActivity(), WebActivity.class);
-                intent.putExtra("url", linkUrl);
-                intent.putExtra("title", "资讯详情");
-                startActivity(intent);
-            } else {
-                linkUrl = AppData.Url.newsDetail + "?newsId=" + article.getId();
-                Intent intent = new Intent(getActivity(), InfoDetailActivity.class);
-                intent.putExtra("url", linkUrl);
-                intent.putExtra("izan", false);
-                intent.putExtra("newsId", article.getId());
-                intent.putExtra("article", article);
-                startActivity(intent);
-            }
+        int isUrl = article.getIsUrl();
+        String linkUrl;
+        if (isUrl == 1) {
+            linkUrl = article.getLinkUrl();
+            Intent intent = new Intent(getActivity(), WebActivity.class);
+            intent.putExtra("url", linkUrl);
+            intent.putExtra("title", "资讯详情");
+            startActivity(intent);
+        } else {
+            linkUrl = AppData.Url.newsDetail + "?newsId=" + article.getId();
+            Intent intent = new Intent(getActivity(), InfoDetailActivity.class);
+            intent.putExtra("url", linkUrl);
+            intent.putExtra("izan", false);
+            intent.putExtra("newsId", article.getId());
+            intent.putExtra("article", article);
+            startActivity(intent);
+        }
+    }
+
+    @Override
+    public void onBannerClick(int position) {
+        Images image = this.images.get(position);
+
+        if (StrUtils.isUrl(image.getUrl())) {
+            Intent intent = new Intent(getActivity(), WebActivity.class);
+            intent.putExtra("title", "资讯");
+            intent.putExtra("url", image.getUrl());//https://github.com    //http://cn.bing.com
+            getActivity().startActivity(intent);
         }
     }
 }

@@ -30,7 +30,7 @@
                 android:gravity="center"
                 android:padding="10dp"
                 android:text="提交"
-                android:textColor="@color/sb_blue" />
+                android:textColor="@color/white" />
 
         </android.support.v7.widget.Toolbar>
 

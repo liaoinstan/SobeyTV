@@ -13,7 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.sobey.common.utils.FontUtils;
+import com.liaoinstan.springview.container.AliHeader;
+import com.liaoinstan.springview.widget.SpringView;
 import com.sobey.common.utils.StrUtils;
 import com.sobey.common.utils.TimeUtil;
 import com.sobey.tvcust.R;
@@ -28,12 +29,11 @@ import com.sobey.tvcust.entity.User;
 import com.sobey.tvcust.entity.Warning;
 import com.sobey.tvcust.entity.WarningPojo;
 import com.sobey.tvcust.ui.activity.DeviceDetailActivity;
-import com.sobey.tvcust.ui.activity.MsgSelectActivity;
-import com.sobey.tvcust.ui.activity.MsgSysActivity;
 import com.sobey.tvcust.interfaces.OnRecycleItemClickListener;
 import com.sobey.tvcust.ui.activity.SelectStationActivity;
 import com.sobey.tvcust.ui.activity.WarningListActivity;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterQW;
+import com.sobey.tvcust.utils.AppUtils;
 import com.sobey.tvcust.utils.UrlUtils;
 
 import org.xutils.http.RequestParams;
@@ -50,6 +50,7 @@ public class HomeQwFragment extends BaseFragment implements OnRecycleItemClickLi
 
     private RecyclerView recyclerView;
     private RecycleAdapterQW adapter;
+    private SpringView springView;
     private View showin;
     private ViewGroup showingroup;
 
@@ -103,10 +104,11 @@ public class HomeQwFragment extends BaseFragment implements OnRecycleItemClickLi
     private void initView() {
         recyclerView = (RecyclerView) getView().findViewById(R.id.recycle_home_qw);
         showingroup = (ViewGroup) getView().findViewById(R.id.showingroup);
+        springView = (SpringView) getView().findViewById(R.id.spring);
     }
 
     private void initData() {
-        netGetStations();
+        netGetStations_countDevice();
 
         final RequestParams params = new RequestParams(AppData.Url.warningList);
         params.addHeader("token", AppData.App.getToken());
@@ -126,8 +128,10 @@ public class HomeQwFragment extends BaseFragment implements OnRecycleItemClickLi
                         results.addAll(devices);
                         freshCtrl();
                         LoadingViewUtil.showout(showingroup, showin);
+                        springView.onFinishFreshAndLoad();
                     } else {
                         LoadingViewUtil.showout(showingroup, showin);
+                        springView.onFinishFreshAndLoad();
                     }
                 }
             }
@@ -135,6 +139,7 @@ public class HomeQwFragment extends BaseFragment implements OnRecycleItemClickLi
             @Override
             public void netSetError(int code, String text) {
                 Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+                springView.onFinishFreshAndLoad();
             }
 
             @Override
@@ -149,6 +154,17 @@ public class HomeQwFragment extends BaseFragment implements OnRecycleItemClickLi
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), LinearLayoutManager.VERTICAL, false));
         adapter.setOnItemClickListener(this);
+        springView.setHeader(new AliHeader(getActivity(),false));
+        springView.setListener(new SpringView.OnFreshListener() {
+            @Override
+            public void onRefresh() {
+                initData();
+            }
+
+            @Override
+            public void onLoadmore() {
+            }
+        });
     }
 
     private void freshCtrl() {
@@ -182,18 +198,7 @@ public class HomeQwFragment extends BaseFragment implements OnRecycleItemClickLi
         }
     }
 
-    private String getStationStr(List<TVStation> stations) {
-        if (stations == null || stations.size() == 0) {
-            return null;
-        }
-        String ret = "";
-        for (TVStation station : stations) {
-            ret += station.getStationCode() + "|";
-        }
-        return ret.substring(0, ret.length() - 1).replaceAll("\\|", "%7C");
-    }
-
-    private void netGetStations() {
+    private void netGetStations_countDevice() {
         RequestParams params = new RequestParams(AppData.Url.getTVs);
         params.addHeader("token", AppData.App.getToken());
         CommonNet.samplepost(params, TVStationPojo.class, new CommonNet.SampleNetHander() {
@@ -203,7 +208,7 @@ public class HomeQwFragment extends BaseFragment implements OnRecycleItemClickLi
                 else {
                     TVStationPojo tvStationPojo = (TVStationPojo) pojo;
                     List<TVStation> tvStations = tvStationPojo.getDataList();
-                    String stationStr = getStationStr(tvStations);
+                    String stationStr = AppUtils.getStationCodeStr(tvStations);
                     if (!StrUtils.isEmpty(stationStr)) {
                         netCountDevice(stationStr);
                     }

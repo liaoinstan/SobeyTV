@@ -22,11 +22,20 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <WebView
-        android:id="@+id/webview"
+    <com.liaoinstan.springview.widget.SpringView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:footer="@layout/header_common"
+        app:header="@layout/header_common"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:background="@color/sb_bk" />
+        app:type="follow">
+
+        <WebView
+            android:id="@+id/webview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/sb_bk" />
+
+    </com.liaoinstan.springview.widget.SpringView>
 
 </android.support.design.widget.CoordinatorLayout>

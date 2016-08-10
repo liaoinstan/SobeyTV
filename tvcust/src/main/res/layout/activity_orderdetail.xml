@@ -52,7 +52,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
                             android:text="查看进度"
-                            android:textColor="@color/sb_blue"
+                            android:textColor="@color/white"
                             android:textSize="@dimen/text_tiny" />
 
                     </LinearLayout>

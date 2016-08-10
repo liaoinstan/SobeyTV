@@ -35,6 +35,8 @@ public class SignActivity extends BaseAppCompatActivity implements View.OnClickL
     private TextView text_sign_inte;
     private TextView text_sign_do;
     private View btn_sign_do;
+    private View lay_sign_go_rule;
+    private View lay_sign_go_gift;
 
     private boolean isSign;
     private int signDays;
@@ -59,6 +61,11 @@ public class SignActivity extends BaseAppCompatActivity implements View.OnClickL
         text_sign_inte = (TextView) findViewById(R.id.text_sign_inte);
         text_sign_do = (TextView) findViewById(R.id.text_sign_do);
         btn_sign_do = findViewById(R.id.btn_sign_do);
+        lay_sign_go_rule = findViewById(R.id.lay_sign_go_rule);
+        lay_sign_go_gift = findViewById(R.id.lay_sign_go_gift);
+
+        lay_sign_go_rule.setOnClickListener(this);
+        lay_sign_go_gift.setOnClickListener(this);
 
         btn_sign_do.setVisibility(View.INVISIBLE);
     }
@@ -173,6 +180,12 @@ public class SignActivity extends BaseAppCompatActivity implements View.OnClickL
         switch (v.getId()) {
             case R.id.btn_go_signlist:
                 intent.setClass(this, SignListActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.lay_sign_go_rule:
+                intent.setClass(this, WebActivity.class);
+                intent.putExtra("title", "积分规则");
+                intent.putExtra("url", AppData.Url.pageRule);//https://github.com    //http://cn.bing.com
                 startActivity(intent);
                 break;
             case R.id.btn_sign_do:

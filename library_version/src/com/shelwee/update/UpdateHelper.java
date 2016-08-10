@@ -556,7 +556,7 @@ public class UpdateHelper {
 			}else {
 				//没有数据的时候，默认最新
 				if (isHintVersion) {
-					Toast.makeText(mContext, "当前已是最新版", Toast.LENGTH_LONG).show();
+					Toast.makeText(mContext, "检查更新失败", Toast.LENGTH_LONG).show();
 				}
 			}
 			if (UpdateHelper.this.updateListener != null) {

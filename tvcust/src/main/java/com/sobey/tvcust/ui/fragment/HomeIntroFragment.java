@@ -13,11 +13,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sobey.common.utils.PermissionsUtil;
 import com.sobey.tvcust.R;
+import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.LoadingViewUtil;
 import com.sobey.tvcust.ui.activity.MsgSelectActivity;
 
@@ -30,6 +34,8 @@ public class HomeIntroFragment extends BaseFragment implements View.OnClickListe
     private View rootView;
     private ViewGroup showingroup;
     private View showin;
+
+    private WebView webView;
 
     public static Fragment newInstance(int position) {
         HomeIntroFragment f = new HomeIntroFragment();
@@ -56,7 +62,7 @@ public class HomeIntroFragment extends BaseFragment implements View.OnClickListe
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Toolbar toolbar = (Toolbar) getView().findViewById(R.id.toolbar);
-        toolbar.setTitle("介绍");
+        toolbar.setTitle("产品介绍");
         initBase();
         initView();
         initData();
@@ -68,12 +74,22 @@ public class HomeIntroFragment extends BaseFragment implements View.OnClickListe
 
     private void initView() {
         showingroup = (ViewGroup) getView().findViewById(R.id.showingroup);
+        webView = (WebView) getView().findViewById(R.id.webview);
     }
 
     private void initCtrl() {
+        WebSettings setting = webView.getSettings();
+        setting.setJavaScriptEnabled(true);
+        webView.setWebViewClient(new WebViewClient() {
+            public boolean shouldOverrideUrlLoading(WebView view, String url) { //  重写此方法表明点击网页里面的链接还是在当前的webview里跳转，不跳到浏览器那边
+                view.loadUrl(url);
+                return true;
+            }
+        });
     }
 
     private void freshCtrl() {
+        webView.loadUrl(AppData.Url.pageIntro);
     }
 
     private void initData() {

@@ -13,23 +13,39 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.interfaces.datasets.IPieDataSet;
 import com.sobey.common.utils.FontUtils;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppConstant;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.CommonNet;
 import com.sobey.tvcust.common.LoadingViewUtil;
+import com.sobey.tvcust.common.SobeyNet;
 import com.sobey.tvcust.entity.CommonEntity;
+import com.sobey.tvcust.entity.CountEntity;
+import com.sobey.tvcust.entity.SBCountWarningPojo;
+import com.sobey.tvcust.entity.SBCountWarningStates;
+import com.sobey.tvcust.entity.SBWarningCount;
+import com.sobey.tvcust.entity.TVStation;
+import com.sobey.tvcust.entity.TVStationPojo;
 import com.sobey.tvcust.entity.User;
 import com.sobey.tvcust.ui.activity.CountQuestionActivity;
 import com.sobey.tvcust.ui.activity.CountOrderActivity;
 import com.sobey.tvcust.ui.activity.CountWarningActivity;
+import com.sobey.tvcust.ui.activity.DeviceListActivity;
 import com.sobey.tvcust.ui.activity.MeDetailActivity;
 import com.sobey.tvcust.ui.activity.SettingActivity;
+import com.sobey.tvcust.utils.AppUtils;
+import com.sobey.tvcust.utils.UrlUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.xutils.http.RequestParams;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Administrator on 2016/6/2 0002.
@@ -133,6 +149,7 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
 
         btn_go_medetail = getView().findViewById(R.id.btn_go_medetail);
         btn_go_medetail.setOnClickListener(this);
+        img_me_header.setOnClickListener(this);
 
         //只有用户有累计报警
         if (user.getRoleType() == User.ROLE_COMMOM) {
@@ -156,6 +173,10 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
     }
 
     private void initData() {
+        //用户需要请求报警统计接口
+        if (user.getRoleType()==User.ROLE_COMMOM) {
+            netGetStation_CountWarning();
+        }
         netCountOrder();
         netCountSign();
         initCtrl();
@@ -186,6 +207,10 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
     public void onClick(View v) {
         Intent intent = new Intent();
         switch (v.getId()) {
+            case R.id.img_me_header:
+                intent.setClass(getActivity(), MeDetailActivity.class);
+                startActivity(intent);
+                break;
             case R.id.btn_go_medetail:
                 intent.setClass(getActivity(), MeDetailActivity.class);
                 startActivity(intent);
@@ -207,6 +232,10 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
                 startActivity(intent);
                 break;
         }
+    }
+
+    private long getStartTimestamp() {
+        return user.getCreateDate();
     }
 
     private void netCountOrder() {
@@ -252,4 +281,71 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
         });
     }
 
+    private void netCountWarning(String stationCode) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("station", stationCode);
+//        map.put("station", "PTTV_20160325");
+        map.put("begin", getStartTimestamp() + "");
+        map.put("end", new Date().getTime() + "");
+        map.put("grouplevel", "station");
+        String myurl = UrlUtils.geturl(map, AppData.Url.countWarning);
+
+        RequestParams params = new RequestParams(myurl);
+        SobeyNet.sampleget(params, SBCountWarningPojo.class, new SobeyNet.SampleNetHander() {
+            @Override
+            public void netGo(int code, Object pojo, String text, Object obj) {
+                if (pojo == null) {
+                    netSetError(code, "错误:返回数据为空");
+                } else {
+                    SBCountWarningPojo countWarningPojo = (SBCountWarningPojo) pojo;
+                    List<SBCountWarningStates> statsList = countWarningPojo.getStatsList();
+                    List<SBWarningCount> warningCounts = null;
+                    if (statsList != null && statsList.size() != 0) {
+                        warningCounts = statsList.get(0).getKitGroupDetail();
+                    } else {
+                        warningCounts = null;
+                    }
+                    if (warningCounts != null && warningCounts.size() != 0) {
+                        int count = 0;
+                        for (SBWarningCount warningCount : warningCounts) {
+                            count += warningCount.getCount();
+                        }
+                        text_me_warnings.setText(count+"次");
+                    }else {
+                        text_me_warnings.setText("0次");
+                    }
+                }
+            }
+
+            @Override
+            public void netSetError(int code, String text) {
+                Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void netGetStation_CountWarning() {
+        RequestParams params = new RequestParams(AppData.Url.getTVs);
+        params.addHeader("token", AppData.App.getToken());
+        CommonNet.samplepost(params, TVStationPojo.class, new CommonNet.SampleNetHander() {
+            @Override
+            public void netGo(int code, Object pojo, String text, Object obj) {
+                if (pojo == null) netSetError(code, "接口异常");
+                else {
+                    TVStationPojo tvStationPojo = (TVStationPojo) pojo;
+                    List<TVStation> tvStations = tvStationPojo.getDataList();
+                    if (tvStations != null && tvStations.size() != 0) {
+                        String stationCode = AppUtils.getStationCodeStr(tvStations);
+                        netCountWarning(stationCode);
+                    } else {
+                    }
+                }
+            }
+
+            @Override
+            public void netSetError(int code, String text) {
+                Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }

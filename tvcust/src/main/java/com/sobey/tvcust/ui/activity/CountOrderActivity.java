@@ -23,6 +23,7 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IPieDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.sobey.common.utils.DensityUtil;
 import com.sobey.common.utils.TimeUtil;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
@@ -52,7 +53,7 @@ public class CountOrderActivity extends BaseAppCompatActivity implements View.On
     private View showin;
 
     private PieChart chart_finish;
-    private PieChart chart_unfinish;
+//    private PieChart chart_unfinish;
     private View btn_bank;
     private View btn_next;
     private TextView text_time;
@@ -88,6 +89,7 @@ public class CountOrderActivity extends BaseAppCompatActivity implements View.On
 
     private void initBase() {
         dialog = new DialogMouthPicker(this);
+        colors.addAll(ColorsHelper.colors);
         for (int c : ColorTemplate.LIBERTY_COLORS)
             colors.add(c);
         for (int c : ColorTemplate.PASTEL_COLORS)
@@ -99,7 +101,6 @@ public class CountOrderActivity extends BaseAppCompatActivity implements View.On
         for (int c : ColorTemplate.VORDIPLOM_COLORS)
             colors.add(c);
         colors.add(ColorTemplate.getHoloBlue());
-        colors.addAll(ColorsHelper.colors);
     }
 
     private void initView() {
@@ -107,7 +108,7 @@ public class CountOrderActivity extends BaseAppCompatActivity implements View.On
         recyclerView = (RecyclerView) findViewById(R.id.recycle);
 
         chart_finish = (PieChart) findViewById(R.id.chat_finish);
-        chart_unfinish = (PieChart) findViewById(R.id.chat_unfinish);
+//        chart_unfinish = (PieChart) findViewById(R.id.chat_unfinish);
         btn_bank = findViewById(R.id.btn_countorder_bank);
         btn_next = findViewById(R.id.btn_countorder_next);
         text_time = (TextView) findViewById(R.id.text_countorder_time);
@@ -135,19 +136,19 @@ public class CountOrderActivity extends BaseAppCompatActivity implements View.On
                     if (com.getFinished() != 0 || com.getNonFinished() != 0) {
                         results.clear();
                         results.add(new CountEntity("已完成", com.getFinished(), colors.get(0)));
-                        results.add(new CountEntity("未完成", com.getNonFinished(), colors.get(1)));
+                        results.add(new CountEntity("进行中", com.getNonFinished(), colors.get(1)));
 
                         int finishpre = (com.getFinished() * 100) / (com.getFinished() + com.getNonFinished());
                         int nonfinishpre = (com.getNonFinished() * 100) / (com.getFinished() + com.getNonFinished());
                         IPieDataSet dataSet_finish = chart_finish.getData().getDataSet();
                         dataSet_finish.clear();
-                        dataSet_finish.addEntry(new PieEntry(finishpre));
-                        dataSet_finish.addEntry(new PieEntry(nonfinishpre));
+                        dataSet_finish.addEntry(new PieEntry(com.getFinished()));
+                        dataSet_finish.addEntry(new PieEntry(com.getNonFinished()));
 
-                        IPieDataSet dataSet_unfinish = chart_unfinish.getData().getDataSet();
-                        dataSet_unfinish.clear();
-                        dataSet_unfinish.addEntry(new PieEntry(nonfinishpre));
-                        dataSet_unfinish.addEntry(new PieEntry(finishpre));
+//                        IPieDataSet dataSet_unfinish = chart_unfinish.getData().getDataSet();
+//                        dataSet_unfinish.clear();
+//                        dataSet_unfinish.addEntry(new PieEntry(nonfinishpre));
+//                        dataSet_unfinish.addEntry(new PieEntry(finishpre));
 
                         freshCtrl();
 
@@ -203,19 +204,19 @@ public class CountOrderActivity extends BaseAppCompatActivity implements View.On
 
         initChat();
         setChartData(chart_finish);
-        setChartData(chart_unfinish);
+//        setChartData(chart_unfinish);
     }
 
     private void initChat() {
         chart_finish.setUsePercentValues(true);
-        chart_unfinish.setUsePercentValues(true);
+//        chart_unfinish.setUsePercentValues(true);
         chart_finish.setDescription("");
-        chart_unfinish.setDescription("");
+//        chart_unfinish.setDescription("");
         chart_finish.setExtraOffsets(5, 10, 5, 5);
-        chart_unfinish.setExtraOffsets(5, 10, 5, 5);
+//        chart_unfinish.setExtraOffsets(5, 10, 5, 5);
 
         chart_finish.setDragDecelerationFrictionCoef(0.95f);
-        chart_unfinish.setDragDecelerationFrictionCoef(0.95f);
+//        chart_unfinish.setDragDecelerationFrictionCoef(0.95f);
 
 //        chart_finish.setCenterText(generateCenterSpannableText());
 //        chart_unfinish.setCenterText(generateCenterSpannableText());
@@ -224,33 +225,36 @@ public class CountOrderActivity extends BaseAppCompatActivity implements View.On
 //        chart_unfinish.setExtraOffsets(20.f, 0.f, 20.f, 0.f);
 
         chart_finish.setDrawHoleEnabled(true);
-        chart_unfinish.setDrawHoleEnabled(true);
+//        chart_unfinish.setDrawHoleEnabled(true);
         chart_finish.setHoleColor(Color.WHITE);
-        chart_unfinish.setHoleColor(Color.WHITE);
+//        chart_unfinish.setHoleColor(Color.WHITE);
 
         chart_finish.setTransparentCircleColor(Color.WHITE);
-        chart_unfinish.setTransparentCircleColor(Color.WHITE);
+//        chart_unfinish.setTransparentCircleColor(Color.WHITE);
         chart_finish.setTransparentCircleAlpha(110);
-        chart_unfinish.setTransparentCircleAlpha(110);
+//        chart_unfinish.setTransparentCircleAlpha(110);
 
-        chart_finish.setHoleRadius(85f);
-        chart_unfinish.setHoleRadius(85f);
+        chart_finish.setHoleRadius(90f);
+//        chart_unfinish.setHoleRadius(85f);
         chart_finish.setTransparentCircleRadius(61f);
-        chart_unfinish.setTransparentCircleRadius(61f);
+//        chart_unfinish.setTransparentCircleRadius(61f);
 
         chart_finish.setDrawCenterText(true);
-        chart_unfinish.setDrawCenterText(true);
+//        chart_unfinish.setDrawCenterText(true);
 
         chart_finish.setRotationAngle(0);
-        chart_unfinish.setRotationAngle(0);
+//        chart_unfinish.setRotationAngle(0);
         // enable rotation of the chart by touch
         chart_finish.setRotationEnabled(false);
-        chart_unfinish.setRotationEnabled(false);
+//        chart_unfinish.setRotationEnabled(false);
         chart_finish.setHighlightPerTapEnabled(false);
-        chart_unfinish.setHighlightPerTapEnabled(false);
+//        chart_unfinish.setHighlightPerTapEnabled(false);
+
+        chart_finish.setCenterTextSize(14);
+//        chart_unfinish.setCenterTextSize(DensityUtil.dp2px(this,14));
 
         chart_finish.getLegend().setEnabled(false);
-        chart_unfinish.getLegend().setEnabled(false);
+//        chart_unfinish.getLegend().setEnabled(false);
     }
 
     private void setChartData(PieChart chartV) {
@@ -295,12 +299,12 @@ public class CountOrderActivity extends BaseAppCompatActivity implements View.On
     public void freshCtrl() {
         adapter.notifyDataSetChanged();
         chart_finish.notifyDataSetChanged();
-        chart_unfinish.notifyDataSetChanged();
+//        chart_unfinish.notifyDataSetChanged();
         chart_finish.animateY(800, Easing.EasingOption.EaseInOutQuad);
-        chart_unfinish.animateY(800, Easing.EasingOption.EaseInOutQuad);
+//        chart_unfinish.animateY(800, Easing.EasingOption.EaseInOutQuad);
 
         chart_finish.setCenterText(getCenterText(chart_finish.getData().getDataSet().getEntryForIndex(0).getValue() + "%", "已完成"));
-        chart_unfinish.setCenterText(getCenterText(chart_unfinish.getData().getDataSet().getEntryForIndex(0).getValue() + "%", "未完成"));
+//        chart_unfinish.setCenterText(getCenterText(chart_unfinish.getData().getDataSet().getEntryForIndex(0).getValue() + "%", "进行中"));
     }
 
     @Override
@@ -344,9 +348,9 @@ public class CountOrderActivity extends BaseAppCompatActivity implements View.On
     private SpannableString getCenterText(String strPre, String strAft) {
         strPre += "\n";
         SpannableString s = new SpannableString(strPre + strAft);
-        s.setSpan(new RelativeSizeSpan(1.5f), 0, strPre.length(), 0);
-        s.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.sb_bk_dark)), 0, strPre.length(), 0);
-        s.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.sb_blue)), strPre.length(), s.length(), 0);
+        s.setSpan(new RelativeSizeSpan(2f), 0, strPre.length(), 0);
+//        s.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.sb_bk_dark)), 0, strPre.length(), 0);
+//        s.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.sb_blue)), strPre.length(), s.length(), 0);
         return s;
     }
 }

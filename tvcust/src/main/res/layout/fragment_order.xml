@@ -40,7 +40,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_tiny"
-                    android:textColor="@color/sb_blue"
+                    android:textColor="@color/white"
                     android:text="维修申报"/>
 
             </LinearLayout>

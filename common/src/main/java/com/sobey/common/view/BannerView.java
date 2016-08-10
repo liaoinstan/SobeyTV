@@ -106,6 +106,7 @@ public class BannerView extends FrameLayout implements Runnable{
         if (images!=null && images.size()==0){
             return;
         }
+        DEFAULT_BANNER_SIZE = images.size();
         mBannerAdapter = new BannerAdapter(context);
         mViewPager.setAdapter(mBannerAdapter);
         mViewPager.addOnPageChangeListener(mBannerAdapter);
@@ -124,12 +125,12 @@ public class BannerView extends FrameLayout implements Runnable{
             }
         });
 
-        DEFAULT_BANNER_SIZE = images.size();
+
         dotView.setViewPager(mViewPager, DEFAULT_BANNER_SIZE);
 
-        if (images.size()>=1) {
-            mViewPager.setCurrentItem(1);
-        }
+//        if (images.size()>=1) {
+//            mViewPager.setCurrentItem(1);
+//        }
     }
 
     private Handler mHandler = new Handler(){

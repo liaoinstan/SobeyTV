@@ -18,8 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:navigationIcon="@drawable/icon_back"
             app:layout_scrollFlags="scroll|enterAlways"
+            app:navigationIcon="@drawable/icon_back"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
         <FrameLayout
@@ -110,20 +110,22 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/lay_sign_go_rule"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:background="@color/white"
+                android:foreground="?attr/selectableItemBackground"
                 android:gravity="center_vertical"
-                android:paddingTop="10dp"
+                android:orientation="horizontal"
                 android:paddingBottom="10dp"
-                android:orientation="horizontal">
+                android:paddingTop="10dp">
 
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginLeft="20dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/sign_gift"/>
+                    android:src="@drawable/sign_rule" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -135,30 +137,79 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:textSize="@dimen/text_big"
+                        android:text="积分规则"
                         android:textColor="@color/sb_text_blank"
-                        android:text="神秘礼包"/>
+                        android:textSize="@dimen/text_big" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/text_nomal"
                         android:layout_marginTop="8dp"
+                        android:text="想要赢取更多积分？"
                         android:textColor="@color/sb_text_dark_blank"
-                        android:text="二期开启，敬请期待"/>
+                        android:textSize="@dimen/text_nomal" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@drawable/line" />
+
+            <LinearLayout
+                android:id="@+id/lay_sign_go_gift"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:background="@color/white"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="20dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/sign_gift" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="神秘礼包"
+                        android:textColor="@color/sb_text_blank"
+                        android:textSize="@dimen/text_big" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="二期开启，敬请期待"
+                        android:textColor="@color/sb_text_dark_blank"
+                        android:textSize="@dimen/text_nomal" />
 
                 </LinearLayout>
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="2dp"
                     android:layout_weight="1"
                     android:gravity="right"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginRight="20dp"
-                    android:textSize="@dimen/text_small"
+                    android:text="2500积分"
                     android:textColor="@color/sb_blue"
-                    android:text="2500积分"/>
+                    android:textSize="@dimen/text_small" />
 
             </LinearLayout>
 

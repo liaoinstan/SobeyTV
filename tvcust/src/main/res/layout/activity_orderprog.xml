@@ -56,7 +56,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="20dp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/icon_finish" />
+                        android:src="@drawable/icon_order_finish" />
 
                     <TextView
                         android:id="@+id/text_orderprog_question"
@@ -66,7 +66,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_toEndOf="@+id/img_orderprog_header"
                         android:layout_toRightOf="@+id/img_orderprog_header"
-                        android:textSize="@dimen/text_small"
+                        android:textSize="@dimen/text_nomal_small"
                         android:textColor="@color/sb_text_blank"
                         android:text="硬件问题：CPU过载警报" />
 
@@ -78,7 +78,7 @@
                         android:layout_alignLeft="@+id/text_orderprog_question"
                         android:layout_alignStart="@+id/text_orderprog_question"
                         android:layout_below="@+id/text_orderprog_question"
-                        android:textSize="@dimen/text_small"
+                        android:textSize="@dimen/text_nomal_small"
                         android:textColor="@color/sb_text_blank"
                         android:text="订单号：658425912359" />
 

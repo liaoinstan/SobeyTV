@@ -3,41 +3,10 @@
     android:id="@+id/dialog_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/shape_rect_corner_white"
+    android:background="@color/white"
     android:gravity="center"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal">
-        <TextView
-            android:id="@+id/dialog_cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:gravity="center"
-            android:textSize="@dimen/text_big_nomal"
-            android:textColor="@color/sb_text_dark"
-            android:text="取消"/>
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-
-        <TextView
-            android:id="@+id/dialog_ok"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:gravity="center"
-            android:textSize="@dimen/text_big_nomal"
-            android:textColor="@color/sb_blue"
-            android:text="确定"/>
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -48,13 +17,32 @@
             android:id="@+id/wheel_year"
             android:layout_weight="1"
             android:layout_width="match_parent"
+            android:layout_marginLeft="70dp"
             android:layout_height="300dp" />
 
         <com.wx.wheelview.widget.WheelView
             android:id="@+id/wheel_mouth"
             android:layout_weight="1"
+            android:layout_marginRight="70dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@drawable/line"/>
+
+    <TextView
+        android:id="@+id/dialog_ok"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:gravity="center"
+        android:textSize="@dimen/text_big_nomal"
+        android:background="@drawable/hot_lay_item_white_fade"
+        android:textColor="@color/sb_blue"
+        android:text="确定"/>
 
 </LinearLayout>
