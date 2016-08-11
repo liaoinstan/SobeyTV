@@ -8,6 +8,7 @@ import android.os.SystemClock;
 import android.text.format.Time;
 import android.util.Log;
 
+import com.czt.mp3recorder.MP3Recorder;
 import com.sobey.common.utils.FileUtil;
 import com.sobey.common.utils.PermissionsUtil;
 
@@ -18,16 +19,18 @@ import java.util.Date;
 
 public class InsVoiceRecorder {
     MediaRecorder recorder;
+    MP3Recorder mRecorder;
 
     static final String PREFIX = "voice";
     static final String EXTENSION = ".mp3";
 
-    private boolean isRecording = false;
     private long startTime;
     private String voiceFilePath = null;
     private String voiceFileName = null;
     private File file;
     private Handler handler;
+
+    private boolean success = false;
 
     public InsVoiceRecorder(Handler handler) {
         this.handler = handler;
@@ -37,137 +40,122 @@ public class InsVoiceRecorder {
      * start recording to the file
      */
     public String startRecording(Context appContext) {
-        file = null;
         try {
-            // need to create recorder every time, otherwise, will got exception
-            // from setOutputFile when try to reuse
-            if (recorder != null) {
-                recorder.release();
-                recorder = null;
+            if (mRecorder != null) {
+                mRecorder.stop();
             }
-            recorder = new MediaRecorder();
-            recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-            recorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
-            recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-            recorder.setAudioChannels(1); // MONO
-            recorder.setAudioSamplingRate(8000); // 8000Hz
-            recorder.setAudioEncodingBitRate(64); // seems if change this to
-                                                    // 128, still got same file
-                                                    // size.
-            // one easy way is to use temp file
-            // file = File.createTempFile(PREFIX + userId, EXTENSION,
-            // User.getVoicePath());
-            voiceFileName = getVoiceFileName(getVoiceFileUid());
+
+            voiceFileName = getVoiceUidFileName();
             voiceFilePath = FileUtil.getVoiceFolder() + "/" + voiceFileName;
             file = new File(voiceFilePath);
-            recorder.setOutputFile(file.getAbsolutePath());
-            recorder.prepare();
-            isRecording = true;
-            recorder.start();
-        } catch (IOException e) {
+            mRecorder = new MP3Recorder(file);
+            mRecorder.start();
+        } catch (Exception e) {
             Log.e("voice", "prepare() failed");
-            PermissionsUtil.showDialog(appContext,"需要您授权录音权限");
+            PermissionsUtil.showDialog(appContext, "需要您授权录音权限");
         }
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    while (isRecording) {
+                    while (mRecorder.isRecording()) {
                         android.os.Message msg = new android.os.Message();
-                        msg.what = recorder.getMaxAmplitude() * 13 / 0x7FFF;
+
+                        int realVolume = mRecorder.getRealVolume();
+
+//                        int level = recorder.getMaxAmplitude() * 13 / 0x7FFF;
+                        int level = realVolume / 1178;
+
+                        if (realVolume != 0){
+                            success = true;
+                        }
+                        Log.e("level", "level:" + level + "Volume:" + realVolume);
+
+                        msg.what = level;
                         handler.sendMessage(msg);
                         SystemClock.sleep(100);
                     }
                 } catch (Exception e) {
-                    // from the crash report website, found one NPE crash from
-                    // one android 4.0.4 htc phone
-                    // maybe handler is null for some reason
                     Log.e("voice", e.toString());
                 }
             }
         }).start();
-        startTime = new Date().getTime();
+        startTime = System.currentTimeMillis();
         Log.d("voice", "start voice recording to file:" + file.getAbsolutePath());
         return file == null ? null : file.getAbsolutePath();
     }
 
-    /**
-     * stop the recoding
-     * 
-     * @return seconds of the voice recorded
-     */
-
     public void discardRecording() {
-        if (recorder != null) {
-            try {
-                recorder.stop();
-                recorder.release();
-                recorder = null;
-                if (file != null && file.exists() && !file.isDirectory()) {
-                    file.delete();
-                }
-            } catch (IllegalStateException e) {
-            } catch (RuntimeException e){}
-            isRecording = false;
+        if (mRecorder != null) {
+            mRecorder.stop();
+        }
+        if (file != null && file.exists() && !file.isDirectory()) {
+            file.delete();
         }
     }
 
     public int stopRecoding() {
-        if(recorder != null){
-            isRecording = false;
-            recorder.stop();
-            recorder.release();
-            recorder = null;
-            
-            if(file == null || !file.exists() || !file.isFile()){
+        try {
+            if (success) {
+                success = false;//重新设为初始状态
+                if (mRecorder != null) {
+                    mRecorder.stop();
+
+                    int seconds = (int) (System.currentTimeMillis() - startTime) / 1000;
+                    return seconds;
+                }
+            }else {
+                //全是静音
                 return -1;
             }
-            if (file.length() == 0) {
-                file.delete();
-                return -1;
-            }
-            int seconds = (int) (new Date().getTime() - startTime) / 1000;
-            Log.d("voice", "voice recording finished. seconds:" + seconds + " file length:" + file.length());
-            return seconds;
+        } catch (Exception e) {
+            Log.e("voice", "stopRecoding() failed");
         }
         return 0;
+//        if(recorder != null){
+//            isRecording = false;
+//            recorder.stop();
+//            recorder.release();
+//            recorder = null;
+//
+//            if(file == null || !file.exists() || !file.isFile()){
+//                return -1;
+//            }
+//            if (file.length() == 0) {
+//                file.delete();
+//                return -1;
+//            }
+//            int seconds = (int) (new Date().getTime() - startTime) / 1000;
+//            Log.d("voice", "voice recording finished. seconds:" + seconds + " file length:" + file.length());
+//            return seconds;
+//        }
+//        return 0;
     }
 
-    protected void finalize() throws Throwable {
-        super.finalize();
-        if (recorder != null) {
-            recorder.release();
-        }
-    }
-
-    private String getVoiceFileName(String uid) {
-        Time now = new Time();
-        now.setToNow();
-        return uid + now.toString().substring(0, 15) + EXTENSION;
+    /**
+     * 生成一个不重复的文件名
+     */
+    private String getVoiceUidFileName() {
+        Date date = new Date(System.currentTimeMillis());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("'VOICE'_yyyyMMdd_HHmmss");
+        return dateFormat.format(date) + System.currentTimeMillis() + EXTENSION;
     }
 
     public boolean isRecording() {
-        return isRecording;
+        return mRecorder.isRecording();
     }
 
-    
+
     public String getVoiceFilePath() {
         return voiceFilePath;
     }
-    
+
     public String getVoiceFileName() {
         return voiceFileName;
     }
 
 
-
     //////////////////
-    public static String getVoiceFileUid() {
-        Date date = new Date(System.currentTimeMillis());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("'VOICE'_yyyyMMdd_HHmmss");
-        return dateFormat.format(date);
-    }
-
     /**
      * 获取sd卡的路径
      *

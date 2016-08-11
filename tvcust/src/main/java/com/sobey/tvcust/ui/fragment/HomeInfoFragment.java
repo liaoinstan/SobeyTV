@@ -72,7 +72,7 @@ public class HomeInfoFragment extends BaseFragment implements View.OnClickListen
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Toolbar toolbar = (Toolbar) getView().findViewById(R.id.toolbar);
-        toolbar.setTitle("资讯");
+        toolbar.setTitle("发现");
         initBase();
         initView();
         initData();

@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.sobey.common.R;
 import com.sobey.common.common.CustomBitmapLoadCallBack;
 import com.sobey.common.entity.Images;
@@ -104,7 +105,11 @@ public class BannerView extends FrameLayout implements Runnable{
 
     private void initView() {
         if (images!=null && images.size()==0){
+            mHandler.removeMessages(AUTO_SCROLL_WHAT);
+            setVisibility(GONE);
             return;
+        }else {
+            setVisibility(VISIBLE);
         }
         DEFAULT_BANNER_SIZE = images.size();
         mBannerAdapter = new BannerAdapter(context);
@@ -184,7 +189,8 @@ public class BannerView extends FrameLayout implements Runnable{
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
             //绑定网络图片
-            x.image().bind(imageView, images.get(position).getImg(), new CustomBitmapLoadCallBack(imageView));
+//            x.image().bind(imageView, images.get(position).getImg(), new CustomBitmapLoadCallBack(imageView));
+            Glide.with(context).load(images.get(position).getImg()).placeholder(R.drawable.default_bk).crossFade().into(imageView);
 //            imageView.setImageResource(R.drawable.test);
 
             //点击事件
@@ -230,7 +236,9 @@ public class BannerView extends FrameLayout implements Runnable{
             mBannerPosition = position;
 //            setIndicator(position);
             position %= DEFAULT_BANNER_SIZE;
-            text_banner.setText(images.get(position).getTitle());
+            if (position<=images.size()-1) {
+                text_banner.setText(images.get(position).getTitle());
+            }
         }
 
         @Override

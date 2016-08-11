@@ -16,6 +16,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.PermissionChecker;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -217,18 +218,22 @@ public class PermissionsUtil {
     }
 
     public static void showSnack(final Activity activity, View showroot,String text){
-        Snackbar snackbar = Snackbar.make(showroot, text, Snackbar.LENGTH_INDEFINITE);
-        snackbar.setAction("前往设置", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 进入App设置页面
-                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                Uri uri = Uri.fromParts("package", activity.getPackageName(), null);
-                intent.setData(uri);
-                activity.startActivityForResult(intent, PermissionsUtil.REQUEST_PERMISSION_SETTING);
-            }
-        });
-        snackbar.show();
+        if (showroot==null){
+            Log.e("permissionUtil","showroot=null");
+        }else {
+            Snackbar snackbar = Snackbar.make(showroot, text, Snackbar.LENGTH_INDEFINITE);
+            snackbar.setAction("前往设置", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // 进入App设置页面
+                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    Uri uri = Uri.fromParts("package", activity.getPackageName(), null);
+                    intent.setData(uri);
+                    activity.startActivityForResult(intent, PermissionsUtil.REQUEST_PERMISSION_SETTING);
+                }
+            });
+            snackbar.show();
+        }
     }
     public static void showDialog(final Context context, String text){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);

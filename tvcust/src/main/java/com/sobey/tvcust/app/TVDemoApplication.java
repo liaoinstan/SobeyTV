@@ -24,6 +24,7 @@ import com.sobey.tvcust.R;
 import org.xutils.x;
 
 import cn.jpush.android.api.JPushInterface;
+import im.fir.sdk.FIR;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 public class TVDemoApplication extends Application {
@@ -43,6 +44,7 @@ public class TVDemoApplication extends Application {
 		initFonts();
 		initJpush();
 		initXutils();
+		initbugHd();
 //		initHuanxin();
 	}
 
@@ -68,6 +70,10 @@ public class TVDemoApplication extends Application {
 				.setFontAttrId(R.attr.fontPath)
 				.build()
 		);
+	}
+
+	private void initbugHd(){
+		FIR.init(this);
 	}
 //	private void initHuanxin(){
 //		TVHelper.getInstance().init(this);

@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.shelwee.update.UpdateHelper;
 import com.shelwee.update.listener.OnUpdateListener;
 import com.shelwee.update.pojo.UpdateInfo;
-import com.sobey.common.utils.VersionUtil;
+import com.shelwee.update.utils.VersionUtil;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
 

@@ -16,6 +16,9 @@ allprojects {
     repositories {
 //        mavenCentral()
         maven { url "https://jitpack.io" }  //photoview //Mpcharts
+        maven {
+            url "http://maven.bughd.com/public"
+        }   //bughd
         jcenter()
     }
 }

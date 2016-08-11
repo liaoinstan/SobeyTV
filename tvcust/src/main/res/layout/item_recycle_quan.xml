@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/img_quan_item_pic"
         android:layout_width="83dp"
-        android:layout_height="83dp"
+        android:layout_height="71dp"
         android:layout_margin="10dp"
         android:scaleType="centerCrop"/>
 

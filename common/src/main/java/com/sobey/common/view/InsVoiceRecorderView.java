@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.PowerManager;
 import android.support.v4.view.MotionEventCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,7 +21,6 @@ import com.sobey.common.R;
 
 /**
  * 按住说话录制控件
- *
  */
 public class InsVoiceRecorderView extends RelativeLayout {
     protected Context context;
@@ -38,7 +38,11 @@ public class InsVoiceRecorderView extends RelativeLayout {
         @Override
         public void handleMessage(android.os.Message msg) {
             // 切换msg切换图片
-            micImage.setImageDrawable(micImages[msg.what]);
+            int index = msg.what;
+            if (msg.what > micImages.length - 1) {
+                index = micImages.length - 1;
+            }
+            micImage.setImageDrawable(micImages[index]);
         }
     };
 
@@ -67,7 +71,7 @@ public class InsVoiceRecorderView extends RelativeLayout {
         voiceRecorder = new InsVoiceRecorder(micImageHandler);
 
         // 动画资源文件,用于录制语音时
-        micImages = new Drawable[] { getResources().getDrawable(R.drawable.ins_record_animate_01),
+        micImages = new Drawable[]{getResources().getDrawable(R.drawable.ins_record_animate_01),
                 getResources().getDrawable(R.drawable.ins_record_animate_02),
                 getResources().getDrawable(R.drawable.ins_record_animate_03),
                 getResources().getDrawable(R.drawable.ins_record_animate_04),
@@ -80,7 +84,7 @@ public class InsVoiceRecorderView extends RelativeLayout {
                 getResources().getDrawable(R.drawable.ins_record_animate_11),
                 getResources().getDrawable(R.drawable.ins_record_animate_12),
                 getResources().getDrawable(R.drawable.ins_record_animate_13),
-                getResources().getDrawable(R.drawable.ins_record_animate_14), };
+                getResources().getDrawable(R.drawable.ins_record_animate_14),};
 
         wakeLock = ((PowerManager) context.getSystemService(Context.POWER_SERVICE)).newWakeLock(
                 PowerManager.SCREEN_DIM_WAKE_LOCK, "demo");
@@ -89,9 +93,9 @@ public class InsVoiceRecorderView extends RelativeLayout {
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        if (isNeedHide){
+        if (isNeedHide) {
             this.setVisibility(INVISIBLE);
-        }else {
+        } else {
             this.setVisibility(VISIBLE);
         }
         showNoHint();
@@ -99,7 +103,7 @@ public class InsVoiceRecorderView extends RelativeLayout {
 
     /**
      * 长按说话按钮touch事件
-     * 
+     *
      * @param v
      * @param event
      */
@@ -107,67 +111,73 @@ public class InsVoiceRecorderView extends RelativeLayout {
 //        final int action = event.getAction();
         final int action = MotionEventCompat.getActionMasked(event);
         switch (action) {
-        case MotionEvent.ACTION_DOWN:
-            try {
+            case MotionEvent.ACTION_DOWN:
+                Log.e("voice","ACTION_DOWN");
+                try {
 //                if (EaseChatRowVoicePlayClickListener.isPlaying)
 //                    EaseChatRowVoicePlayClickListener.currentPlayListener.stopPlayVoice();
-                showMoveUpToCancelHint();
-                v.setPressed(true);
-                startRecording();
-            } catch (Exception e) {
-                v.setPressed(false);
-            }
-            return true;
-        case MotionEvent.ACTION_MOVE:
-            if (event.getY() < 0) {
-                showReleaseToCancelHint();
-            } else {
-                showMoveUpToCancelHint();
-            }
-            return true;
-        case MotionEvent.ACTION_UP:
-            micImage.setImageDrawable(micImages[0]);
-            showNoHint();
-            v.setPressed(false);
-            if (event.getY() < 0) {
-                // discard the recorded audio.
-                discardRecording();
-            } else {
-                // stop recording and send voice file
-                try {
-                    int length = stopRecoding();
-                    if (length > 0) {
-                        if (recorderCallback != null) {
-                            recorderCallback.onVoiceRecordComplete(getVoiceFilePath(), length);
-                        }
-                    }else if (length == 0){
-                        Toast.makeText(context, "录音时间太短", Toast.LENGTH_SHORT).show();
-                    }else{
-                        Toast.makeText(context, "无录音权限", Toast.LENGTH_SHORT).show();
-                    }
+                    showMoveUpToCancelHint();
+                    v.setPressed(true);
+                    startRecording();
                 } catch (Exception e) {
-                    e.printStackTrace();
-                    Toast.makeText(context, "录音失败", Toast.LENGTH_SHORT).show();
+                    v.setPressed(false);
                 }
-            }
-            return true;
-            case MotionEvent.ACTION_POINTER_DOWN:
-            case MotionEvent.ACTION_POINTER_UP:
                 return true;
-        default:
-            discardRecording();
-            return false;
+            case MotionEvent.ACTION_MOVE:
+                Log.e("voice","ACTION_MOVE");
+                if (event.getY() < 0) {
+                    showReleaseToCancelHint();
+                } else {
+                    showMoveUpToCancelHint();
+                }
+                return true;
+            case MotionEvent.ACTION_UP:
+                Log.e("voice","ACTION_UP");
+                micImage.setImageDrawable(micImages[0]);
+                showNoHint();
+                v.setPressed(false);
+                if (event.getY() < 0) {
+                    // discard the recorded audio.
+                    discardRecording();
+                } else {
+                    // stop recording and send voice file
+                    try {
+                        int length = stopRecoding();
+                        if (length > 0) {
+                            if (recorderCallback != null) {
+                                recorderCallback.onVoiceRecordComplete(getVoiceFilePath(), length);
+                            }
+                        } else if (length == 0) {
+                            Toast.makeText(context, "录音时间太短", Toast.LENGTH_SHORT).show();
+                        } else if (length == -1){
+                            Toast.makeText(context, "什么声音也没有", Toast.LENGTH_SHORT).show();
+                        }else {
+                            Toast.makeText(context, "无录音权限", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Toast.makeText(context, "录音失败", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                return true;
+            case MotionEvent.ACTION_POINTER_DOWN:
+                Log.e("voice","ACTION_POINTER_DOWN");
+                return true;
+            case MotionEvent.ACTION_POINTER_UP:
+                Log.e("voice","ACTION_POINTER_UP");
+                return true;
+            default:
+                discardRecording();
+                return false;
         }
     }
 
     public interface InsVoiceRecorderCallback {
         /**
          * 录音完毕
-         * 
-         * @param voiceFilePath
-         *            录音完毕后的文件路径
-         * @param voiceTimeLength
-         *            录音时长
+         *
+         * @param voiceFilePath   录音完毕后的文件路径
+         * @param voiceTimeLength 录音时长
          */
         void onVoiceRecordComplete(String voiceFilePath, int voiceTimeLength);
     }
@@ -243,7 +253,6 @@ public class InsVoiceRecorderView extends RelativeLayout {
     }
 
 
-
     //////////////////////
 
 
@@ -259,11 +268,11 @@ public class InsVoiceRecorderView extends RelativeLayout {
             return false;
     }
 
-    public void setNeedHide(boolean isNeedHide){
+    public void setNeedHide(boolean isNeedHide) {
         this.isNeedHide = isNeedHide;
-        if (this.isNeedHide){
+        if (this.isNeedHide) {
             this.setVisibility(INVISIBLE);
-        }else {
+        } else {
             this.setVisibility(VISIBLE);
         }
     }

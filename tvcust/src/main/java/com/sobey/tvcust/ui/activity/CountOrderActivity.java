@@ -53,7 +53,7 @@ public class CountOrderActivity extends BaseAppCompatActivity implements View.On
     private View showin;
 
     private PieChart chart_finish;
-//    private PieChart chart_unfinish;
+    //    private PieChart chart_unfinish;
     private View btn_bank;
     private View btn_next;
     private TextView text_time;
@@ -303,7 +303,11 @@ public class CountOrderActivity extends BaseAppCompatActivity implements View.On
         chart_finish.animateY(800, Easing.EasingOption.EaseInOutQuad);
 //        chart_unfinish.animateY(800, Easing.EasingOption.EaseInOutQuad);
 
-        chart_finish.setCenterText(getCenterText(chart_finish.getData().getDataSet().getEntryForIndex(0).getValue() + "%", "已完成"));
+        List<CountEntity> results = adapter.getResults();
+        int per = (results.get(0).getValue()*100)/(results.get(0).getValue() + results.get(1).getValue());
+
+//        chart_finish.getData().getDataSet().getEntryForIndex(0).getValue()
+        chart_finish.setCenterText(getCenterText(per + "%", "已完成"));
 //        chart_unfinish.setCenterText(getCenterText(chart_unfinish.getData().getDataSet().getEntryForIndex(0).getValue() + "%", "进行中"));
     }
 

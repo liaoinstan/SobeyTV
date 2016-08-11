@@ -7,6 +7,8 @@ import com.sobey.common.utils.PreferenceUtil;
 import com.sobey.tvcust.entity.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 该类封装了app中所有静态数据和持久化数据的读写操作
@@ -67,16 +69,17 @@ public class AppData {
 	}
 
 	public static class Cache{
-		public static boolean getXX(){
-			String xx = ACache.get(ApplicationHelp.getApplicationContext()).getAsString("xx");
-			if (xx == null || "".equals(xx)){
-				return false;
-			}
-			return Boolean.parseBoolean(xx);
+		public static HashMap<String,Long> getSignList(){
+			HashMap<String,Long> signList = (HashMap<String,Long>)ACache.get(ApplicationHelp.getApplicationContext()).getAsObject("signList");
+			return signList;
 		}
 
-		public static void saveXX(boolean xx){
-			ACache.get(ApplicationHelp.getApplicationContext()).put("xx",xx);
+		public static void saveSignList(HashMap<String,Long> map){
+			ACache.get(ApplicationHelp.getApplicationContext()).put("signList",map);
+		}
+
+		public static void removeSignList(){
+			ACache.get(ApplicationHelp.getApplicationContext()).remove("signList");
 		}
 	}
 

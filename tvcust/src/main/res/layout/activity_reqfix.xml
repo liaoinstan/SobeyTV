@@ -99,7 +99,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="代理申报"
+                            android:text="选择用户"
                             android:textColor="@color/sb_text_blank_deep_light"
                             android:textSize="@dimen/text_big_nomal" />
 

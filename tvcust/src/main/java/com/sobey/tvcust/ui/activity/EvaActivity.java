@@ -58,11 +58,9 @@ public class EvaActivity extends BaseAppCompatActivity implements View.OnClickLi
 
     private RatingBar rating_eva_headtech_attitude;
     private RatingBar rating_eva_headtech_speed;
-    private RatingBar rating_eva_headtech_product;
 
     private RatingBar rating_eva_develop_attitude;
     private RatingBar rating_eva_develop_speed;
-    private RatingBar rating_eva_develop_product;
 
     private View lay_eva_server;
     private View lay_eva_tech;
@@ -96,7 +94,7 @@ public class EvaActivity extends BaseAppCompatActivity implements View.OnClickLi
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (cancelable!=null) cancelable.cancel();
+        if (cancelable != null) cancelable.cancel();
     }
 
     private void initBase() {
@@ -121,14 +119,17 @@ public class EvaActivity extends BaseAppCompatActivity implements View.OnClickLi
         rating_eva_tech_attitude = (RatingBar) findViewById(R.id.rating_eva_tech_attitude);
         rating_eva_tech_speed = (RatingBar) findViewById(R.id.rating_eva_tech_speed);
         rating_eva_tech_product = (RatingBar) findViewById(R.id.rating_eva_tech_product);
+        if (AppData.App.getUser().getRoleType() == User.ROLE_COMMOM) {
+            rating_eva_tech_product.setVisibility(View.VISIBLE);
+        } else {
+            rating_eva_tech_product.setVisibility(View.GONE);
+        }
 
         rating_eva_headtech_attitude = (RatingBar) findViewById(R.id.rating_eva_headtech_attitude);
         rating_eva_headtech_speed = (RatingBar) findViewById(R.id.rating_eva_headtech_speed);
-        rating_eva_headtech_product = (RatingBar) findViewById(R.id.rating_eva_headtech_product);
 
         rating_eva_develop_attitude = (RatingBar) findViewById(R.id.rating_eva_develop_attitude);
         rating_eva_develop_speed = (RatingBar) findViewById(R.id.rating_eva_develop_speed);
-        rating_eva_develop_product = (RatingBar) findViewById(R.id.rating_eva_develop_product);
 
         lay_eva_server = findViewById(R.id.lay_eva_server);
         lay_eva_tech = findViewById(R.id.lay_eva_teach);
@@ -265,7 +266,7 @@ public class EvaActivity extends BaseAppCompatActivity implements View.OnClickLi
             case R.id.text_eva_complain:
                 intent.setClass(this, ComplainActivity.class);
                 intent.putExtra("orderId", orderId);
-                startActivityForResult(intent,RESULT_COMPLAIN);
+                startActivityForResult(intent, RESULT_COMPLAIN);
                 break;
             case R.id.btn_go:
                 btn_go.setClickable(false);
@@ -287,91 +288,130 @@ public class EvaActivity extends BaseAppCompatActivity implements View.OnClickLi
         String describe = edit_eva_describe.getText().toString();
 
         btn_go.setProgress(50);
-        String msg = AppVali.complain_commit(describe);
-        if (msg != null) {
-            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-            btn_go.setProgress(-1);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    btn_go.setClickable(true);
-                    btn_go.setProgress(0);
+//        String msg = AppVali.complain_commit(describe);
+//        if (msg != null) {
+//            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+//            btn_go.setProgress(-1);
+//            new Handler().postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    btn_go.setClickable(true);
+//                    btn_go.setProgress(0);
+//                }
+//            }, 800);
+//        } else {
+        RequestParams params = new RequestParams(AppData.Url.commitEva);
+        params.addHeader("token", AppData.App.getToken());
+        params.addBodyParameter("orderId", orderId + "");
+        params.addBodyParameter("commentContent", describe);
+        if (lay_eva_server.getVisibility() == View.VISIBLE) {
+            Eva eva = new Eva();
+            eva.setServiceAttitude((int) (rating_eva_server_attitude.getRating() * 20));
+            eva.setDisposeSpeed((int) (rating_eva_server_speed.getRating() * 20));
+            eva.setCommentLableIds(getSelectIds(flow_serv.getSelectedList(), serverLables));
+            params.addBodyParameter("serviceData", new Gson().toJson(eva));
+            if (eva.getServiceAttitude() == 0 || eva.getDisposeSpeed() == 0) {
+                if (eva.getServiceAttitude() == 0) {
+                    Toast.makeText(this, "客服的服务态度还没有打分哦", Toast.LENGTH_SHORT).show();
+                } else if (eva.getDisposeSpeed() == 0) {
+                    Toast.makeText(this, "客服的处理速度还没有打分哦", Toast.LENGTH_SHORT).show();
                 }
-            }, 800);
-        } else {
-            RequestParams params = new RequestParams(AppData.Url.commitEva);
-            params.addHeader("token", AppData.App.getToken());
-            params.addBodyParameter("orderId", orderId + "");
-            params.addBodyParameter("commentContent", describe);
-            if (lay_eva_server.getVisibility() == View.VISIBLE) {
-                Eva eva = new Eva();
-                eva.setServiceAttitude((int) (rating_eva_server_attitude.getRating() * 20));
-                eva.setDisposeSpeed((int) (rating_eva_server_speed.getRating() * 20));
-                eva.setCommentLableIds(getSelectIds(flow_serv.getSelectedList(), serverLables));
-                params.addBodyParameter("serviceData", new Gson().toJson(eva));
+                btn_go.setClickable(true);
+                return;
             }
-            if (lay_eva_tech.getVisibility() == View.VISIBLE) {
-                Eva eva = new Eva();
-                eva.setServiceAttitude((int) (rating_eva_tech_attitude.getRating() * 20));
-                eva.setDisposeSpeed((int) (rating_eva_tech_speed.getRating() * 20));
-                eva.setProductComment((int) (rating_eva_tech_product.getRating() * 20));
-                eva.setCommentLableIds(getSelectIds(flow_tech.getSelectedList(), techLables));
-                params.addBodyParameter("TSCData", new Gson().toJson(eva));
-            }
-            if (lay_eva_headtech.getVisibility() == View.VISIBLE) {
-                Eva eva = new Eva();
-                eva.setServiceAttitude((int) (rating_eva_headtech_attitude.getRating() * 20));
-                eva.setDisposeSpeed((int) (rating_eva_headtech_speed.getRating() * 20));
-                eva.setProductComment((int) (rating_eva_headtech_product.getRating() * 20));
-                eva.setCommentLableIds(getSelectIds(flow_headtech.getSelectedList(), headTechLables));
-                params.addBodyParameter("headTechData", new Gson().toJson(eva));
-            }
-            if (lay_eva_develop.getVisibility() == View.VISIBLE) {
-                Eva eva = new Eva();
-                eva.setServiceAttitude((int) (rating_eva_develop_attitude.getRating() * 20));
-                eva.setDisposeSpeed((int) (rating_eva_develop_speed.getRating() * 20));
-                eva.setProductComment((int) (rating_eva_develop_product.getRating() * 20));
-                eva.setCommentLableIds(getSelectIds(flow_develop.getSelectedList(), developLables));
-                params.addBodyParameter("headDevelopData", new Gson().toJson(eva));
-            }
-            cancelable = CommonNet.samplepost(params, CommonPojo.class, new CommonNet.SampleNetHander() {
-                @Override
-                public void netGo(int code, Object pojo, String text, Object obj) {
-                    Toast.makeText(EvaActivity.this, text, Toast.LENGTH_SHORT).show();
-
-                    btn_go.setProgress(100);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERLIST);
-                            EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERDESCRIBE);
-                            setResult(RESULT_OK);
-                            finish();
-                        }
-                    }, 800);
-                }
-
-                @Override
-                public void netSetError(int code, final String text) {
-                    Toast.makeText(EvaActivity.this, text, Toast.LENGTH_SHORT).show();
-                    btn_go.setProgress(-1);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            btn_go.setClickable(true);
-                            btn_go.setProgress(0);
-                        }
-                    }, 800);
-                }
-            });
         }
+        if (lay_eva_tech.getVisibility() == View.VISIBLE) {
+            Eva eva = new Eva();
+            eva.setServiceAttitude((int) (rating_eva_tech_attitude.getRating() * 20));
+            eva.setDisposeSpeed((int) (rating_eva_tech_speed.getRating() * 20));
+            eva.setProductComment((int) (rating_eva_tech_product.getRating() * 20));
+            eva.setCommentLableIds(getSelectIds(flow_tech.getSelectedList(), techLables));
+            params.addBodyParameter("TSCData", new Gson().toJson(eva));
+            if (eva.getServiceAttitude() == 0) {
+                Toast.makeText(this, "技术的服务态度还没有打分哦", Toast.LENGTH_SHORT).show();
+                btn_go.setClickable(true);
+                return;
+            } else if (eva.getDisposeSpeed() == 0) {
+                Toast.makeText(this, "技术的处理速度还没有打分哦", Toast.LENGTH_SHORT).show();
+                btn_go.setClickable(true);
+                return;
+            } else if (eva.getProductComment() == 0 && user.getRoleType() == User.ROLE_COMMOM) {
+                Toast.makeText(this, "产品评价还没有打分哦", Toast.LENGTH_SHORT).show();
+                btn_go.setClickable(true);
+                return;
+            }
+        }
+        if (lay_eva_headtech.getVisibility() == View.VISIBLE) {
+            Eva eva = new Eva();
+            eva.setServiceAttitude((int) (rating_eva_headtech_attitude.getRating() * 20));
+            eva.setDisposeSpeed((int) (rating_eva_headtech_speed.getRating() * 20));
+            eva.setCommentLableIds(getSelectIds(flow_headtech.getSelectedList(), headTechLables));
+            params.addBodyParameter("headTechData", new Gson().toJson(eva));
+            if (eva.getServiceAttitude() == 0 || eva.getDisposeSpeed() == 0 || eva.getProductComment() == 0) {
+                if (eva.getServiceAttitude() == 0) {
+                    Toast.makeText(this, "总部技术的服务态度还没有打分哦", Toast.LENGTH_SHORT).show();
+                } else if (eva.getDisposeSpeed() == 0) {
+                    Toast.makeText(this, "总部技术的处理速度还没有打分哦", Toast.LENGTH_SHORT).show();
+                }
+                btn_go.setClickable(true);
+                return;
+            }
+        }
+        if (lay_eva_develop.getVisibility() == View.VISIBLE) {
+            Eva eva = new Eva();
+            eva.setServiceAttitude((int) (rating_eva_develop_attitude.getRating() * 20));
+            eva.setDisposeSpeed((int) (rating_eva_develop_speed.getRating() * 20));
+            eva.setCommentLableIds(getSelectIds(flow_develop.getSelectedList(), developLables));
+            params.addBodyParameter("headDevelopData", new Gson().toJson(eva));
+            if (eva.getServiceAttitude() == 0 || eva.getDisposeSpeed() == 0 || eva.getProductComment() == 0) {
+                if (eva.getServiceAttitude() == 0) {
+                    Toast.makeText(this, "总部研发的服务态度还没有打分哦", Toast.LENGTH_SHORT).show();
+                } else if (eva.getDisposeSpeed() == 0) {
+                    Toast.makeText(this, "总部研发的处理速度还没有打分哦", Toast.LENGTH_SHORT).show();
+                }
+                btn_go.setClickable(true);
+                return;
+            }
+        }
+//        btn_go.setClickable(true);
+//        Toast.makeText(this, "严重通过", Toast.LENGTH_SHORT).show();
+        cancelable = CommonNet.samplepost(params, CommonPojo.class, new CommonNet.SampleNetHander() {
+            @Override
+            public void netGo(int code, Object pojo, String text, Object obj) {
+                Toast.makeText(EvaActivity.this, text, Toast.LENGTH_SHORT).show();
+
+                btn_go.setProgress(100);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERLIST);
+                        EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERDESCRIBE);
+                        setResult(RESULT_OK);
+                        finish();
+                    }
+                }, 800);
+            }
+
+            @Override
+            public void netSetError(int code, final String text) {
+                Toast.makeText(EvaActivity.this, text, Toast.LENGTH_SHORT).show();
+                btn_go.setProgress(-1);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        btn_go.setClickable(true);
+                        btn_go.setProgress(0);
+                    }
+                }, 800);
+            }
+        });
     }
 
     private class TagAdapterEva extends TagAdapter<Lable> {
 
         private Context context;
 
-        public TagAdapterEva(Context context,List<Lable> datas) {
+        public TagAdapterEva(Context context, List<Lable> datas) {
             super(datas);
             this.context = context;
         }

@@ -37,14 +37,6 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/icon_info_sign" />
 
-                <TextView
-                    android:layout_marginTop="5dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/text_tiny"
-                    android:textColor="@color/sb_text_light"
-                    android:text="签到"/>
-
             </LinearLayout>
 
             <LinearLayout
@@ -60,14 +52,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/icon_info_scan" />
-
-                <TextView
-                    android:layout_marginTop="5dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/text_tiny"
-                    android:textColor="@color/sb_text_light"
-                    android:text="扫一扫"/>
 
             </LinearLayout>
 

@@ -105,6 +105,8 @@ public class InfoQuanFragment extends BaseFragment implements OnRecycleItemClick
         recyclerView = (RecyclerView) getView().findViewById(R.id.recycle_info_quan);
         swipe = (SwipeRefreshLayout) getView().findViewById(R.id.swipe_info_quan);
         banner = (BannerView) getView().findViewById(R.id.banner);
+        //事先隐藏banner，加载数据后会显示出来
+        //banner.setVisibility(View.GONE);
     }
 
     private void initData(boolean isFirst) {

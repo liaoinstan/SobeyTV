@@ -197,7 +197,7 @@ public class OrderDetailActivity extends BaseAppCompatActivity implements View.O
     private void initData(final boolean isFirst) {
 
         //如果未查看就查看订单
-        if (order!=null) {
+        if (order != null) {
             if (user.getRoleType() == User.ROLE_CUSTOMER && order.getServiceCheck() != 1) {
                 netUpdateCheck();
             } else if (user.getRoleType() == User.ROLE_FILIALETECH && order.getTechCheck() != 1) {
@@ -254,6 +254,13 @@ public class OrderDetailActivity extends BaseAppCompatActivity implements View.O
                     });
                 } else {
                     swipe.setRefreshing(false);
+                }
+            }
+
+            @Override
+            public void netSetFalse(int code, int status, String text) {
+                if (status == 1008) {
+                    EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERLIST);
                 }
             }
 
@@ -346,9 +353,9 @@ public class OrderDetailActivity extends BaseAppCompatActivity implements View.O
             case 1:
                 btn_go.setText("操作");
                 btn_go.setIdleText("操作");
-                if (pop_describe.isAllHide()){
+                if (pop_describe.isAllHide()) {
                     btn_go.setEnabled(false);
-                }else {
+                } else {
                     btn_go.setEnabled(true);
                 }
                 break;
@@ -421,17 +428,17 @@ public class OrderDetailActivity extends BaseAppCompatActivity implements View.O
                             //接受任务后设置本地order的状态（不刷新 减小压力），更新弹窗和按钮状态
                             order.setStatus(Order.ORDER_INDEAL);    //订单状态变为处理中
                             /** 修改任务接受状态值*/
-                            if(user.getRoleType()==User.ROLE_FILIALETECH){
+                            if (user.getRoleType() == User.ROLE_FILIALETECH) {
                                 order.setTscIsAccept(1);
-                            }else if (user.getRoleType()==User.ROLE_HEADCOMTECH){
+                            } else if (user.getRoleType() == User.ROLE_HEADCOMTECH) {
                                 order.setHeadTechIsAccept(1);
-                            }else if (user.getRoleType()==User.ROLE_INVENT){
+                            } else if (user.getRoleType() == User.ROLE_INVENT) {
                                 order.setDevelopIsAccept(1);
                             }
                             pop_describe.setType(user.getRoleType(), order);
-                            if (pop_describe.isAllHide()){
+                            if (pop_describe.isAllHide()) {
                                 btn_go.setEnabled(false);
-                            }else {
+                            } else {
                                 btn_go.setEnabled(true);
                             }
                         }
@@ -499,7 +506,7 @@ public class OrderDetailActivity extends BaseAppCompatActivity implements View.O
                     } else {
                         isAccept = false;
                     }
-                }else {
+                } else {
                     isAccept = false;
                 }
             }

@@ -21,6 +21,7 @@
     <color name="sb_text_login_title">#626466</color>
     <color name="sb_blue">#5793e6</color>
     <color name="sb_blue_trans">#dd5793e6</color>
+    <color name="sb_blue_trans_light">#665793e6</color>
     <color name="sb_blue_hint">#cfe4fb</color>
     <color name="sb_blue_hint_trans">#335793e6</color>
     <color name="sb_bk_dark_trans">#55000000</color>
@@ -45,5 +46,6 @@
 
     <color name="sb_track">#8699aa</color>
     <color name="defaut">#cccccc</color>
+    <color name="defaut_dark">#1a1a1a</color>
     <color name="enable">#cccccc</color>
 </resources>

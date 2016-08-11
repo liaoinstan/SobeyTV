@@ -41,9 +41,9 @@
                     android:paddingBottom="2dip"
                     android:paddingTop="7dip"
                     android:scaleType="matrix"
-                    android:text="资讯"
+                    android:text="发现"
                     android:textColor="@drawable/my_color_home_tab_text"
-                    android:textSize="12sp" />
+                    android:textSize="11sp" />
 
             </RelativeLayout>
 
@@ -64,7 +64,7 @@
                     android:scaleType="matrix"
                     android:text="全网"
                     android:textColor="@drawable/my_color_home_tab_text"
-                    android:textSize="12sp" />
+                    android:textSize="11sp" />
 
             </RelativeLayout>
 
@@ -85,7 +85,7 @@
                     android:scaleType="matrix"
                     android:text="订单"
                     android:textColor="@drawable/my_color_home_tab_text"
-                    android:textSize="12sp" />
+                    android:textSize="11sp" />
 
             </RelativeLayout>
 
@@ -106,7 +106,7 @@
                     android:scaleType="matrix"
                     android:text="客服"
                     android:textColor="@drawable/my_color_home_tab_text"
-                    android:textSize="12sp" />
+                    android:textSize="11sp" />
 
             </RelativeLayout>
 
@@ -127,7 +127,7 @@
                     android:scaleType="matrix"
                     android:text="我的"
                     android:textColor="@drawable/my_color_home_tab_text"
-                    android:textSize="12sp" />
+                    android:textSize="11sp" />
 
             </RelativeLayout>
         </LinearLayout>

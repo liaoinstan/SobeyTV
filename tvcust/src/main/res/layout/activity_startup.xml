@@ -16,9 +16,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        app:myselected_color="@color/sb_blue"
+        app:myunselected_color="@color/sb_blue_trans_light"
+        app:mydoy_size="8dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="31dp" />
+        android:layout_marginBottom="25dp" />
 
 </RelativeLayout>

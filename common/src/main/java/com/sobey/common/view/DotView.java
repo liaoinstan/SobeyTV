@@ -43,6 +43,8 @@ public class DotView extends LinearLayout{
 
             mSelectedSrc = attributes.getResourceId(R.styleable.DotView_myselected_drawable, 0);
             mUnSelectedSrc = attributes.getResourceId(R.styleable.DotView_myunselected_drawable, 0);
+
+            dot_size = attributes.getDimensionPixelSize(R.styleable.DotView_mydoy_size, 13);
         }
 
         mSelectedGradientDrawable = new GradientDrawable();

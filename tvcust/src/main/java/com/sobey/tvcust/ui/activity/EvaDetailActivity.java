@@ -46,15 +46,13 @@ public class EvaDetailActivity extends BaseAppCompatActivity implements View.OnC
 
     private RatingBar rating_eva_tech_attitude;
     private RatingBar rating_eva_tech_speed;
-    private RatingBar rating_eva_tech_product;
+//    private RatingBar rating_eva_tech_product;
 
     private RatingBar rating_eva_headtech_attitude;
     private RatingBar rating_eva_headtech_speed;
-    private RatingBar rating_eva_headtech_product;
 
     private RatingBar rating_eva_develop_attitude;
     private RatingBar rating_eva_develop_speed;
-    private RatingBar rating_eva_develop_product;
 
     private RatingBar rating_eva_userserver_attitude;
     private RatingBar rating_eva_userserver_speed;
@@ -111,15 +109,13 @@ public class EvaDetailActivity extends BaseAppCompatActivity implements View.OnC
 
         rating_eva_tech_attitude = (RatingBar) findViewById(R.id.rating_eva_tech_attitude);
         rating_eva_tech_speed = (RatingBar) findViewById(R.id.rating_eva_tech_speed);
-        rating_eva_tech_product = (RatingBar) findViewById(R.id.rating_eva_tech_product);
+//        rating_eva_tech_product = (RatingBar) findViewById(R.id.rating_eva_tech_product);
 
         rating_eva_headtech_attitude = (RatingBar) findViewById(R.id.rating_eva_headtech_attitude);
         rating_eva_headtech_speed = (RatingBar) findViewById(R.id.rating_eva_headtech_speed);
-        rating_eva_headtech_product = (RatingBar) findViewById(R.id.rating_eva_headtech_product);
 
         rating_eva_develop_attitude = (RatingBar) findViewById(R.id.rating_eva_develop_attitude);
         rating_eva_develop_speed = (RatingBar) findViewById(R.id.rating_eva_develop_speed);
-        rating_eva_develop_product = (RatingBar) findViewById(R.id.rating_eva_develop_product);
 
         rating_eva_userserver_attitude = (RatingBar) findViewById(R.id.rating_eva_userserver_attitude);
         rating_eva_userserver_speed = (RatingBar) findViewById(R.id.rating_eva_userserver_speed);
@@ -199,7 +195,7 @@ public class EvaDetailActivity extends BaseAppCompatActivity implements View.OnC
             Eva eva = evaPojo.getTscdata();
             rating_eva_tech_attitude.setRating(eva.getServiceAttitude() / 20);
             rating_eva_tech_speed.setRating(eva.getDisposeSpeed() / 20);
-            rating_eva_tech_product.setRating(eva.getProductComment() / 20);
+//            rating_eva_tech_product.setRating(eva.getProductComment() / 20);
 
             List<Lable> lables = eva.getLables();
             techLables.clear();
@@ -212,7 +208,6 @@ public class EvaDetailActivity extends BaseAppCompatActivity implements View.OnC
             Eva eva = evaPojo.getHeadTechData();
             rating_eva_headtech_attitude.setRating(eva.getServiceAttitude() / 20);
             rating_eva_headtech_speed.setRating(eva.getDisposeSpeed() / 20);
-            rating_eva_headtech_product.setRating(eva.getProductComment() / 20);
 
             List<Lable> lables = eva.getLables();
             headTechLables.clear();
@@ -225,7 +220,6 @@ public class EvaDetailActivity extends BaseAppCompatActivity implements View.OnC
             Eva eva = evaPojo.getHeadDevelopData();
             rating_eva_develop_attitude.setRating(eva.getServiceAttitude() / 20);
             rating_eva_develop_speed.setRating(eva.getDisposeSpeed() / 20);
-            rating_eva_develop_product.setRating(eva.getProductComment() / 20);
 
             List<Lable> lables = eva.getLables();
             developLables.clear();

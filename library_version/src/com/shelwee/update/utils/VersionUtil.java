@@ -1,4 +1,4 @@
-package com.sobey.common.utils;
+package com.shelwee.update.utils;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -28,6 +28,15 @@ public class VersionUtil {
         PackageInfo pkinfo = getpaPackageInfo(context);
         if (pkinfo!=null && pkinfo.versionName!=null && !"".equals(pkinfo.versionName)) {
             String appName = pkinfo.applicationInfo.loadLabel(context.getPackageManager()).toString() + " " + pkinfo.versionName;
+            return appName;
+        }
+        return null;
+    }
+
+    public static String getAppName(Context context){
+        PackageInfo pkinfo = getpaPackageInfo(context);
+        if (pkinfo!=null && pkinfo.versionName!=null && !"".equals(pkinfo.versionName)) {
+            String appName = pkinfo.applicationInfo.loadLabel(context.getPackageManager()).toString();
             return appName;
         }
         return null;

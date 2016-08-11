@@ -77,7 +77,7 @@ public class RecycleAdapterBundle extends RecyclerView.Adapter<RecycleAdapterBun
                             bundleClickListener.onVideoShowClick(bundle.getPath());
                     }
                 });
-                Glide.with(context).load(bundle.getPath()).placeholder(R.drawable.default_bk).crossFade().into(holder.img_bundle_show);
+                Glide.with(context).load(bundle.getPath()).placeholder(R.drawable.default_bk_dark).crossFade().into(holder.img_bundle_show);
                 break;
             case VOICE:
                 holder.img_bundle_play.setVisibility(View.VISIBLE);
@@ -90,7 +90,7 @@ public class RecycleAdapterBundle extends RecyclerView.Adapter<RecycleAdapterBun
                     }
                 });
 //                Glide.with(context).load(R.drawable.default_bk).into(holder.img_bundle_show);
-                holder.img_bundle_show.setImageResource(R.drawable.default_bk);
+                holder.img_bundle_show.setImageResource(R.drawable.default_bk_dark);
                 break;
         }
         holder.img_bundle_delete.setOnClickListener(new View.OnClickListener() {

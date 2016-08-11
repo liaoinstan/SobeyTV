@@ -121,7 +121,19 @@ public class Order implements Serializable{
     private Integer isHeadTech;
 
     /**用户是否评价*/
+    @SerializedName("isUsercomment")
     private Integer isUsercomment;
+
+    @SerializedName("isValid")
+    private int isValid;
+
+    public int getIsValid() {
+        return isValid;
+    }
+
+    public void setIsValid(int isValid) {
+        this.isValid = isValid;
+    }
 
     public Integer getId() {
         return id;
