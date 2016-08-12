@@ -316,7 +316,13 @@ public class EvaActivity extends BaseAppCompatActivity implements View.OnClickLi
                 } else if (eva.getDisposeSpeed() == 0) {
                     Toast.makeText(this, "客服的处理速度还没有打分哦", Toast.LENGTH_SHORT).show();
                 }
-                btn_go.setClickable(true);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        btn_go.setClickable(true);
+                        btn_go.setProgress(0);
+                    }
+                }, 800);
                 return;
             }
         }
@@ -329,15 +335,33 @@ public class EvaActivity extends BaseAppCompatActivity implements View.OnClickLi
             params.addBodyParameter("TSCData", new Gson().toJson(eva));
             if (eva.getServiceAttitude() == 0) {
                 Toast.makeText(this, "技术的服务态度还没有打分哦", Toast.LENGTH_SHORT).show();
-                btn_go.setClickable(true);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        btn_go.setClickable(true);
+                        btn_go.setProgress(0);
+                    }
+                }, 800);
                 return;
             } else if (eva.getDisposeSpeed() == 0) {
                 Toast.makeText(this, "技术的处理速度还没有打分哦", Toast.LENGTH_SHORT).show();
-                btn_go.setClickable(true);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        btn_go.setClickable(true);
+                        btn_go.setProgress(0);
+                    }
+                }, 800);
                 return;
             } else if (eva.getProductComment() == 0 && user.getRoleType() == User.ROLE_COMMOM) {
                 Toast.makeText(this, "产品评价还没有打分哦", Toast.LENGTH_SHORT).show();
-                btn_go.setClickable(true);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        btn_go.setClickable(true);
+                        btn_go.setProgress(0);
+                    }
+                }, 800);
                 return;
             }
         }
@@ -353,7 +377,13 @@ public class EvaActivity extends BaseAppCompatActivity implements View.OnClickLi
                 } else if (eva.getDisposeSpeed() == 0) {
                     Toast.makeText(this, "总部技术的处理速度还没有打分哦", Toast.LENGTH_SHORT).show();
                 }
-                btn_go.setClickable(true);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        btn_go.setClickable(true);
+                        btn_go.setProgress(0);
+                    }
+                }, 800);
                 return;
             }
         }
@@ -369,7 +399,13 @@ public class EvaActivity extends BaseAppCompatActivity implements View.OnClickLi
                 } else if (eva.getDisposeSpeed() == 0) {
                     Toast.makeText(this, "总部研发的处理速度还没有打分哦", Toast.LENGTH_SHORT).show();
                 }
-                btn_go.setClickable(true);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        btn_go.setClickable(true);
+                        btn_go.setProgress(0);
+                    }
+                }, 800);
                 return;
             }
         }

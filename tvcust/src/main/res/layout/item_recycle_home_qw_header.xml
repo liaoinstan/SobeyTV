@@ -110,15 +110,15 @@
 
         <TextView
             android:id="@+id/btn_go_device"
-            android:foreground="?attr/selectableItemBackground"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
             android:layout_marginBottom="25dp"
             android:layout_width="160dp"
             android:layout_height="45dp"
-            android:textColor="@color/white"
+            android:textColor="@color/sb_blue"
             android:textSize="@dimen/text_big"
-            android:background="@drawable/bk_btn_blue_coner"
+            android:background="@drawable/shape_rect_corner_blue_full_line"
+            android:foreground="?attr/selectableItemBackground"
             android:text="设备详情"/>
 
     </LinearLayout>

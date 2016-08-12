@@ -39,7 +39,7 @@ public class AppUtils {
     public static boolean getNeedCheckSign() {
         String token = AppData.App.getToken();
         HashMap<String, Long> map = AppData.Cache.getSignList();
-        if (map.containsKey(token)) {
+        if (map!=null && map.containsKey(token)) {
             Long time = map.get(token);
             if (DateUtils.isSameDate(new Date().getTime(), time)) {
                 //和存储的日期是同一天返回true

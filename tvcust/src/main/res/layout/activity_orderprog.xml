@@ -121,13 +121,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="10dp"
-                        android:background="@drawable/shape_rect_corner_blue"
+                        android:background="@drawable/shape_rect_corner_blue_line"
+                        android:foreground="?attr/selectableItemBackground"
                         android:paddingBottom="8dp"
                         android:paddingLeft="15dp"
                         android:paddingRight="15dp"
                         android:paddingTop="8dp"
                         android:textSize="@dimen/text_nomal"
-                        android:textColor="@color/white"
+                        android:textColor="@color/sb_blue"
                         android:text="立即评价" />
 
                     <TextView
@@ -136,13 +137,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="10dp"
-                        android:background="@drawable/shape_rect_corner_blue"
+                        android:background="@drawable/shape_rect_corner_blue_line"
+                        android:foreground="?attr/selectableItemBackground"
                         android:paddingBottom="8dp"
                         android:paddingLeft="15dp"
                         android:paddingRight="15dp"
                         android:paddingTop="8dp"
                         android:textSize="@dimen/text_nomal"
-                        android:textColor="@color/white"
+                        android:textColor="@color/sb_blue"
                         android:text="查看评价" />
 
                 </LinearLayout>

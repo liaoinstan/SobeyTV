@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.interfaces.datasets.IPieDataSet;
+import com.sobey.common.common.CustomBitmapLoadCallBack;
 import com.sobey.common.utils.FontUtils;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppConstant;
@@ -42,6 +43,8 @@ import com.sobey.tvcust.utils.UrlUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.xutils.http.RequestParams;
+import org.xutils.image.ImageOptions;
+import org.xutils.x;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -107,7 +110,14 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
     public void onEventMainThread(Integer flag) {
         if (AppConstant.FLAG_UPDATE_ME.equals(flag)) {
             user = AppData.App.getUser();
-            Glide.with(this).load(user.getAvatar()).placeholder(R.drawable.me_header_defalt).crossFade().into(img_me_header);
+//            Glide.with(this).load(user.getAvatar()).crossFade().into(img_me_header);
+            ImageOptions imageOptions = new ImageOptions.Builder()
+                    .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
+                    .setPlaceholderScaleType(ImageView.ScaleType.CENTER_CROP)
+                    .setLoadingDrawableId(R.drawable.me_header_defalt)
+                    .setFailureDrawableId(R.drawable.me_header_defalt)
+                    .build();
+            x.image().bind(img_me_header, user.getAvatar(), imageOptions);
             text_me_name.setText(user.getRealName());
         }
     }
@@ -190,15 +200,15 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
     }
 
     private void setUserInfo() {
-        Glide.with(this).load(user.getAvatar()).placeholder(R.drawable.me_header_defalt).crossFade().into(img_me_header);
-
-//            ImageOptions imageOptions = new ImageOptions.Builder()
-//                    .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
-//                    .setPlaceholderScaleType(ImageView.ScaleType.CENTER_CROP)
-//                    .setLoadingDrawableId(R.drawable.test)
-//                    .setFailureDrawableId(R.drawable.test)
-//                    .build();
-//            x.image().bind(img_me_header, user.getAvatar(), imageOptions, new CustomBitmapLoadCallBack(img_me_header));
+//        Glide.with(this).load(user.getAvatar()).into(img_me_header);
+//
+            ImageOptions imageOptions = new ImageOptions.Builder()
+                    .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
+                    .setPlaceholderScaleType(ImageView.ScaleType.CENTER_CROP)
+                    .setLoadingDrawableId(R.drawable.me_header_defalt)
+                    .setFailureDrawableId(R.drawable.me_header_defalt)
+                    .build();
+            x.image().bind(img_me_header, user.getAvatar(), imageOptions);
 
         text_me_name.setText(user.getRealName());
     }

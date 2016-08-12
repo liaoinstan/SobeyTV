@@ -31,7 +31,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:text="投诉"
-                android:textColor="@color/sb_blue"
+                android:textColor="@color/white"
                 android:textSize="@dimen/text_nomal" />
         </android.support.v7.widget.Toolbar>
 

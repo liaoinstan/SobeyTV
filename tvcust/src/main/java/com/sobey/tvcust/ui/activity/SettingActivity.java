@@ -87,6 +87,7 @@ public class SettingActivity extends BaseAppCompatActivity implements View.OnCli
             @Override
             public void onClick(View v) {
                 netLogout();
+                dialogSureLogout.hide();
             }
         });
     }
@@ -162,6 +163,7 @@ public class SettingActivity extends BaseAppCompatActivity implements View.OnCli
     }
 
     private boolean islogouting = false;
+    private boolean isruning = false;
 
     private void netLogout() {
         if (islogouting) return;
@@ -198,6 +200,9 @@ public class SettingActivity extends BaseAppCompatActivity implements View.OnCli
             }
         });
 
+        if (isruning) return;
+
+        isruning = true;
         runnable = new Runnable() {
             @Override
             public void run() {

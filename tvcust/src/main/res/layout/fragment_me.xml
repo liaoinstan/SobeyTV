@@ -39,7 +39,7 @@
                             android:scaleType="centerCrop"
                             android:src="@drawable/me_bk" />
 
-                        <ImageView
+                        <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/img_me_header"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
@@ -47,7 +47,8 @@
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="-40dp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/default_bk" />
+                            app:civ_fill_color="@color/none"
+                            android:src="@drawable/me_header_defalt" />
 
                         <TextView
                             android:id="@+id/text_me_name"

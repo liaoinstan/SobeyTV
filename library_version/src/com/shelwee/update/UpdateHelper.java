@@ -38,6 +38,7 @@ import com.shelwee.update.utils.HttpRequest;
 import com.shelwee.update.utils.JSONHandler;
 import com.shelwee.update.utils.NetWorkUtils;
 import com.shelwee.update.utils.URLUtils;
+import com.shelwee.update.utils.VersionUtil;
 
 /**
  * Created by ShelWee on 14-5-8.<br/>
@@ -511,7 +512,7 @@ public class UpdateHelper {
 
 				if (updateInfo!=null && (updateInfo.getAppName()==null || "".equals(updateInfo.getAppName()))) {
 					String appName = getAppName();
-					updateInfo.setAppName(appName!=null?appName:"SOBEY");
+					updateInfo.setAppName(appName!=null?appName: VersionUtil.getAppName(mContext));
 				}
 				if (updateInfo!=null && updateInfo.getIsForce()!=null && updateInfo.getIsForce()==1) {
 					isAutoInstall = true;

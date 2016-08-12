@@ -15,7 +15,6 @@ import android.widget.Toast;
 import com.sobey.common.utils.FileUtil;
 import com.sobey.common.utils.others.BitmapUtil;
 import com.sobey.common.utils.others.FileUtils;
-import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,7 +24,7 @@ import java.io.InputStream;
 /**
  * Created by Administrator on 2016/1/19.
  */
-public class CropHelper {
+public class CropHelperSys {
     //    private File file;
     private String path;
     private static final int PHOTO_CAPTURE = 0xf311;// 拍照
@@ -36,7 +35,7 @@ public class CropHelper {
     private CropInterface cropInterface;
     private Context context;
 
-    public CropHelper(CropInterface cropInterface) {
+    public CropHelperSys(CropInterface cropInterface) {
         this.cropInterface = cropInterface;
 
         if (cropInterface instanceof Activity) {
@@ -61,8 +60,7 @@ public class CropHelper {
             case PHOTO_CAPTURE:
                 if (resultCode == Activity.RESULT_OK) {
                     if (needCrop) {
-                        Uri uri = Uri.fromFile(new File(path));
-                        startPhotoCrop(uri,uri);
+                        startPhotoCrop(Uri.fromFile(new File(path)));
                     } else {
                         if (needPress){
                             path = compress(path,path);
@@ -80,18 +78,13 @@ public class CropHelper {
                 if (resultCode == Activity.RESULT_OK) {
                     if (data != null) {
                         Uri uri = data.getData();
-                        if (needCrop) {
-                            path = FileUtil.getPhotoFullPath();
-                            startPhotoCrop(uri,Uri.fromFile(new File(path)));
-                        }else {
-                            //获取真实的图片路径，下面2种方法都可以
-                            //String pathFromUri = getPathFromUri(context, uri);
-                            String pathFromUri = FileUtil.getRealFilePath(context, uri);
-                            if (needPress) {
-                                pathFromUri = compress(pathFromUri, FileUtil.getPhotoFullPath());
-                            }
-                            cropInterface.cropResult(pathFromUri);
+                        //获取真实的图片路径，下面2种方法都可以
+                        //String pathFromUri = getPathFromUri(context, uri);
+                        String pathFromUri = FileUtil.getRealFilePath(context, uri);
+                        if (needPress){
+                            pathFromUri = compress(pathFromUri,FileUtil.getPhotoFullPath());
                         }
+                        cropInterface.cropResult(pathFromUri);
                     }
                 } else {
                     //没选择，不删除
@@ -107,18 +100,37 @@ public class CropHelper {
                     }
                 }
                 break;
-            case UCrop.REQUEST_CROP:
-                if (resultCode == Activity.RESULT_OK) {
-                    final Uri resultUri = UCrop.getOutput(data);
-                    cropInterface.cropResult(path);
-                } else {
-                    File file = new File(path);
-                    if (file != null && file.exists()) {
-                        file.delete();
-                    }
-                }
-                break;
         }
+    }
+
+    private String getPathFromUri(Context context,Uri uri) {
+        String pathm = null;
+
+        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+        Cursor cursor = context.getContentResolver().query(uri, filePathColumn, null, null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+            pathm = picturePath;
+            cursor.close();
+            cursor = null;
+            if (picturePath == null || picturePath.equals("null")) {
+                Toast toast = Toast.makeText(context, "没有找到图片", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+                return null;
+            }
+        } else {
+            File file = new File(uri.getPath());
+            if (!file.exists()) {
+                Toast toast = Toast.makeText(context, "没有找到图片", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+                return null;
+            }
+        }
+        return pathm;
     }
 
     private String compress(String FromPath,String toPath){
@@ -131,6 +143,8 @@ public class CropHelper {
         }
         return toPath;
     }
+
+
 
     /**
      * 调用摄像头拍照
@@ -155,8 +169,14 @@ public class CropHelper {
     public void startPhoto() {
         Intent intent;
         int mark;
+        if (needCrop) {
+            path = FileUtil.getPhotoFullPath();
+            intent = getPhotoCropIntent();
+            mark = PHOTO_CROP;
+        } else {
             intent = getPhotoIntent();
             mark = PHOTO_RESULT;
+        }
 
         if (cropInterface instanceof Activity) {
             ((Activity) cropInterface).startActivityForResult(intent, mark);
@@ -170,41 +190,93 @@ public class CropHelper {
     /**
      * 进行裁剪
      */
-    public void startPhotoCrop(Uri sourse,Uri uri) {
-        UCrop.of(sourse, uri)
-                .withAspectRatio(16, 16)
-                .withMaxResultSize(600, 600)
-                .start(getActivity(cropInterface));
-    }
+    public void startPhotoCrop(Uri uri) {
+        Intent intent = getCropIntent(uri);
 
-    private Context getContext(CropInterface cropInterface){
         if (cropInterface instanceof Activity) {
-            return (Activity)cropInterface;
+            ((Activity) cropInterface).startActivityForResult(intent, PHOTO_CROP);
         } else if (cropInterface instanceof Fragment) {
-            return ((Fragment)cropInterface).getActivity();
+            ((Fragment) cropInterface).startActivityForResult(intent, PHOTO_CROP);
         } else if (cropInterface instanceof android.support.v4.app.Fragment) {
-            return ((android.support.v4.app.Fragment)cropInterface).getActivity();
-        }else {
-            return null;
+            ((android.support.v4.app.Fragment) cropInterface).startActivityForResult(intent, PHOTO_CROP);
         }
     }
 
-    private Activity getActivity(CropInterface cropInterface){
-        if (cropInterface instanceof Activity) {
-            return (Activity)cropInterface;
-        } else if (cropInterface instanceof Fragment) {
-            return ((Fragment)cropInterface).getActivity();
-        } else if (cropInterface instanceof android.support.v4.app.Fragment) {
-            return ((android.support.v4.app.Fragment)cropInterface).getActivity();
-        }else {
-            return null;
-        }
+    private Intent getCropIntent(Uri uri) {
+        Intent intent;
+        intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, "image/*");
+        //裁剪框比例
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        //图片输出大小
+        intent.putExtra("outputX", 500);
+        intent.putExtra("outputY", 500);
+
+        intent.putExtra("crop", "true");
+        intent.putExtra("scale", true);
+        intent.putExtra("return-data", false);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+        intent.putExtra("noFaceDetection", true); // no face detection
+
+        return intent;
     }
 
     private Intent getPhotoIntent() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
         return intent;
+    }
+
+    private Intent getPhotoCropIntent() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        //裁剪框比例
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        //图片输出大小
+        intent.putExtra("outputX", 500);
+        intent.putExtra("outputY", 500);
+
+        intent.putExtra("crop", "true");
+        intent.putExtra("scale", true);
+        intent.putExtra("return-data", false);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(path)));
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+        intent.putExtra("noFaceDetection", true); // no face detection
+
+        return intent;
+    }
+
+    /**
+     * 根据URI获取位图
+     *
+     * @param uri
+     * @return 对应的位图
+     */
+    private Bitmap decodeUriAsBitmap(Uri uri) {
+        Bitmap bitmap = null;
+        try {
+            InputStream is = null;
+            if (cropInterface instanceof Activity) {
+                is = ((Activity) cropInterface).getContentResolver().openInputStream(uri);
+            } else if (cropInterface instanceof Fragment) {
+                is = ((Fragment) cropInterface).getActivity().getContentResolver().openInputStream(uri);
+            } else if (cropInterface instanceof android.support.v4.app.Fragment) {
+                is = ((android.support.v4.app.Fragment) cropInterface).getActivity().getContentResolver().openInputStream(uri);
+            }
+//            bitmap = BitmapFactory.decodeStream(is);
+            bitmap = BitmapFactory.decodeFile(uri.getPath());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return bitmap;
+    }
+
+    private Bitmap decodeFileAsBitmap(File file) {
+        return BitmapFactory.decodeFile(file.getPath());
     }
 
     public interface CropInterface {

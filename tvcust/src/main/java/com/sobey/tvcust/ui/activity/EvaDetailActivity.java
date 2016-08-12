@@ -12,6 +12,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sobey.common.utils.StrUtils;
 import com.sobey.tvcust.common.CommonNet;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
@@ -20,6 +21,7 @@ import com.sobey.tvcust.entity.CommonPojo;
 import com.sobey.tvcust.entity.Eva;
 import com.sobey.tvcust.entity.EvaPojo;
 import com.sobey.tvcust.entity.Lable;
+import com.sobey.tvcust.entity.User;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -29,7 +31,7 @@ import org.xutils.http.RequestParams;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EvaDetailActivity extends BaseAppCompatActivity implements View.OnClickListener{
+public class EvaDetailActivity extends BaseAppCompatActivity implements View.OnClickListener {
 
     private ViewGroup showingroup;
     private View showin;
@@ -46,7 +48,7 @@ public class EvaDetailActivity extends BaseAppCompatActivity implements View.OnC
 
     private RatingBar rating_eva_tech_attitude;
     private RatingBar rating_eva_tech_speed;
-//    private RatingBar rating_eva_tech_product;
+    private RatingBar rating_eva_tech_product;
 
     private RatingBar rating_eva_headtech_attitude;
     private RatingBar rating_eva_headtech_speed;
@@ -109,7 +111,13 @@ public class EvaDetailActivity extends BaseAppCompatActivity implements View.OnC
 
         rating_eva_tech_attitude = (RatingBar) findViewById(R.id.rating_eva_tech_attitude);
         rating_eva_tech_speed = (RatingBar) findViewById(R.id.rating_eva_tech_speed);
-//        rating_eva_tech_product = (RatingBar) findViewById(R.id.rating_eva_tech_product);
+        rating_eva_tech_product = (RatingBar) findViewById(R.id.rating_eva_tech_product);
+        //只有用户有产品评价
+        if (AppData.App.getUser().getRoleType() == User.ROLE_COMMOM) {
+            rating_eva_tech_product.setVisibility(View.VISIBLE);
+        } else {
+            rating_eva_tech_product.setVisibility(View.GONE);
+        }
 
         rating_eva_headtech_attitude = (RatingBar) findViewById(R.id.rating_eva_headtech_attitude);
         rating_eva_headtech_speed = (RatingBar) findViewById(R.id.rating_eva_headtech_speed);
@@ -144,14 +152,14 @@ public class EvaDetailActivity extends BaseAppCompatActivity implements View.OnC
         CommonNet.samplepost(params, EvaPojo.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
-                if (pojo==null){
+                if (pojo == null) {
                     showin = LoadingViewUtil.showin(showingroup, R.layout.layout_lack, showin, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             initData();
                         }
                     });
-                }else {
+                } else {
                     EvaPojo evaPojo = (EvaPojo) pojo;
                     setData(evaPojo);
                     LoadingViewUtil.showout(showingroup, showin);
@@ -195,7 +203,7 @@ public class EvaDetailActivity extends BaseAppCompatActivity implements View.OnC
             Eva eva = evaPojo.getTscdata();
             rating_eva_tech_attitude.setRating(eva.getServiceAttitude() / 20);
             rating_eva_tech_speed.setRating(eva.getDisposeSpeed() / 20);
-//            rating_eva_tech_product.setRating(eva.getProductComment() / 20);
+            rating_eva_tech_product.setRating(eva.getProductComment() / 20);
 
             List<Lable> lables = eva.getLables();
             techLables.clear();
@@ -252,7 +260,11 @@ public class EvaDetailActivity extends BaseAppCompatActivity implements View.OnC
             adapterUserTech.notifyDataChanged();
         }
 
-        text_eva_describe.setText(evaPojo.getCommentContent());
+        String commentContent = evaPojo.getCommentContent();
+        if (StrUtils.isEmpty(commentContent)){
+            commentContent = "没有填写评价内容";
+        }
+        text_eva_describe.setText(commentContent);
     }
 
     private List<Lable> serverLables = new ArrayList<>();
@@ -312,7 +324,7 @@ public class EvaDetailActivity extends BaseAppCompatActivity implements View.OnC
             case R.id.text_eva_complain:
                 intent.setClass(this, ComplainActivity.class);
                 intent.putExtra("orderId", orderId);
-                startActivityForResult(intent,RESULT_COMPLAIN);
+                startActivityForResult(intent, RESULT_COMPLAIN);
                 break;
         }
     }

@@ -2,6 +2,7 @@ package com.sobey.tvcust.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.dd.CircularProgressButton;
+import com.sobey.common.helper.CropHelperSys;
 import com.sobey.common.utils.StrUtils;
 import com.sobey.tvcust.common.CommonNet;
 import com.sobey.common.helper.CropHelper;
@@ -27,12 +30,14 @@ import com.sobey.tvcust.ui.dialog.DialogPopupPhoto;
 
 import org.greenrobot.eventbus.EventBus;
 import org.xutils.http.RequestParams;
+import org.xutils.image.ImageOptions;
+import org.xutils.x;
 
 import java.io.File;
 
-public class MeDetailActivity extends BaseAppCompatActivity implements View.OnClickListener, CropHelper.CropInterface {
+public class MeDetailActivity extends BaseAppCompatActivity implements View.OnClickListener, CropHelperSys.CropInterface {
 
-    private CropHelper cropHelper = new CropHelper(this);
+    private CropHelperSys cropHelper = new CropHelperSys(this);
 
     private ViewGroup showingroup;
     private View showin;
@@ -44,6 +49,8 @@ public class MeDetailActivity extends BaseAppCompatActivity implements View.OnCl
 
     private DialogPopupPhoto popup;
     private DialogLoading loadingDialog;
+
+    private CircularProgressButton btn_go;
 
     private User user;
     private String avatar;
@@ -74,7 +81,8 @@ public class MeDetailActivity extends BaseAppCompatActivity implements View.OnCl
 
     private void initBase() {
         user = AppData.App.getUser();
-        cropHelper.setNeedCrop(true);
+        //部分手机不支持裁剪
+        //cropHelper.setNeedCrop(true);
 
         loadingDialog = new DialogLoading(this, "正在上传");
         popup = new DialogPopupPhoto(this);
@@ -101,12 +109,22 @@ public class MeDetailActivity extends BaseAppCompatActivity implements View.OnCl
         text_comp = (TextView) findViewById(R.id.text_medetail_comp);
         edit_mail = (EditText) findViewById(R.id.edit_medetail_mail);
         text_phone = (TextView) findViewById(R.id.text_medetail_phone);
+        btn_go = (CircularProgressButton) findViewById(R.id.btn_go);
+        btn_go.setOnClickListener(this);
+        btn_go.setIndeterminateProgressMode(true);
 
         findViewById(R.id.item_go_modifyphone).setOnClickListener(this);
 
         //本地数据初始化展示
         if (user != null) {
-            Glide.with(this).load(user.getAvatar()).placeholder(R.drawable.me_header_defalt).crossFade().into(img_header);
+//            Glide.with(this).load(user.getAvatar()).placeholder(R.drawable.me_header_defalt).crossFade().into(img_header);
+            ImageOptions imageOptions = new ImageOptions.Builder()
+                    .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
+                    .setPlaceholderScaleType(ImageView.ScaleType.CENTER_CROP)
+                    .setLoadingDrawableId(R.drawable.me_header_defalt)
+                    .setFailureDrawableId(R.drawable.me_header_defalt)
+                    .build();
+            x.image().bind(img_header, user.getAvatar(), imageOptions);
 
 //            ImageOptions imageOptions = new ImageOptions.Builder()
 //                    .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
@@ -128,7 +146,6 @@ public class MeDetailActivity extends BaseAppCompatActivity implements View.OnCl
 
     private void initCtrl() {
         img_header.setOnClickListener(this);
-        findViewById(R.id.btn_submit).setOnClickListener(this);
     }
 
     @Override
@@ -166,13 +183,23 @@ public class MeDetailActivity extends BaseAppCompatActivity implements View.OnCl
                 Intent intent = new Intent(this, ModifyPhoneActivity.class);
                 startActivityForResult(intent, RESULT_MODIFYPHONE);
                 break;
-            case R.id.btn_submit:
+            case R.id.btn_go:
+                btn_go.setClickable(false);
                 final String name = edit_name.getText().toString();
                 final String mail = edit_mail.getText().toString();
 
+                btn_go.setProgress(50);
                 String msg = AppVali.me_update(user,avatar, name, mail);
                 if (msg != null) {
                     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+                    btn_go.setProgress(-1);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            btn_go.setClickable(true);
+                            btn_go.setProgress(0);
+                        }
+                    }, 800);
                 } else {
                     final RequestParams params = new RequestParams(AppData.Url.updateInfo);
                     params.addHeader("token", AppData.App.getToken());
@@ -192,12 +219,28 @@ public class MeDetailActivity extends BaseAppCompatActivity implements View.OnCl
                             if (!StrUtils.isEmpty(mail)) user.setEmail(mail);
                             AppData.App.saveUser(user);
                             EventBus.getDefault().post(AppConstant.FLAG_UPDATE_ME);
-                            finish();
+
+                            btn_go.setClickable(true);
+                            btn_go.setProgress(100);
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    finish();
+                                }
+                            }, 1000);
                         }
 
                         @Override
                         public void netSetError(int code, String text) {
                             Toast.makeText(MeDetailActivity.this, text, Toast.LENGTH_SHORT).show();
+                            btn_go.setProgress(-1);
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    btn_go.setClickable(true);
+                                    btn_go.setProgress(0);
+                                }
+                            }, 800);
                         }
                     });
                 }
@@ -224,7 +267,14 @@ public class MeDetailActivity extends BaseAppCompatActivity implements View.OnCl
                     //上传完毕，设置头像链接
                     avatar = url;
                     MeDetailActivity.this.path = path;
-                    Glide.with(MeDetailActivity.this).load(path).placeholder(R.drawable.me_header_defalt).crossFade().into(img_header);
+//                    Glide.with(MeDetailActivity.this).load(path).crossFade().into(img_header);
+                    ImageOptions imageOptions = new ImageOptions.Builder()
+                            .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
+                            .setPlaceholderScaleType(ImageView.ScaleType.CENTER_CROP)
+                            .setLoadingDrawableId(R.drawable.me_header_defalt)
+                            .setFailureDrawableId(R.drawable.me_header_defalt)
+                            .build();
+                    x.image().bind(img_header, path, imageOptions);
                 }
             }
 
