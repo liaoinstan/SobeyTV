@@ -127,6 +127,17 @@ public class Order implements Serializable{
     @SerializedName("isValid")
     private int isValid;
 
+    @SerializedName("isFeedback")
+    private int isFeedback;
+
+    public int getIsFeedback() {
+        return isFeedback;
+    }
+
+    public void setIsFeedback(int isFeedback) {
+        this.isFeedback = isFeedback;
+    }
+
     public int getIsValid() {
         return isValid;
     }

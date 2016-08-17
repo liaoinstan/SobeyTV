@@ -2,12 +2,10 @@ package com.sobey.tvcust.ui.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,7 +21,6 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IPieDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.sobey.common.utils.DensityUtil;
 import com.sobey.common.utils.TimeUtil;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
@@ -116,6 +113,7 @@ public class CountOrderActivity extends BaseAppCompatActivity implements View.On
         String datestr = TimeUtil.getTimeFor(format, new Date());
         yearM = TimeUtil.getStrByStr(format, "yyyyMM", datestr);
         text_time.setText(datestr);
+        setNextEnable();
     }
 
     private void initData() {
@@ -194,10 +192,15 @@ public class CountOrderActivity extends BaseAppCompatActivity implements View.On
         dialog.setOnOKlistener(new DialogMouthPicker.OnOkListener() {
             @Override
             public void onOkClick(Date date) {
-                String strdate = TimeUtil.getTimeFor("yyyy年MM月", date);
-                text_time.setText(strdate);
-                yearM = TimeUtil.getStrByStr(format, "yyyyMM", strdate);
-                initData();
+                if (isInTime(date)) {
+                    String strdate = TimeUtil.getTimeFor("yyyy年MM月", date);
+                    text_time.setText(strdate);
+                    yearM = TimeUtil.getStrByStr(format, "yyyyMM", strdate);
+                    setNextEnable();
+                    initData();
+                }else {
+                    Toast.makeText(CountOrderActivity.this,"无法选择今天以后的日期",Toast.LENGTH_SHORT).show();
+                }
             }
         });
         //////////////////////////////
@@ -311,6 +314,27 @@ public class CountOrderActivity extends BaseAppCompatActivity implements View.On
 //        chart_unfinish.setCenterText(getCenterText(chart_unfinish.getData().getDataSet().getEntryForIndex(0).getValue() + "%", "进行中"));
     }
 
+    private void setNextEnable(){
+        Date dateSelect = TimeUtil.getDateByStr("yyyyMM", yearM);
+        Date today = new Date();
+        int day = TimeUtil.subMouth(dateSelect, today);
+        if (day>0){
+            btn_next.setEnabled(true);
+        }else {
+            btn_next.setEnabled(false);
+        }
+    }
+
+    private boolean isInTime(Date dateSelect){
+        Date today = new Date();
+        int day = TimeUtil.subMouth(dateSelect, today);
+        if (day>=0){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -329,6 +353,7 @@ public class CountOrderActivity extends BaseAppCompatActivity implements View.On
                 String datelaststr = TimeUtil.add(format, datestr, Calendar.MONTH, -1);
                 text_time.setText(datelaststr);
                 yearM = TimeUtil.getStrByStr(format, "yyyyMM", datelaststr);
+                setNextEnable();
                 initData();
                 break;
             }
@@ -337,6 +362,7 @@ public class CountOrderActivity extends BaseAppCompatActivity implements View.On
                 String datelaststr = TimeUtil.add(format, datestr, Calendar.MONTH, 1);
                 text_time.setText(datelaststr);
                 yearM = TimeUtil.getStrByStr(format, "yyyyMM", datelaststr);
+                setNextEnable();
                 initData();
                 break;
             }

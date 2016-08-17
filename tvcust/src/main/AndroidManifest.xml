@@ -31,8 +31,13 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <!--全局dialog-->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"></uses-permission>
-    <!--拨打电话-->
-    <!--<uses-permission android:name="android.permission.CALL_PHONE"></uses-permission>-->
+
+    <!--友盟统计start-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
+    <!--友盟统计end-->
 
     <application
         android:name=".app.TVDemoApplication"
@@ -42,7 +47,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <!--bugHD-->
         <meta-data android:value="2c6902b17241c4abf1050f19fb3f6f62" android:name="BUG_HD_SDK_GENERAL_KEY" />
+        <!--友盟统计-->
+        <meta-data android:value="57b3f0bae0f55aae02001a65" android:name="UMENG_APPKEY"></meta-data>
+        <meta-data android:value="Channel ID" android:name="UMENG_CHANNEL"/>
 
         <receiver android:name=".receiver.MyInstalledReceiver" >
             <intent-filter>
@@ -241,6 +250,10 @@
             android:name=".ui.activity.SelectStationActivity"
             android:label="@string/title_activity_selectstation"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".ui.activity.FeedBackActivity"
+            android:label="@string/title_activity_feedback"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

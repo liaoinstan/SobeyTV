@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_big_nomal"
             android:textColor="@color/sb_text_blank"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="7dp"
             android:text=""/>
 
         <TextView
@@ -53,17 +53,24 @@
             android:paddingLeft="20dp"
             android:paddingBottom="20dp"
             android:paddingTop="15dp"
-            android:lineSpacingExtra="5dp"
+            android:lineSpacingExtra="8dp"
             android:background="@color/white"
             android:textColor="@color/sb_text_blank"
             android:layout_marginTop="25dp"
-            android:text="耶和华说，我不再怜恤这地的居民。必将这民交给各人的邻舍，和他们王的手中。他们必毁灭这地，我也不救这民脱离他们的手。于是，我牧养这将宰的群羊，就是群中最困苦的羊。我拿着两根杖。一根我称为荣美，一根我称为联索。这样，我牧养了群羊。"/>
+            android:text="简单，一键申请售后维护，随时与索贝联系。\n及时，专属贴心客服，为您的维护保驾护航。\n轻便，全网告警随手知，把运维揣兜里。\n趣味，口袋姐精选，属于您的广电分享交流平台。"/>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/version_check"
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
             android:layout_height="50dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginBottom="10dp"
             android:background="@color/sb_bk_dark"
             android:gravity="center"
             android:textColor="@color/white"

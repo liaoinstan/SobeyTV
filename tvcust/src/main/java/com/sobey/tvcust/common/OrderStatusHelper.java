@@ -200,7 +200,7 @@ public class OrderStatusHelper {
         switch (roleType) {
             //技术人员
             case User.ROLE_FILIALETECH:
-                if (order.getTscIsAccept() != 1 && (order.getStatus()==Order.ORDER_UNDEAL || order.getStatus()==Order.ORDER_INDEAL)) {
+                if (order.getTscIsAccept() != 1 && (order.getStatus() == Order.ORDER_UNDEAL || order.getStatus() == Order.ORDER_INDEAL)) {
                     //如果是技术人员，且未接受，则显示接受按钮
                     return 0;
                 } else {
@@ -209,14 +209,14 @@ public class OrderStatusHelper {
                 }
                 //总部技术
             case User.ROLE_HEADCOMTECH:
-                if (order.getHeadTechIsAccept() != 1 && (order.getStatus()==Order.ORDER_UNDEAL || order.getStatus()==Order.ORDER_INDEAL)) {
+                if (order.getHeadTechIsAccept() != 1 && (order.getStatus() == Order.ORDER_UNDEAL || order.getStatus() == Order.ORDER_INDEAL)) {
                     return 0;
                 } else {
                     return 1;
                 }
                 //总部研发
             case User.ROLE_INVENT:
-                if (order.getDevelopIsAccept() != 1 && (order.getStatus()==Order.ORDER_UNDEAL || order.getStatus()==Order.ORDER_INDEAL)) {
+                if (order.getDevelopIsAccept() != 1 && (order.getStatus() == Order.ORDER_UNDEAL || order.getStatus() == Order.ORDER_INDEAL)) {
                     return 0;
                 } else {
                     return 1;
@@ -233,6 +233,7 @@ public class OrderStatusHelper {
                 return 2;
         }
     }
+
     /**
      * 订单是否可以完成
      */
@@ -274,7 +275,7 @@ public class OrderStatusHelper {
             case User.ROLE_CUSTOMER:
                 return "客服";
             case User.ROLE_FILIALETECH:
-                return "TSC";
+                return "分公司技术";
             case User.ROLE_HEADCOMTECH:
                 return "总部技术";
             case User.ROLE_INVENT:
@@ -293,7 +294,7 @@ public class OrderStatusHelper {
             if (roleType == User.ROLE_COMMOM) {
                 if (from == User.ROLE_COMMOM) {
                     return "用户" + " 反馈 " + "技术";
-                }else {
+                } else {
                     return "技术" + " 反馈 " + "用户";
                 }
             } else {
@@ -303,9 +304,32 @@ public class OrderStatusHelper {
     }
 
     /**
-     * 是否需要选择援助对象，第一次选择后之后不再需要
+     * 是否需要显示hot的红色订单图标
+     * 只有tsc给总部技术，总部技术看到红色； 总部技术给tsc，tsc看到红色；这2种情况
+     * ture 显示红色
+     * false 显示蓝色
      */
-    public static boolean needAccept(){
-        return false;
+    public static boolean needHotIcon(int roleType, Order order) {
+        switch (roleType) {
+            case User.ROLE_FILIALETECH:
+                //tsc
+                if (order.getIsHeadTech() == 1) {
+                    //直接分配给总技术
+                    return true;
+                } else {
+                    return false;
+                }
+            case User.ROLE_HEADCOMTECH:
+                //总部技术
+                if (order.getIsHeadTech() == 1) {
+                    //直接分配给总技术
+                    return false;
+                } else {
+                    return true;
+                }
+            default:
+                //其他情况都是蓝色
+                return false;
+        }
     }
 }

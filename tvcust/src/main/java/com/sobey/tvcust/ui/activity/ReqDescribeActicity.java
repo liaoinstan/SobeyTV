@@ -283,6 +283,7 @@ public class ReqDescribeActicity extends BaseAppCompatActivity implements View.O
                 } else {
                     intent.setClass(this, AssistActivity.class);
                     intent.putExtra("userId", userId);
+                    intent.putExtra("categoryId", categoryId);
                     startActivityForResult(intent, RESULT_SELECTUSER);
                 }
                 break;
@@ -390,9 +391,9 @@ public class ReqDescribeActicity extends BaseAppCompatActivity implements View.O
 
         String msg = null;
         if (isAccept) {
-            msg = AppVali.reqfix_addDescribe_withuser(assisterId, detail,bundleView.getResults());
+            msg = AppVali.reqfix_addDescribe_withuser(assisterId, detail,bundleView.getVoicePaths());
         } else {
-            msg = AppVali.reqfix_addDescribe(detail,bundleView.getResults());
+            msg = AppVali.reqfix_addDescribe(detail,bundleView.getVoicePaths());
         }
         if (msg != null) {
             btn_go.setClickable(true);

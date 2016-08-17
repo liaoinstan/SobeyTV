@@ -727,6 +727,14 @@
             android:scaleType="center"
             android:src="@drawable/icon_me_tosign" />
 
+        <ImageView
+            android:id="@+id/btn_go_msg"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:scaleType="center"
+            android:src="@drawable/home_qw_msg" />
+
     </android.support.v7.widget.Toolbar>
 
 </android.support.design.widget.CoordinatorLayout>

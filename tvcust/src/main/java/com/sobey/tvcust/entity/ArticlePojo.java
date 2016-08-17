@@ -1,6 +1,7 @@
 package com.sobey.tvcust.entity;
 
 import com.google.gson.annotations.SerializedName;
+import com.sobey.common.entity.Article;
 
 import java.util.List;
 

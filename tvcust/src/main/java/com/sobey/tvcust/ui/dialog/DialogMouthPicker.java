@@ -19,7 +19,9 @@ import com.wx.wheelview.widget.WheelView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 
@@ -77,7 +79,9 @@ public class DialogMouthPicker extends Dialog implements View.OnClickListener {
     }
 
     private void initData() {
-        for (int i = 2015; i <= 2030; i++) {
+        int year = new GregorianCalendar().get(Calendar.YEAR);//当前年
+
+        for (int i = 2015; i <= year; i++) {
             datayears.add(i + "年");
         }
         for (int i = 1; i <= 12; i++) {
@@ -155,7 +159,7 @@ public class DialogMouthPicker extends Dialog implements View.OnClickListener {
         }
     }
 
-    private String getNumStr(String str){
+    private String getNumStr(String str) {
         return str.substring(0, str.length() - 1);
     }
 

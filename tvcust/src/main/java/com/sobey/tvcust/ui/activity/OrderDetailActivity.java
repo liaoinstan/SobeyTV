@@ -150,6 +150,13 @@ public class OrderDetailActivity extends BaseAppCompatActivity implements View.O
                 pop_describe.hide();
             }
         });
+        pop_describe.setOnBugListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popBug();
+                pop_describe.hide();
+            }
+        });
         pop_describe.setOnUserListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -465,6 +472,8 @@ public class OrderDetailActivity extends BaseAppCompatActivity implements View.O
     }
 
     //去添加订单描述（上级或下级）
+    //0向高级
+    //1向低级
     private void goAddDescribe(int type) {
         Intent intent = new Intent();
         intent.setClass(this, ReqDescribeActicity.class);
@@ -473,7 +482,7 @@ public class OrderDetailActivity extends BaseAppCompatActivity implements View.O
         intent.putExtra("flag", type);
         intent.putExtra("userId", order.getUserId());
         if (user.getRoleType() == User.ROLE_COMMOM) {
-            intent.putExtra("title", type == 0 ? "向TSC反馈" : "反馈");
+            intent.putExtra("title", type == 0 ? "向分公司技术反馈" : "反馈");
         } else {
             intent.putExtra("title", type == 0 ? "申请协助" : "反馈");
         }
@@ -593,6 +602,14 @@ public class OrderDetailActivity extends BaseAppCompatActivity implements View.O
         goAddDescribe(1);
     }
 
+    private void popBug() {
+        Intent intent = new Intent(this, ReqDescribeOnlyActicity.class);
+        intent.putExtra("orderId", id);
+        intent.putExtra("type", 5);
+        intent.putExtra("title", "反馈补丁");
+        startActivity(intent);
+    }
+
     private void popUser() {
         Intent intent = new Intent(this, ReqDescribeOnlyActicity.class);
         intent.putExtra("orderId", id);
@@ -628,11 +645,10 @@ public class OrderDetailActivity extends BaseAppCompatActivity implements View.O
         startActivity(intent);
     }
 
-
     @Override
     public void onItemClick(RecyclerView.ViewHolder viewHolder) {
         OrderDescribe describe = adapter.getResults().get(viewHolder.getLayoutPosition());
-        if (order.getStatus() != Order.ORDER_UNEVA && order.getStatus() != Order.ORDER_FINSH) {
+        if (order.getStatus() != Order.ORDER_UNEVA && order.getStatus() != Order.ORDER_FINSH && order.getStatus() != Order.ORDER_UNVALI) {
             if (describe.getFrom() == User.ROLE_FILIALETECH) {
                 //用户点击技术的消息
                 popUserToTech();

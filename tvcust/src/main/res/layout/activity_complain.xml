@@ -79,7 +79,7 @@
                             android:layout_marginTop="10dp"
                             android:background="@drawable/shape_rect_dark_line"
                             android:gravity="left|top"
-                            android:hint="留下您的评价"
+                            android:hint="留下您的意见和建议"
                             android:inputType="textMultiLine"
                             android:minLines="6"
                             android:padding="8dp"

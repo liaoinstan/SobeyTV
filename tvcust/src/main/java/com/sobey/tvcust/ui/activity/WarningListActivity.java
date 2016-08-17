@@ -87,9 +87,9 @@ public class WarningListActivity extends BaseAppCompatActivity implements OnRecy
     }
 
     private void initData() {
-        if (AppData.App.getUser().getRoleType() == User.ROLE_COMMOM){
+        if (AppData.App.getUser().getRoleType() == User.ROLE_COMMOM) {
             netGetStation_group();
-        }else {
+        } else {
             netGroup();
         }
 //        netlist();
@@ -151,7 +151,7 @@ public class WarningListActivity extends BaseAppCompatActivity implements OnRecy
     public void onItemClick(RecyclerView.ViewHolder viewHolder) {
         Warning warning = adapter.getResults().get(viewHolder.getLayoutPosition());
         Intent intent = new Intent(this, DeviceDetailActivity.class);
-        intent.putExtra("hostkey",warning.getHostKey());
+        intent.putExtra("hostkey", warning.getHostKey());
         startActivity(intent);
     }
 
@@ -166,7 +166,7 @@ public class WarningListActivity extends BaseAppCompatActivity implements OnRecy
         params.addHeader("token", AppData.App.getToken());
         params.addBodyParameter("pageNO", 1 + "");
         params.addBodyParameter("pageSize", PAGE_COUNT + "");
-        if (AppData.App.getUser().getRoleType()!=User.ROLE_COMMOM) {
+        if (AppData.App.getUser().getRoleType() != User.ROLE_COMMOM) {
             params.addBodyParameter("stationCode", stationCode);
         }
         if (!StrUtils.isEmpty(groupCode)) {
@@ -288,8 +288,8 @@ public class WarningListActivity extends BaseAppCompatActivity implements OnRecy
             public void netGo(int code, Object pojo, String text, Object obj) {
                 SBGroupPojo groupPojo = (SBGroupPojo) pojo;
                 List<SBGroup> groupList = groupPojo.getGroupList();
+                tab.addTab(tab.newTab().setText("全部").setTag(""));
                 if (groupList != null && groupList.size() != 0) {
-                    tab.addTab(tab.newTab().setText("全部").setTag(""));
                     for (SBGroup group : groupList) {
                         tab.addTab(tab.newTab().setText(group.getName()).setTag(group.getCode()));
                     }

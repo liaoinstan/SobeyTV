@@ -174,10 +174,11 @@
                             android:orientation="horizontal">
 
                             <TextView
+                                android:id="@+id/text_eva_tech"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="20dp"
-                                android:text="技术评价"
+                                android:text="分公司技术评价"
                                 android:textColor="@color/sb_text_blank"
                                 android:textSize="@dimen/text_big" />
 
@@ -242,6 +243,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/lay_eva_tech_product"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
                             android:layout_marginBottom="10dp"
@@ -302,7 +304,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="20dp"
-                                android:text="总公司技术评价"
+                                android:text="总部技术评价"
                                 android:textColor="@color/sb_text_blank"
                                 android:textSize="@dimen/text_big" />
 
@@ -400,7 +402,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="20dp"
-                                android:text="总研发评价"
+                                android:text="总部研发评价"
                                 android:textColor="@color/sb_text_blank"
                                 android:textSize="@dimen/text_big" />
 

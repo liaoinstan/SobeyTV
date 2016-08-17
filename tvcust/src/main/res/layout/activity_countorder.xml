@@ -42,7 +42,7 @@
                 android:id="@+id/btn_countorder_bank"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:background="@drawable/shape_oval_bk_dark"
+                android:background="@drawable/hot_oval_bk_dark"
                 android:padding="8dp"
                 android:src="@drawable/icon_back" />
 
@@ -62,7 +62,7 @@
                 android:id="@+id/btn_countorder_next"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:background="@drawable/shape_oval_bk_dark"
+                android:background="@drawable/hot_oval_bk_dark"
                 android:padding="8dp"
                 android:src="@drawable/icon_next" />
         </LinearLayout>

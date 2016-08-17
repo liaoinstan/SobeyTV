@@ -126,6 +126,7 @@ public class CountWarningActivity extends BaseAppCompatActivity implements View.
 
         String datestr = TimeUtil.getTimeFor(format, new Date());
         yearM = TimeUtil.getStrByStr(format, "yyyyMM", datestr);
+        setNextEnable();
         text_time.setText(datestr);
     }
 
@@ -145,10 +146,15 @@ public class CountWarningActivity extends BaseAppCompatActivity implements View.
         dialog.setOnOKlistener(new DialogMouthPicker.OnOkListener() {
             @Override
             public void onOkClick(Date date) {
-                String strdate = TimeUtil.getTimeFor("yyyy年MM月", date);
-                text_time.setText(strdate);
-                yearM = TimeUtil.getStrByStr(format, "yyyyMM", strdate);
-                initData();
+                if (isInTime(date)) {
+                    String strdate = TimeUtil.getTimeFor("yyyy年MM月", date);
+                    text_time.setText(strdate);
+                    yearM = TimeUtil.getStrByStr(format, "yyyyMM", strdate);
+                    setNextEnable();
+                    initData();
+                } else {
+                    Toast.makeText(CountWarningActivity.this, "无法选择今天以后的日期", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         //////////////////////////////
@@ -248,6 +254,7 @@ public class CountWarningActivity extends BaseAppCompatActivity implements View.
                 String datelaststr = TimeUtil.add("yyyy年MM月", datestr, Calendar.MONTH, -1);
                 text_time.setText(datelaststr);
                 yearM = TimeUtil.getStrByStr(format, "yyyyMM", datelaststr);
+                setNextEnable();
                 initData();
                 break;
             }
@@ -256,6 +263,7 @@ public class CountWarningActivity extends BaseAppCompatActivity implements View.
                 String datelaststr = TimeUtil.add("yyyy年MM月", datestr, Calendar.MONTH, 1);
                 text_time.setText(datelaststr);
                 yearM = TimeUtil.getStrByStr(format, "yyyyMM", datelaststr);
+                setNextEnable();
                 initData();
                 break;
             }
@@ -278,29 +286,6 @@ public class CountWarningActivity extends BaseAppCompatActivity implements View.
         return DateUtils.getLastDayOfMonth(selectDate).getTime();
     }
 
-    private List<CountEntity> getCountListWarningList(List<SBWarningCount> list) {
-        ArrayList<CountEntity> counts = new ArrayList<>();
-        int i = 0;
-        for (SBWarningCount warningCount : list) {
-            CountEntity countEntity = new CountEntity();
-            String name;
-            if (!StrUtils.isEmpty(warningCount.getGroupName())) {
-                name = warningCount.getGroupName();
-            } else {
-                if (!StrUtils.isEmpty(warningCount.getGroupCode())) {
-                    name = warningCount.getGroupCode();
-                } else {
-                    name = "未分组";
-                }
-            }
-            countEntity.setName(name);
-            countEntity.setValue(warningCount.getCount());
-            countEntity.setColor(colors.get(i % colors.size()));
-            counts.add(countEntity);
-            i++;
-        }
-        return counts;
-    }
 
     private SpannableString generateCenterSpannableText() {
         SpannableString s = new SpannableString("Sobey\ndeveloped by Philipp Jahoda");
@@ -334,16 +319,7 @@ public class CountWarningActivity extends BaseAppCompatActivity implements View.
                 } else {
                     SBCountWarningPojo countWarningPojo = (SBCountWarningPojo) pojo;
                     List<SBCountWarningStates> statsList = countWarningPojo.getStatsList();
-                    List<SBWarningCount> warningCounts = null;
-                    if (statsList != null && statsList.size() != 0) {
-                        warningCounts = statsList.get(0).getKitGroupDetail();
-                    } else {
-                        warningCounts = null;
-                    }
-                    List<CountEntity> counts = null;
-                    if (warningCounts != null && warningCounts.size() != 0) {
-                        counts = getCountListWarningList(warningCounts);
-                    }
+                    List<CountEntity> counts = AppUtils.getWarningList(statsList, colors);
                     if (counts != null && counts.size() != 0) {
                         results.clear();
                         results.addAll(counts);
@@ -381,6 +357,11 @@ public class CountWarningActivity extends BaseAppCompatActivity implements View.
             }
 
             @Override
+            public void netException(int code, String text) {
+                netSetError(code, text);
+            }
+
+            @Override
             public void netStart(int code) {
                 showin = LoadingViewUtil.showin(showingroup, R.layout.layout_loading, showin, false);
             }
@@ -410,5 +391,26 @@ public class CountWarningActivity extends BaseAppCompatActivity implements View.
                 Toast.makeText(CountWarningActivity.this, text, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void setNextEnable() {
+        Date dateSelect = TimeUtil.getDateByStr("yyyyMM", yearM);
+        Date today = new Date();
+        int day = TimeUtil.subMouth(dateSelect, today);
+        if (day > 0) {
+            btn_next.setEnabled(true);
+        } else {
+            btn_next.setEnabled(false);
+        }
+    }
+
+    private boolean isInTime(Date dateSelect) {
+        Date today = new Date();
+        int day = TimeUtil.subMouth(dateSelect, today);
+        if (day >= 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

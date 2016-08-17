@@ -3,7 +3,7 @@
     <string name="action_settings">设置</string>
     <string name="title_activity_start_up">启动页</string>
     <string name="title_activity_reqfix">维修申报</string>
-    <string name="title_activity_reqfixdescribe">技术援助</string>
+    <string name="title_activity_reqfixdescribe">技术协助</string>
     <string name="title_activity_reqfixdescribeonly">提交反馈</string>
     <string name="title_activity_question">问题</string>
     <string name="title_activity_device_detail">设备详情</string>
@@ -19,8 +19,8 @@
     <string name="title_activity_count_order">派单统计</string>
     <string name="title_activity_countquestion">问题分类统计</string>
     <string name="title_activity_countwarning">报警类型统计</string>
-    <string name="title_activity_device_list">设备</string>
-    <string name="title_activity_warning_list">告警</string>
+    <string name="title_activity_device_list">设备列表</string>
+    <string name="title_activity_warning_list">告警列表</string>
     <string name="title_activity_login">登录</string>
     <string name="title_activity_find_psw">找回密码</string>
     <string name="title_activity_eva_detail">评价详情</string>
@@ -34,14 +34,15 @@
     <string name="title_activity_me_detail">编辑个人资料</string>
     <string name="title_activity_order_detail">订单详情</string>
     <string name="title_activity_order_allocate">订单分配</string>
-    <string name="title_activity_order_allocateonly">选择TSC</string>
+    <string name="title_activity_order_allocateonly">选择分公司技术</string>
     <string name="title_activity_comp">分公司</string>
     <string name="title_activity_modify_phone">修改绑定手机</string>
     <string name="title_activity_setting_security">安全设置</string>
     <string name="title_activity_modify_psw">修改密码</string>
-    <string name="title_activity_assist">援助选择</string>
+    <string name="title_activity_assist">协助选择</string>
     <string name="title_activity_copy">抄送</string>
     <string name="title_activity_select_user">选择用户</string>
     <string name="title_activity_scanner">二维码扫描</string>
     <string name="title_activity_selectstation">选择电视台</string>
+    <string name="title_activity_feedback">打小报告</string>
 </resources>

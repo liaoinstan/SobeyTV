@@ -2,18 +2,14 @@ package com.sobey.tvcust.ui.activity;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ImageView;
 
 import com.sobey.common.utils.StrUtils;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
-import com.sobey.tvcust.entity.Article;
 
 import java.util.HashMap;
 

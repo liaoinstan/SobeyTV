@@ -351,10 +351,10 @@ public class ReqfixActicity extends BaseAppCompatActivity implements View.OnClic
         String msg = null;
         if (user.getRoleType() == User.ROLE_COMMOM) {
             //用户不用验证代办用户id
-            msg = AppVali.reqfix_commit(categoryId, detail,bundleView.getResults());
+            msg = AppVali.reqfix_commit(categoryId, detail,bundleView.getVoicePaths());
         } else if (user.getRoleType() == User.ROLE_CUSTOMER) {
             //客户必须验证代办用户id
-            msg = AppVali.reqfix_commit_withuser(categoryId, userId, detail,bundleView.getResults());
+            msg = AppVali.reqfix_commit_withuser(categoryId, userId, detail,bundleView.getVoicePaths());
         }
         if (msg != null) {
             btn_go.setClickable(true);

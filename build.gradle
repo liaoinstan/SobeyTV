@@ -15,6 +15,7 @@ buildscript {
 allprojects {
     repositories {
 //        mavenCentral()
+        mavenCentral()
         maven { url "https://jitpack.io" }  //photoview //Mpcharts
         maven {
             url "http://maven.bughd.com/public"

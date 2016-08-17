@@ -8,11 +8,11 @@ public class Eva implements Serializable {
 
 	private static final long serialVersionUID = 1727269244728865753L;
 	
-	private Integer serviceAttitude;
+	private int serviceAttitude;
 	
-	private Integer disposeSpeed;
+	private int disposeSpeed;
 	
-	private Integer productComment;
+	private int productComment;
 	
 	private List<Integer> commentLableIds;
 
@@ -26,7 +26,7 @@ public class Eva implements Serializable {
 		this.lables = lables;
 	}
 
-	public Integer getServiceAttitude() {
+	public int getServiceAttitude() {
 		return serviceAttitude;
 	}
 
@@ -34,19 +34,19 @@ public class Eva implements Serializable {
 		this.serviceAttitude = serviceAttitude;
 	}
 
-	public Integer getDisposeSpeed() {
+	public int getDisposeSpeed() {
 		return disposeSpeed;
 	}
 
-	public void setDisposeSpeed(Integer disposeSpeed) {
+	public void setDisposeSpeed(int disposeSpeed) {
 		this.disposeSpeed = disposeSpeed;
 	}
 
-	public Integer getProductComment() {
+	public int getProductComment() {
 		return productComment;
 	}
 
-	public void setProductComment(Integer productComment) {
+	public void setProductComment(int productComment) {
 		this.productComment = productComment;
 	}
 

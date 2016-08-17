@@ -110,9 +110,9 @@ public class OrderAllocateActivity extends BaseAppCompatActivity implements View
             btn_go.setIdleText("分配任务");
             btn_go.setText("分配任务");
         }else if(type==1){
-            getSupportActionBar().setTitle("分配TSC");
-            btn_go.setIdleText("分配TSC");
-            btn_go.setText("分配TSC");
+            getSupportActionBar().setTitle("分配分公司技术");
+            btn_go.setIdleText("分配分公司技术");
+            btn_go.setText("分配分公司技术");
         }
     }
 

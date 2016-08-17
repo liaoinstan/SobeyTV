@@ -36,6 +36,7 @@ import com.sobey.tvcust.ui.activity.CountOrderActivity;
 import com.sobey.tvcust.ui.activity.CountWarningActivity;
 import com.sobey.tvcust.ui.activity.DeviceListActivity;
 import com.sobey.tvcust.ui.activity.MeDetailActivity;
+import com.sobey.tvcust.ui.activity.MsgSelectActivity;
 import com.sobey.tvcust.ui.activity.SettingActivity;
 import com.sobey.tvcust.utils.AppUtils;
 import com.sobey.tvcust.utils.UrlUtils;
@@ -66,12 +67,14 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
     private View item_me_setting;
     private View lay_me_warning;
     private View btn_go_medetail;
+    private View btn_go_msg;
     private ImageView img_me_header;
     private TextView text_me_name;
     private TextView text_me_signs;
     private TextView text_me_warnings;
     private TextView text_me_orders;
     private View lay_me_warnings;
+
 
 
     private User user;
@@ -156,24 +159,21 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
         text_me_warnings = (TextView) getView().findViewById(R.id.text_me_warnings);
         text_me_orders = (TextView) getView().findViewById(R.id.text_me_orders);
         lay_me_warnings = getView().findViewById(R.id.lay_me_warnings);
+        btn_go_msg = getView().findViewById(R.id.btn_go_msg);
 
         btn_go_medetail = getView().findViewById(R.id.btn_go_medetail);
         btn_go_medetail.setOnClickListener(this);
         img_me_header.setOnClickListener(this);
+        btn_go_msg.setOnClickListener(this);
 
-        //只有用户有累计报警
-        if (user.getRoleType() == User.ROLE_COMMOM) {
+        //是产品用户才显示报警类型统计按钮,其他任何都不
+        if (user.getRoleType() == User.ROLE_COMMOM && user.getIsPUser() == 0) {
+            //是产品用户
+            lay_me_warning.setVisibility(View.VISIBLE);
             lay_me_warnings.setVisibility(View.VISIBLE);
         } else {
-            lay_me_warnings.setVisibility(View.GONE);
-        }
-
-        //是产品用户才显示报警类型统计按钮
-        if (user.getRoleType() == User.ROLE_COMMOM && user.getIsPUser() == 1) {
-            //是非产品用户
             lay_me_warning.setVisibility(View.GONE);
-        } else {
-            lay_me_warning.setVisibility(View.VISIBLE);
+            lay_me_warnings.setVisibility(View.GONE);
         }
 
         //本地数据初始化展示
@@ -217,6 +217,11 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
     public void onClick(View v) {
         Intent intent = new Intent();
         switch (v.getId()) {
+            case R.id.btn_go_msg: {
+                intent.setClass(getActivity(), MsgSelectActivity.class);
+                startActivity(intent);
+                break;
+            }
             case R.id.img_me_header:
                 intent.setClass(getActivity(), MeDetailActivity.class);
                 startActivity(intent);

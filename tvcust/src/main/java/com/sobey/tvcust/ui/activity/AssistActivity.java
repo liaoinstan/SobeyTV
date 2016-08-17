@@ -42,6 +42,9 @@ public class AssistActivity extends BaseAppCompatActivity implements View.OnClic
 
     private CircularProgressButton btn_go;
 
+    private int categoryId;
+    private int userId;
+
     private User user;
 
     @Override
@@ -60,6 +63,12 @@ public class AssistActivity extends BaseAppCompatActivity implements View.OnClic
 
     private void initBase() {
         user = AppData.App.getUser();
+        if (getIntent().hasExtra("categoryId")) {
+            categoryId = getIntent().getIntExtra("categoryId", 0);
+        }
+        if (getIntent().hasExtra("userId")) {
+            userId = getIntent().getIntExtra("userId", 0);
+        }
     }
 
     private void initView() {
@@ -75,9 +84,12 @@ public class AssistActivity extends BaseAppCompatActivity implements View.OnClic
         if (User.ROLE_HEADCOMTECH == user.getRoleType()) {
             //总部研发列表
             params = new RequestParams(AppData.Url.developer);
+            params.addBodyParameter("categoryId", categoryId+"");
         } else {
             //总技术人员列表
             params = new RequestParams(AppData.Url.assister);
+            params.addBodyParameter("userId", userId+"");
+            params.addBodyParameter("categoryId", categoryId+"");
         }
         params.addHeader("token", AppData.App.getToken());
         CommonNet.samplepost(params, AssisterPojo.class, new CommonNet.SampleNetHander() {

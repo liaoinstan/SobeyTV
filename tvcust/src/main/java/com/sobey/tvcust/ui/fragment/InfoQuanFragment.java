@@ -2,7 +2,6 @@ package com.sobey.tvcust.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -10,7 +9,6 @@ import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,13 +23,9 @@ import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.CommonNet;
 import com.sobey.tvcust.common.DividerItemDecoration;
 import com.sobey.tvcust.common.LoadingViewUtil;
-import com.sobey.tvcust.entity.Article;
+import com.sobey.common.entity.Article;
 import com.sobey.tvcust.entity.ArticlePojo;
 import com.sobey.tvcust.entity.BannerPojo;
-import com.sobey.tvcust.entity.CommonEntity;
-import com.sobey.tvcust.entity.Order;
-import com.sobey.tvcust.entity.OrderPojo;
-import com.sobey.tvcust.entity.TestEntity;
 import com.sobey.tvcust.ui.activity.InfoDetailActivity;
 import com.sobey.tvcust.interfaces.OnRecycleItemClickListener;
 import com.sobey.tvcust.ui.activity.WebActivity;
@@ -309,7 +303,6 @@ public class InfoQuanFragment extends BaseFragment implements OnRecycleItemClick
             linkUrl = AppData.Url.newsDetail + "?newsId=" + article.getId();
             Intent intent = new Intent(getActivity(), InfoDetailActivity.class);
             intent.putExtra("url", linkUrl);
-            intent.putExtra("izan", false);
             intent.putExtra("newsId", article.getId());
             intent.putExtra("article", article);
             startActivity(intent);
@@ -319,12 +312,23 @@ public class InfoQuanFragment extends BaseFragment implements OnRecycleItemClick
     @Override
     public void onBannerClick(int position) {
         Images image = this.images.get(position);
-
-        if (StrUtils.isUrl(image.getUrl())) {
-            Intent intent = new Intent(getActivity(), WebActivity.class);
-            intent.putExtra("title", "资讯");
-            intent.putExtra("url", image.getUrl());//https://github.com    //http://cn.bing.com
-            getActivity().startActivity(intent);
+        if (image.getIsInside() == 0) {
+            if (StrUtils.isUrl(image.getUrl())) {
+                Intent intent = new Intent(getActivity(), WebActivity.class);
+                intent.putExtra("title", "资讯");
+                intent.putExtra("url", image.getUrl());//https://github.com    //http://cn.bing.com
+                getActivity().startActivity(intent);
+            }
+        }else {
+            //内部文章
+            String linkUrl = AppData.Url.newsDetail + "?newsId=" + image.getNewsId();
+            Intent intent = new Intent(getActivity(), InfoDetailActivity.class);
+            intent.putExtra("url", linkUrl);
+            intent.putExtra("newsId", image.getNewsId());
+            intent.putExtra("article", image.getArticle());
+            startActivity(intent);
         }
+
+
     }
 }

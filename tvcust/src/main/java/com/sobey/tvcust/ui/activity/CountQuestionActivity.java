@@ -115,6 +115,7 @@ public class CountQuestionActivity extends BaseAppCompatActivity implements View
 
         String datestr = TimeUtil.getTimeFor(format, new Date());
         yearM = TimeUtil.getStrByStr(format, "yyyyMM", datestr);
+        setNextEnable();
         text_time.setText(datestr);
     }
 
@@ -191,10 +192,15 @@ public class CountQuestionActivity extends BaseAppCompatActivity implements View
         dialog.setOnOKlistener(new DialogMouthPicker.OnOkListener() {
             @Override
             public void onOkClick(Date date) {
-                String strdate = TimeUtil.getTimeFor("yyyy年MM月", date);
-                text_time.setText(strdate);
-                yearM = TimeUtil.getStrByStr(format, "yyyyMM", strdate);
-                initData();
+                if (isInTime(date)) {
+                    String strdate = TimeUtil.getTimeFor("yyyy年MM月", date);
+                    text_time.setText(strdate);
+                    yearM = TimeUtil.getStrByStr(format, "yyyyMM", strdate);
+                    setNextEnable();
+                    initData();
+                }else {
+                    Toast.makeText(CountQuestionActivity.this,"无法选择今天以后的日期",Toast.LENGTH_SHORT).show();
+                }
             }
         });
         //////////////////////////////
@@ -294,6 +300,7 @@ public class CountQuestionActivity extends BaseAppCompatActivity implements View
                 String datelaststr = TimeUtil.add("yyyy年MM月", datestr, Calendar.MONTH, -1);
                 text_time.setText(datelaststr);
                 yearM = TimeUtil.getStrByStr(format, "yyyyMM", datelaststr);
+                setNextEnable();
                 initData();
                 break;
             }
@@ -302,6 +309,7 @@ public class CountQuestionActivity extends BaseAppCompatActivity implements View
                 String datelaststr = TimeUtil.add("yyyy年MM月", datestr, Calendar.MONTH, 1);
                 text_time.setText(datelaststr);
                 yearM = TimeUtil.getStrByStr(format, "yyyyMM", datelaststr);
+                setNextEnable();
                 initData();
                 break;
             }
@@ -337,5 +345,26 @@ public class CountQuestionActivity extends BaseAppCompatActivity implements View
         s.setSpan(new StyleSpan(Typeface.ITALIC), s.length() - 14, s.length(), 0);
         s.setSpan(new ForegroundColorSpan(ColorTemplate.getHoloBlue()), s.length() - 14, s.length(), 0);
         return s;
+    }
+
+    private void setNextEnable(){
+        Date dateSelect = TimeUtil.getDateByStr("yyyyMM", yearM);
+        Date today = new Date();
+        int day = TimeUtil.subMouth(dateSelect, today);
+        if (day>0){
+            btn_next.setEnabled(true);
+        }else {
+            btn_next.setEnabled(false);
+        }
+    }
+
+    private boolean isInTime(Date dateSelect){
+        Date today = new Date();
+        int day = TimeUtil.subMouth(dateSelect, today);
+        if (day>=0){
+            return true;
+        }else {
+            return false;
+        }
     }
 }

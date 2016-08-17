@@ -1,9 +1,7 @@
 package com.sobey.tvcust.ui.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,14 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.sobey.common.entity.Images;
-import com.sobey.common.utils.StrUtils;
-import com.sobey.common.view.BannerView;
 import com.sobey.tvcust.R;
-import com.sobey.tvcust.entity.Article;
-import com.sobey.tvcust.entity.TestEntity;
+import com.sobey.common.entity.Article;
 import com.sobey.tvcust.interfaces.OnRecycleItemClickListener;
-import com.sobey.tvcust.ui.activity.WebActivity;
 
 import java.util.List;
 

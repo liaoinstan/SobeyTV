@@ -37,7 +37,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * type为0 是完成任务 type为1 是验收成功 type 2 验收拒绝 type 3 跨级追加  type 4 追加描述
+ * type为0 是完成任务 type为1 是验收成功 type 2 验收拒绝 type 3 跨级追加  type 4 追加描述 type 5 反馈补丁
  */
 public class ReqDescribeOnlyActicity extends BaseAppCompatActivity implements View.OnClickListener, CropHelper.CropInterface {
 
@@ -296,7 +296,7 @@ public class ReqDescribeOnlyActicity extends BaseAppCompatActivity implements Vi
         String detail = edit_reqfix_detail.getText().toString();
 
         String msg = null;
-        msg = AppVali.reqfix_addDescribe(detail,bundleView.getResults());
+        msg = AppVali.reqfix_addDescribe(detail,bundleView.getVoicePaths());
         if (msg != null) {
             btn_go.setClickable(true);
             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
@@ -400,6 +400,9 @@ public class ReqDescribeOnlyActicity extends BaseAppCompatActivity implements Vi
             params.addBodyParameter("flag", "2");
         } else if (type == 4) {
             params.addBodyParameter("flag", "3");
+        }else if (type == 5){
+            params.addBodyParameter("flag", "1");
+            params.addBodyParameter("isFeedback","1");
         }
         params.addBodyParameter("content", detail);
         if (!StrUtils.isEmpty(photoUrls)) {
@@ -431,6 +434,14 @@ public class ReqDescribeOnlyActicity extends BaseAppCompatActivity implements Vi
                         }
                     }, 800);
                 } else if (type == 4) {
+                    EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERDESCRIBE);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            finish();
+                        }
+                    }, 800);
+                } else if (type ==5 ){
                     EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERDESCRIBE);
                     new Handler().postDelayed(new Runnable() {
                         @Override

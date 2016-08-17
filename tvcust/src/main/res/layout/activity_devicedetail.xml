@@ -200,7 +200,7 @@
                                     android:id="@+id/text_devicedetail_todaytotaltime"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="8小时"
+                                    android:text="-小时"
                                     android:textColor="@color/sb_text_blank_deep_light"
                                     android:textSize="@dimen/text_nomal" />
                             </LinearLayout>
@@ -234,7 +234,7 @@
                                     android:id="@+id/text_devicedetail_todayonlinerange"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="9:00~17:00"
+                                    android:text="-"
                                     android:textColor="@color/sb_text_blank_deep_light"
                                     android:textSize="@dimen/text_nomal" />
                             </LinearLayout>
@@ -268,7 +268,7 @@
                                     android:id="@+id/text_devicedetail_weektotaltime"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="40小时"
+                                    android:text="-小时"
                                     android:textColor="@color/sb_text_blank_deep_light"
                                     android:textSize="@dimen/text_nomal" />
                             </LinearLayout>

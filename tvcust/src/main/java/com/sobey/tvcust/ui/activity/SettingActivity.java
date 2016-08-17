@@ -96,6 +96,7 @@ public class SettingActivity extends BaseAppCompatActivity implements View.OnCli
         findViewById(R.id.item_setting_about).setOnClickListener(this);
         findViewById(R.id.item_setting_clause).setOnClickListener(this);
         findViewById(R.id.item_setting_version).setOnClickListener(this);
+        findViewById(R.id.item_setting_feedbank).setOnClickListener(this);
         findViewById(R.id.item_setting_safe).setOnClickListener(this);
         findViewById(R.id.item_setting_clear).setOnClickListener(this);
         findViewById(R.id.item_setting_logout).setOnClickListener(this);
@@ -136,6 +137,10 @@ public class SettingActivity extends BaseAppCompatActivity implements View.OnCli
                 break;
             case R.id.item_setting_version:
                 intent.setClass(this, VersionActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.item_setting_feedbank:
+                intent.setClass(this, FeedBackActivity.class);
                 startActivity(intent);
                 break;
             case R.id.item_setting_safe:

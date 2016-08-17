@@ -192,6 +192,7 @@ public class RegistDetailFragment extends BaseFragment implements View.OnClickLi
     public void netGo(int code, Object pojo, String text, Object obj) {
         switch (code){
             case 1:{
+                Toast.makeText(getActivity(),"小贝已收到您的申请，我们会尽快为您审核哒",Toast.LENGTH_SHORT).show();
                 btn_go.setProgress(100);
                 new Handler().postDelayed(new Runnable() {
                     @Override

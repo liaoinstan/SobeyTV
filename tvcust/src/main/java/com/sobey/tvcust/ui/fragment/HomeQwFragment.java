@@ -88,7 +88,7 @@ public class HomeQwFragment extends BaseFragment implements OnRecycleItemClickLi
 
         initBase();
         initView();
-        initData();
+        initData(true);
         initCtrl();
     }
 
@@ -107,7 +107,7 @@ public class HomeQwFragment extends BaseFragment implements OnRecycleItemClickLi
         springView = (SpringView) getView().findViewById(R.id.spring);
     }
 
-    private void initData() {
+    private void initData(final boolean isFirst) {
         netGetStations_countDevice();
 
         final RequestParams params = new RequestParams(AppData.Url.warningList);
@@ -127,11 +127,17 @@ public class HomeQwFragment extends BaseFragment implements OnRecycleItemClickLi
                         results.clear();
                         results.addAll(devices);
                         freshCtrl();
-                        LoadingViewUtil.showout(showingroup, showin);
-                        springView.onFinishFreshAndLoad();
+                        if (isFirst) {
+                            LoadingViewUtil.showout(showingroup, showin);
+                        }else {
+                            springView.onFinishFreshAndLoad();
+                        }
                     } else {
-                        LoadingViewUtil.showout(showingroup, showin);
-                        springView.onFinishFreshAndLoad();
+                        if (isFirst) {
+                            LoadingViewUtil.showout(showingroup, showin);
+                        }else {
+                            springView.onFinishFreshAndLoad();
+                        }
                     }
                 }
             }
@@ -139,12 +145,18 @@ public class HomeQwFragment extends BaseFragment implements OnRecycleItemClickLi
             @Override
             public void netSetError(int code, String text) {
                 Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
-                springView.onFinishFreshAndLoad();
+                if (isFirst) {
+                    LoadingViewUtil.showout(showingroup, showin);
+                }else {
+                    springView.onFinishFreshAndLoad();
+                }
             }
 
             @Override
             public void netStart(int code) {
-                showin = LoadingViewUtil.showin(showingroup, R.layout.layout_loading, showin);
+                if (isFirst) {
+                    showin = LoadingViewUtil.showin(showingroup, R.layout.layout_loading, showin);
+                }
             }
         });
     }
@@ -158,7 +170,7 @@ public class HomeQwFragment extends BaseFragment implements OnRecycleItemClickLi
         springView.setListener(new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
-                initData();
+                initData(false);
             }
 
             @Override
@@ -232,7 +244,7 @@ public class HomeQwFragment extends BaseFragment implements OnRecycleItemClickLi
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
                 SBCountDevice countDevice = (SBCountDevice) pojo;
-                int days = TimeUtil.subDate(new Date(AppData.App.getUser().getCreateDate()), new Date());
+                int days = TimeUtil.subDay(new Date(AppData.App.getUser().getCreateDate()), new Date());
                 countDevice.setDays(days);
                 adapter.setInfo(countDevice);
                 adapter.notifyItemChanged(0);

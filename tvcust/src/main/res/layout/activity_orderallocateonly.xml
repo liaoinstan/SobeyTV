@@ -76,7 +76,7 @@
             app:cpb_colorProgress="#00000000"
             app:cpb_iconComplete="@drawable/ic_action_accept"
             app:cpb_iconError="@drawable/ic_action_cancel"
-            app:cpb_textIdle="分配任务" />
+            app:cpb_textIdle="请求协助" />
 
     </LinearLayout>
 

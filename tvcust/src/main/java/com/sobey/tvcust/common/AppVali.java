@@ -1,7 +1,6 @@
 package com.sobey.tvcust.common;
 
 import com.sobey.common.utils.ValidateUtil;
-import com.sobey.common.view.bundle.BundleEntity;
 import com.sobey.tvcust.entity.User;
 
 import java.util.List;
@@ -130,40 +129,40 @@ public class AppVali {
         }
     }
 
-    public static String reqfix_commit(int categoryId, String detail, List<BundleEntity> results) {
+    public static String reqfix_commit(int categoryId, String detail, String[] results) {
         if (categoryId == 0) {
             return "请选择问题分类";
-        } else if (isEmpty(detail) && results.size() == 0) {
+        } else if (isEmpty(detail) && results.length == 0) {
                 return "请输入问题描述";
         } else {
             return null;
         }
     }
 
-    public static String reqfix_commit_withuser(int categoryId, int userId, String detail, List<BundleEntity> results) {
+    public static String reqfix_commit_withuser(int categoryId, int userId, String detail, String[] results) {
         if (categoryId == 0) {
             return "请选择问题分类";
         } else if (userId == 0) {
             return "请选择代理申报用户";
-        } else if (isEmpty(detail) && results.size() == 0) {
+        } else if (isEmpty(detail) && results.length == 0) {
             return "请输入问题描述";
         } else {
             return null;
         }
     }
 
-    public static String reqfix_addDescribe(String detail, List<BundleEntity> results) {
-        if (isEmpty(detail) && results.size() == 0) {
+    public static String reqfix_addDescribe(String detail, String[] results) {
+        if (isEmpty(detail) && results.length == 0) {
             return "请输入描述";
         } else {
             return null;
         }
     }
 
-    public static String reqfix_addDescribe_withuser(int userId, String detail, List<BundleEntity> results) {
+    public static String reqfix_addDescribe_withuser(int userId, String detail, String[] results) {
         if (userId == 0) {
-            return "请选择援助对象";
-        } else if (isEmpty(detail) && results.size() == 0) {
+            return "请选择协助对象";
+        } else if (isEmpty(detail) && results.length == 0) {
             return "请输入问题描述";
         } else {
             return null;
@@ -180,7 +179,7 @@ public class AppVali {
 
     public static String complain_commit(String detail) {
         if (isEmpty(detail)) {
-            return "请输入描述";
+            return "请输入内容";
         } else {
             return null;
         }

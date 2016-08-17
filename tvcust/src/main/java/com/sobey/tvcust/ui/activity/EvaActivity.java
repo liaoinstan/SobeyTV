@@ -55,12 +55,15 @@ public class EvaActivity extends BaseAppCompatActivity implements View.OnClickLi
     private RatingBar rating_eva_tech_attitude;
     private RatingBar rating_eva_tech_speed;
     private RatingBar rating_eva_tech_product;
+    private View lay_eva_tech_product;
 
     private RatingBar rating_eva_headtech_attitude;
     private RatingBar rating_eva_headtech_speed;
 
     private RatingBar rating_eva_develop_attitude;
     private RatingBar rating_eva_develop_speed;
+
+    private TextView text_eva_tech;
 
     private View lay_eva_server;
     private View lay_eva_tech;
@@ -119,10 +122,16 @@ public class EvaActivity extends BaseAppCompatActivity implements View.OnClickLi
         rating_eva_tech_attitude = (RatingBar) findViewById(R.id.rating_eva_tech_attitude);
         rating_eva_tech_speed = (RatingBar) findViewById(R.id.rating_eva_tech_speed);
         rating_eva_tech_product = (RatingBar) findViewById(R.id.rating_eva_tech_product);
+        lay_eva_tech_product =  findViewById(R.id.lay_eva_tech_product);
+        text_eva_tech = (TextView) findViewById(R.id.text_eva_tech);
+
+        //只有用户才有产品评价；用户显示“技术评价”
         if (AppData.App.getUser().getRoleType() == User.ROLE_COMMOM) {
-            rating_eva_tech_product.setVisibility(View.VISIBLE);
+            lay_eva_tech_product.setVisibility(View.VISIBLE);
+            text_eva_tech.setText("技术评价");
         } else {
-            rating_eva_tech_product.setVisibility(View.GONE);
+            lay_eva_tech_product.setVisibility(View.GONE);
+            text_eva_tech.setText("分公司技术评价");
         }
 
         rating_eva_headtech_attitude = (RatingBar) findViewById(R.id.rating_eva_headtech_attitude);
@@ -334,7 +343,11 @@ public class EvaActivity extends BaseAppCompatActivity implements View.OnClickLi
             eva.setCommentLableIds(getSelectIds(flow_tech.getSelectedList(), techLables));
             params.addBodyParameter("TSCData", new Gson().toJson(eva));
             if (eva.getServiceAttitude() == 0) {
-                Toast.makeText(this, "技术的服务态度还没有打分哦", Toast.LENGTH_SHORT).show();
+                if (user.getRoleType() == User.ROLE_COMMOM){
+                    Toast.makeText(this, "技术的服务态度还没有打分哦", Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(this, "分公司技术的服务态度还没有打分哦", Toast.LENGTH_SHORT).show();
+                }
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -344,7 +357,11 @@ public class EvaActivity extends BaseAppCompatActivity implements View.OnClickLi
                 }, 800);
                 return;
             } else if (eva.getDisposeSpeed() == 0) {
-                Toast.makeText(this, "技术的处理速度还没有打分哦", Toast.LENGTH_SHORT).show();
+                if (user.getRoleType() == User.ROLE_COMMOM){
+                    Toast.makeText(this, "技术的处理速度还没有打分哦", Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(this, "分公司技术的处理速度还没有打分哦", Toast.LENGTH_SHORT).show();
+                }
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -371,7 +388,7 @@ public class EvaActivity extends BaseAppCompatActivity implements View.OnClickLi
             eva.setDisposeSpeed((int) (rating_eva_headtech_speed.getRating() * 20));
             eva.setCommentLableIds(getSelectIds(flow_headtech.getSelectedList(), headTechLables));
             params.addBodyParameter("headTechData", new Gson().toJson(eva));
-            if (eva.getServiceAttitude() == 0 || eva.getDisposeSpeed() == 0 || eva.getProductComment() == 0) {
+            if (eva.getServiceAttitude() == 0 || eva.getDisposeSpeed() == 0) {
                 if (eva.getServiceAttitude() == 0) {
                     Toast.makeText(this, "总部技术的服务态度还没有打分哦", Toast.LENGTH_SHORT).show();
                 } else if (eva.getDisposeSpeed() == 0) {
@@ -393,7 +410,7 @@ public class EvaActivity extends BaseAppCompatActivity implements View.OnClickLi
             eva.setDisposeSpeed((int) (rating_eva_develop_speed.getRating() * 20));
             eva.setCommentLableIds(getSelectIds(flow_develop.getSelectedList(), developLables));
             params.addBodyParameter("headDevelopData", new Gson().toJson(eva));
-            if (eva.getServiceAttitude() == 0 || eva.getDisposeSpeed() == 0 || eva.getProductComment() == 0) {
+            if (eva.getServiceAttitude() == 0 || eva.getDisposeSpeed() == 0) {
                 if (eva.getServiceAttitude() == 0) {
                     Toast.makeText(this, "总部研发的服务态度还没有打分哦", Toast.LENGTH_SHORT).show();
                 } else if (eva.getDisposeSpeed() == 0) {

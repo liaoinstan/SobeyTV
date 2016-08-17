@@ -129,7 +129,7 @@ public class CommonNet {
                     case 1005:
                         //已被挤下线
                         try {
-                            Toast.makeText(ApplicationHelp.getApplicationContext(),"你的账号在其他设备登陆，强制下线",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ApplicationHelp.getApplicationContext(),"你的账号在其他设备登录，强制下线",Toast.LENGTH_SHORT).show();
                             MyActivityCollector.finishAll();
                             Intent intent = new Intent(ApplicationHelp.getApplicationContext(), LoginActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -170,8 +170,8 @@ public class CommonNet {
             LogUtil.d("onError");
             try {
                 if (ex instanceof HttpException) { // 网络错误
+                    ex.printStackTrace();
                     HttpException nex = (HttpException) ex;
-                    LogUtil.d(nex.toString());
                     hander.netSetFail(code, nex.getCode(), nex.getMessage());
                     if (nex.getCode() == 0) {
                         hander.netSetError(code, "网络不太好额");
@@ -179,18 +179,15 @@ public class CommonNet {
                         hander.netSetError(code, "服务器异常：" + nex.getCode());
                     }
                 }else if(ex instanceof ConnectException){
-                    LogUtil.d(ex.getMessage());
                     hander.netSetError(code, "请检查网络连接");
                 }else if(ex instanceof SocketTimeoutException){
-                    LogUtil.d(ex.getMessage());
                     hander.netSetError(code, "请检查网络连接");
                 } else {
-                    LogUtil.d(ex.getMessage());
                     hander.netSetError(code, "请检查网络连接");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                hander.netSetError(code, "未知错误");
+                //hander.netSetError(code, "未知错误");
                 hander.netException(code, "未知错误");
             }
         }

@@ -28,6 +28,7 @@ public class DialogPopupDescribe extends Dialog {
     private TextView text_bank;
     private TextView text_touser;
     private TextView text_describe;
+    private TextView text_bug;
     private TextView text_cancel;
     private TextView text_valipass;
     private TextView text_valirefuse;
@@ -37,6 +38,7 @@ public class DialogPopupDescribe extends Dialog {
     private View lay_bank;
     private View lay_touser;
     private View lay_describe;
+    private View lay_bug;
     private View lay_cancel;
     private View lay_valipass;
     private View lay_valirefuse;
@@ -58,6 +60,7 @@ public class DialogPopupDescribe extends Dialog {
         text_bank = (TextView) mView.findViewById(R.id.text_dialog_describe_bank);
         text_touser = (TextView) mView.findViewById(R.id.text_dialog_describe_touser);
         text_describe = (TextView) mView.findViewById(R.id.text_dialog_describe_describe);
+        text_bug = (TextView) mView.findViewById(R.id.text_dialog_describe_bug);
         text_cancel = (TextView) mView.findViewById(R.id.text_dialog_describe_cancel);
         text_eva = (TextView) mView.findViewById(R.id.text_dialog_describe_eva);
 
@@ -68,6 +71,7 @@ public class DialogPopupDescribe extends Dialog {
         lay_bank = mView.findViewById(R.id.lay_dialog_describe_bank);
         lay_touser = mView.findViewById(R.id.lay_dialog_describe_touser);
         lay_describe = mView.findViewById(R.id.lay_dialog_describe_describe);
+        lay_bug = mView.findViewById(R.id.lay_dialog_describe_bug);
         lay_eva = mView.findViewById(R.id.lay_dialog_describe_eva);
 
 
@@ -76,6 +80,7 @@ public class DialogPopupDescribe extends Dialog {
         text_bank.setOnClickListener(listener);
         text_touser.setOnClickListener(listener);
         text_describe.setOnClickListener(listener);
+        text_bug.setOnClickListener(listener);
         text_cancel.setOnClickListener(listener);
         text_eva.setOnClickListener(listener);
 
@@ -106,7 +111,6 @@ public class DialogPopupDescribe extends Dialog {
         switch (type) {
             //技术人员
             case User.ROLE_FILIALETECH:
-                //只有处理中的订单能提交验收
 
                 lay_valipass.setVisibility(View.GONE);
                 lay_valirefuse.setVisibility(View.GONE);
@@ -114,13 +118,19 @@ public class DialogPopupDescribe extends Dialog {
                 if (order.getStatus().equals(Order.ORDER_INDEAL)) {
                     lay_next.setVisibility(View.VISIBLE);
                     lay_bank.setVisibility(View.VISIBLE);
-                    text_bank.setText("反馈用户");
                 } else {
                     lay_next.setVisibility(View.GONE);
                     lay_bank.setVisibility(View.GONE);
                 }
                 lay_touser.setVisibility(View.GONE);
                 lay_describe.setVisibility(View.GONE);
+                lay_bug.setVisibility(View.GONE);
+                if (order.getHeadTechId() == null || order.getHeadTechId() == 0) {
+                    text_next.setText("申请总部技术协助");
+                } else {
+                    text_next.setText("反馈总部技术");
+                }
+                text_bank.setText("反馈用户");
                 break;
             //总部技术
             case User.ROLE_HEADCOMTECH:
@@ -130,7 +140,12 @@ public class DialogPopupDescribe extends Dialog {
                 if (order.getStatus().equals(Order.ORDER_INDEAL)) {
                     lay_next.setVisibility(View.VISIBLE);
                     lay_bank.setVisibility(View.VISIBLE);
-                    text_bank.setText("反馈TSC");
+                    if (order.getTscId() == null || order.getTscId() == 0) {
+                        //没有申请过tsc
+                        text_bank.setText("申请分公司技术协助");
+                    } else {
+                        text_bank.setText("反馈分公司技术");
+                    }
                     if (order.getIsHeadTech().equals(1)) {
                         //如果是直接分配给总部技术
                         lay_touser.setVisibility(View.VISIBLE);
@@ -143,6 +158,12 @@ public class DialogPopupDescribe extends Dialog {
                     lay_touser.setVisibility(View.GONE);
                 }
                 lay_describe.setVisibility(View.GONE);
+                lay_bug.setVisibility(View.GONE);
+                if (order.getDecelopId() == null || order.getDecelopId() == 0) {
+                    text_next.setText("申请总部研发协助");
+                } else {
+                    text_next.setText("反馈总部研发");
+                }
                 break;
             //总部研发
             case User.ROLE_INVENT:
@@ -152,12 +173,17 @@ public class DialogPopupDescribe extends Dialog {
                 //只有处理中的订单能反馈和申请
                 if (order.getStatus().equals(Order.ORDER_INDEAL)) {
                     lay_bank.setVisibility(View.VISIBLE);
-                    text_bank.setText("反馈协助");
                 } else {
                     lay_bank.setVisibility(View.GONE);
                 }
                 lay_touser.setVisibility(View.GONE);
                 lay_describe.setVisibility(View.GONE);
+                if (order.getIsFeedback() == 1) {
+                    lay_bug.setVisibility(View.VISIBLE);
+                } else {
+                    lay_bug.setVisibility(View.GONE);
+                }
+                text_bank.setText("反馈总部技术");
                 break;
             //客服
             case User.ROLE_CUSTOMER:
@@ -167,6 +193,7 @@ public class DialogPopupDescribe extends Dialog {
                 lay_bank.setVisibility(View.GONE);
                 lay_touser.setVisibility(View.GONE);
                 lay_describe.setVisibility(View.GONE);
+                lay_bug.setVisibility(View.GONE);
                 break;
             //用户
             case User.ROLE_COMMOM:
@@ -180,11 +207,12 @@ public class DialogPopupDescribe extends Dialog {
                 lay_next.setVisibility(View.GONE);
                 lay_bank.setVisibility(View.GONE);
                 lay_touser.setVisibility(View.GONE);
-                if (order.getStatus() == Order.ORDER_UNEVA || order.getStatus() == Order.ORDER_FINSH) {
+                if (order.getStatus() == Order.ORDER_UNEVA || order.getStatus() == Order.ORDER_FINSH || order.getStatus() == Order.ORDER_UNVALI) {
                     lay_describe.setVisibility(View.GONE);
                 } else {
                     lay_describe.setVisibility(View.VISIBLE);
                 }
+                lay_bug.setVisibility(View.GONE);
                 break;
             default:
                 lay_finish.setVisibility(View.GONE);
@@ -195,6 +223,7 @@ public class DialogPopupDescribe extends Dialog {
                 lay_touser.setVisibility(View.GONE);
                 lay_describe.setVisibility(View.GONE);
                 lay_eva.setVisibility(View.GONE);
+                lay_bug.setVisibility(View.GONE);
                 break;
         }
     }
@@ -208,9 +237,9 @@ public class DialogPopupDescribe extends Dialog {
         boolean v6 = lay_touser.getVisibility() == View.VISIBLE;
         boolean v7 = lay_describe.getVisibility() == View.VISIBLE;
         boolean v8 = lay_eva.getVisibility() == View.VISIBLE;
-        if (!v1 && !v2 && !v3 && !v4 && !v5 && !v6 && !v7 && !v8){
+        if (!v1 && !v2 && !v3 && !v4 && !v5 && !v6 && !v7 && !v8) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }
@@ -246,6 +275,10 @@ public class DialogPopupDescribe extends Dialog {
 
     public void setOnDescribeListener(View.OnClickListener listener) {
         text_describe.setOnClickListener(listener);
+    }
+
+    public void setOnBugListener(View.OnClickListener listener) {
+        text_bug.setOnClickListener(listener);
     }
 
     public void setOnEvaListener(View.OnClickListener listener) {

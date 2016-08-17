@@ -15,7 +15,7 @@ import com.sobey.share.sharesdk.dialog.ShareDialog;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.CommonNet;
-import com.sobey.tvcust.entity.Article;
+import com.sobey.common.entity.Article;
 import com.sobey.tvcust.entity.CommonEntity;
 
 import org.xutils.http.RequestParams;
@@ -141,6 +141,11 @@ public class InfoDetailActivity extends BaseAppCompatActivity implements View.On
                     @Override
                     public void netGo(int code, Object pojo, String text, Object obj) {
                         img_infodetail_zan.setSelected(!img_infodetail_zan.isSelected());
+                        if (img_infodetail_zan.isSelected()){
+                            Toast.makeText(InfoDetailActivity.this, "点赞成功", Toast.LENGTH_SHORT).show();
+                        }else {
+                            Toast.makeText(InfoDetailActivity.this, "已取消点赞", Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                     @Override

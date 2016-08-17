@@ -30,7 +30,7 @@ public class VideoRecorderActivity extends BaseAppCompatActivity {
     private Button mShootBtn;
     private boolean isFinish = true;
 
-    private static final int REQUEST_PERMISSION_SETTING =  0xfe12;
+    private static final int REQUEST_PERMISSION_SETTING = 0xfe12;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +41,7 @@ public class VideoRecorderActivity extends BaseAppCompatActivity {
 
     }
 
-    private void init(){
+    private void init() {
         setContentView(R.layout.activity_videorecorder);
 
         mRecorderView = (MovieRecorderView) findViewById(R.id.movieRecorderView);
@@ -75,7 +75,7 @@ public class VideoRecorderActivity extends BaseAppCompatActivity {
 
     @Subscribe
     public void onEventMainThread(Integer flag) {
-        if (MovieRecorderView.EVENT_UPDATE_EXCEPTION.equals(flag)){
+        if (MovieRecorderView.EVENT_UPDATE_EXCEPTION.equals(flag)) {
 
             mShootBtn.setEnabled(false);
 
@@ -120,7 +120,7 @@ public class VideoRecorderActivity extends BaseAppCompatActivity {
 //                if (resultCode == RESULT_OK) {
 //
 //                }
-                Log.e("liao",(resultCode== RESULT_OK)+"");
+                Log.e("liao", (resultCode == RESULT_OK) + "");
                 mShootBtn.setEnabled(true);
                 init();
                 break;

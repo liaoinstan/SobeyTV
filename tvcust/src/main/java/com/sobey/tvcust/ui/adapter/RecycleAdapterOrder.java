@@ -114,6 +114,12 @@ public class RecycleAdapterOrder extends RecyclerView.Adapter<RecycleAdapterOrde
         holder.text_status.setText(OrderStatusHelper.getStatusStr(user.getRoleType(), order));
         holder.img_pic.setImageResource(OrderStatusHelper.getStatusImgSrc(order));
 
+        if (OrderStatusHelper.needHotIcon(user.getRoleType(), order)) {
+            holder.text_num.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_item_order_title_hot, 0, 0, 0);
+        }else {
+            holder.text_num.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_item_order_title, 0, 0, 0);
+        }
+
         /////////////////////////////////////
         //根据状态和登录用户显示隐藏功能按钮
         /////////////////////////////////////
@@ -131,7 +137,7 @@ public class RecycleAdapterOrder extends RecyclerView.Adapter<RecycleAdapterOrde
         }
 
         //是否需要查看评价和进行评价
-        switch (OrderStatusHelper.getNeedEva(order,user.getRoleType())){
+        switch (OrderStatusHelper.getNeedEva(order, user.getRoleType())) {
             case 0:
                 holder.text_eva.setText("查看评价");
                 holder.text_eva.setVisibility(View.VISIBLE);
@@ -164,9 +170,9 @@ public class RecycleAdapterOrder extends RecyclerView.Adapter<RecycleAdapterOrde
         }
 
         //是否需要完成订单
-        if (OrderStatusHelper.getNeedFinish(order,user.getRoleType())){
+        if (OrderStatusHelper.getNeedFinish(order, user.getRoleType())) {
             holder.text_finish.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             holder.text_finish.setVisibility(View.GONE);
         }
 

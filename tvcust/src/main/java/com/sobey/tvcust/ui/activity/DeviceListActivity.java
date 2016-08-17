@@ -289,8 +289,8 @@ public class DeviceListActivity extends BaseAppCompatActivity implements OnRecyc
             public void netGo(int code, Object pojo, String text, Object obj) {
                 SBGroupPojo groupPojo = (SBGroupPojo) pojo;
                 List<SBGroup> groupList = groupPojo.getGroupList();
+                tab.addTab(tab.newTab().setText("全部").setTag(""));
                 if (groupList != null && groupList.size() != 0) {
-                    tab.addTab(tab.newTab().setText("全部").setTag(""));
                     for (SBGroup group : groupList) {
                         tab.addTab(tab.newTab().setText(group.getName()).setTag(group.getCode()));
                     }

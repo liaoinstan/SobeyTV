@@ -67,9 +67,15 @@ public class RecycleAdapterOrderAllocate extends RecyclerView.Adapter<RecyclerVi
 
     private void bindTypeHeader(HolderHeader holder, int position) {
         if (position == 0) {
-            holder.text_header.setText("TSC");
+            holder.text_header.setText("分公司技术");
+            holder.itemView.setVisibility(View.VISIBLE);
         } else {
             holder.text_header.setText("非编技术专家");
+            if (results_fb == null || results_fb.size() == 0) {
+                holder.itemView.setVisibility(View.GONE);
+            } else {
+                holder.itemView.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -114,18 +120,18 @@ public class RecycleAdapterOrderAllocate extends RecyclerView.Adapter<RecyclerVi
     }
 
     public User getUserByPosition(int position) {
-        if (position>=0) {
+        if (position >= 0) {
             if (position + 1 <= results_tcs.size() + 1) {
                 return results_tcs.get(position - 1);
             } else if (position + 1 > results_tcs.size() + 2 && position + 1 <= results_fb.size() + results_tcs.size() + 2) {
                 return results_fb.get(position - results_tcs.size() - 2);
             }
         }
-        Log.e("adapter","error: position:"+position);
+        Log.e("adapter", "error: position:" + position);
         return null;
     }
 
-    public User getSelectUser(){
+    public User getSelectUser() {
         return getUserByPosition(selectItem);
     }
 

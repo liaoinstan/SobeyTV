@@ -89,10 +89,10 @@ public class DeviceDetailActivity extends BaseAppCompatActivity {
                     SBDevice device = detailPojo.getHostInfo();
                     if (device.getCoreProcess() != null && device.getCoreProcess().size()!=0) {
                         results.addAll(device.getCoreProcess());
-                        freshCtrl(device);
                     }else {
                         card_centerprog.setVisibility(View.GONE);
                     }
+                    freshCtrl(device);
                     LoadingViewUtil.showout(showingroup, showin);
                 }
             }

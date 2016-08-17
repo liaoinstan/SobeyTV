@@ -1,4 +1,4 @@
-package com.sobey.tvcust.entity;
+package com.sobey.common.entity;
 
 import java.io.Serializable;
 import java.util.List;

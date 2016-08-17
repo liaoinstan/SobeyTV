@@ -95,8 +95,8 @@ public class AppData {
 		 */
 //		private static final String domain = "https://api.cczcrv.com";											//正式服务器
 //		private static final String domain = "http://101.201.222.160:8085";								//客服测试服务器
-		private static final String domain = "http://10.0.0.18:8080";								//内部测试服务器
-//		private static final String domain = "http://10.0.0.123:8080";								//开发服务器
+		private static final String domain = "http://192.168.0.156:8080";								//内部测试服务器
+//		private static final String domain = "http://192.168.0.155:8080";								//开发服务器
 
 		/**
 		 * 接口请求地址
@@ -159,6 +159,7 @@ public class AppData {
 		public static final String pageClause			= domain + "/SanghaCloud/requestWeb/clausePage";				//静态web页-法律条款
 		public static final String pageRule				= domain + "/SanghaCloud/requestWeb/bounsPage";				//静态web页-积分规则
 		public static final String pageIntro			= domain + "/SanghaCloud/requestWeb/productPage";			//静态web页-产品介绍
+		public static final String feedback				= domain + "/SanghaCloud/suggest/add";							//打小报告
 
 
 		private static final String sobey = "http://120.76.165.97";

@@ -164,7 +164,7 @@ public class SobeyNet {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                hander.netSetError(code, "未知错误");
+                //hander.netSetError(code, "未知错误");
                 hander.netException(code, "未知错误");
             }
         }

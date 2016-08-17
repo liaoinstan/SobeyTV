@@ -49,6 +49,7 @@ public class EvaDetailActivity extends BaseAppCompatActivity implements View.OnC
     private RatingBar rating_eva_tech_attitude;
     private RatingBar rating_eva_tech_speed;
     private RatingBar rating_eva_tech_product;
+    private View lay_eva_tech_product;
 
     private RatingBar rating_eva_headtech_attitude;
     private RatingBar rating_eva_headtech_speed;
@@ -62,6 +63,8 @@ public class EvaDetailActivity extends BaseAppCompatActivity implements View.OnC
     private RatingBar rating_eva_usertech_attitude;
     private RatingBar rating_eva_usertech_speed;
     private RatingBar rating_eva_usertech_product;
+
+    private TextView text_eva_tech;
 
     private View lay_eva_server;
     private View lay_eva_tech;
@@ -112,11 +115,12 @@ public class EvaDetailActivity extends BaseAppCompatActivity implements View.OnC
         rating_eva_tech_attitude = (RatingBar) findViewById(R.id.rating_eva_tech_attitude);
         rating_eva_tech_speed = (RatingBar) findViewById(R.id.rating_eva_tech_speed);
         rating_eva_tech_product = (RatingBar) findViewById(R.id.rating_eva_tech_product);
+        lay_eva_tech_product =  findViewById(R.id.lay_eva_tech_product);
         //只有用户有产品评价
         if (AppData.App.getUser().getRoleType() == User.ROLE_COMMOM) {
-            rating_eva_tech_product.setVisibility(View.VISIBLE);
+            lay_eva_tech_product.setVisibility(View.VISIBLE);
         } else {
-            rating_eva_tech_product.setVisibility(View.GONE);
+            lay_eva_tech_product.setVisibility(View.GONE);
         }
 
         rating_eva_headtech_attitude = (RatingBar) findViewById(R.id.rating_eva_headtech_attitude);
@@ -140,6 +144,14 @@ public class EvaDetailActivity extends BaseAppCompatActivity implements View.OnC
         lay_eva_usertech = findViewById(R.id.lay_eva_usertech);
 
         text_eva_describe = (TextView) findViewById(R.id.text_eva_describe);
+        text_eva_tech = (TextView) findViewById(R.id.text_eva_tech);
+
+        //用户显示“技术评价”
+        if (AppData.App.getUser().getRoleType() == User.ROLE_COMMOM) {
+            text_eva_tech.setText("技术评价");
+        } else {
+            text_eva_tech.setText("分公司技术评价");
+        }
     }
 
     private void initData() {

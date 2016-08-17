@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/sb_bk"
+    android:fitsSystemWindows="true"
+    tools:context="com.sobey.tvcust.ui.activity.ComplainActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:navigationIcon="@drawable/icon_back"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <com.liaoinstan.springview.widget.SpringView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:header="@layout/header_common"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:type="follow">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/showingroup"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white">
+
+                        <com.sobey.common.view.EmojiEditText
+                            android:id="@+id/edit_complain_describe"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="20dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginTop="20dp"
+                            android:background="@drawable/shape_rect_dark_line"
+                            android:gravity="left|top"
+                            android:hint="留下您的意见和建议"
+                            android:inputType="textMultiLine"
+                            android:minLines="10"
+                            android:padding="8dp"
+                            android:textColor="@color/cc_text_blank"
+                            android:textColorHint="@color/sb_text_dark"
+                            android:textSize="@dimen/text_nomal" />
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:layout_marginBottom="10dp"-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:background="@color/sb_bk_dark"-->
+                <!--android:gravity="center"-->
+                <!--android:text="提交"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:textSize="@dimen/text_big" />-->
+
+            <com.dd.CircularProgressButton
+                android:id="@+id/btn_go"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="#00000000"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_big"
+                app:cpb_colorIndicator="@color/sb_blue"
+                app:cpb_colorIndicatorBackground="@color/sb_blue_hint_trans"
+                app:cpb_colorProgress="#00000000"
+                app:cpb_iconComplete="@drawable/ic_action_accept"
+                app:cpb_iconError="@drawable/ic_action_cancel"
+                app:cpb_selectorIdle="@drawable/idle_state_selector"
+                app:cpb_textIdle="提交" />
+
+        </LinearLayout>
+
+    </com.liaoinstan.springview.widget.SpringView>
+
+</android.support.design.widget.CoordinatorLayout>
