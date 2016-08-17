@@ -17,14 +17,14 @@ public class MyInstalledReceiver extends BroadcastReceiver {
             String packageName = intent.getDataString();
             Log.e("homer", "安装了 :" + packageName);
             if ("com.sobey.tvcust".equals(packageName)){
-                AppData.App.removeStartUp();
+                //AppData.App.removeStartUp();
             }
         }
         if (intent.getAction().equals("android.intent.action.PACKAGE_REMOVED")) { // uninstall
             String packageName = intent.getDataString();
             Log.e("homer", "卸载了 :" + packageName);
             if ("com.sobey.tvcust".equals(packageName)){
-                AppData.App.removeStartUp();
+                //AppData.App.removeStartUp();
             }
         }
     }

@@ -33,7 +33,7 @@ import com.sobey.tvcust.interfaces.OnRecycleItemClickListener;
 import com.sobey.tvcust.ui.activity.SelectStationActivity;
 import com.sobey.tvcust.ui.activity.WarningListActivity;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterQW;
-import com.sobey.tvcust.utils.AppUtils;
+import com.sobey.tvcust.utils.AppHelper;
 import com.sobey.tvcust.utils.UrlUtils;
 
 import org.xutils.http.RequestParams;
@@ -220,7 +220,7 @@ public class HomeQwFragment extends BaseFragment implements OnRecycleItemClickLi
                 else {
                     TVStationPojo tvStationPojo = (TVStationPojo) pojo;
                     List<TVStation> tvStations = tvStationPojo.getDataList();
-                    String stationStr = AppUtils.getStationCodeStr(tvStations);
+                    String stationStr = AppHelper.getStationCodeStr(tvStations);
                     if (!StrUtils.isEmpty(stationStr)) {
                         netCountDevice(stationStr);
                     }

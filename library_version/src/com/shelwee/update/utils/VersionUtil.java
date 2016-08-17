@@ -41,4 +41,9 @@ public class VersionUtil {
         }
         return null;
     }
+
+    public static int getAppVersionCode(Context context){
+        PackageInfo pkinfo = getpaPackageInfo(context);
+        return pkinfo.versionCode;
+    }
 }

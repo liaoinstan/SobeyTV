@@ -13,6 +13,7 @@ import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.entity.User;
 import com.sobey.tvcust.ui.fragment.StartUpFragment;
+import com.sobey.tvcust.utils.AppHelper;
 
 public class StartUpActivity extends BaseAppCompatActivity {
 
@@ -26,7 +27,7 @@ public class StartUpActivity extends BaseAppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_startup);
 
-        AppData.App.saveStartUp(true);
+        AppHelper.saveStartUp();
 
         initView();
         initData();

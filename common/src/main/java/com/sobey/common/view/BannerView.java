@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/5/30 0030.
  */
-public class BannerView extends FrameLayout implements Runnable{
+public class BannerView extends FrameLayout implements Runnable {
 
     private static final String TAG = "Banner";
 
@@ -55,7 +55,7 @@ public class BannerView extends FrameLayout implements Runnable{
 
     private boolean isAutoScroll = true;
     private final static int AUTO_SCROLL_WHAT = 0;
-    private long    mDelayTimeInMills = 3000;
+    private long mDelayTimeInMills = 3000;
 
     private int dot_size = 13;
 
@@ -80,16 +80,16 @@ public class BannerView extends FrameLayout implements Runnable{
         inflater.inflate(R.layout.banner, this, true);
         super.onFinishInflate();
         initCtrl();
-        if (mSelectedSrc!=0) {
+        if (mSelectedSrc != 0) {
             dotView.setSelectedDotResource(mSelectedSrc);
         }
-        if (mUnSelectedSrc!=0) {
+        if (mUnSelectedSrc != 0) {
             dotView.setUnSelectedDotResource(mUnSelectedSrc);
         }
     }
 
     private void sendScrollMessage() {
-        if (mHandler != null && images!=null && images.size()!=0) {
+        if (mHandler != null && images != null && images.size() != 0) {
             mHandler.removeMessages(AUTO_SCROLL_WHAT);
             if (isAutoScroll && mViewPager.getAdapter().getCount() > 1) {
                 mHandler.sendEmptyMessageDelayed(AUTO_SCROLL_WHAT, mDelayTimeInMills);
@@ -104,12 +104,21 @@ public class BannerView extends FrameLayout implements Runnable{
     }
 
     private void initView() {
-        if (images!=null && images.size()==0){
-            mHandler.removeMessages(AUTO_SCROLL_WHAT);
-            setVisibility(GONE);
-            return;
-        }else {
-            setVisibility(VISIBLE);
+        //无图片时隐藏banner,这才是正确的做法，狗屎需求要显示一张默认图，代码在下面
+//        if (images != null && images.size() == 0) {
+//            mHandler.removeMessages(AUTO_SCROLL_WHAT);
+//            setVisibility(GONE);
+//            return;
+//        } else {
+//            setVisibility(VISIBLE);
+//        }
+
+        //没有图片展示默认图，
+        if (images != null && images.size() == 0) {
+            images.add(new Images("default"));
+            //dotView.setVisibility(GONE);
+            //mHandler.removeMessages(AUTO_SCROLL_WHAT);
+        } else {
         }
         DEFAULT_BANNER_SIZE = images.size();
         mBannerAdapter = new BannerAdapter(context);
@@ -138,14 +147,17 @@ public class BannerView extends FrameLayout implements Runnable{
 //        }
     }
 
-    private Handler mHandler = new Handler(){
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == AUTO_SCROLL_WHAT) {
-                int size = mViewPager.getAdapter().getCount();
-                int position = (mViewPager.getCurrentItem() + 1) % size;
-                mViewPager.setCurrentItem(position, true);
-                BannerView.this.sendScrollMessage();
+                if (images.size()>=2) {
+                    //至少2张图才滚蛋
+                    int size = mViewPager.getAdapter().getCount();
+                    int position = (mViewPager.getCurrentItem() + 1) % size;
+                    mViewPager.setCurrentItem(position, true);
+                    BannerView.this.sendScrollMessage();
+                }
             }
         }
     };
@@ -186,12 +198,17 @@ public class BannerView extends FrameLayout implements Runnable{
             ImageView imageView = new ImageView(context);
             ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             imageView.setLayoutParams(layoutParams);
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-            //绑定网络图片
+
+            if ("default".equals(images.get(position).getImg())){
+                imageView.setScaleType(ImageView.ScaleType.CENTER);
+                imageView.setImageResource(R.drawable.default_banner);
+            }else {
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                //绑定网络图片
 //            x.image().bind(imageView, images.get(position).getImg(), new CustomBitmapLoadCallBack(imageView));
-            Glide.with(context).load(images.get(position).getImg()).placeholder(R.drawable.default_bk).crossFade().into(imageView);
-//            imageView.setImageResource(R.drawable.test);
+                Glide.with(context).load(images.get(position).getImg()).placeholder(R.drawable.default_bk).crossFade().into(imageView);
+            }
 
             //点击事件
             final int pos = position;
@@ -199,7 +216,7 @@ public class BannerView extends FrameLayout implements Runnable{
                 @Override
                 public void onClick(View v) {
 //                    Toast.makeText(context, "click banner item :" + pos, Toast.LENGTH_SHORT).show();
-                    if (onBannerClickListener!=null){
+                    if (onBannerClickListener != null) {
                         onBannerClickListener.onBannerClick(pos);
                     }
                 }
@@ -236,7 +253,7 @@ public class BannerView extends FrameLayout implements Runnable{
             mBannerPosition = position;
 //            setIndicator(position);
             position %= DEFAULT_BANNER_SIZE;
-            if (position<=images.size()-1) {
+            if (position <= images.size() - 1) {
                 text_banner.setText(images.get(position).getTitle());
             }
         }
@@ -249,26 +266,29 @@ public class BannerView extends FrameLayout implements Runnable{
 
     //#######################对外方法
     private OnBannerClickListener onBannerClickListener;
+
     public void setOnBannerClickListener(OnBannerClickListener onBannerClickListener) {
         this.onBannerClickListener = onBannerClickListener;
     }
-    public interface OnBannerClickListener{
+
+    public interface OnBannerClickListener {
         void onBannerClick(int position);
     }
 
-    public void setDatas(List<Images> images){
+    public void setDatas(List<Images> images) {
         this.images = images;
         notifyDataSetChanged();
     }
-    public void notifyDataSetChanged(){
+
+    public void notifyDataSetChanged() {
         initView();
         sendScrollMessage();
     }
 
-    public void showTitle(boolean needShow){
-        if (needShow){
+    public void showTitle(boolean needShow) {
+        if (needShow) {
             text_banner.setVisibility(VISIBLE);
-        }else {
+        } else {
             text_banner.setVisibility(GONE);
         }
         requestLayout();

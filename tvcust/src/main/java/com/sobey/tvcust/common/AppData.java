@@ -22,24 +22,42 @@ public class AppData {
 	public static class App{
 
 		private static final String KEY_STRARUP = "startup";
+		private static final String KEY_VERSIONCODE = "versioncode";
 		private static final String KEY_TOKEN = "token";
 		private static final String KEY_USER = "user";
 
-		public static boolean getStartUp(){
-			String cards = PreferenceUtil.getString(ApplicationHelp.getApplicationContext(), KEY_STRARUP);
-			if (cards==null || "".equals(cards)) {
-				return false;
+//		public static boolean getStartUp(){
+//			String cards = PreferenceUtil.getString(ApplicationHelp.getApplicationContext(), KEY_STRARUP);
+//			if (cards==null || "".equals(cards)) {
+//				return false;
+//			}else {
+//				return Boolean.parseBoolean(cards);
+//			}
+//		}
+//
+//		public static void saveStartUp(boolean startup){
+//			PreferenceUtil.saveString(ApplicationHelp.getApplicationContext(), KEY_STRARUP, startup+"");
+//		}
+//
+//		public static void removeStartUp(){
+//			PreferenceUtil.remove(ApplicationHelp.getApplicationContext(),KEY_STRARUP);
+//		}
+
+		public static int getVersionCode(){
+			String versioncode = PreferenceUtil.getString(ApplicationHelp.getApplicationContext(), KEY_VERSIONCODE);
+			if (versioncode==null || "".equals(versioncode)) {
+				return 0;
 			}else {
-				return Boolean.parseBoolean(cards);
+				return Integer.parseInt(versioncode);
 			}
 		}
 
-		public static void saveStartUp(boolean startup){
-			PreferenceUtil.saveString(ApplicationHelp.getApplicationContext(), KEY_STRARUP, startup+"");
+		public static void saveVersionCode(int versioncode){
+			PreferenceUtil.saveString(ApplicationHelp.getApplicationContext(), KEY_VERSIONCODE, versioncode+"");
 		}
 
-		public static void removeStartUp(){
-			PreferenceUtil.remove(ApplicationHelp.getApplicationContext(),KEY_STRARUP);
+		public static void removeVersionCode(){
+			PreferenceUtil.remove(ApplicationHelp.getApplicationContext(),KEY_VERSIONCODE);
 		}
 
 		public static String getToken(){

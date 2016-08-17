@@ -25,7 +25,6 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IPieDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.sobey.common.utils.StrUtils;
 import com.sobey.common.utils.TimeUtil;
 import com.sobey.common.utils.DateUtils;
 import com.sobey.tvcust.R;
@@ -38,12 +37,11 @@ import com.sobey.tvcust.common.SobeyNet;
 import com.sobey.tvcust.entity.CountEntity;
 import com.sobey.tvcust.entity.SBCountWarningPojo;
 import com.sobey.tvcust.entity.SBCountWarningStates;
-import com.sobey.tvcust.entity.SBWarningCount;
 import com.sobey.tvcust.entity.TVStation;
 import com.sobey.tvcust.entity.TVStationPojo;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterCountOrder;
 import com.sobey.tvcust.ui.dialog.DialogMouthPicker;
-import com.sobey.tvcust.utils.AppUtils;
+import com.sobey.tvcust.utils.AppHelper;
 import com.sobey.tvcust.utils.UrlUtils;
 
 import org.xutils.common.Callback;
@@ -319,7 +317,7 @@ public class CountWarningActivity extends BaseAppCompatActivity implements View.
                 } else {
                     SBCountWarningPojo countWarningPojo = (SBCountWarningPojo) pojo;
                     List<SBCountWarningStates> statsList = countWarningPojo.getStatsList();
-                    List<CountEntity> counts = AppUtils.getWarningList(statsList, colors);
+                    List<CountEntity> counts = AppHelper.getWarningList(statsList, colors);
                     if (counts != null && counts.size() != 0) {
                         results.clear();
                         results.addAll(counts);
@@ -379,7 +377,7 @@ public class CountWarningActivity extends BaseAppCompatActivity implements View.
                     TVStationPojo tvStationPojo = (TVStationPojo) pojo;
                     List<TVStation> tvStations = tvStationPojo.getDataList();
                     if (tvStations != null && tvStations.size() != 0) {
-                        stationCode = AppUtils.getStationCodeStr(tvStations);
+                        stationCode = AppHelper.getStationCodeStr(tvStations);
                         netGetWarningCount();
                     } else {
                     }

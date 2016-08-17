@@ -12,19 +12,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.interfaces.datasets.IPieDataSet;
-import com.sobey.common.common.CustomBitmapLoadCallBack;
-import com.sobey.common.utils.FontUtils;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppConstant;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.CommonNet;
-import com.sobey.tvcust.common.LoadingViewUtil;
 import com.sobey.tvcust.common.SobeyNet;
 import com.sobey.tvcust.entity.CommonEntity;
-import com.sobey.tvcust.entity.CountEntity;
 import com.sobey.tvcust.entity.SBCountWarningPojo;
 import com.sobey.tvcust.entity.SBCountWarningStates;
 import com.sobey.tvcust.entity.SBWarningCount;
@@ -34,11 +27,10 @@ import com.sobey.tvcust.entity.User;
 import com.sobey.tvcust.ui.activity.CountQuestionActivity;
 import com.sobey.tvcust.ui.activity.CountOrderActivity;
 import com.sobey.tvcust.ui.activity.CountWarningActivity;
-import com.sobey.tvcust.ui.activity.DeviceListActivity;
 import com.sobey.tvcust.ui.activity.MeDetailActivity;
 import com.sobey.tvcust.ui.activity.MsgSelectActivity;
 import com.sobey.tvcust.ui.activity.SettingActivity;
-import com.sobey.tvcust.utils.AppUtils;
+import com.sobey.tvcust.utils.AppHelper;
 import com.sobey.tvcust.utils.UrlUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -350,7 +342,7 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
                     TVStationPojo tvStationPojo = (TVStationPojo) pojo;
                     List<TVStation> tvStations = tvStationPojo.getDataList();
                     if (tvStations != null && tvStations.size() != 0) {
-                        String stationCode = AppUtils.getStationCodeStr(tvStations);
+                        String stationCode = AppHelper.getStationCodeStr(tvStations);
                         netCountWarning(stationCode);
                     } else {
                     }

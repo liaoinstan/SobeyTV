@@ -27,10 +27,46 @@ public class Images implements Serializable {
 
     private int id;
     private String title;
+
     @SerializedName("image")
     private String img;
+
     @SerializedName("imgUrl")
     private String url;
+
+    //是否是内部文章， 0 表示 不是内部文章 1表示 是内部文章
+    @SerializedName("isInside")
+    private int isInside;
+
+    @SerializedName("newsId")
+    private int newsId;
+
+    @SerializedName("news")
+    private Article article;
+
+    public Article getArticle() {
+        return article;
+    }
+
+    public void setArticle(Article article) {
+        this.article = article;
+    }
+
+    public int getIsInside() {
+        return isInside;
+    }
+
+    public void setIsInside(int isInside) {
+        this.isInside = isInside;
+    }
+
+    public int getNewsId() {
+        return newsId;
+    }
+
+    public void setNewsId(int newsId) {
+        this.newsId = newsId;
+    }
 
     public Images(int id, String img) {
         this.id = id;

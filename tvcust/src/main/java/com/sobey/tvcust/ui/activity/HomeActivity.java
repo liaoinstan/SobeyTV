@@ -28,7 +28,7 @@ import com.sobey.tvcust.ui.fragment.HomeMeFragment;
 import com.sobey.tvcust.ui.fragment.HomeOrderFragment;
 import com.sobey.tvcust.ui.fragment.HomeServerFragment;
 import com.sobey.common.utils.PermissionsUtil;
-import com.sobey.tvcust.utils.AppUtils;
+import com.sobey.tvcust.utils.AppHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.xutils.http.RequestParams;
@@ -290,7 +290,7 @@ public class HomeActivity extends BaseAppCompatActivity implements View.OnClickL
     private int signDays;
 
     private void checkIsSign(){
-        if (AppUtils.getNeedCheckSign()){
+        if (AppHelper.getNeedCheckSign()){
             netIsSign();
         }
     }
@@ -309,7 +309,7 @@ public class HomeActivity extends BaseAppCompatActivity implements View.OnClickL
                     if (!isSign) {
                         dialogSign.setGrade(com.getSignGrades());
                         dialogSign.show();
-                        AppUtils.saveNeedCheckSign();
+                        AppHelper.saveNeedCheckSign();
                     }
                 }
             }

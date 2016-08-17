@@ -9,6 +9,7 @@ import com.sobey.tvcust.common.CommonNet;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.entity.User;
+import com.sobey.tvcust.utils.AppHelper;
 
 import org.xutils.http.RequestParams;
 
@@ -39,7 +40,7 @@ public class LoadUpActivity extends BaseAppCompatActivity implements CommonNet.N
 
         //获取token
         token = AppData.App.getToken();
-        startup = AppData.App.getStartUp();
+        startup = AppHelper.getStartUp();
 
         if (token == null || "".equals(token)) {
             //无token 等待2秒 去登录页
@@ -87,7 +88,7 @@ public class LoadUpActivity extends BaseAppCompatActivity implements CommonNet.N
 
     private void goNext() {
         final Intent intent = new Intent();
-        if (AppData.App.getStartUp()) {
+        if (AppHelper.getStartUp()) {
             intent.setClass(LoadUpActivity.this, HomeActivity.class);
         } else {
             intent.setClass(LoadUpActivity.this, StartUpActivity.class);

@@ -112,7 +112,7 @@ public class InsVoiceRecorderView extends RelativeLayout {
         final int action = MotionEventCompat.getActionMasked(event);
         switch (action) {
             case MotionEvent.ACTION_DOWN:
-                Log.e("voice","ACTION_DOWN");
+                Log.e("voice", "ACTION_DOWN");
                 try {
 //                if (EaseChatRowVoicePlayClickListener.isPlaying)
 //                    EaseChatRowVoicePlayClickListener.currentPlayListener.stopPlayVoice();
@@ -124,7 +124,7 @@ public class InsVoiceRecorderView extends RelativeLayout {
                 }
                 return true;
             case MotionEvent.ACTION_MOVE:
-                Log.e("voice","ACTION_MOVE");
+                Log.e("voice", "ACTION_MOVE");
                 if (event.getY() < 0) {
                     showReleaseToCancelHint();
                 } else {
@@ -132,7 +132,7 @@ public class InsVoiceRecorderView extends RelativeLayout {
                 }
                 return true;
             case MotionEvent.ACTION_UP:
-                Log.e("voice","ACTION_UP");
+                Log.e("voice", "ACTION_UP");
                 micImage.setImageDrawable(micImages[0]);
                 showNoHint();
                 v.setPressed(false);
@@ -147,11 +147,11 @@ public class InsVoiceRecorderView extends RelativeLayout {
                             if (recorderCallback != null) {
                                 recorderCallback.onVoiceRecordComplete(getVoiceFilePath(), length);
                             }
-                        } else if (length == 0) {
+                        } else if (length >= 0 && length < 1) {
                             Toast.makeText(context, "录音时间太短", Toast.LENGTH_SHORT).show();
-                        } else if (length == -1){
+                        } else if (length == -1) {
                             Toast.makeText(context, "什么声音也没有", Toast.LENGTH_SHORT).show();
-                        }else {
+                        } else {
                             Toast.makeText(context, "无录音权限", Toast.LENGTH_SHORT).show();
                         }
                     } catch (Exception e) {
@@ -161,10 +161,10 @@ public class InsVoiceRecorderView extends RelativeLayout {
                 }
                 return true;
             case MotionEvent.ACTION_POINTER_DOWN:
-                Log.e("voice","ACTION_POINTER_DOWN");
+                Log.e("voice", "ACTION_POINTER_DOWN");
                 return true;
             case MotionEvent.ACTION_POINTER_UP:
-                Log.e("voice","ACTION_POINTER_UP");
+                Log.e("voice", "ACTION_POINTER_UP");
                 return true;
             default:
                 discardRecording();

@@ -134,8 +134,44 @@ public class TimeUtil {
     /**
      * 两天相减获取天数
      */
-    public static int subDate(Date beginDate,Date endDate){
+    public static int subDay(Date beginDate, Date endDate){
         return (int) ((endDate.getTime()-beginDate.getTime())/(24*60*60*1000));
+    }
+
+    /**
+     * 日起相减获取月份差
+     */
+    public static int subMouth(Date start, Date end) {
+//        if (start.after(end)) {
+//            Date t = start;
+//            start = end;
+//            end = t;
+//        }
+        Calendar startCalendar = Calendar.getInstance();
+        startCalendar.setTime(start);
+        Calendar endCalendar = Calendar.getInstance();
+        endCalendar.setTime(end);
+        Calendar temp = Calendar.getInstance();
+        temp.setTime(end);
+        temp.add(Calendar.DATE, 1);
+
+        int year = endCalendar.get(Calendar.YEAR)
+                - startCalendar.get(Calendar.YEAR);
+        int month = endCalendar.get(Calendar.MONTH)
+                - startCalendar.get(Calendar.MONTH);
+
+        if ((startCalendar.get(Calendar.DATE) == 1)
+                && (temp.get(Calendar.DATE) == 1)) {
+            return year * 12 + month + 1;
+        } else if ((startCalendar.get(Calendar.DATE) != 1)
+                && (temp.get(Calendar.DATE) == 1)) {
+            return year * 12 + month;
+        } else if ((startCalendar.get(Calendar.DATE) == 1)
+                && (temp.get(Calendar.DATE) != 1)) {
+            return year * 12 + month;
+        } else {
+            return (year * 12 + month - 1) < 0 ? 0 : (year * 12 + month);
+        }
     }
 
     public static String cutDateStr(String dateStr) {

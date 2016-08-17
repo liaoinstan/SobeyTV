@@ -1,6 +1,9 @@
 package com.sobey.tvcust.utils;
 
+import com.shelwee.update.utils.VersionUtil;
+import com.sobey.common.utils.ApplicationHelp;
 import com.sobey.common.utils.DateUtils;
+import com.sobey.common.utils.PreferenceUtil;
 import com.sobey.common.utils.StrUtils;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.entity.CountEntity;
@@ -17,7 +20,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/8/9.
  */
-public class AppUtils {
+public class AppHelper {
     public static String getStationCodeStr(List<TVStation> stations) {
         if (stations == null || stations.size() == 0) {
             return "";
@@ -41,7 +44,7 @@ public class AppUtils {
     public static boolean getNeedCheckSign() {
         String token = AppData.App.getToken();
         HashMap<String, Long> map = AppData.Cache.getSignList();
-        if (map!=null && map.containsKey(token)) {
+        if (map != null && map.containsKey(token)) {
             Long time = map.get(token);
             if (DateUtils.isSameDate(new Date().getTime(), time)) {
                 //和存储的日期是同一天返回true
@@ -67,20 +70,20 @@ public class AppUtils {
     }
 
 
-    public static List<CountEntity> getWarningList(List<SBCountWarningStates> statsList,List<Integer> colors){
+    public static List<CountEntity> getWarningList(List<SBCountWarningStates> statsList, List<Integer> colors) {
         List<SBWarningCount> warningCounts = new ArrayList<>();
 
-        for (SBCountWarningStates states : statsList){
+        for (SBCountWarningStates states : statsList) {
             warningCounts.addAll(states.getKitGroupDetail());
         }
 
-        List<CountEntity> counts = getCountListWarningList(warningCounts,colors);
+        List<CountEntity> counts = getCountListWarningList(warningCounts, colors);
 
         return counts;
     }
 
-    private static List<CountEntity> getCountListWarningList(List<SBWarningCount> list,List<Integer> colors) {
-        if (list==null || list.size()==0){
+    private static List<CountEntity> getCountListWarningList(List<SBWarningCount> list, List<Integer> colors) {
+        if (list == null || list.size() == 0) {
             return null;
         }
         ArrayList<CountEntity> counts = new ArrayList<>();
@@ -104,5 +107,25 @@ public class AppUtils {
             i++;
         }
         return counts;
+    }
+
+
+    public static boolean getStartUp() {
+        int versionCodeSave = AppData.App.getVersionCode();
+        int versionCode = VersionUtil.getAppVersionCode(ApplicationHelp.getApplicationContext());
+        if (versionCode > versionCodeSave) {
+            return false;
+        }else {
+            return true;
+        }
+    }
+
+    public static void saveStartUp() {
+        int versionCode = VersionUtil.getAppVersionCode(ApplicationHelp.getApplicationContext());
+        AppData.App.saveVersionCode(versionCode);
+    }
+
+    public static void removeStartUp() {
+        AppHelper.removeStartUp();
     }
 }
