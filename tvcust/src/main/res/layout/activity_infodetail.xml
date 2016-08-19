@@ -29,19 +29,31 @@
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <WebView
-            android:id="@+id/webview"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@color/sb_bk" />
+            android:layout_weight="1">
+
+            <WebView
+                android:id="@+id/webview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/sb_bk" />
+
+            <ProgressBar
+                android:id="@+id/progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="5px" />
+
+        </FrameLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@drawable/line"/>
+            android:background="@drawable/line" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -56,23 +68,23 @@
                 android:layout_height="50dp"
                 android:layout_marginLeft="5dp"
                 android:scaleType="center"
-                android:src="@drawable/icon_info_share"/>
+                android:src="@drawable/icon_info_share" />
 
             <ImageView
                 android:id="@+id/img_infodetail_zan"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:scaleType="center"
-                android:src="@drawable/hot_zan"/>
+                android:src="@drawable/hot_zan" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
                 android:paddingRight="20dp"
-                android:textSize="@dimen/text_nomal_small"
+                android:text="点赞与分享是一种美德"
                 android:textColor="@color/sb_text_dark"
-                android:text="点赞与分享是一种美德"/>
+                android:textSize="@dimen/text_nomal_small" />
 
         </LinearLayout>
 

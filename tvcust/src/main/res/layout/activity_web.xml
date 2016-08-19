@@ -28,11 +28,23 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:type="follow">
 
-        <WebView
-            android:id="@+id/webview"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/sb_bk" />
+            android:layout_height="match_parent">
+
+            <WebView
+                android:id="@+id/webview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/sb_bk" />
+
+            <ProgressBar
+                android:id="@+id/progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="5px" />
+
+        </FrameLayout>
 
     </com.liaoinstan.springview.widget.SpringView>
 

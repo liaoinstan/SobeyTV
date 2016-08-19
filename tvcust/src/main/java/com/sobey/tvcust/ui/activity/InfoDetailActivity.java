@@ -5,10 +5,12 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.sobey.share.sharesdk.dialog.ShareDialog;
@@ -30,6 +32,8 @@ public class InfoDetailActivity extends BaseAppCompatActivity implements View.On
     private String url;
     private int newsId;
     private Article article;
+    private ProgressBar bar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +67,7 @@ public class InfoDetailActivity extends BaseAppCompatActivity implements View.On
         img_infodetail_share = (ImageView) findViewById(R.id.img_infodetail_share);
         img_infodetail_zan = (ImageView) findViewById(R.id.img_infodetail_zan);
         webView = (WebView) findViewById(R.id.webview);
+        bar = (ProgressBar) findViewById(R.id.progress);
         //默认不可及，获取到用户点赞状态后才显示
         img_infodetail_zan.setVisibility(View.GONE);
     }
@@ -94,13 +99,26 @@ public class InfoDetailActivity extends BaseAppCompatActivity implements View.On
     private void initCtrl() {
         img_infodetail_share.setOnClickListener(this);
         img_infodetail_zan.setOnClickListener(this);
-        WebSettings setting = webView.getSettings();
+        final WebSettings setting = webView.getSettings();
         setting.setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient() {
             public boolean shouldOverrideUrlLoading(WebView view, String url) { //  重写此方法表明点击网页里面的链接还是在当前的webview里跳转，不跳到浏览器那边
                 view.loadUrl(url);
                 return true;
             }
+        });
+        webView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                if (newProgress == 100) {
+                    bar.setVisibility(View.GONE);
+                } else {
+                    bar.setVisibility(View.VISIBLE);
+                    bar.setProgress(newProgress);
+                }
+                super.onProgressChanged(view, newProgress);
+            }
+
         });
         HashMap<String, String> map = new HashMap<>();
         map.put("token", AppData.App.getToken());

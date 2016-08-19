@@ -34,7 +34,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/6/2 0002.
  */
-public class CompBranchFragment extends BaseFragment{
+public class CompBranchFragment extends BaseFragment {
 
     private int position;
     private View rootView;
@@ -93,13 +93,13 @@ public class CompBranchFragment extends BaseFragment{
     }
 
     private void initData() {
-        showin = LoadingViewUtil.showin(showingroup, R.layout.layout_loading,showin);
+        showin = LoadingViewUtil.showin(showingroup, R.layout.layout_loading, showin);
 
         RequestParams params = new RequestParams(AppData.Url.getBranch);
-        CommonNet.samplepost(params,CompanyPojo.class,new CommonNet.SampleNetHander(){
+        CommonNet.samplepost(params, CompanyPojo.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
-                if (pojo==null) netSetError(code,"接口异常");
+                if (pojo == null) netSetError(code, "接口异常");
                 else {
                     CompanyPojo officePojo = (CompanyPojo) pojo;
                     List<Company> offices = officePojo.getDataList();
@@ -110,7 +110,7 @@ public class CompBranchFragment extends BaseFragment{
                     Company company = new Company();
                     company.setId(-1);
                     company.setCar_title("总公司");
-                    offices.add(0,company);
+                    offices.add(0, company);
 
                     SourceDateList.clear();
                     SourceDateList.addAll(offices);
@@ -122,7 +122,7 @@ public class CompBranchFragment extends BaseFragment{
             @Override
             public void netSetError(int code, String text) {
                 Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
-                showin = LoadingViewUtil.showin(showingroup,R.layout.layout_fail,showin,new View.OnClickListener(){
+                showin = LoadingViewUtil.showin(showingroup, R.layout.layout_fail, showin, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         initData();
@@ -139,13 +139,13 @@ public class CompBranchFragment extends BaseFragment{
         sortListView = (ListView) getView().findViewById(R.id.country_lvcountry);
         SourceDateList = filledData(SourceDateList);
 
-        adapter = new ListAdapterComp(getActivity(), SourceDateList,true);
+        adapter = new ListAdapterComp(getActivity(), SourceDateList, true);
         sortListView.setAdapter(adapter);
         sortListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
                 CharSort charSort = adapter.getResults().get(pos);
-                EventBus.getDefault().post(new RegistDetailFragment.CompEntity(charSort.getId(),charSort.getCar_title()));
+                EventBus.getDefault().post(new RegistDetailFragment.CompEntity(charSort.getId(), charSort.getCar_title()));
                 getActivity().finish();
             }
         });
@@ -153,7 +153,11 @@ public class CompBranchFragment extends BaseFragment{
             @Override
             public void onNextClick(int pos) {
                 CompActivity activity = (CompActivity) getActivity();
-                EventBus.getDefault().post(adapter.getResults().get(pos));
+                CharSort charSort = adapter.getResults().get(pos);
+                EventBus.getDefault().post(charSort);
+                if (activity.getTitles().length - 1 >= position + 1) {
+                    activity.getTitles()[position + 1] = charSort.getCar_title();
+                }
                 activity.next();
             }
         });
@@ -173,6 +177,7 @@ public class CompBranchFragment extends BaseFragment{
                     text_search.setVisibility(View.INVISIBLE);
                 }
             }
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }

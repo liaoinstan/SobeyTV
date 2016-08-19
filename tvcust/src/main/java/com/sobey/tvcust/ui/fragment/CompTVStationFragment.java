@@ -40,7 +40,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/6/2 0002.
  */
-public class CompTVStationFragment extends BaseFragment{
+public class CompTVStationFragment extends BaseFragment {
 
     private int position;
     private View rootView;
@@ -90,7 +90,7 @@ public class CompTVStationFragment extends BaseFragment{
     }
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
@@ -121,14 +121,14 @@ public class CompTVStationFragment extends BaseFragment{
     }
 
     private void initData() {
-        showin = LoadingViewUtil.showin(showingroup,R.layout.layout_loading,showin);
+        showin = LoadingViewUtil.showin(showingroup, R.layout.layout_loading, showin);
 
         RequestParams params = new RequestParams(AppData.Url.getTv);
-        params.addBodyParameter("officeId",officeid+"");
-        CommonNet.samplepost(params,TVStationPojo.class,new CommonNet.SampleNetHander(){
+        params.addBodyParameter("officeId", officeid + "");
+        CommonNet.samplepost(params, TVStationPojo.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
-                if (pojo==null) netSetError(code,"接口异常");
+                if (pojo == null) netSetError(code, "接口异常");
                 else {
                     TVStationPojo tvStationPojo = (TVStationPojo) pojo;
                     List<TVStation> tvStations = tvStationPojo.getDataList();
@@ -143,7 +143,7 @@ public class CompTVStationFragment extends BaseFragment{
             @Override
             public void netSetError(int code, String text) {
                 Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
-                showin = LoadingViewUtil.showin(showingroup,R.layout.layout_fail,showin,new View.OnClickListener(){
+                showin = LoadingViewUtil.showin(showingroup, R.layout.layout_fail, showin, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         initData();
@@ -171,7 +171,7 @@ public class CompTVStationFragment extends BaseFragment{
             public void onTouchingLetterChanged(String s) {
                 //该字母首次出现的位置
                 int position = adapter.getPositionForSection(s.charAt(0));
-                if(position != -1){
+                if (position != -1) {
                     sortListView.setSelection(position);
                 }
             }
@@ -180,11 +180,15 @@ public class CompTVStationFragment extends BaseFragment{
         sortListView = (ListView) getView().findViewById(R.id.country_lvcountry);
         sortListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view,int pos, long id) {
-                if ("xxx".equals(activityGo.getType())){
-                    EventBus.getDefault().post(adapter.getItem(pos));
+            public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
+                if ("xxx".equals(activityGo.getType())) {
+                    CharSort charSort = adapter.getItem(pos);
+                    EventBus.getDefault().post(charSort);
+                    if (activityGo.getTitles().length - 1 >= position + 1) {
+                        activityGo.getTitles()[position + 1] = charSort.getCar_title();
+                    }
                     activityGo.next();
-                }else {
+                } else {
                     CharSort charSort = adapter.getItem(pos);
                     EventBus.getDefault().post(new RegistDetailFragment.CompEntity(charSort.getId(), charSort.getCar_title()));
                     getActivity().finish();
@@ -209,15 +213,15 @@ public class CompTVStationFragment extends BaseFragment{
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 //当输入框里面的值为空，更新为原来的列表，否则为过滤数据列表
                 filterData(s.toString());
-                if ("".equals(s.toString())){
+                if ("".equals(s.toString())) {
                     text_search.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     text_search.setVisibility(View.INVISIBLE);
                 }
             }
 
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count,int after) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             @Override
@@ -226,7 +230,7 @@ public class CompTVStationFragment extends BaseFragment{
         });
     }
 
-    public void freshCtrl(){
+    public void freshCtrl() {
         SourceDateList = filledData(SourceDateList);
         // 根据a-z进行排序源数据
         Collections.sort(SourceDateList, pinyinComparator);
@@ -236,19 +240,20 @@ public class CompTVStationFragment extends BaseFragment{
 
     /**
      * 为ListView填充数据
+     *
      * @return
      */
-    private List<CharSort> filledData(List<CharSort> data){
-        for(int i=0; i<data.size(); i++){
+    private List<CharSort> filledData(List<CharSort> data) {
+        for (int i = 0; i < data.size(); i++) {
             CharSort sortModel = data.get(i);
             //汉字转换成拼音
             String pinyin = characterParser.getSelling(data.get(i).getCar_title());
             String sortString = pinyin.substring(0, 1).toUpperCase();
 
             // 正则表达式，判断首字母是否是英文字母
-            if(sortString.matches("[A-Z]")){
+            if (sortString.matches("[A-Z]")) {
                 sortModel.setSortLetters(sortString.toUpperCase());
-            }else{
+            } else {
                 sortModel.setSortLetters("#");
             }
         }
@@ -257,21 +262,22 @@ public class CompTVStationFragment extends BaseFragment{
 
     /**
      * 根据输入框中的值来过滤数据并更新ListView
+     *
      * @param filterStr
      */
-    private void filterData(String filterStr){
+    private void filterData(String filterStr) {
         List<CharSort> filterDateList = new ArrayList<CharSort>();
 
-        if(TextUtils.isEmpty(filterStr)){
+        if (TextUtils.isEmpty(filterStr)) {
             for (CharSort carType : SourceDateList) {
-                if (carType.getCar_title_html()!=null) {
+                if (carType.getCar_title_html() != null) {
                     carType.setCar_title_html(null);
                 }
             }
             filterDateList = SourceDateList;
-        }else{
+        } else {
             filterDateList.clear();
-            for(CharSort sortModel : SourceDateList){
+            for (CharSort sortModel : SourceDateList) {
                 String name = sortModel.getCar_title();
                 match(filterDateList, sortModel, filterStr);
             }
@@ -290,6 +296,7 @@ public class CompTVStationFragment extends BaseFragment{
 
     /**
      * 匹配字符串
+     *
      * @param sortModel
      * @param filterStr
      */
@@ -303,31 +310,31 @@ public class CompTVStationFragment extends BaseFragment{
             }
             if (filterStr.startsWith(selling)) {
                 sellingcount++;
-                filterStr = filterStr.substring(selling.length(),filterStr.length());
-            }else if(selling.startsWith(filterStr)){
+                filterStr = filterStr.substring(selling.length(), filterStr.length());
+            } else if (selling.startsWith(filterStr)) {
                 sellingcount++;
                 return sellingcount;
-            }else {
+            } else {
                 return 0;
             }
         }
         return sellingcount;
     }
 
-    private void match(List<CharSort> filterDateList,CharSort sortModel, String filterStr) {
+    private void match(List<CharSort> filterDateList, CharSort sortModel, String filterStr) {
         boolean isMatch = false;
         String car_title = sortModel.getCar_title();
-        int sellingCount = matchText(sortModel,filterStr);
-        if (sellingCount!=0) {
+        int sellingCount = matchText(sortModel, filterStr);
+        if (sellingCount != 0) {
             isMatch = true;
-            sortModel.setCar_title_html("<font color='#5793e6'><b>" + car_title.substring(0,sellingCount) + "</b></font>" + car_title.substring(sellingCount));
+            sortModel.setCar_title_html("<font color='#5793e6'><b>" + car_title.substring(0, sellingCount) + "</b></font>" + car_title.substring(sellingCount));
         }
 
         int index = car_title.toLowerCase().indexOf(filterStr.toLowerCase().toString());
         int length = filterStr.length();
         if (index != -1) {
             isMatch = true;
-            sortModel.setCar_title_html(car_title.substring(0,index) + "<font color='#5793e6'><b>" + filterStr + "</b></font>" + car_title.substring(index+length));
+            sortModel.setCar_title_html(car_title.substring(0, index) + "<font color='#5793e6'><b>" + filterStr + "</b></font>" + car_title.substring(index + length));
         }
 
         if (isMatch) {

@@ -89,6 +89,14 @@ public class OrderDetailActivity extends BaseAppCompatActivity implements View.O
         initCtrl();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (player!=null){
+            player.stop();
+        }
+    }
+
     @Subscribe
     public void onEventMainThread(Integer flag) {
         if (flag == AppConstant.EVENT_UPDATE_ORDERDESCRIBE) {
@@ -342,11 +350,11 @@ public class OrderDetailActivity extends BaseAppCompatActivity implements View.O
         } else {
             lay_orderdetail_tsc.setVisibility(View.GONE);
         }
-        //普通客户只能看见进度标示图，其他角色可以看见台标
+        //普通客户只能看见进度标示图，其他角色可以看见台标(自己头像)
         if (user.getRoleType() == User.ROLE_COMMOM) {
             img_orderdetail_header.setImageResource(OrderStatusHelper.getStatusImgSrc(order));
         } else {
-            Glide.with(this).load(user.getAvatar()).placeholder(R.drawable.default_bk).centerCrop().crossFade().into(img_orderdetail_header);
+            Glide.with(this).load(mainperson.getAvatar()).placeholder(R.drawable.default_bk).centerCrop().crossFade().into(img_orderdetail_header);
         }
         //根据角色类型设置提交按钮的状态和功能
         pop_describe.setType(user.getRoleType(), order);

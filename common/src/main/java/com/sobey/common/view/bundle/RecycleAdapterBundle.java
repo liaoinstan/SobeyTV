@@ -11,16 +11,18 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.sobey.common.R;
 import com.sobey.common.common.CustomBitmapLoadCallBack;
+import com.sobey.common.helper.MyItemTouchCallback;
 import com.sobey.common.utils.DensityUtil;
 import com.sobey.common.view.BundleView2;
 
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
+import java.util.Collections;
 import java.util.List;
 
 
-public class RecycleAdapterBundle extends RecyclerView.Adapter<RecycleAdapterBundle.Holder> {
+public class RecycleAdapterBundle extends RecyclerView.Adapter<RecycleAdapterBundle.Holder> implements MyItemTouchCallback.ItemTouchAdapter {
 
     private Context context;
     private int src;
@@ -147,6 +149,32 @@ public class RecycleAdapterBundle extends RecyclerView.Adapter<RecycleAdapterBun
             }
         }
     }
+
+
+    @Override
+    public void onMove(int fromPosition, int toPosition) {
+//        if (fromPosition==results.size()-1 || toPosition==results.size()-1){
+//            return;
+//        }
+        if (fromPosition < toPosition) {
+            for (int i = fromPosition; i < toPosition; i++) {
+                Collections.swap(results, i, i + 1);
+            }
+        } else {
+            for (int i = fromPosition; i > toPosition; i--) {
+                Collections.swap(results, i, i - 1);
+            }
+        }
+        notifyItemMoved(fromPosition, toPosition);
+    }
+
+    @Override
+    public void onSwiped(int position) {
+        results.remove(position);
+        notifyItemRemoved(position);
+    }
+
+
 
     private BundleView2.OnBundleClickListener bundleClickListener;
 

@@ -24,6 +24,11 @@ public class SelectUserActivity extends BaseAppCompatActivity implements Activit
     private String[] title = new String[]{"办事处", "电视台", "选择用户"};
 
     @Override
+    public String[] getTitles() {
+        return title;
+    }
+
+    @Override
     public String getType() {
         return type;
     }

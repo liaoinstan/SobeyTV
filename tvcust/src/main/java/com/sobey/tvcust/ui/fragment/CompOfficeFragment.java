@@ -216,7 +216,11 @@ public class CompOfficeFragment extends BaseFragment{
 
 
     private void goNext(int pos){
-        EventBus.getDefault().post(adapter.getResults().get(pos));
+        CharSort charSort = adapter.getResults().get(pos);
+        EventBus.getDefault().post(charSort);
+        if (activityGo.getTitles().length - 1 >= position + 1) {
+            activityGo.getTitles()[position + 1] = charSort.getCar_title();
+        }
         activityGo.next();
     }
 

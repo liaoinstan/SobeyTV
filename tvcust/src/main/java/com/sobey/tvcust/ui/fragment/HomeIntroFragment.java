@@ -62,7 +62,7 @@ public class HomeIntroFragment extends BaseFragment implements View.OnClickListe
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Toolbar toolbar = (Toolbar) getView().findViewById(R.id.toolbar);
-        toolbar.setTitle("产品介绍");
+        toolbar.setTitle("监控平台");
         initBase();
         initView();
         initData();

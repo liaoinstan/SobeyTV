@@ -94,6 +94,7 @@ public class RecycleAdapterOrderDetail extends RecyclerView.Adapter<RecycleAdapt
             }
         }
 
+        holder.bundle.setNeedDrag(false);
         holder.bundle.getResults().clear();
         holder.bundle.getResults().addAll(resultsbundle);
         holder.bundle.freshCtrl();

@@ -47,9 +47,9 @@ public class RegistDetailFragment extends BaseFragment implements View.OnClickLi
     private EditText edit_mail;
     private EditText edit_comp;
 
-    public static String TYPE_USER = "user";
-    public static String TYPE_GROUP_USER = "group_user";
-    public static String TYPE_HEAD_USER = "head_user";
+    public static String TYPE_USER = "user";        //客户
+    public static String TYPE_GROUP_USER = "group_user";    //员工
+    public static String TYPE_HEAD_USER = "head_user";      //员工中的总部技术
     private String type = TYPE_USER;
     private int officeId;
 
@@ -182,9 +182,17 @@ public class RegistDetailFragment extends BaseFragment implements View.OnClickLi
                 break;
             case R.id.edit_registdetail_comp:
                 intent.setClass(getActivity(), CompActivity.class);
-                intent.putExtra("type",type);
+                intent.putExtra("type",getSelectType());
                 startActivity(intent);
                 break;
+        }
+    }
+
+    private String getSelectType(){
+        if (text_select_customer.isSelected()){
+            return TYPE_USER;
+        }else {
+            return TYPE_GROUP_USER;
         }
     }
 

@@ -91,6 +91,11 @@ public class CompActivity extends BaseAppCompatActivity implements ActivityGo{
         }
     }
 
+    @Override
+    public String[] getTitles() {
+        return title;
+    }
+
     private void setPage(int pos){
         viewPager.setCurrentItem(pos);
         getSupportActionBar().setTitle(title[pos]);

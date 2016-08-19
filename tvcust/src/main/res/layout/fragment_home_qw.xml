@@ -26,7 +26,8 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <FrameLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:id="@+id/showingroup"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -46,5 +47,5 @@
                 android:layout_height="match_parent" />
 
         </com.liaoinstan.springview.widget.SpringView>
-    </FrameLayout>
+    </LinearLayout>
 </LinearLayout>

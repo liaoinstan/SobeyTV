@@ -1,20 +1,23 @@
 package com.sobey.common.view;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.os.Parcel;
-import android.os.Parcelable;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.sobey.common.R;
-import com.sobey.common.view.bundle.RecycleAdapterBundle;
+import com.sobey.common.helper.MyItemTouchCallback;
+import com.sobey.common.helper.OnRecyclerItemClickListener;
+import com.sobey.common.utils.VibratorUtil;
 import com.sobey.common.view.bundle.BundleEntity;
+import com.sobey.common.view.bundle.RecycleAdapterBundle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +25,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/6/12 0012.
  */
-public class BundleView2 extends FrameLayout{
+public class BundleView2 extends FrameLayout {
 
     private RecyclerView recyclerView;
     private RecycleAdapterBundle adapter;
@@ -32,6 +35,12 @@ public class BundleView2 extends FrameLayout{
 
     private Context context;
     private LayoutInflater inflater;
+
+    private boolean needDrag = true;
+
+    public void setNeedDrag(boolean needDrag) {
+        this.needDrag = needDrag;
+    }
 
     public List<BundleEntity> getResults() {
         return results;
@@ -65,13 +74,25 @@ public class BundleView2 extends FrameLayout{
 //        results.add(new BundleEntity(BundleEntity.Type.VIDEO,"33333"));
 //        results.add(new BundleEntity(BundleEntity.Type.PHOTE,"44444"));
 //        results.add(new BundleEntity(BundleEntity.Type.VOICE,"55555"));
-        adapter = new RecycleAdapterBundle(context,R.layout.item_recycle_bundle,results);
+        adapter = new RecycleAdapterBundle(context, R.layout.item_recycle_bundle, results);
         recyclerView.setNestedScrollingEnabled(false);
-        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
+        recyclerView.setLayoutManager(new GridLayoutManager(context,3));
         recyclerView.setAdapter(adapter);
+
+        final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new MyItemTouchCallback(adapter).setOnDragListener(null));
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+        recyclerView.addOnItemTouchListener(new OnRecyclerItemClickListener(recyclerView) {
+            @Override
+            public void onLongClick(RecyclerView.ViewHolder vh) {
+                if (needDrag) {
+                    itemTouchHelper.startDrag(vh);
+                    VibratorUtil.Vibrate(context, 70);   //震动70ms
+                }
+            }
+        });
     }
 
-    public void freshCtrl(){
+    public void freshCtrl() {
         adapter.notifyDataSetChanged();
     }
 
@@ -101,44 +122,44 @@ public class BundleView2 extends FrameLayout{
     }
 
     public void addPhoto(String path) {
-        adapter.getResults().add(new BundleEntity(BundleEntity.Type.PHOTE,path));
+        adapter.getResults().add(new BundleEntity(BundleEntity.Type.PHOTE, path));
         adapter.notifyItemInserted(adapter.getResults().size());
     }
 
     public void addVideo(String path) {
-        adapter.getResults().add(new BundleEntity(BundleEntity.Type.VIDEO,path));
+        adapter.getResults().add(new BundleEntity(BundleEntity.Type.VIDEO, path));
         adapter.notifyItemInserted(adapter.getResults().size());
     }
 
     public void addVoice(String path) {
-        adapter.getResults().add(new BundleEntity(BundleEntity.Type.VOICE,path));
+        adapter.getResults().add(new BundleEntity(BundleEntity.Type.VOICE, path));
         adapter.notifyItemInserted(adapter.getResults().size());
     }
 
-    public String[] getPhotoPaths(){
+    public String[] getPhotoPaths() {
         ArrayList<String> list = new ArrayList<>();
-        for (BundleEntity bundle: results) {
-            if (bundle.getType()== BundleEntity.Type.PHOTE){
+        for (BundleEntity bundle : results) {
+            if (bundle.getType() == BundleEntity.Type.PHOTE) {
                 list.add(bundle.getPath());
             }
         }
         return list.toArray(new String[]{});
     }
 
-    public String[] getVideoPaths(){
+    public String[] getVideoPaths() {
         ArrayList<String> list = new ArrayList<>();
-        for (BundleEntity bundle: results) {
-            if (bundle.getType()== BundleEntity.Type.VIDEO){
+        for (BundleEntity bundle : results) {
+            if (bundle.getType() == BundleEntity.Type.VIDEO) {
                 list.add(bundle.getPath());
             }
         }
         return list.toArray(new String[]{});
     }
 
-    public String[] getVoicePaths(){
+    public String[] getVoicePaths() {
         ArrayList<String> list = new ArrayList<>();
-        for (BundleEntity bundle: results) {
-            if (bundle.getType()== BundleEntity.Type.VOICE){
+        for (BundleEntity bundle : results) {
+            if (bundle.getType() == BundleEntity.Type.VOICE) {
                 list.add(bundle.getPath());
             }
         }
