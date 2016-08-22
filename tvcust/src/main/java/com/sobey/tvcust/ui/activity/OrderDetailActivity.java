@@ -34,6 +34,8 @@ import com.sobey.tvcust.entity.OrderDescribePojo;
 import com.sobey.tvcust.entity.User;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterOrderDetail;
 import com.sobey.tvcust.ui.dialog.DialogPopupDescribe;
+import com.sobey.tvcust.ui.dialog.DialogSure;
+import com.sobey.tvcust.utils.AppHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -48,6 +50,7 @@ public class OrderDetailActivity extends BaseAppCompatActivity implements View.O
     private MyPlayer player = new MyPlayer();
 
     private DialogPopupDescribe pop_describe;
+    private DialogSure dialogSure;
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipe;
@@ -110,6 +113,7 @@ public class OrderDetailActivity extends BaseAppCompatActivity implements View.O
         EventBus.getDefault().unregister(this);
         if (player != null) player.onDestory();
         if (pop_describe != null) pop_describe.dismiss();
+        if (dialogSure != null) dialogSure.dismiss();
         CancelableCollector.CancleAll();
     }
 
@@ -122,6 +126,15 @@ public class OrderDetailActivity extends BaseAppCompatActivity implements View.O
         if (intent.hasExtra("order")) {
             order = (Order) intent.getSerializableExtra("order");
         }
+        dialogSure = new DialogSure(this,"确定要验收通过？");
+        dialogSure.setOnOkListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogSure.dismiss();
+                netValiOrder();
+            }
+        });
+
         pop_describe = new DialogPopupDescribe(this);
         pop_describe.setOnFinishListener(new View.OnClickListener() {
             @Override
@@ -354,7 +367,7 @@ public class OrderDetailActivity extends BaseAppCompatActivity implements View.O
         if (user.getRoleType() == User.ROLE_COMMOM) {
             img_orderdetail_header.setImageResource(OrderStatusHelper.getStatusImgSrc(order));
         } else {
-            Glide.with(this).load(mainperson.getAvatar()).placeholder(R.drawable.default_bk).centerCrop().crossFade().into(img_orderdetail_header);
+            Glide.with(this).load(AppHelper.getRealImgPath(mainperson.getAvatar())).placeholder(R.drawable.default_bk).centerCrop().crossFade().into(img_orderdetail_header);
         }
         //根据角色类型设置提交按钮的状态和功能
         pop_describe.setType(user.getRoleType(), order);
@@ -587,11 +600,13 @@ public class OrderDetailActivity extends BaseAppCompatActivity implements View.O
     }
 
     private void popValiPass() {
-        Intent intent = new Intent(this, ReqDescribeOnlyActicity.class);
-        intent.putExtra("orderId", id);
-        intent.putExtra("type", 1);
-        intent.putExtra("title", "验收通过");
-        startActivity(intent);
+        //验收通过不再输入描述，直接弹出确认对话框
+//        Intent intent = new Intent(this, ReqDescribeOnlyActicity.class);
+//        intent.putExtra("orderId", id);
+//        intent.putExtra("type", 1);
+//        intent.putExtra("title", "验收通过");
+//        startActivity(intent);
+        dialogSure.show();
     }
 
     private void popValiRefuse() {
@@ -651,6 +666,31 @@ public class OrderDetailActivity extends BaseAppCompatActivity implements View.O
         intent.putExtra("type", 4);
         intent.putExtra("title", "追加描述");
         startActivity(intent);
+    }
+
+    //用户验收通过
+    private void netValiOrder() {
+        RequestParams params = new RequestParams(AppData.Url.statusToAppraise);
+        params.addHeader("token", AppData.App.getToken());
+        params.addBodyParameter("orderId", id + "");
+        params.addBodyParameter("isaccept", 0 + "");    //通过，1是拒绝
+        CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
+            @Override
+            public void netGo(int code, Object pojo, String text, Object obj) {
+                Toast.makeText(OrderDetailActivity.this, text, Toast.LENGTH_SHORT).show();
+                EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERDESCRIBE);
+                EventBus.getDefault().post(AppConstant.EVENT_UPDATE_ORDERLIST);
+                Intent intent = new Intent(OrderDetailActivity.this, OrderProgActivity.class);
+                intent.putExtra("orderId", id);
+                startActivity(intent);
+                finish();
+            }
+
+            @Override
+            public void netSetError(int code, String text) {
+                Toast.makeText(OrderDetailActivity.this, text, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

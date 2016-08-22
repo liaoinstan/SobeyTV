@@ -186,7 +186,7 @@ public class EvaActivity extends BaseAppCompatActivity implements View.OnClickLi
     }
 
     private void setData(LablePojo lablePojo) {
-        if (lablePojo.getServiceLable() == null || lablePojo.getServiceLable().size() == 0) {
+        if (lablePojo.getServiceLable() == null) {
             lay_eva_server.setVisibility(View.GONE);
         } else {
             List<Lable> lables = lablePojo.getServiceLable();
@@ -194,7 +194,7 @@ public class EvaActivity extends BaseAppCompatActivity implements View.OnClickLi
             serverLables.addAll(lables);
             adapterServ.notifyDataChanged();
         }
-        if (lablePojo.getTscLable() == null || lablePojo.getTscLable().size() == 0) {
+        if (lablePojo.getTscLable() == null) {
             lay_eva_tech.setVisibility(View.GONE);
         } else {
             List<Lable> lables = lablePojo.getTscLable();
@@ -202,7 +202,7 @@ public class EvaActivity extends BaseAppCompatActivity implements View.OnClickLi
             techLables.addAll(lables);
             adapterTech.notifyDataChanged();
         }
-        if (lablePojo.getHeadTechLable() == null || lablePojo.getHeadTechLable().size() == 0) {
+        if (lablePojo.getHeadTechLable() == null) {
             lay_eva_headtech.setVisibility(View.GONE);
         } else {
             List<Lable> lables = lablePojo.getHeadTechLable();
@@ -210,7 +210,7 @@ public class EvaActivity extends BaseAppCompatActivity implements View.OnClickLi
             headTechLables.addAll(lables);
             adapterHeadTeach.notifyDataChanged();
         }
-        if (lablePojo.getHeadDevelopLable() == null || lablePojo.getHeadDevelopLable().size() == 0) {
+        if (lablePojo.getHeadDevelopLable() == null) {
             lay_eva_develop.setVisibility(View.GONE);
         } else {
             List<Lable> lables = lablePojo.getHeadDevelopLable();

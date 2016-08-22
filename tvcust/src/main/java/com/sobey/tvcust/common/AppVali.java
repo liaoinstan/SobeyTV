@@ -100,15 +100,15 @@ public class AppVali {
             return "请输入登录密码";
         } else if (isEmpty(mail)) {
             return "请输入邮箱";
+        }else if (!ValidateUtil.Email(mail)) {
+            return "输入邮箱格式不正确";
         } else if (officeId == 0) {
             return "请选择所属单位";
         } else if (!length(password, 6, 16)) {
             return "密码长度必须为6-16位";
         } else if (!password.equals(password_repet)) {
             return "确认密码输入不一致";
-        } else if (!ValidateUtil.Email(mail)) {
-            return "输入邮箱格式不正确";
-        } else {
+        }  else {
             return null;
         }
     }

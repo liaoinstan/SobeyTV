@@ -45,6 +45,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:layout_marginLeft="10dp"
+                        android:hint="请输入您的真实姓名"
                         android:maxLength="16"
                         android:inputType="textPersonName" />
 
@@ -77,6 +78,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:layout_marginLeft="10dp"
+                        android:hint="请输入密码"
                         android:maxLength="16"
                         android:inputType="textPassword" />
 
@@ -109,6 +111,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:layout_marginLeft="10dp"
+                        android:hint="再次输入密码"
                         android:maxLength="16"
                         android:inputType="textPassword" />
 
@@ -141,6 +144,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:layout_marginLeft="10dp"
+                        android:hint="请输入您要绑定的邮箱"
                         android:maxLength="32"
                         android:inputType="textPersonName" />
 
@@ -173,6 +177,8 @@
                         android:id="@+id/edit_registdetail_comp"
                         style="@style/edit_hidden_login"
                         android:layout_width="match_parent"
+                        android:hint="选择您所在的单位"
+                        android:drawableRight="@drawable/icon_next_dark"
                         android:layout_height="60dp"
                         android:layout_marginLeft="10dp"
                         android:inputType="textPersonName" />

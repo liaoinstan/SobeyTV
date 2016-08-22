@@ -307,7 +307,7 @@ public class HomeActivity extends BaseAppCompatActivity implements View.OnClickL
                     boolean isSign = com.getIsSign() == 0 ? true : false;
                     signDays = com.getSignDays();
                     if (!isSign) {
-                        dialogSign.setGrade(com.getSignGrades());
+                        dialogSign.setGrade(com.getCountBonus());
                         dialogSign.show();
                         AppHelper.saveNeedCheckSign();
                     }

@@ -32,7 +32,7 @@ import cn.jpush.android.api.JPushInterface;
 /**
  * Created by Administrator on 2016/6/2 0002.
  */
-public class LoginFragment extends BaseFragment implements View.OnClickListener,CommonNet.NetHander{
+public class LoginFragment extends BaseFragment implements View.OnClickListener, CommonNet.NetHander {
 
     private int position;
     private View rootView;
@@ -46,7 +46,8 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
     private String registrationID;
 
     private ViewPager fatherPager;
-    public void setFatherPager(ViewPager fatherPager){
+
+    public void setFatherPager(ViewPager fatherPager) {
         this.fatherPager = fatherPager;
     }
 
@@ -108,17 +109,17 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
     @Override
     public void onClick(View v) {
         final Intent intent = new Intent();
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_go:
 
                 btn_go.setClickable(false);
 
-                Log.e("liao",btn_go.getProgress()+"");
+                Log.e("liao", btn_go.getProgress() + "");
 
                 String name = edit_name.getText().toString();
                 String password = edit_password.getText().toString();
 
-                String msg = AppVali.login_go(name,password);
+                String msg = AppVali.login_go(name, password);
                 if (msg == null) {
                     RequestParams params = new RequestParams(AppData.Url.login);
                     params.addBodyParameter("mobile", name);
@@ -135,19 +136,21 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener,
 
                 break;
             case R.id.text_login_regist:
-                fatherPager.setCurrentItem(1);
+                if (fatherPager != null) {
+                    fatherPager.setCurrentItem(1);
+                }
                 break;
             case R.id.text_login_findpsw:
                 intent.setClass(getActivity(), FindPswActivity.class);
                 startActivity(intent);
-                getActivity().overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+                getActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 break;
         }
     }
 
     @Override
     public void netGo(int code, Object pojo, String text, Object obj) {
-        if (pojo==null) netSetError(code,"接口异常");
+        if (pojo == null) netSetError(code, "接口异常");
         else {
             User user = (User) pojo;
             AppData.App.removeUser();

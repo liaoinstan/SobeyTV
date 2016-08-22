@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.entity.User;
 import com.sobey.tvcust.interfaces.OnRecycleItemClickListener;
+import com.sobey.tvcust.utils.AppHelper;
 
 import java.util.List;
 
@@ -99,7 +100,7 @@ public class RecycleAdapterOrderAllocate extends RecyclerView.Adapter<RecyclerVi
 
         int pos = holder.getLayoutPosition();
 
-        Glide.with(context).load(getUserByPosition(pos).getAvatar()).placeholder(R.drawable.default_bk).crossFade().into(holder.img_header);
+        Glide.with(context).load(AppHelper.getRealImgPath(getUserByPosition(pos).getAvatar())).placeholder(R.drawable.default_bk).crossFade().into(holder.img_header);
         holder.text_name.setText(getUserByPosition(pos).getRealName());
     }
 

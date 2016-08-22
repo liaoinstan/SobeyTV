@@ -27,6 +27,7 @@ import com.sobey.tvcust.entity.CommonEntity;
 import com.sobey.tvcust.entity.User;
 import com.sobey.tvcust.ui.dialog.DialogLoading;
 import com.sobey.tvcust.ui.dialog.DialogPopupPhoto;
+import com.sobey.tvcust.utils.AppHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.xutils.http.RequestParams;
@@ -124,7 +125,7 @@ public class MeDetailActivity extends BaseAppCompatActivity implements View.OnCl
                     .setLoadingDrawableId(R.drawable.me_header_defalt)
                     .setFailureDrawableId(R.drawable.me_header_defalt)
                     .build();
-            x.image().bind(img_header, user.getAvatar(), imageOptions);
+            x.image().bind(img_header, AppHelper.getRealImgPath(user.getAvatar()), imageOptions);
 
 //            ImageOptions imageOptions = new ImageOptions.Builder()
 //                    .setImageScaleType(ImageView.ScaleType.CENTER_CROP)
@@ -274,7 +275,7 @@ public class MeDetailActivity extends BaseAppCompatActivity implements View.OnCl
                             .setLoadingDrawableId(R.drawable.me_header_defalt)
                             .setFailureDrawableId(R.drawable.me_header_defalt)
                             .build();
-                    x.image().bind(img_header, path, imageOptions);
+                    x.image().bind(img_header, AppHelper.getRealImgPath(path), imageOptions);
                 }
             }
 

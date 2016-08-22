@@ -128,4 +128,12 @@ public class AppHelper {
     public static void removeStartUp() {
         AppHelper.removeStartUp();
     }
+
+    public static String getRealImgPath(String path){
+        if (!StrUtils.isEmpty(path) && path.startsWith("upload")){
+            return AppData.Url.domain + path;
+        }else {
+            return path;
+        }
+    }
 }

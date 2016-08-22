@@ -8,8 +8,10 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.dd.CircularProgressButton;
 import com.google.gson.Gson;
 import com.sobey.tvcust.common.CommonNet;
@@ -27,6 +29,7 @@ import com.sobey.tvcust.ui.dialog.DialogLoading;
 import com.sobey.tvcust.ui.dialog.DialogPopupPhoto;
 import com.sobey.tvcust.ui.dialog.DialogRecord;
 import com.sobey.common.utils.PermissionsUtil;
+import com.sobey.tvcust.utils.AppHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.xutils.http.RequestParams;
@@ -150,6 +153,12 @@ public class ReqDescribeOnlyActicity extends BaseAppCompatActivity implements Vi
         btn_go.setOnClickListener(this);
         btn_go.setIndeterminateProgressMode(true);
         bundleView.setDelEnable(true);
+        bundleView.setOnBundleLoadImgListener(new BundleView2.OnBundleLoadImgListener() {
+            @Override
+            public void onloadImg(ImageView imageView, String imgurl, int defaultSrc) {
+                Glide.with(ReqDescribeOnlyActicity.this).load(AppHelper.getRealImgPath(imgurl)).placeholder(defaultSrc).crossFade().into(imageView);
+            }
+        });
         bundleView.setOnBundleClickListener(new BundleView2.OnBundleClickListener() {
             @Override
             public void onPhotoDelClick(View v) {

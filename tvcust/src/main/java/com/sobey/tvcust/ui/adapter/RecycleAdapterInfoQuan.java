@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.sobey.tvcust.R;
 import com.sobey.common.entity.Article;
 import com.sobey.tvcust.interfaces.OnRecycleItemClickListener;
+import com.sobey.tvcust.utils.AppHelper;
 
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class RecycleAdapterInfoQuan extends RecyclerView.Adapter<RecycleAdapterI
         });
 
         Article article = results.get(position);
-        Glide.with(context).load(article.getImageUrl()).placeholder(R.drawable.default_bk).crossFade().into(holder.img_quan_item_pic);
+        Glide.with(context).load(AppHelper.getRealImgPath(article.getImageUrl())).placeholder(R.drawable.default_bk).crossFade().into(holder.img_quan_item_pic);
         holder.text_quan_item_title.setText(article.getTitle());
         holder.text_quan_item_describe.setText(article.getIntroduction());
     }

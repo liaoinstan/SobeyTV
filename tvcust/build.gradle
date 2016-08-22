@@ -9,8 +9,8 @@ android {
         applicationId "com.sobey.tvcust"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 32
-        versionName "1.0.32"
+        versionCode 41
+        versionName "1.1.03"
         multiDexEnabled true
     }
     //配置keystore签名 start

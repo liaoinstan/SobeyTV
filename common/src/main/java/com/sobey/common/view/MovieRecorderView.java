@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.hardware.Camera;
+import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.media.MediaRecorder.AudioEncoder;
 import android.media.MediaRecorder.AudioSource;
@@ -221,17 +222,34 @@ public class MovieRecorderView extends LinearLayout implements OnErrorListener {
             mMediaRecorder.setCamera(mCamera);
         mMediaRecorder.setOnErrorListener(this);
         mMediaRecorder.setPreviewDisplay(mSurfaceHolder.getSurface());
+
         mMediaRecorder.setVideoSource(VideoSource.CAMERA);// 视频源
         mMediaRecorder.setAudioSource(AudioSource.MIC);// 音频源
+
+
         mMediaRecorder.setOutputFormat(OutputFormat.MPEG_4);// 视频输出格式
+
+        mMediaRecorder.setVideoEncoder(VideoEncoder.H264);// 视频录制格式
         mMediaRecorder.setAudioEncoder(AudioEncoder.AMR_NB);// 音频格式
+
+//        mMediaRecorder.setVideoEncoder(VideoEncoder.DEFAULT);// 视频录制格式
 //        mMediaRecorder.setAudioEncoder(AudioEncoder.DEFAULT);// 音频格式
+
         mMediaRecorder.setVideoSize(mWidth, mHeight);// 设置分辨率：
-        // mMediaRecorder.setVideoFrameRate(16);// 这个我把它去掉了，感觉没什么用
+        mMediaRecorder.setVideoFrameRate(30);
         mMediaRecorder.setVideoEncodingBitRate(1 * 1280 * 720);// 设置帧频率，然后就清晰了
+
+//        CamcorderProfile profile = CamcorderProfile.get(CamcorderProfile.QUALITY_LOW);
+//        profile.videoFrameWidth = mWidth;
+//        profile.videoFrameHeight = mHeight;
+//        profile.fileFormat = MediaRecorder.OutputFormat.MPEG_4;
+//        profile.videoCodec = MediaRecorder.VideoEncoder.H264;
+//        profile.audioCodec = MediaRecorder.AudioEncoder.AMR_NB;
+//        profile.videoFrameRate = 30;
+//        mMediaRecorder.setProfile(profile);
+//        mMediaRecorder.setVideoEncodingBitRate(1 * 1280 * 720);
+
         mMediaRecorder.setOrientationHint(90);// 输出旋转90度，保持竖屏录制
-//        mMediaRecorder.setVideoEncoder(VideoEncoder.MPEG_4_SP);// 视频录制格式
-        mMediaRecorder.setVideoEncoder(VideoEncoder.DEFAULT);// 视频录制格式
         // mediaRecorder.setMaxDuration(Constant.MAXVEDIOTIME * 1000);
         mMediaRecorder.setOutputFile(mRecordFile.getAbsolutePath());
         mMediaRecorder.prepare();

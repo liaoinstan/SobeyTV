@@ -43,6 +43,17 @@ public class CommonEntity {
     //积分总数
     @SerializedName("bonus")
     private int signGrades;
+    //总积分
+    @SerializedName("countBonus")
+    private int countBonus;
+
+    public int getCountBonus() {
+        return countBonus;
+    }
+
+    public void setCountBonus(int countBonus) {
+        this.countBonus = countBonus;
+    }
 
     public int getIsSign() {
         return isSign;

@@ -112,7 +112,7 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
                     .setLoadingDrawableId(R.drawable.me_header_defalt)
                     .setFailureDrawableId(R.drawable.me_header_defalt)
                     .build();
-            x.image().bind(img_me_header, user.getAvatar(), imageOptions);
+            x.image().bind(img_me_header, AppHelper.getRealImgPath(user.getAvatar()), imageOptions);
             text_me_name.setText(user.getRealName());
         }
     }
@@ -200,7 +200,7 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
                     .setLoadingDrawableId(R.drawable.me_header_defalt)
                     .setFailureDrawableId(R.drawable.me_header_defalt)
                     .build();
-            x.image().bind(img_me_header, user.getAvatar(), imageOptions);
+            x.image().bind(img_me_header, AppHelper.getRealImgPath(user.getAvatar()), imageOptions);
 
         text_me_name.setText(user.getRealName());
     }

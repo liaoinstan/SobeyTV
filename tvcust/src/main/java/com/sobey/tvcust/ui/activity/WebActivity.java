@@ -40,11 +40,11 @@ public class WebActivity extends BaseAppCompatActivity {
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
+                bar.setProgress(newProgress);
                 if (newProgress == 100) {
                     bar.setVisibility(View.GONE);
                 } else {
                     bar.setVisibility(View.VISIBLE);
-                    bar.setProgress(newProgress);
                 }
                 super.onProgressChanged(view, newProgress);
             }

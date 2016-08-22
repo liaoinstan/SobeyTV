@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import com.sobey.tvcust.R;
+import com.sobey.tvcust.utils.AppHelper;
 
 import org.xutils.common.Callback;
 import org.xutils.x;

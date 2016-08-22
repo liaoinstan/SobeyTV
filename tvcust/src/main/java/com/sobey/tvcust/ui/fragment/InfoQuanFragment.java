@@ -12,9 +12,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bartoszlipinski.recyclerviewheader2.RecyclerViewHeader;
+import com.bumptech.glide.Glide;
 import com.sobey.common.entity.Images;
 import com.sobey.common.utils.StrUtils;
 import com.sobey.common.view.BannerView;
@@ -30,6 +32,7 @@ import com.sobey.tvcust.ui.activity.InfoDetailActivity;
 import com.sobey.tvcust.interfaces.OnRecycleItemClickListener;
 import com.sobey.tvcust.ui.activity.WebActivity;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterInfoQuan;
+import com.sobey.tvcust.utils.AppHelper;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -99,6 +102,13 @@ public class InfoQuanFragment extends BaseFragment implements OnRecycleItemClick
         recyclerView = (RecyclerView) getView().findViewById(R.id.recycle_info_quan);
         swipe = (SwipeRefreshLayout) getView().findViewById(R.id.swipe_info_quan);
         banner = (BannerView) getView().findViewById(R.id.banner);
+
+        banner.setOnLoadImgListener(new BannerView.OnLoadImgListener() {
+            @Override
+            public void onloadImg(ImageView imageView, String imgurl, int defaultSrc) {
+                Glide.with(getActivity()).load(AppHelper.getRealImgPath(imgurl)).placeholder(defaultSrc).crossFade().into(imageView);
+            }
+        });
         //事先隐藏banner，加载数据后会显示出来
         //banner.setVisibility(View.GONE);
     }
@@ -300,7 +310,7 @@ public class InfoQuanFragment extends BaseFragment implements OnRecycleItemClick
             intent.putExtra("title", "资讯详情");
             startActivity(intent);
         } else {
-            linkUrl = AppData.Url.newsDetail + "?newsId=" + article.getId();
+            linkUrl = AppData.Url.newsDetail + "?newsId=" + article.getId() + "&token=" + AppData.App.getToken();
             Intent intent = new Intent(getActivity(), InfoDetailActivity.class);
             intent.putExtra("url", linkUrl);
             intent.putExtra("newsId", article.getId());
@@ -319,9 +329,9 @@ public class InfoQuanFragment extends BaseFragment implements OnRecycleItemClick
                 intent.putExtra("url", image.getUrl());//https://github.com    //http://cn.bing.com
                 getActivity().startActivity(intent);
             }
-        }else {
+        } else {
             //内部文章
-            String linkUrl = AppData.Url.newsDetail + "?newsId=" + image.getNewsId();
+            String linkUrl = AppData.Url.newsDetail + "?newsId=" + image.getNewsId() + "&token=" + AppData.App.getToken();
             Intent intent = new Intent(getActivity(), InfoDetailActivity.class);
             intent.putExtra("url", linkUrl);
             intent.putExtra("newsId", image.getNewsId());

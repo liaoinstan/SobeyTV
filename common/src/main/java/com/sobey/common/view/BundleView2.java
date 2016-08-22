@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import com.sobey.common.R;
 import com.sobey.common.helper.MyItemTouchCallback;
@@ -166,6 +167,15 @@ public class BundleView2 extends FrameLayout {
         return list.toArray(new String[]{});
     }
 
+
+    ///////////////接口
+    public void setOnBundleLoadImgListener(OnBundleLoadImgListener onBundleLoadImgListener) {
+        adapter.setOnBundleLoadImgListener(onBundleLoadImgListener);
+    }
+
+    public interface OnBundleLoadImgListener {
+        void onloadImg(ImageView imageView, String imgurl, int defaultSrc);
+    }
 
 //    //恢复状态
 //    @Override

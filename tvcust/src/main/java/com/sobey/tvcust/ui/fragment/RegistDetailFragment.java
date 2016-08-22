@@ -196,6 +196,14 @@ public class RegistDetailFragment extends BaseFragment implements View.OnClickLi
         }
     }
 
+    private void clearView(){
+        edit_name.setText("");
+        edit_password.setText("");
+        edit_password_repet.setText("");
+        edit_mail.setText("");
+        edit_comp.setText("");
+    }
+
     @Override
     public void netGo(int code, Object pojo, String text, Object obj) {
         switch (code){
@@ -209,6 +217,7 @@ public class RegistDetailFragment extends BaseFragment implements View.OnClickLi
                         fatherPager.setCurrentItem(0,false);
                         btn_go.setClickable(true);
                         btn_go.setProgress(0);
+                        clearView();
                     }
                 }, 800);
             }

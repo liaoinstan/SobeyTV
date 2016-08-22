@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways|snap"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed|snap"
             app:navigationIcon="@drawable/icon_back"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
@@ -30,7 +30,7 @@
             android:layout_gravity="center"
             android:layout_marginBottom="30dp"
             android:background="@drawable/shape_oval_sign_hot"
-            app:layout_scrollFlags="scroll|enterAlways">
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed|snap">
 
             <TextView
                 android:id="@+id/text_sign_do"
@@ -202,13 +202,14 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/text_sign_countbonus"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="2dp"
                     android:layout_weight="1"
                     android:gravity="right"
-                    android:text="2500积分"
+                    android:text="-积分"
                     android:textColor="@color/sb_blue"
                     android:textSize="@dimen/text_small" />
 

@@ -28,6 +28,7 @@ import com.sobey.tvcust.entity.Order;
 import com.sobey.tvcust.entity.OrderAllocatePojo;
 import com.sobey.tvcust.entity.User;
 import com.sobey.tvcust.ui.adapter.RecycleAdapterOrderAllocate;
+import com.sobey.tvcust.utils.AppHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.xutils.http.RequestParams;
@@ -227,7 +228,7 @@ public class OrderAllocateActivity extends BaseAppCompatActivity implements View
         if (user.getRoleType() == User.ROLE_COMMOM) {
             img_orderallocate_header.setImageResource(OrderStatusHelper.getStatusImgSrc(order));
         } else {
-            Glide.with(this).load(user.getAvatar()).placeholder(R.drawable.icon_order_fix).centerCrop().crossFade().into(img_orderallocate_header);
+            Glide.with(this).load(AppHelper.getRealImgPath(user.getAvatar())).placeholder(R.drawable.icon_order_fix).centerCrop().crossFade().into(img_orderallocate_header);
         }
     }
 

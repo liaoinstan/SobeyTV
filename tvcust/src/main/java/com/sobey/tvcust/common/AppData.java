@@ -107,86 +107,85 @@ public class AppData {
 	 *
 	 */
 	public static class Url{
-		
+
 		/**
 		 * 服务器域名
 		 */
-//		private static final String domain = "https://api.cczcrv.com";											//正式服务器
-//		private static final String domain = "http://101.201.222.160:8085";								//客服测试服务器
-		private static final String domain = "http://192.168.0.156:8080";								//内部测试服务器
-//		private static final String domain = "http://192.168.0.155:8080";								//开发服务器
+//		public static final String domain = "http://101.201.222.160:8085/SanghaCloud/";								//客服测试服务器
+		public static final String domain = "http://192.168.0.156:8080/SanghaCloud/";								//内部测试服务器
+//		public static final String domain = "http://192.168.0.155:8080/SanghaCloud/";								//开发服务器
 
 		/**
 		 * 接口请求地址
 		 */
-		public static final String version				= domain + "/SanghaCloud/updateAPK/version.json";			//检查更新
-		public static final String getvali				= domain + "/SanghaCloud/mobile/sendCode";					//获取验证码
-		public static final String login					= domain + "/SanghaCloud/mobile/login";						//登录
-		public static final String logout				= domain + "/SanghaCloud/mobile/loginout";					//注销
-		public static final String getInfo				= domain + "/SanghaCloud/mobile/getInfo";						//获取个人信息
-		public static final String regist				= domain + "/SanghaCloud/mobile/register";					//注册
-		public static final String getBranch			= domain + "/SanghaCloud/companyMobile/queryCompany";		//获取分公司
-		public static final String getOffice			= domain + "/SanghaCloud/officeMobile/getOffice";			//获取办事处
-		public static final String getTv					= domain + "/SanghaCloud/officeMobile/getTv";					//获取电视台
-		public static final String updateInfo			= domain + "/SanghaCloud/mobile/updateInfo";					//修改用户信息
-		public static final String upload				= domain + "/SanghaCloud/res/upload";							//上传文件
-		public static final String question				= domain + "/SanghaCloud/order/getcategory";					//问题列表
-		public static final String reqfix				= domain + "/SanghaCloud/order/addorder";						//维修申报
-		public static final String orderlist			= domain + "/SanghaCloud/order/getorderlist";					//订单列表
-		public static final String updatePassword		= domain + "/SanghaCloud/mobile/updatePassword";				//修改密码
-		public static final String findPassword			= domain + "/SanghaCloud/mobile/resetpwd";					//找回密码
-		public static final String getvalipsw			= domain + "/SanghaCloud/mobile/forgetPwdCode";				//找回密码验证码
-		public static final String getOrderdecribe		= domain + "/SanghaCloud/order/getOrderdecribe";				//订单详情描述
-		public static final String addOrderDecribe		= domain + "/SanghaCloud/order/addOrderDecribe";				//添加订单详情描述
-		public static final String getTSC				= domain + "/SanghaCloud/order/getTSC";						//订单分配人员列表
-		public static final String getTSCOnly			= domain + "/SanghaCloud/order/getTSCOnly";					//订单分配人员列表
-		public static final String allotorder			= domain + "/SanghaCloud/order/allotorder";					//提交订单分配
-		public static final String cancleOrder			= domain + "/SanghaCloud/order/cancleOrder";					//取消订单
-		public static final String verifiOrder			= domain + "/SanghaCloud/order/statusToVerifi";				//修改订单状态待待验收
-		public static final String updateCheck			= domain + "/SanghaCloud/order/updateCheck";					//查看订单
-		public static final String acceptOrder			= domain + "/SanghaCloud/order/acceptOrder";					//接受订单
-		public static final String assistCommit			= domain + "/SanghaCloud/order/applicationHeadTech";			//协助提交
-		public static final String assister				= domain + "/SanghaCloud/mobile/getHeadTechs";				//请求协助人员列表
-		public static final String copyer				= domain + "/SanghaCloud/mobile/getsaleandleader";			//请求抄送人员列表
-		public static final String selectUser		    = domain + "/SanghaCloud/mobile/findUserByTV";				//选择用户列表
-		public static final String developer			= domain + "/SanghaCloud/mobile/getInvent";					//请求总部研发人员列表
-		public static final String commitdeveloper		= domain + "/SanghaCloud/order/applicationInvent";			//请求总部研发人员协助
-		public static final String getOrderTrack		= domain + "/SanghaCloud/order/getOrderTrack";				//获取订单追踪
-		public static final String getlables			= domain + "/SanghaCloud/lable/getlables";					//获取评价标签
-		public static final String commitEva			= domain + "/SanghaCloud/comment/addcomment";					//提交评价
-		public static final String getEva				= domain + "/SanghaCloud/comment/getcomment";					//获取评论
-		public static final String addcomplain			= domain + "/SanghaCloud/complain/addcomplain";				//提交投诉
-		public static final String statusToAppraise	= domain + "/SanghaCloud/order/statusToAppraise";			//用户接受处理结果
-		public static final String isComplain			= domain + "/SanghaCloud/complain/checkcomplain";			//是否被投诉
-		public static final String countOrders			= domain + "/SanghaCloud/order/countOrders";					//派单统计
-		public static final String countOrdersMonth	= domain + "/SanghaCloud/order/countOrdersMonth";			//当月已完成未完成派单统计
-		public static final String countOrderCategory	= domain + "/SanghaCloud/order/countOrderCategory";			//当月问题分类统计统计
-		public static final String getNewsList			= domain + "/SanghaCloud/news/getNewsList";					//分页获取文章列表
-		public static final String getBanners			= domain + "/SanghaCloud/news/getBanners";					//获取banner
-		public static final String sign					= domain + "/SanghaCloud/sign/addSign";						//签到
-		public static final String getUserSign			= domain + "/SanghaCloud/sign/getSignInfo";					//查询用户签到次数信息
-		public static final String signPageInfo			= domain + "/SanghaCloud/sign/signPageInfo";					//分页查询签到记录
-		public static final String newsDetail			= domain + "/SanghaCloud/requestWeb/newsDetail";				//请求文章
-		public static final String zan					= domain + "/SanghaCloud/news/increaseLikes";					//点赞
-		public static final String iszan					= domain + "/SanghaCloud/news/getIsLikes";					//查询用户是否点赞
-		public static final String count					= domain + "/SanghaCloud/order/countOrderByRole";			//查询订单总数
-		public static final String getTVs				= domain + "/SanghaCloud/mobile/tv/getTVs";					//查询用户对应的电视台
-		public static final String msglist				= domain + "/SanghaCloud/msgCenter/getMsg";					//消息列表
-		public static final String msgSys				= domain + "/SanghaCloud/requestWeb/getSystemPage";			//系统消息详情
-		public static final String pageAbout			= domain + "/SanghaCloud/requestWeb/aboutUsPage";			//静态web页-关于我们
-		public static final String pageClause			= domain + "/SanghaCloud/requestWeb/clausePage";				//静态web页-法律条款
-		public static final String pageRule				= domain + "/SanghaCloud/requestWeb/bounsPage";				//静态web页-积分规则
-		public static final String pageIntro			= domain + "/SanghaCloud/requestWeb/productPage";			//静态web页-产品介绍
-		public static final String feedback				= domain + "/SanghaCloud/suggest/add";							//打小报告
+		public static final String version			    	= domain + "updateAPK/version.json";	     		//检查更新
+		public static final String getvali			    	= domain + "mobile/sendCode";			    		//获取验证码
+		public static final String login			    		= domain + "mobile/login";			      			//登录
+		public static final String logout		    		= domain + "mobile/loginout";			       		//注销
+		public static final String getInfo			    	= domain + "mobile/getInfo";						//获取个人信息
+		public static final String regist		    		= domain + "mobile/register";				       	//注册
+		public static final String getBranch		    	= domain + "companyMobile/queryCompany";		    //获取分公司
+		public static final String getOffice		    	= domain + "officeMobile/getOffice";			    //获取办事处
+		public static final String getTv			    		= domain + "officeMobile/getTv";					//获取电视台
+		public static final String updateInfo		    	= domain + "mobile/updateInfo";					//修改用户信息
+		public static final String upload		    		= domain + "res/upload";							//上传文件
+		public static final String question			    	= domain + "order/getcategory";					//问题列表
+		public static final String reqfix		    		= domain + "order/addorder";						//维修申报
+		public static final String orderlist		    	= domain + "order/getorderlist";					//订单列表
+		public static final String updatePassword	    	= domain + "mobile/updatePassword";				//修改密码
+		public static final String findPassword		    	= domain + "mobile/resetpwd";					    //找回密码
+		public static final String getvalipsw		    	= domain + "mobile/forgetPwdCode";				    //找回密码验证码
+		public static final String getOrderdecribe	    	= domain + "order/getOrderdecribe";				//订单详情描述
+		public static final String addOrderDecribe	     	= domain + "order/addOrderDecribe";				//添加订单详情描述
+		public static final String getTSC			       	= domain + "order/getTSC";				  		    //订单分配人员列表
+		public static final String getTSCOnly		    	= domain + "order/getTSCOnly";			        	//订单分配人员列表
+		public static final String allotorder		    	= domain + "order/allotorder";			        	//提交订单分配
+		public static final String cancleOrder		    	= domain + "order/cancleOrder";					//取消订单
+		public static final String verifiOrder		    	= domain + "order/statusToVerifi";				    //修改订单状态待待验收
+		public static final String updateCheck		    	= domain + "order/updateCheck";					//查看订单
+		public static final String acceptOrder		    	= domain + "order/acceptOrder";					//接受订单
+		public static final String assistCommit		    	= domain + "order/applicationHeadTech";			//协助提交
+		public static final String assister			    	= domain + "mobile/getHeadTechs";			    	//请求协助人员列表
+		public static final String copyer			       	= domain + "mobile/getsaleandleader";		    	//请求抄送人员列表
+		public static final String selectUser		        = domain + "mobile/findUserByTV";			    	//选择用户列表
+		public static final String developer		    	= domain + "mobile/getInvent";				    	//请求总部研发人员列表
+		public static final String commitdeveloper	     	= domain + "order/applicationInvent";			    //请求总部研发人员协助
+		public static final String getOrderTrack	     	= domain + "order/getOrderTrack";			     	//获取订单追踪
+		public static final String getlables		    	= domain + "lable/getlables";				    	//获取评价标签
+		public static final String commitEva		    	= domain + "comment/addcomment";					//提交评价
+		public static final String getEva			       	= domain + "comment/getcomment";					//获取评论
+		public static final String addcomplain		    	= domain + "complain/addcomplain";			    	//提交投诉
+		public static final String statusToAppraise     	= domain + "order/statusToAppraise";			    //用户接受处理结果
+		public static final String isComplain		    	= domain + "complain/checkcomplain";			    //是否被投诉
+		public static final String countOrders		    	= domain + "order/countOrders";					//派单统计
+		public static final String countOrdersMonth     	= domain + "order/countOrdersMonth";			    //当月已完成未完成派单统计
+		public static final String countOrderCategory  	= domain + "order/countOrderCategory";			//当月问题分类统计统计
+		public static final String getNewsList		    	= domain + "news/getNewsList";					    //分页获取文章列表
+		public static final String getBanners		    	= domain + "news/getBanners";					    //获取banner
+		public static final String sign			   	        = domain + "sign/addSign";						    //签到
+		public static final String getUserSign		    	= domain + "sign/getSignInfo";					    //查询用户签到次数信息
+		public static final String signPageInfo		    	= domain + "sign/signPageInfo";					//分页查询签到记录
+		public static final String newsDetail		    	= domain + "requestWeb/newsDetail";				//请求文章
+		public static final String zan			        	= domain + "news/increaseLikes";					//点赞
+		public static final String iszan			        	= domain + "news/getIsLikes";				   	    //查询用户是否点赞
+		public static final String count			        	= domain + "order/countOrderByRole";		    	//查询订单总数
+		public static final String getTVs		        	= domain + "mobile/tv/getTVs";				   	    //查询用户对应的电视台
+		public static final String msglist			    	= domain + "msgCenter/getMsg";				    	//消息列表
+		public static final String msgSys		           	= domain + "requestWeb/getSystemPage";			//系统消息详情
+		public static final String pageAbout		    	= domain + "requestWeb/aboutUsPage";			    //静态web页-关于我们
+		public static final String pageClause		    	= domain + "requestWeb/clausePage";				//静态web页-法律条款
+		public static final String pageRule			    	= domain + "requestWeb/bounsPage";				    //静态web页-积分规则
+		public static final String pageIntro		    	= domain + "requestWeb/productPage";			    //静态web页-产品介绍
+		public static final String feedback			    	= domain + "suggest/add";							//打小报告
 
 
-		private static final String sobey = "http://120.76.165.97";
+		private static final String sobey = "http://120.76.165.97/sobey/";
 
-		public static final String deviceList			= domain + "/SanghaCloud/deviceManage/getDeviceList";		//获取设备列表
-		public static final String warningList			= domain + "/SanghaCloud/deviceManage/getReport";			//获取告警列表
-		public static final String conuntDevice			= sobey + "/sobey/center/openservice/stats/station";			//设备统计
-		public static final String group					= sobey + "/sobey/center/openservice/station/group";			//获取电视台的分组定义
-		public static final String deviceDetail			= sobey + "/sobey/center/openservice/host";					//获取设备详情
-		public static final String countWarning			= sobey + "/sobey/center/openservice/stats/alert";			//报警统计
+		public static final String deviceList		    	= domain + "deviceManage/getDeviceList";		    //获取设备列表
+		public static final String warningList		    	= domain + "deviceManage/getReport";			    //获取告警列表
+		public static final String conuntDevice		    	= sobey + "center/openservice/stats/station";	//设备统计
+		public static final String group				       	= sobey + "center/openservice/station/group";	//获取电视台的分组定义
+		public static final String deviceDetail		    	= sobey + "center/openservice/host";				//获取设备详情
+		public static final String countWarning		    	= sobey + "center/openservice/stats/alert";		//报警统计
 	}
 }

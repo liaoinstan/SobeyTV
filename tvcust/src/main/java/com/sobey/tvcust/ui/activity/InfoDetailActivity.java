@@ -19,6 +19,7 @@ import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.CommonNet;
 import com.sobey.common.entity.Article;
 import com.sobey.tvcust.entity.CommonEntity;
+import com.sobey.tvcust.utils.AppHelper;
 
 import org.xutils.http.RequestParams;
 
@@ -110,19 +111,21 @@ public class InfoDetailActivity extends BaseAppCompatActivity implements View.On
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
+                bar.setProgress(newProgress);
                 if (newProgress == 100) {
                     bar.setVisibility(View.GONE);
                 } else {
                     bar.setVisibility(View.VISIBLE);
-                    bar.setProgress(newProgress);
                 }
                 super.onProgressChanged(view, newProgress);
             }
 
         });
+//        setting.setDefaultTextEncodingName("utf-8");
+
+        //请求头
         HashMap<String, String> map = new HashMap<>();
         map.put("token", AppData.App.getToken());
-//        setting.setDefaultTextEncodingName("utf-8");
         webView.loadUrl(url,map);
     }
 
@@ -144,7 +147,7 @@ public class InfoDetailActivity extends BaseAppCompatActivity implements View.On
             case R.id.img_infodetail_share:
                 ShareDialog shareDialog = new ShareDialog(this);
                 if (article != null) {
-                    shareDialog.setShareData(article.getTitle(), article.getIntroduction(), url, article.getImageUrl());
+                    shareDialog.setShareData(article.getTitle(), article.getIntroduction(), url, AppHelper.getRealImgPath(article.getImageUrl()));
                 }
                 shareDialog.show();
                 break;

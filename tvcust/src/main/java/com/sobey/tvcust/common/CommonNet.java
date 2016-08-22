@@ -211,7 +211,7 @@ public class CommonNet {
         try {
             JSONObject datajson = new JSONObject(data);
             if (datajson.has("valicode")){
-                //Toast.makeText(ApplicationHelp.getApplicationContext(),datajson.getString("valicode"),Toast.LENGTH_LONG).show();
+                Toast.makeText(ApplicationHelp.getApplicationContext(),datajson.getString("valicode"),Toast.LENGTH_LONG).show();
             }
         }catch (Exception e){
             Log.e("CommonNet","解析验证码失败");

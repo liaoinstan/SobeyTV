@@ -6,8 +6,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.sobey.common.utils.StrUtils;
 import com.sobey.common.utils.TimeUtil;
 import com.sobey.common.view.BundleView2;
@@ -20,6 +22,7 @@ import com.sobey.tvcust.entity.User;
 import com.sobey.tvcust.interfaces.OnRecycleItemClickListener;
 import com.sobey.tvcust.ui.activity.PhotoActivity;
 import com.sobey.tvcust.ui.activity.VideoActivity;
+import com.sobey.tvcust.utils.AppHelper;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -98,6 +101,12 @@ public class RecycleAdapterOrderDetail extends RecyclerView.Adapter<RecycleAdapt
         holder.bundle.getResults().clear();
         holder.bundle.getResults().addAll(resultsbundle);
         holder.bundle.freshCtrl();
+        holder.bundle.setOnBundleLoadImgListener(new BundleView2.OnBundleLoadImgListener() {
+            @Override
+            public void onloadImg(ImageView imageView, String imgurl, int defaultSrc) {
+                Glide.with(context).load(AppHelper.getRealImgPath(imgurl)).placeholder(defaultSrc).crossFade().into(imageView);
+            }
+        });
 
         holder.bundle.setOnBundleClickListener(new BundleView2.OnBundleClickListener() {
             @Override
@@ -115,20 +124,20 @@ public class RecycleAdapterOrderDetail extends RecyclerView.Adapter<RecycleAdapt
             @Override
             public void onPhotoShowClick(String path) {
                 Intent intent = new Intent(context, PhotoActivity.class);
-                intent.putExtra("url", path);
+                intent.putExtra("url", AppHelper.getRealImgPath(path));
                 context.startActivity(intent);
             }
 
             @Override
             public void onVideoShowClick(String path) {
                 Intent intent = new Intent(context, VideoActivity.class);
-                intent.putExtra("url", path);
+                intent.putExtra("url", AppHelper.getRealImgPath(path));
                 context.startActivity(intent);
             }
 
             @Override
             public void onVoiceShowClick(String path) {
-                if (voiceListener != null) voiceListener.onPlay(path);
+                if (voiceListener != null) voiceListener.onPlay(AppHelper.getRealImgPath(path));
             }
         });
 

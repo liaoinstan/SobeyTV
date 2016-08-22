@@ -55,6 +55,14 @@
     </style>
 
 
+    <style name="tallerBarStyle" parent="@android:style/Widget.SeekBar" >
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:progressDrawable">@drawable/progress_horizontal</item>
+        <item name="android:indeterminateDrawable">@drawable/progress_horizontal</item>
+        <item name="android:minHeight">8dip</item>
+        <item name="android:maxHeight">20dip</item>
+    </style>
+
     <style name="edit_hidden">
         <item name="android:background">@color/none</item>
         <item name="android:textColorHint">@color/sb_text_dark</item>
@@ -64,7 +72,7 @@
 
     <style name="edit_hidden_login">
         <item name="android:background">@color/none</item>
-        <item name="android:textColorHint">@color/sb_text_login_title</item>
+        <item name="android:textColorHint">@color/sb_text_dark</item>
         <item name="android:textColor">@color/sb_blue</item>
         <item name="android:textSize">16sp</item>
     </style>

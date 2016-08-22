@@ -34,6 +34,7 @@ public class SignActivity extends BaseAppCompatActivity implements View.OnClickL
     private TextView text_sign_day;
     private TextView text_sign_inte;
     private TextView text_sign_do;
+    private TextView text_sign_countbonus;
     private View btn_sign_do;
     private View lay_sign_go_rule;
     private View lay_sign_go_gift;
@@ -41,6 +42,7 @@ public class SignActivity extends BaseAppCompatActivity implements View.OnClickL
     private boolean isSign;
     private int signDays;
     private int signGrades;
+    private int countBonus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,7 @@ public class SignActivity extends BaseAppCompatActivity implements View.OnClickL
         text_sign_day = (TextView) findViewById(R.id.text_sign_day);
         text_sign_inte = (TextView) findViewById(R.id.text_sign_inte);
         text_sign_do = (TextView) findViewById(R.id.text_sign_do);
+        text_sign_countbonus = (TextView) findViewById(R.id.text_sign_countbonus);
         btn_sign_do = findViewById(R.id.btn_sign_do);
         lay_sign_go_rule = findViewById(R.id.lay_sign_go_rule);
         lay_sign_go_gift = findViewById(R.id.lay_sign_go_gift);
@@ -83,6 +86,8 @@ public class SignActivity extends BaseAppCompatActivity implements View.OnClickL
                     isSign = com.getIsSign() == 0 ? true : false;
                     signDays = com.getSignDays();
                     signGrades = com.getSignGrades();
+                    countBonus = com.getCountBonus();
+                    text_sign_countbonus.setText(countBonus + "积分");
                     freshCtrl(signDays, signGrades);
 
                     LoadingViewUtil.showout(showingroup, showin);
@@ -201,6 +206,7 @@ public class SignActivity extends BaseAppCompatActivity implements View.OnClickL
                                 CommonEntity com = (CommonEntity) pojo;
                                 int grades = com.getSignGrades();
                                 freshCtrl(signDays + 1, signGrades + grades);
+                                text_sign_countbonus.setText(countBonus + grades + "积分");
                                 YoYo.with(Techniques.Landing)
                                         .duration(700)
                                         .playOn(findViewById(R.id.btn_sign_do));
@@ -222,3 +228,5 @@ public class SignActivity extends BaseAppCompatActivity implements View.OnClickL
         }
     }
 }
+
+

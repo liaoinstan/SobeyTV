@@ -207,7 +207,10 @@ public class BannerView extends FrameLayout implements Runnable {
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 //绑定网络图片
 //            x.image().bind(imageView, images.get(position).getImg(), new CustomBitmapLoadCallBack(imageView));
-                Glide.with(context).load(images.get(position).getImg()).placeholder(R.drawable.default_bk).crossFade().into(imageView);
+                //Glide.with(context).load(images.get(position).getImg()).placeholder(R.drawable.default_bk).crossFade().into(imageView);
+                if (onLoadImgListener!=null){
+                    onLoadImgListener.onloadImg(imageView,images.get(position).getImg(),R.drawable.default_bk);
+                }
             }
 
             //点击事件
@@ -264,7 +267,7 @@ public class BannerView extends FrameLayout implements Runnable {
     }
 
 
-    //#######################对外方法
+    //#######################接口
     private OnBannerClickListener onBannerClickListener;
 
     public void setOnBannerClickListener(OnBannerClickListener onBannerClickListener) {
@@ -275,6 +278,16 @@ public class BannerView extends FrameLayout implements Runnable {
         void onBannerClick(int position);
     }
 
+    private OnLoadImgListener onLoadImgListener;
+
+    public void setOnLoadImgListener(OnLoadImgListener onLoadImgListener) {
+        this.onLoadImgListener = onLoadImgListener;
+    }
+
+    public interface OnLoadImgListener {
+        void onloadImg(ImageView imageView,String imgurl,int defaultSrc);
+    }
+    //#######################对外方法
     public void setDatas(List<Images> images) {
         this.images = images;
         notifyDataSetChanged();
