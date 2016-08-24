@@ -145,7 +145,13 @@ public class CompBranchFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
                 CharSort charSort = adapter.getResults().get(pos);
-                EventBus.getDefault().post(new RegistDetailFragment.CompEntity(charSort.getId(), charSort.getCar_title()));
+                String type = "";
+                if (charSort.getId() == -1) {
+                    type = RegistDetailFragment.TYPE_HEAD_USER;
+                } else {
+                    type = RegistDetailFragment.TYPE_FILIALE_USER;
+                }
+                EventBus.getDefault().post(new RegistDetailFragment.CompEntity(charSort.getId(), charSort.getCar_title(), type));
                 getActivity().finish();
             }
         });

@@ -102,9 +102,14 @@ public class AppData {
 	}
 
 	/**
+	 * 记录了app中所有全局控制常量
+	 */
+	public static class Config{
+		public static final boolean showVali = false;			//显示验证码（仅测试）
+	}
+
+	/**
 	 * 记录了app中所有的请求连接地址
-	 * @author Administrator
-	 *
 	 */
 	public static class Url{
 

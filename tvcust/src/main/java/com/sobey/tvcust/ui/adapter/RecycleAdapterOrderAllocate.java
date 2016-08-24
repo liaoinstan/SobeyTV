@@ -71,7 +71,7 @@ public class RecycleAdapterOrderAllocate extends RecyclerView.Adapter<RecyclerVi
             holder.text_header.setText("分公司技术");
             holder.itemView.setVisibility(View.VISIBLE);
         } else {
-            holder.text_header.setText("非编技术专家");
+            holder.text_header.setText("产品技术专家");
             if (results_fb == null || results_fb.size() == 0) {
                 holder.itemView.setVisibility(View.GONE);
             } else {

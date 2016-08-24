@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import com.sobey.common.utils.StrUtils;
+
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -19,6 +21,9 @@ public class BitmapUtil {
 	// 图片sd地址 上传服务器时把图片调用下面方法压缩后 保存到临时文件夹 图片压缩后小于100KB，失真度不明显
 
 	public static Bitmap revitionImageSize(String path) throws IOException {
+		if (StrUtils.isEmpty(path)){
+			return null;
+		}
 		BufferedInputStream in = new BufferedInputStream(new FileInputStream(new File(path)));
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inJustDecodeBounds = true;

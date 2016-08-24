@@ -176,7 +176,7 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
 
     private void initData() {
         //用户需要请求报警统计接口
-        if (user.getRoleType()==User.ROLE_COMMOM) {
+        if (lay_me_warnings.getVisibility() == View.VISIBLE) {
             netGetStation_CountWarning();
         }
         netCountOrder();

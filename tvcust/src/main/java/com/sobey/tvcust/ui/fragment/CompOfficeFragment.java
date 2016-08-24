@@ -167,7 +167,7 @@ public class CompOfficeFragment extends BaseFragment{
                 if (RegistDetailFragment.TYPE_GROUP_USER.equals(activityGo.getType())){
                     //员工才能选择到办事处
                     CharSort charSort = adapter.getResults().get(pos);
-                    EventBus.getDefault().post(new RegistDetailFragment.CompEntity(charSort.getId(),charSort.getCar_title()));
+                    EventBus.getDefault().post(new RegistDetailFragment.CompEntity(charSort.getId(),charSort.getCar_title(),RegistDetailFragment.TYPE_GROUP_USER));
                     getActivity().finish();
                 }else {
                     //用户必须前往下一级

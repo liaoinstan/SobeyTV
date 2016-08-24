@@ -176,7 +176,7 @@ public class CommonNet {
                     if (nex.getCode() == 0) {
                         hander.netSetError(code, "网络不太好额");
                     } else {
-                        hander.netSetError(code, "服务器异常：" + nex.getCode());
+                        hander.netSetError(code, "服务器繁忙：" + nex.getCode());
                     }
                 }else if(ex instanceof ConnectException){
                     hander.netSetError(code, "请检查网络连接");
@@ -211,7 +211,9 @@ public class CommonNet {
         try {
             JSONObject datajson = new JSONObject(data);
             if (datajson.has("valicode")){
-                Toast.makeText(ApplicationHelp.getApplicationContext(),datajson.getString("valicode"),Toast.LENGTH_LONG).show();
+                if (AppData.Config.showVali) {
+                    Toast.makeText(ApplicationHelp.getApplicationContext(), datajson.getString("valicode"), Toast.LENGTH_LONG).show();
+                }
             }
         }catch (Exception e){
             Log.e("CommonNet","解析验证码失败");

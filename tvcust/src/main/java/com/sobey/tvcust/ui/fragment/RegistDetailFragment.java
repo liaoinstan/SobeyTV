@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
+import com.sobey.common.utils.StrUtils;
 import com.sobey.tvcust.common.CommonNet;
 import com.sobey.common.utils.MD5Util;
 import com.sobey.tvcust.R;
@@ -50,6 +51,7 @@ public class RegistDetailFragment extends BaseFragment implements View.OnClickLi
     public static String TYPE_USER = "user";        //客户
     public static String TYPE_GROUP_USER = "group_user";    //员工
     public static String TYPE_HEAD_USER = "head_user";      //员工中的总部技术
+    public static String TYPE_FILIALE_USER = "filiale_user";      //员工中的分公司员工
     private String type = TYPE_USER;
     private int officeId;
 
@@ -87,8 +89,10 @@ public class RegistDetailFragment extends BaseFragment implements View.OnClickLi
     public void onEventMainThread(CompEntity comp) {
         officeId = comp.getId();
         edit_comp.setText(comp.getCompName());
-        if (comp.getId()==-1){
-            type = TYPE_HEAD_USER;
+        if (!StrUtils.isEmpty(comp.getType())){
+            type = comp.getType();
+        }else{
+            //不处理
         }
     }
 
@@ -270,10 +274,25 @@ public class RegistDetailFragment extends BaseFragment implements View.OnClickLi
     public static class CompEntity {
         private Integer id;
         private String compName;
+        private String type;
 
         public CompEntity(Integer id, String compName) {
             this.id = id;
             this.compName = compName;
+        }
+
+        public CompEntity(Integer id, String compName, String type) {
+            this.id = id;
+            this.compName = compName;
+            this.type = type;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
         }
 
         public int getId() {
