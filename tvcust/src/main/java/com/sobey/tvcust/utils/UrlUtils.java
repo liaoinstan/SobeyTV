@@ -33,6 +33,27 @@ public class UrlUtils {
         return url + "?" + getafturl(para);
     }
 
+    private static String subtoken(String url) {
+        url.substring(0,1);
+        return url;
+    }
+
+    public static String removeParams(String url, String[] params) {
+        String reg = null;
+        StringBuffer ps = new StringBuffer();
+        ps.append("(");
+        for(int i = 0; i < params.length; i++) {
+            ps.append(params[i]).append("|");
+        }
+        ps.deleteCharAt(ps.length() - 1);
+        ps.append(")");
+        reg = "(?<=[\\?&])" + ps.toString() + "=[^&]*&?";
+        url = url.replaceAll(reg, "");
+        url = url.replaceAll("(\\?|&+)$", "");
+        return url;
+
+    }
+
     private static String getafturl(String pp) {
         String timestamp = System.currentTimeMillis() + "";
         String para = pp + "app=" + app + "&timestamp=" + timestamp + "&type=" + type;

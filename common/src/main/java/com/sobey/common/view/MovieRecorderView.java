@@ -77,7 +77,7 @@ public class MovieRecorderView extends LinearLayout implements OnErrorListener {
         this.context = context;
         // 初始化各项组件
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MovieRecorderView, defStyle, 0);
-        mWidth = a.getInteger(R.styleable.MovieRecorderView_video_width, 320);// 默认320
+        mWidth = a.getInteger(R.styleable.MovieRecorderView_video_width, 320);// 默认320-
         mHeight = a.getInteger(R.styleable.MovieRecorderView_video_height, 240);// 默认240
 
         isOpenCamera = a.getBoolean(R.styleable.MovieRecorderView_is_open_camera, true);// 默认打开
@@ -226,20 +226,15 @@ public class MovieRecorderView extends LinearLayout implements OnErrorListener {
         mMediaRecorder.setVideoSource(VideoSource.CAMERA);// 视频源
         mMediaRecorder.setAudioSource(AudioSource.MIC);// 音频源
 
-
         mMediaRecorder.setOutputFormat(OutputFormat.MPEG_4);// 视频输出格式
-
         mMediaRecorder.setVideoEncoder(VideoEncoder.H264);// 视频录制格式
-        mMediaRecorder.setAudioEncoder(AudioEncoder.AMR_NB);// 音频格式
-
-//        mMediaRecorder.setVideoEncoder(VideoEncoder.DEFAULT);// 视频录制格式
-//        mMediaRecorder.setAudioEncoder(AudioEncoder.DEFAULT);// 音频格式
+        mMediaRecorder.setAudioEncoder(AudioEncoder.AAC);// 音频格式
 
         mMediaRecorder.setVideoSize(mWidth, mHeight);// 设置分辨率：
         mMediaRecorder.setVideoFrameRate(30);
         mMediaRecorder.setVideoEncodingBitRate(1 * 1280 * 720);// 设置帧频率，然后就清晰了
 
-//        CamcorderProfile profile = CamcorderProfile.get(CamcorderProfile.QUALITY_LOW);
+//        CamcorderProfile profile = CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH);
 //        profile.videoFrameWidth = mWidth;
 //        profile.videoFrameHeight = mHeight;
 //        profile.fileFormat = MediaRecorder.OutputFormat.MPEG_4;

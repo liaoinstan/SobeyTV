@@ -8,8 +8,9 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.util.Log;
+import android.widget.Toast;
 
-public class MyPlayer implements OnCompletionListener, MediaPlayer.OnPreparedListener {
+public class MyPlayer implements OnCompletionListener, MediaPlayer.OnPreparedListener,MediaPlayer.OnErrorListener {
     public MediaPlayer mediaPlayer;
     private String videoUrl;
     private boolean pause;
@@ -92,9 +93,10 @@ public class MyPlayer implements OnCompletionListener, MediaPlayer.OnPreparedLis
              * 下载.
              */
             mediaPlayer.setDataSource(videoUrl);
-            mediaPlayer.prepare();// 进行缓冲
+            mediaPlayer.prepareAsync();// 进行缓冲
             mediaPlayer.setOnPreparedListener(this);
             mediaPlayer.setOnCompletionListener(this);
+            mediaPlayer.setOnErrorListener(this);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -103,31 +105,39 @@ public class MyPlayer implements OnCompletionListener, MediaPlayer.OnPreparedLis
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
         mediaPlayer.start();// 开始播放
-        if (onPlayerListener!=null){
+        if (onPlayerListener != null) {
             onPlayerListener.onStart();
         }
     }
 
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
-        if (onPlayerListener!=null){
+        if (onPlayerListener != null) {
             onPlayerListener.onCompleted();
         }
     }
 
     private OnPlayerListener onPlayerListener;
+
     public void setOnPlayerListener(OnPlayerListener onPlayerListener) {
         this.onPlayerListener = onPlayerListener;
     }
-    public interface OnPlayerListener{
+
+    @Override
+    public boolean onError(MediaPlayer mp, int what, int extra) {
+        return true;
+    }
+
+    public interface OnPlayerListener {
         void onStart();
+
         void onCompleted();
     }
 
     /**
      * 释放资源
      */
-    public void onDestory(){
+    public void onDestory() {
         mediaPlayer.release();
     }
 }

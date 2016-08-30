@@ -20,6 +20,7 @@ import com.sobey.tvcust.common.CommonNet;
 import com.sobey.common.entity.Article;
 import com.sobey.tvcust.entity.CommonEntity;
 import com.sobey.tvcust.utils.AppHelper;
+import com.sobey.tvcust.utils.UrlUtils;
 
 import org.xutils.http.RequestParams;
 
@@ -147,7 +148,7 @@ public class InfoDetailActivity extends BaseAppCompatActivity implements View.On
             case R.id.img_infodetail_share:
                 ShareDialog shareDialog = new ShareDialog(this);
                 if (article != null) {
-                    shareDialog.setShareData(article.getTitle(), article.getIntroduction(), url, AppHelper.getRealImgPath(article.getImageUrl()));
+                    shareDialog.setShareData(article.getTitle(), article.getIntroduction(), UrlUtils.removeParams(url,new String[]{"token"}), AppHelper.getRealImgPath(article.getImageUrl()));
                 }
                 shareDialog.show();
                 break;

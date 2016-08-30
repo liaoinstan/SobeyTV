@@ -187,6 +187,7 @@ public class RegistPhoneFragment extends BaseFragment implements View.OnClickLis
             case 1: {
                 if (pojo==null) netSetError(code,"接口异常");
                 else {
+                    Toast.makeText(getActivity(),"验证码已发送",Toast.LENGTH_SHORT).show();
                     CommonEntity common = (CommonEntity) pojo;
                     valicode = common.getValicode();
                     ((LoginActivity) getActivity()).setPhone(edit_phone.getText().toString());

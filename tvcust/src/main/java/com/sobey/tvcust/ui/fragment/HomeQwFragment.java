@@ -220,9 +220,14 @@ public class HomeQwFragment extends BaseFragment implements OnRecycleItemClickLi
                 else {
                     TVStationPojo tvStationPojo = (TVStationPojo) pojo;
                     List<TVStation> tvStations = tvStationPojo.getDataList();
-                    String stationStr = AppHelper.getStationCodeStr(tvStations);
-                    if (!StrUtils.isEmpty(stationStr)) {
-                        netCountDevice(stationStr);
+                    if (tvStations!=null && tvStations.size()!=0) {
+                        String stationStr = AppHelper.getStationCodeStr(tvStations);
+                        if (!StrUtils.isEmpty(stationStr)) {
+                            netCountDevice(stationStr);
+                        }
+                    }else {
+                        //电视台为空
+                        Toast.makeText(getActivity(),"你所在的电视台没有全文数据",Toast.LENGTH_SHORT).show();
                     }
                 }
             }

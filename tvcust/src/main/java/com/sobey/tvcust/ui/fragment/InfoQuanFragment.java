@@ -147,11 +147,11 @@ public class InfoQuanFragment extends BaseFragment implements OnRecycleItemClick
                         if (isFirst) {
                             LoadingViewUtil.showout(showingroup, showin);
                         } else {
-                            LoadingViewUtil.showout(showingroup, showin);
                             swipe.setRefreshing(false);
                         }
                     } else {
                         swipe.setRefreshing(false);
+                        LoadingViewUtil.showout(showingroup, showin);
 //                        showin = LoadingViewUtil.showin(showingroup, R.layout.layout_lack, showin, new View.OnClickListener() {
 //                            @Override
 //                            public void onClick(View v) {

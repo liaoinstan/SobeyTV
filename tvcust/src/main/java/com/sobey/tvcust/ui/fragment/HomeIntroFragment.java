@@ -10,9 +10,13 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -89,7 +93,7 @@ public class HomeIntroFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void freshCtrl() {
-        webView.loadUrl(AppData.Url.pageIntro);
+        webView.loadUrl(AppData.Url.pageIntro + "?token=" + AppData.App.getToken());
     }
 
     private void initData() {
