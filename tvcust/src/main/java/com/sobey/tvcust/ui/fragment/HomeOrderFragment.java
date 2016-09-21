@@ -47,7 +47,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/6/2 0002.
  */
-public class HomeOrderFragment extends BaseFragment implements View.OnClickListener,OnRecycleItemClickListener {
+public class HomeOrderFragment extends BaseFragment implements View.OnClickListener, OnRecycleItemClickListener {
 
     private int position;
     private View rootView;
@@ -228,9 +228,9 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 String text = tab.getText().toString();
-                if (!text.startsWith("全部")){
+                if (!text.startsWith("全部")) {
                     //点击其他按钮把全部变成未选择状态，（android bug 特殊处理）
-                    ((ViewGroup)HomeOrderFragment.this.tab.getTabAt(0).getCustomView()).getChildAt(0).setSelected(false);
+                    ((ViewGroup) HomeOrderFragment.this.tab.getTabAt(0).getCustomView()).getChildAt(0).setSelected(false);
                 }
                 if (text.startsWith("全部")) {
                     status = null;
@@ -379,7 +379,7 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
             cancelablemore.cancel();
         }
 //        if (!isFirst) {
-            netGetCount();
+        netGetCount();
 //        }
         netOrderList(isFirst);
     }
@@ -579,20 +579,28 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
 
             if (text.startsWith("待处理")) {
                 tabCount.setText(count.getPengding() + "");
+                tabCount.setVisibility(count.getPengding() != 0 ? View.VISIBLE : View.GONE);
             } else if (text.startsWith("处理中")) {
                 tabCount.setText(count.getHandling() + "");
+                tabCount.setVisibility(count.getHandling() != 0 ? View.VISIBLE : View.GONE);
             } else if (text.startsWith("待验收")) {
                 tabCount.setText(count.getAccepting() + "");
+                tabCount.setVisibility(count.getAccepting() != 0 ? View.VISIBLE : View.GONE);
             } else if (text.startsWith("待评价")) {
                 tabCount.setText(count.getEvaluating() + "");
+                tabCount.setVisibility(count.getEvaluating() != 0 ? View.VISIBLE : View.GONE);
             } else if (text.startsWith("已完成")) {
                 tabCount.setText(count.getSolved() + "");
+                tabCount.setVisibility(count.getSolved() != 0 ? View.VISIBLE : View.GONE);
             } else if (text.startsWith("待办任务")) {
                 tabCount.setText(count.getBacklog() + "");
+                tabCount.setVisibility(count.getBacklog() != 0 ? View.VISIBLE : View.GONE);
             } else if (text.startsWith("待分配")) {
                 tabCount.setText(count.getAssigning() + "");
+                tabCount.setVisibility(count.getAssigning() != 0 ? View.VISIBLE : View.GONE);
             } else if (text.startsWith("进行中")) {
                 tabCount.setText(count.getHappening() + "");
+                tabCount.setVisibility(count.getHappening() != 0 ? View.VISIBLE : View.GONE);
             }
         }
     }

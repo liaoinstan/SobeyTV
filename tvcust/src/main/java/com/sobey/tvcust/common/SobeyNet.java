@@ -111,8 +111,8 @@ public class SobeyNet {
                     e.printStackTrace();
                 }
 
-                if (!isSuccess){
-                    Toast.makeText(ApplicationHelp.getApplicationContext(),"接口请求不成功",Toast.LENGTH_LONG).show();
+                if (!isSuccess) {
+                    Toast.makeText(ApplicationHelp.getApplicationContext(), "接口请求不成功", Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -150,14 +150,21 @@ public class SobeyNet {
                     if (nex.getCode() == 0) {
                         hander.netSetError(code, "网络不太好额");
                     } else {
-                        hander.netSetError(code, "服务器异常：" + nex.getCode());
+                        String result = ((HttpException) ex).getResult();
+                        JSONObject root = (JSONObject) (new JSONTokener(result).nextValue());
+                        String message = "";
+                        try {
+                            if (root.has("Message")) message = root.getString("Message");
+                        } catch (JSONException e) {
+                        }
+                        hander.netSetError(code, "服务器异常：" + nex.getCode() + " " + message);
                     }
                 } else if (ex instanceof ConnectException) {
                     LogUtil.d("ConnectException");
                     hander.netSetError(code, "请检查网络连接");
                 } else if (ex instanceof SocketTimeoutException) {
                     LogUtil.d("SocketTimeoutException");
-                    hander.netSetError(code, "请检查网络连接");
+                    hander.netSetError(code, "请求超时");
                 } else {
                     LogUtil.d("other Exception");
                     hander.netSetError(code, "请检查网络连接");

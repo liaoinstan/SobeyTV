@@ -24,6 +24,17 @@ public class SBDevice {
     @SerializedName("CoreProcess")
     private List<SBKeyValue> CoreProcess;
 
+    @SerializedName("Status")
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public List<SBKeyValue> getAttributes() {
         return Attributes;
     }

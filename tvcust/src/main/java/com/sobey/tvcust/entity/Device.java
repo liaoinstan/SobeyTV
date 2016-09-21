@@ -18,7 +18,26 @@ public class Device {
     @SerializedName("interIPAddress")
     private String InterIPAddress;
 
+    @SerializedName("status")
+    private String status;
+    //是否已经加载过了
+    private boolean hasLoad = false;
 
+    public boolean isHasLoad() {
+        return hasLoad;
+    }
+
+    public void setHasLoad(boolean hasLoad) {
+        this.hasLoad = hasLoad;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        status = status;
+    }
 
     public String getHostKey() {
         return HostKey;
@@ -46,10 +65,11 @@ public class Device {
 
     @Override
     public String toString() {
-        return "SBDevice{" +
+        return "Device{" +
                 "HostKey='" + HostKey + '\'' +
                 ", HostName='" + HostName + '\'' +
                 ", InterIPAddress='" + InterIPAddress + '\'' +
+                ", Status='" + status + '\'' +
                 '}';
     }
 }

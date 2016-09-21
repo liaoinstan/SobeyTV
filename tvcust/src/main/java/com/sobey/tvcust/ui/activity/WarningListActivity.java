@@ -318,6 +318,7 @@ public class WarningListActivity extends BaseAppCompatActivity implements OnRecy
                         stationCode = tvStations.get(0).getStationCode();
                         netGroup();
                     } else {
+                        //电视台为空
                     }
                 }
             }

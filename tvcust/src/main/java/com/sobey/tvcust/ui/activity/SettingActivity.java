@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.shelwee.update.UpdateHelper;
+import com.sobey.share.sharesdk.dialog.ShareDialog;
 import com.sobey.tvcust.common.CommonNet;
 import com.sobey.common.utils.ClearCacheUtil;
 import com.shelwee.update.utils.VersionUtil;
@@ -18,6 +19,8 @@ import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.MyActivityCollector;
 import com.sobey.tvcust.entity.CommonEntity;
 import com.sobey.tvcust.ui.dialog.DialogSure;
+import com.sobey.tvcust.utils.AppHelper;
+import com.sobey.tvcust.utils.UrlUtils;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -94,6 +97,7 @@ public class SettingActivity extends BaseAppCompatActivity implements View.OnCli
 
     private void initView() {
         findViewById(R.id.item_setting_about).setOnClickListener(this);
+        findViewById(R.id.item_setting_share).setOnClickListener(this);
         findViewById(R.id.item_setting_clause).setOnClickListener(this);
         findViewById(R.id.item_setting_version).setOnClickListener(this);
         findViewById(R.id.item_setting_feedbank).setOnClickListener(this);
@@ -128,6 +132,11 @@ public class SettingActivity extends BaseAppCompatActivity implements View.OnCli
                 intent.putExtra("title", "关于我们");
                 intent.putExtra("url", AppData.Url.pageAbout);//https://github.com    //http://cn.bing.com
                 startActivity(intent);
+                break;
+            case R.id.item_setting_share:
+                ShareDialog shareDialog = new ShareDialog(this);
+                shareDialog.setShareData("陛下", "小贝邀请你一起加入索贝", AppData.Url.shareApp,AppData.Url.AppLogo);
+                shareDialog.show();
                 break;
             case R.id.item_setting_clause:
                 intent.setClass(this, WebActivity.class);

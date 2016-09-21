@@ -59,6 +59,23 @@
                     android:background="@drawable/line" />
 
                 <TextView
+                    android:id="@+id/item_setting_share"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:drawableLeft="@drawable/icon_me_share"
+                    android:drawablePadding="20dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="22dp"
+                    android:text="分享软件" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginLeft="58dp"
+                    android:background="@drawable/line" />
+
+                <TextView
                     android:id="@+id/item_setting_clause"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"

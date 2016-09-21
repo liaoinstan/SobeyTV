@@ -181,7 +181,7 @@ public class CommonNet {
                 }else if(ex instanceof ConnectException){
                     hander.netSetError(code, "请检查网络连接");
                 }else if(ex instanceof SocketTimeoutException){
-                    hander.netSetError(code, "请检查网络连接");
+                    hander.netSetError(code, "请求超时");
                 } else {
                     hander.netSetError(code, "请检查网络连接");
                 }

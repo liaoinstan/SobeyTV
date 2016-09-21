@@ -23,6 +23,7 @@ import com.sobey.tvcust.common.AppVali;
 import com.sobey.tvcust.entity.CommonEntity;
 import com.sobey.tvcust.ui.activity.CompActivity;
 import com.sobey.tvcust.ui.activity.LoginActivity;
+import com.sobey.tvcust.ui.dialog.DialogNotice;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -31,7 +32,7 @@ import org.xutils.http.RequestParams;
 /**
  * Created by Administrator on 2016/6/2 0002.
  */
-public class RegistDetailFragment extends BaseFragment implements View.OnClickListener,CommonNet.NetHander{
+public class RegistDetailFragment extends BaseFragment implements View.OnClickListener, CommonNet.NetHander {
 
     private int position;
     private View rootView;
@@ -55,8 +56,10 @@ public class RegistDetailFragment extends BaseFragment implements View.OnClickLi
     private String type = TYPE_USER;
     private int officeId;
 
+    private boolean hasNotice = false;
+    private DialogNotice dialogNotice;
 
-    public void setFatherPager(ViewPager fatherPager){
+    public void setFatherPager(ViewPager fatherPager) {
         this.fatherPager = fatherPager;
     }
 
@@ -80,7 +83,7 @@ public class RegistDetailFragment extends BaseFragment implements View.OnClickLi
     }
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
@@ -89,9 +92,9 @@ public class RegistDetailFragment extends BaseFragment implements View.OnClickLi
     public void onEventMainThread(CompEntity comp) {
         officeId = comp.getId();
         edit_comp.setText(comp.getCompName());
-        if (!StrUtils.isEmpty(comp.getType())){
+        if (!StrUtils.isEmpty(comp.getType())) {
             type = comp.getType();
-        }else{
+        } else {
             //不处理
         }
     }
@@ -113,7 +116,7 @@ public class RegistDetailFragment extends BaseFragment implements View.OnClickLi
     }
 
     private void initBase() {
-
+        dialogNotice = new DialogNotice(getActivity());
     }
 
     private void initView() {
@@ -143,7 +146,7 @@ public class RegistDetailFragment extends BaseFragment implements View.OnClickLi
     @Override
     public void onClick(View v) {
         Intent intent = new Intent();
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_go:
                 btn_go.setClickable(false);
                 String name = edit_name.getText().toString();
@@ -151,15 +154,24 @@ public class RegistDetailFragment extends BaseFragment implements View.OnClickLi
                 String password_repet = edit_password_repet.getText().toString();
                 String mail = edit_mail.getText().toString();
 
-                String msg = AppVali.regist_detail(name,password,password_repet,mail,officeId);
+                String msg = AppVali.regist_detail(name, password, password_repet, mail, officeId);
                 if (msg == null) {
+
+                    if (!hasNotice) {
+                        dialogNotice.setMsg("请确定您选择的注册类型：" + (TYPE_USER.equals(getSelectType()) ? "用户" : "员工"));
+                        dialogNotice.show();
+                        hasNotice = true;
+                        btn_go.setClickable(true);
+                        break;
+                    }
+
                     RequestParams params = new RequestParams(AppData.Url.regist);
-                    params.addBodyParameter("mobile", ((LoginActivity)getActivity()).getPhone());
+                    params.addBodyParameter("mobile", ((LoginActivity) getActivity()).getPhone());
                     params.addBodyParameter("password", MD5Util.md5(password));
                     params.addBodyParameter("realName", name);
                     params.addBodyParameter("email", mail);
-                    if (officeId!=-1){
-                        params.addBodyParameter("officeId", officeId +"");
+                    if (officeId != -1) {
+                        params.addBodyParameter("officeId", officeId + "");
                     }
                     params.addBodyParameter("type", type);
                     params.addBodyParameter("deviceType", "0");
@@ -186,21 +198,21 @@ public class RegistDetailFragment extends BaseFragment implements View.OnClickLi
                 break;
             case R.id.edit_registdetail_comp:
                 intent.setClass(getActivity(), CompActivity.class);
-                intent.putExtra("type",getSelectType());
+                intent.putExtra("type", getSelectType());
                 startActivity(intent);
                 break;
         }
     }
 
-    private String getSelectType(){
-        if (text_select_customer.isSelected()){
+    private String getSelectType() {
+        if (text_select_customer.isSelected()) {
             return TYPE_USER;
-        }else {
+        } else {
             return TYPE_GROUP_USER;
         }
     }
 
-    private void clearView(){
+    private void clearView() {
         edit_name.setText("");
         edit_password.setText("");
         edit_password_repet.setText("");
@@ -210,15 +222,16 @@ public class RegistDetailFragment extends BaseFragment implements View.OnClickLi
 
     @Override
     public void netGo(int code, Object pojo, String text, Object obj) {
-        switch (code){
-            case 1:{
-                Toast.makeText(getActivity(),"小贝已收到您的申请，我们会尽快为您审核哒",Toast.LENGTH_SHORT).show();
+        switch (code) {
+            case 1: {
+                Toast.makeText(getActivity(), "小贝已收到您的申请，我们会尽快为您审核哒", Toast.LENGTH_SHORT).show();
                 btn_go.setProgress(100);
+                hasNotice = false;
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         sufatherPager.setCurrentItem(0);
-                        fatherPager.setCurrentItem(0,false);
+                        fatherPager.setCurrentItem(0, false);
                         btn_go.setClickable(true);
                         btn_go.setProgress(0);
                         clearView();
@@ -250,8 +263,8 @@ public class RegistDetailFragment extends BaseFragment implements View.OnClickLi
 
     @Override
     public void netSetError(int code, String text) {
-        switch (code){
-            case 1:{
+        switch (code) {
+            case 1: {
                 btn_go.setProgress(-1);
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -261,14 +274,14 @@ public class RegistDetailFragment extends BaseFragment implements View.OnClickLi
                     }
                 }, 800);
 
-                Toast.makeText(getActivity(),text,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
             }
         }
     }
 
     @Override
     public void netException(int code, String text) {
-        Toast.makeText(getActivity(),text,Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
     }
 
     public static class CompEntity {

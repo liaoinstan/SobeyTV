@@ -317,8 +317,11 @@ public class DeviceListActivity extends BaseAppCompatActivity implements OnRecyc
                     List<TVStation> tvStations = tvStationPojo.getDataList();
                     if (tvStations != null && tvStations.size() != 0) {
                         stationCode = tvStations.get(0).getStationCode();
-                        netGroup();
+                        if (!StrUtils.isEmpty(stationCode)) {
+                            netGroup();
+                        }
                     } else {
+                        //电视台为空
                     }
                 }
             }

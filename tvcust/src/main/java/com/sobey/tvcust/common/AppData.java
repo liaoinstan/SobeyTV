@@ -117,8 +117,8 @@ public class AppData {
 		 * 服务器域名
 		 */
 //		public static final String domain = "http://101.201.222.160:8085/SanghaCloud/";								//客服测试服务器
-		public static final String domain = "http://192.168.0.156:8080/SanghaCloud/";								//内部测试服务器
-//		public static final String domain = "http://192.168.0.155:8080/SanghaCloud/";								//开发服务器
+//		public static final String domain = "http://192.168.0.156:8080/SanghaCloud/";								//内部测试服务器
+		public static final String domain = "http://192.168.0.155:8080/SanghaCloud/";								//开发服务器
 
 		/**
 		 * 接口请求地址
@@ -182,6 +182,8 @@ public class AppData {
 		public static final String pageRule			    	= domain + "requestWeb/bounsPage";				    //静态web页-积分规则
 		public static final String pageIntro		    	= domain + "requestWeb/productPage";			    //静态web页-产品介绍
 		public static final String feedback			    	= domain + "suggest/add";							//打小报告
+		public static final String shareApp			    	= domain + "requestWeb/shareApp";					//分享app
+		public static final String AppLogo			    	= domain + "/resource/img/pgy-logo.png";			//app logo
 
 
 		private static final String sobey = "http://120.76.165.97/sobey/";

@@ -39,5 +39,17 @@
             android:textColor="@color/sb_text_blank_deep_light"
             android:textSize="@dimen/text_nomal" />
 
+        <TextView
+            android:id="@+id/text_item_device_status"
+            android:layout_width="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_height="wrap_content"
+            android:text="启动"
+            android:textColor="@color/sb_green"
+            android:textSize="@dimen/text_nomal"
+            android:layout_alignTop="@+id/text_item_device_name"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
     </RelativeLayout>
 </android.support.v7.widget.CardView>

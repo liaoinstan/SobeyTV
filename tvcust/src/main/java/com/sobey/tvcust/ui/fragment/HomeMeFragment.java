@@ -345,6 +345,7 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
                         String stationCode = AppHelper.getStationCodeStr(tvStations);
                         netCountWarning(stationCode);
                     } else {
+                        //电视台为空
                     }
                 }
             }

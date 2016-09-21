@@ -13,6 +13,7 @@ import android.view.Gravity;
 import android.widget.Toast;
 
 import com.sobey.common.utils.FileUtil;
+import com.sobey.common.utils.StrUtils;
 import com.sobey.common.utils.others.BitmapUtil;
 import com.sobey.common.utils.others.FileUtils;
 
@@ -84,7 +85,11 @@ public class CropHelperSys {
                         if (needPress){
                             pathFromUri = compress(pathFromUri,FileUtil.getPhotoFullPath());
                         }
-                        cropInterface.cropResult(pathFromUri);
+                        if (!StrUtils.isEmpty(pathFromUri)) {
+                            cropInterface.cropResult(pathFromUri);
+                        }else {
+                            Toast.makeText(context,"图片解析失败",Toast.LENGTH_SHORT).show();
+                        }
                     }
                 } else {
                     //没选择，不删除
@@ -138,7 +143,7 @@ public class CropHelperSys {
         try {
             bitmap = BitmapUtil.revitionImageSize(FromPath);
             toPath = BitmapUtil.saveBitmap(bitmap, toPath);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return toPath;

@@ -380,6 +380,7 @@ public class CountWarningActivity extends BaseAppCompatActivity implements View.
                         stationCode = AppHelper.getStationCodeStr(tvStations);
                         netGetWarningCount();
                     } else {
+                        //电视台为空
                     }
                 }
             }
