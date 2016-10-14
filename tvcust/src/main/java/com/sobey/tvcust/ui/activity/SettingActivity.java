@@ -135,7 +135,7 @@ public class SettingActivity extends BaseAppCompatActivity implements View.OnCli
                 break;
             case R.id.item_setting_share:
                 ShareDialog shareDialog = new ShareDialog(this);
-                shareDialog.setShareData("陛下", "小贝邀请你一起加入索贝", AppData.Url.shareApp,AppData.Url.AppLogo);
+                shareDialog.setShareData("口袋小贝", "索贝用心为你服务", AppData.Url.shareApp,AppData.Url.AppLogo);
                 shareDialog.show();
                 break;
             case R.id.item_setting_clause:

@@ -16,19 +16,19 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            app:navigationIcon="@drawable/icon_back"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
+            app:navigationIcon="@drawable/icon_back"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
         android:id="@+id/showingroup"
-        android:orientation="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <com.liaoinstan.springview.widget.SpringView
             android:id="@+id/spring_msg"
@@ -40,8 +40,8 @@
                 android:id="@+id/recycle_msg"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingBottom="10dp"
-                android:clipToPadding="false"/>
+                android:clipToPadding="false"
+                android:paddingBottom="10dp" />
 
         </com.liaoinstan.springview.widget.SpringView>
 
