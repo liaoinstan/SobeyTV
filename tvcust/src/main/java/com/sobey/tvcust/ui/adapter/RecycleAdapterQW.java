@@ -104,7 +104,7 @@ public class RecycleAdapterQW extends RecyclerView.Adapter<RecyclerView.ViewHold
             }
         });
         if (info != null) {
-            holder.text_hours.setText(info.getTotalOnlineTime() + "小时");
+//            holder.text_hours.setText(info.getTotalOnlineTime() + "小时");
             holder.text_servcount.setText(info.getTotal() + "台");
             holder.text_days.setText(info.getDays() + "天");
         }
@@ -148,14 +148,14 @@ public class RecycleAdapterQW extends RecyclerView.Adapter<RecyclerView.ViewHold
     public class HolderHeader extends RecyclerView.ViewHolder {
         public TextView text_days;
         public TextView text_servcount;
-        public TextView text_hours;
+//        public TextView text_hours;
         public View btn_go_device;
 
         public HolderHeader(View itemView) {
             super(itemView);
             text_days = (TextView) itemView.findViewById(R.id.text_item_qw_days);
             text_servcount = (TextView) itemView.findViewById(R.id.text_item_qw_servcount);
-            text_hours = (TextView) itemView.findViewById(R.id.text_item_qw_hours);
+//            text_hours = (TextView) itemView.findViewById(R.id.text_item_qw_hours);
             btn_go_device = itemView.findViewById(R.id.btn_go_device);
         }
     }

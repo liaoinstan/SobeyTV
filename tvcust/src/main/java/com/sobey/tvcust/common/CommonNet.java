@@ -129,7 +129,7 @@ public class CommonNet {
                     case 1005:
                         //已被挤下线
                         try {
-                            Toast.makeText(ApplicationHelp.getApplicationContext(),"你的账号在其他设备登录，强制下线",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ApplicationHelp.getApplicationContext(),"网络开小差了，请您重新登录～",Toast.LENGTH_SHORT).show();
                             MyActivityCollector.finishAll();
                             Intent intent = new Intent(ApplicationHelp.getApplicationContext(), LoginActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppConstant;
 import com.sobey.tvcust.common.AppData;
+import com.sobey.tvcust.common.CancelableCollector;
 import com.sobey.tvcust.common.CommonNet;
 import com.sobey.tvcust.common.SobeyNet;
 import com.sobey.tvcust.entity.CommonEntity;
@@ -35,6 +36,7 @@ import com.sobey.tvcust.utils.UrlUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
@@ -248,7 +250,7 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
     private void netCountOrder() {
         RequestParams params = new RequestParams(AppData.Url.countOrders);
         params.addHeader("token", AppData.App.getToken());
-        CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
+        Callback.Cancelable cancelable = CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
                 if (pojo == null) {
@@ -265,12 +267,13 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
                 Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
             }
         });
+        CancelableCollector.add(cancelable);
     }
 
     private void netCountSign() {
         RequestParams params = new RequestParams(AppData.Url.getUserSign);
         params.addHeader("token", AppData.App.getToken());
-        CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
+        Callback.Cancelable cancelable = CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
                 if (pojo == null) netSetError(code, "错误:返回数据为空");
@@ -286,6 +289,7 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
                 Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
             }
         });
+        CancelableCollector.add(cancelable);
     }
 
     private void netCountWarning(String stationCode) {
@@ -334,7 +338,7 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
     private void netGetStation_CountWarning() {
         RequestParams params = new RequestParams(AppData.Url.getTVs);
         params.addHeader("token", AppData.App.getToken());
-        CommonNet.samplepost(params, TVStationPojo.class, new CommonNet.SampleNetHander() {
+        Callback.Cancelable cancelable = CommonNet.samplepost(params, TVStationPojo.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
                 if (pojo == null) netSetError(code, "接口异常");
@@ -355,5 +359,6 @@ public class HomeMeFragment extends BaseFragment implements View.OnClickListener
                 Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
             }
         });
+        CancelableCollector.add(cancelable);
     }
 }

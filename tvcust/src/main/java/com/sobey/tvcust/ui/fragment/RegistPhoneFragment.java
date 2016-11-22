@@ -138,6 +138,7 @@ public class RegistPhoneFragment extends BaseFragment implements View.OnClickLis
 
                 break;
             case R.id.text_regist_getvali:
+                text_getvali.setEnabled(false);
                 String phone = edit_phone.getText().toString();
                 String msg = AppVali.regist_vali(phone);
                 if (msg == null) {
@@ -146,6 +147,7 @@ public class RegistPhoneFragment extends BaseFragment implements View.OnClickLis
                     CommonNet.post(this, params, 1, CommonEntity.class, null);
                 } else {
                     Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+                    text_getvali.setEnabled(true);
                 }
                 break;
         }
@@ -227,6 +229,7 @@ public class RegistPhoneFragment extends BaseFragment implements View.OnClickLis
             case 1: {
                 Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
                 time = 0;
+                text_getvali.setEnabled(true);
                 break;
             }
         }
@@ -235,5 +238,6 @@ public class RegistPhoneFragment extends BaseFragment implements View.OnClickLis
     @Override
     public void netException(int code, String text) {
         Toast.makeText(getActivity(),text,Toast.LENGTH_SHORT).show();
+        text_getvali.setEnabled(true);
     }
 }

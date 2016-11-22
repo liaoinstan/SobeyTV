@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="library-1.0.4">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../common/build/intermediates/exploded-aar/com.czt.mp3recorder/library/1.0.4/res" />
+      <root url="jar://$PROJECT_DIR$/../common/build/intermediates/exploded-aar/com.czt.mp3recorder/library/1.0.4/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.czt.mp3recorder/library/1.0.4/bac30b7531b343f9ea75ed33b441c871132768a0/library-1.0.4-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

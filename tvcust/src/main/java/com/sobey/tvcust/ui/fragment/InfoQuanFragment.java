@@ -22,6 +22,7 @@ import com.sobey.common.utils.StrUtils;
 import com.sobey.common.view.BannerView;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
+import com.sobey.tvcust.common.CancelableCollector;
 import com.sobey.tvcust.common.CommonNet;
 import com.sobey.tvcust.common.DividerItemDecoration;
 import com.sobey.tvcust.common.LoadingViewUtil;
@@ -186,6 +187,7 @@ public class InfoQuanFragment extends BaseFragment implements OnRecycleItemClick
                 }
             }
         });
+        CancelableCollector.add(cancelable);
     }
 
     private boolean isloadmore = false;
@@ -235,12 +237,13 @@ public class InfoQuanFragment extends BaseFragment implements OnRecycleItemClick
                 swipe.setRefreshing(false);
             }
         });
+        CancelableCollector.add(cancelablemore);
     }
 
     private void netBanner() {
         RequestParams params = new RequestParams(AppData.Url.getBanners);
         params.addHeader("token", AppData.App.getToken());
-        CommonNet.samplepost(params, BannerPojo.class, new CommonNet.SampleNetHander() {
+        Callback.Cancelable cancelable = CommonNet.samplepost(params, BannerPojo.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
                 if (pojo == null) netSetError(code, "错误：返回数据为空");
@@ -257,6 +260,7 @@ public class InfoQuanFragment extends BaseFragment implements OnRecycleItemClick
             public void netSetError(int code, String text) {
             }
         });
+        CancelableCollector.add(cancelable);
     }
 
     private void initCtrl() {

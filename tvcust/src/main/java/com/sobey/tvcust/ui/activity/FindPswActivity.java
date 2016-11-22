@@ -81,11 +81,15 @@ public class FindPswActivity extends BaseAppCompatActivity implements View.OnCli
                 finish();
                 break;
             case R.id.text_modifypsw_getvali: {
+
+                text_getvali.setEnabled(false);
+
                 final String phone = edit_phone.getText().toString();
 
                 String msg = AppVali.regist_vali(phone);
                 if (msg != null) {
                     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+                    text_getvali.setEnabled(true);
                 } else {
                     RequestParams params = new RequestParams(AppData.Url.getvalipsw);
                     params.addBodyParameter("mobile", phone);
@@ -95,6 +99,7 @@ public class FindPswActivity extends BaseAppCompatActivity implements View.OnCli
                             if (pojo == null) netSetError(code, "接口异常");
                             else {
                                 Toast.makeText(FindPswActivity.this, text, Toast.LENGTH_SHORT).show();
+                                text_getvali.setEnabled(true);
                                 CommonEntity common = (CommonEntity) pojo;
                                 valicode = common.getValicode();
                                 FindPswActivity.this.phone = phone;
@@ -107,6 +112,7 @@ public class FindPswActivity extends BaseAppCompatActivity implements View.OnCli
 
                         @Override
                         public void netSetError(int code, String text) {
+                            text_getvali.setEnabled(true);
                             Toast.makeText(FindPswActivity.this, text, Toast.LENGTH_SHORT).show();
                             time = 0;
                         }

@@ -185,12 +185,20 @@ public class RegistDetailFragment extends BaseFragment implements View.OnClickLi
 
                 break;
             case R.id.text_registdetail_select_customer:
+                //切换的时候把officeId清空
+                if (text_select_customer.isSelected()==false){
+                    officeId = 0;
+                }
                 text_select_customer.setSelected(true);
                 text_select_employ.setSelected(false);
                 edit_comp.setText("");
                 type = TYPE_USER;
                 break;
             case R.id.text_registdetail_select_employ:
+                //切换的时候把officeId清空
+                if (text_select_employ.isSelected()==false){
+                    officeId = 0;
+                }
                 text_select_customer.setSelected(false);
                 text_select_employ.setSelected(true);
                 edit_comp.setText("");

@@ -18,7 +18,6 @@ import com.dd.CircularProgressButton;
 import com.sobey.common.helper.CropHelperSys;
 import com.sobey.common.utils.StrUtils;
 import com.sobey.tvcust.common.CommonNet;
-import com.sobey.common.helper.CropHelper;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppConstant;
 import com.sobey.tvcust.common.AppData;

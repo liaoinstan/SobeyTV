@@ -65,11 +65,14 @@ public class ModifyPhoneActivity extends BaseAppCompatActivity implements View.O
         switch (v.getId()) {
             case R.id.text_modifyphone_getvali: {
 
+                text_getvali.setEnabled(false);
+
                 final String phone = edit_phone.getText().toString();
 
                 String msg = AppVali.regist_vali(phone);
                 if (msg != null) {
                     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+                    text_getvali.setEnabled(true);
                 } else {
                     RequestParams params = new RequestParams(AppData.Url.getvali);
                     params.addBodyParameter("mobile", phone);
@@ -79,6 +82,7 @@ public class ModifyPhoneActivity extends BaseAppCompatActivity implements View.O
                             if (pojo==null) netSetError(code,"接口异常");
                             else {
                                 Toast.makeText(ModifyPhoneActivity.this, text, Toast.LENGTH_SHORT).show();
+                                text_getvali.setEnabled(true);
                                 CommonEntity common = (CommonEntity) pojo;
                                 valicode = common.getValicode();
                                 ModifyPhoneActivity.this.phone = phone;
@@ -92,6 +96,7 @@ public class ModifyPhoneActivity extends BaseAppCompatActivity implements View.O
                         @Override
                         public void netSetError(int code, String text) {
                             Toast.makeText(ModifyPhoneActivity.this, text, Toast.LENGTH_SHORT).show();
+                            text_getvali.setEnabled(true);
                             time = 0;
                         }
                     });

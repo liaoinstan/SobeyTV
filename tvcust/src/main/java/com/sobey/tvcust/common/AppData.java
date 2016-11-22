@@ -119,7 +119,7 @@ public class AppData {
 		public static final String domain = "http://pocket.sobey.com/SanghaCloud/";								//客服正式服务器
 //		public static final String domain = "http://101.201.222.160:8085/SanghaCloud/";								//客服测试服务器
 //		public static final String domain = "http://192.168.0.156:8080/SanghaCloud/";								//内部测试服务器
-//		public static final String domain = "http://192.168.0.155:8080/SanghaCloud/";								//开发服务器
+//		public static final String domain = "http://192.168.118.196:8080/SanghaCloud/";								//开发服务器
 
 		/**
 		 * 接口请求地址

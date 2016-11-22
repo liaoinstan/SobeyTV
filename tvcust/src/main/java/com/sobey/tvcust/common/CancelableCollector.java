@@ -11,13 +11,13 @@ import java.util.List;
 public class CancelableCollector {
     private static List<Callback.Cancelable> canceles = new ArrayList<>();
 
-    public static void add(Callback.Cancelable cancelable){
+    public static void add(Callback.Cancelable cancelable) {
         canceles.add(cancelable);
     }
 
-    public static void CancleAll(){
-        for (Callback.Cancelable cancelable:canceles){
-            if (cancelable!=null && !cancelable.isCancelled()) {
+    public static void CancleAll() {
+        for (Callback.Cancelable cancelable : canceles) {
+            if (cancelable != null && !cancelable.isCancelled()) {
                 cancelable.cancel();
             }
         }

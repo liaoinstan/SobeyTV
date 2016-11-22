@@ -16,7 +16,7 @@ import com.dd.CircularProgressButton;
 import com.google.gson.Gson;
 import com.sobey.tvcust.common.CommonNet;
 import com.sobey.common.common.MyPlayer;
-import com.sobey.common.helper.CropHelper;
+import com.sobey.common.helper.CropHelperSys;
 import com.sobey.common.utils.StrUtils;
 import com.sobey.common.view.BundleView2;
 import com.sobey.tvcust.R;
@@ -42,9 +42,9 @@ import java.util.List;
 /**
  * type为0 是完成任务 type为1 是验收成功 type 2 验收拒绝 type 3 跨级追加  type 4 追加描述 type 5 反馈补丁
  */
-public class ReqDescribeOnlyActicity extends BaseAppCompatActivity implements View.OnClickListener, CropHelper.CropInterface {
+public class ReqDescribeOnlyActicity extends BaseAppCompatActivity implements View.OnClickListener, CropHelperSys.CropInterface {
 
-    private CropHelper cropHelper = new CropHelper(this);
+    private CropHelperSys cropHelper = new CropHelperSys(this);
 
     private DialogLoading loadingDialog;
     private DialogPopupPhoto popup;

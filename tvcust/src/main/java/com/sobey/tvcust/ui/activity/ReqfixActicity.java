@@ -17,7 +17,7 @@ import com.dd.CircularProgressButton;
 import com.google.gson.Gson;
 import com.sobey.tvcust.common.CommonNet;
 import com.sobey.common.common.MyPlayer;
-import com.sobey.common.helper.CropHelper;
+import com.sobey.common.helper.CropHelperSys;
 import com.sobey.common.utils.StrUtils;
 import com.sobey.common.view.BundleView2;
 import com.sobey.tvcust.R;
@@ -41,9 +41,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ReqfixActicity extends BaseAppCompatActivity implements View.OnClickListener, CropHelper.CropInterface {
+public class ReqfixActicity extends BaseAppCompatActivity implements View.OnClickListener, CropHelperSys.CropInterface {
 
-    private CropHelper cropHelper = new CropHelper(this);
+    private CropHelperSys cropHelper = new CropHelperSys(this);
 
     private View lay_reqfix_quekind;
     private View lay_reqfix_selectuser;

@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.shelwee.update.UpdateHelper;
 import com.sobey.share.sharesdk.dialog.ShareDialog;
+import com.sobey.tvcust.common.CancelableCollector;
 import com.sobey.tvcust.common.CommonNet;
 import com.sobey.common.utils.ClearCacheUtil;
 import com.shelwee.update.utils.VersionUtil;
@@ -18,6 +19,7 @@ import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
 import com.sobey.tvcust.common.MyActivityCollector;
 import com.sobey.tvcust.entity.CommonEntity;
+import com.sobey.tvcust.ui.dialog.DialogLoading;
 import com.sobey.tvcust.ui.dialog.DialogSure;
 import com.sobey.tvcust.utils.AppHelper;
 import com.sobey.tvcust.utils.UrlUtils;
@@ -32,12 +34,8 @@ public class SettingActivity extends BaseAppCompatActivity implements View.OnCli
 
     private DialogSure dialogSureClear;
     private DialogSure dialogSureLogout;
+    private DialogLoading dialogLoading;
 
-    private UpdateHelper updateHelper;
-
-    private Callback.Cancelable cancelable;
-    private Handler handler;
-    private Runnable runnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,16 +56,11 @@ public class SettingActivity extends BaseAppCompatActivity implements View.OnCli
         super.onDestroy();
         if (dialogSureClear != null) dialogSureClear.dismiss();
         if (dialogSureLogout != null) dialogSureLogout.dismiss();
+        if (dialogLoading != null) dialogLoading.dismiss();
     }
 
     private void initBase() {
-        handler = new Handler();
-        updateHelper = new UpdateHelper.Builder(this)
-                .checkUrl("http://xx")
-                .isAutoInstall(false) //设置为false需在下载完手动点击安装;默认值为true，下载后自动安装。
-//                        .isHintNewVersion(false)
-                .build();
-
+        dialogLoading = new DialogLoading(this, "正在注销");
         dialogSureClear = new DialogSure(this, "该操作会清除使用过程中录制的音频、视频等，且不可恢复，你确认继续？");
         dialogSureClear.setOnOkListener(new View.OnClickListener() {
             @Override
@@ -89,8 +82,8 @@ public class SettingActivity extends BaseAppCompatActivity implements View.OnCli
         dialogSureLogout.setOnOkListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                netLogout();
                 dialogSureLogout.hide();
+                netLogout();
             }
         });
     }
@@ -135,7 +128,7 @@ public class SettingActivity extends BaseAppCompatActivity implements View.OnCli
                 break;
             case R.id.item_setting_share:
                 ShareDialog shareDialog = new ShareDialog(this);
-                shareDialog.setShareData("口袋小贝", "索贝用心为你服务", AppData.Url.shareApp,AppData.Url.AppLogo);
+                shareDialog.setShareData("口袋小贝", "索贝用心为你服务", AppData.Url.shareApp, AppData.Url.AppLogo);
                 shareDialog.show();
                 break;
             case R.id.item_setting_clause:
@@ -176,27 +169,24 @@ public class SettingActivity extends BaseAppCompatActivity implements View.OnCli
         return super.onOptionsItemSelected(item);
     }
 
-    private boolean islogouting = false;
-    private boolean isruning = false;
-
     private void netLogout() {
-        if (islogouting) return;
         RequestParams params = new RequestParams(AppData.Url.logout);
         params.addHeader("token", AppData.App.getToken());
-        cancelable = CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
+        CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
                 Toast.makeText(SettingActivity.this, text, Toast.LENGTH_SHORT).show();
-                handler.removeCallbacks(runnable);
                 dialogSureClear.hide();
+                //退出成功后清空所有正在请求的链接
+                CancelableCollector.CancleAll();
                 AppData.App.removeUser();
                 AppData.App.removeToken();
 
                 Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
                 startActivity(intent);
                 MyActivityCollector.finishAll();
-
             }
+
             @Override
             public void netSetError(int code, String text) {
                 Toast.makeText(SettingActivity.this, text, Toast.LENGTH_SHORT).show();
@@ -204,32 +194,14 @@ public class SettingActivity extends BaseAppCompatActivity implements View.OnCli
             }
 
             @Override
-            public void netEnd(int code) {
-                islogouting = false;
+            public void netStart(int code) {
+                dialogLoading.show();
             }
 
             @Override
-            public void netStart(int code) {
-                islogouting = true;
+            public void netEnd(int code) {
+                dialogLoading.hide();
             }
         });
-
-        if (isruning) return;
-
-        isruning = true;
-        runnable = new Runnable() {
-            @Override
-            public void run() {
-                cancelable.cancel();
-                dialogSureClear.hide();
-                AppData.App.removeUser();
-                AppData.App.removeToken();
-
-                Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
-                startActivity(intent);
-                MyActivityCollector.finishAll();
-            }
-        };
-        handler.postDelayed(runnable, 2000);
     }
 }

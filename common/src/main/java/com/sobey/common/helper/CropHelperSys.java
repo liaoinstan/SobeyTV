@@ -80,8 +80,8 @@ public class CropHelperSys {
                     if (data != null) {
                         Uri uri = data.getData();
                         //获取真实的图片路径，下面2种方法都可以
-                        //String pathFromUri = getPathFromUri(context, uri);
-                        String pathFromUri = FileUtil.getRealFilePath(context, uri);
+                        String pathFromUri = FileUtil.PathUtil.getPath(context, uri);
+//                        String pathFromUri = FileUtil.getRealFilePath(context, uri);
                         if (needPress){
                             pathFromUri = compress(pathFromUri,FileUtil.getPhotoFullPath());
                         }

@@ -22,7 +22,7 @@ public class CompActivity extends BaseAppCompatActivity implements ActivityGo{
     private ViewPager viewPager;
     private MyPagerAdapter pagerAdapter;
     private String type = RegistDetailFragment.TYPE_GROUP_USER;
-    private String[] title = new String[]{"公司","办事处", "电视台"};
+    private String[] title = new String[]{"公司","地区", "电视台"};
 
     @Override
     public String getType() {

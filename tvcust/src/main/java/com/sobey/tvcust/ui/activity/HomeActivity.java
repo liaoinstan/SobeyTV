@@ -17,6 +17,7 @@ import com.shelwee.update.pojo.UpdateInfo;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppConstant;
 import com.sobey.tvcust.common.AppData;
+import com.sobey.tvcust.common.CancelableCollector;
 import com.sobey.tvcust.common.CommonNet;
 import com.sobey.tvcust.entity.CommonEntity;
 import com.sobey.tvcust.entity.User;
@@ -31,6 +32,7 @@ import com.sobey.common.utils.PermissionsUtil;
 import com.sobey.tvcust.utils.AppHelper;
 
 import org.greenrobot.eventbus.EventBus;
+import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 
 import java.util.List;
@@ -298,7 +300,7 @@ public class HomeActivity extends BaseAppCompatActivity implements View.OnClickL
     private void netIsSign() {
         RequestParams params = new RequestParams(AppData.Url.getUserSign);
         params.addHeader("token", AppData.App.getToken());
-        CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
+        Callback.Cancelable cancelable = CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
                 if (pojo == null) netSetError(code, "错误:返回数据为空");
@@ -319,12 +321,13 @@ public class HomeActivity extends BaseAppCompatActivity implements View.OnClickL
                 Toast.makeText(HomeActivity.this, text, Toast.LENGTH_SHORT).show();
             }
         });
+        CancelableCollector.add(cancelable);
     }
 
     private void netSign() {
         RequestParams params = new RequestParams(AppData.Url.sign);
         params.addHeader("token", AppData.App.getToken());
-        CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
+        Callback.Cancelable cancelable = CommonNet.samplepost(params, CommonEntity.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
                 if (pojo == null) netSetError(code, "错误:返回数据为空");
@@ -339,5 +342,6 @@ public class HomeActivity extends BaseAppCompatActivity implements View.OnClickL
                 Toast.makeText(HomeActivity.this, text, Toast.LENGTH_SHORT).show();
             }
         });
+        CancelableCollector.add(cancelable);
     }
 }

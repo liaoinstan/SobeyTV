@@ -19,6 +19,7 @@ import com.sobey.common.utils.StrUtils;
 import com.sobey.common.utils.TimeUtil;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppData;
+import com.sobey.tvcust.common.CancelableCollector;
 import com.sobey.tvcust.common.CommonNet;
 import com.sobey.tvcust.common.LoadingViewUtil;
 import com.sobey.tvcust.common.SobeyNet;
@@ -36,6 +37,7 @@ import com.sobey.tvcust.ui.adapter.RecycleAdapterQW;
 import com.sobey.tvcust.utils.AppHelper;
 import com.sobey.tvcust.utils.UrlUtils;
 
+import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 
 import java.util.ArrayList;
@@ -114,7 +116,7 @@ public class HomeQwFragment extends BaseFragment implements OnRecycleItemClickLi
         params.addHeader("token", AppData.App.getToken());
         params.addBodyParameter("pageNO", 1 + "");
         params.addBodyParameter("pageSize", 3 + "");
-        CommonNet.samplepost(params, WarningPojo.class, new CommonNet.SampleNetHander() {
+        Callback.Cancelable cancelable = CommonNet.samplepost(params, WarningPojo.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
                 if (pojo == null) netSetError(code, text);
@@ -129,13 +131,13 @@ public class HomeQwFragment extends BaseFragment implements OnRecycleItemClickLi
                         freshCtrl();
                         if (isFirst) {
                             LoadingViewUtil.showout(showingroup, showin);
-                        }else {
+                        } else {
                             springView.onFinishFreshAndLoad();
                         }
                     } else {
                         if (isFirst) {
                             LoadingViewUtil.showout(showingroup, showin);
-                        }else {
+                        } else {
                             springView.onFinishFreshAndLoad();
                         }
                     }
@@ -147,7 +149,7 @@ public class HomeQwFragment extends BaseFragment implements OnRecycleItemClickLi
                 Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
                 if (isFirst) {
                     LoadingViewUtil.showout(showingroup, showin);
-                }else {
+                } else {
                     springView.onFinishFreshAndLoad();
                 }
             }
@@ -159,6 +161,7 @@ public class HomeQwFragment extends BaseFragment implements OnRecycleItemClickLi
                 }
             }
         });
+        CancelableCollector.add(cancelable);
     }
 
     private void initCtrl() {
@@ -166,7 +169,7 @@ public class HomeQwFragment extends BaseFragment implements OnRecycleItemClickLi
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext(), LinearLayoutManager.VERTICAL, false));
         adapter.setOnItemClickListener(this);
-        springView.setHeader(new AliHeader(getActivity(),false));
+        springView.setHeader(new AliHeader(getActivity(), false));
         springView.setListener(new SpringView.OnFreshListener() {
             @Override
             public void onRefresh() {
@@ -181,7 +184,7 @@ public class HomeQwFragment extends BaseFragment implements OnRecycleItemClickLi
 
     private void freshCtrl() {
 //        adapter.notifyDataSetChanged();
-        adapter.notifyItemRangeChanged(1,adapter.getResults().size());
+        adapter.notifyItemRangeChanged(1, adapter.getResults().size());
     }
 
     @Override
@@ -213,19 +216,19 @@ public class HomeQwFragment extends BaseFragment implements OnRecycleItemClickLi
     private void netGetStations_countDevice() {
         RequestParams params = new RequestParams(AppData.Url.getTVs);
         params.addHeader("token", AppData.App.getToken());
-        CommonNet.samplepost(params, TVStationPojo.class, new CommonNet.SampleNetHander() {
+        Callback.Cancelable cancelable = CommonNet.samplepost(params, TVStationPojo.class, new CommonNet.SampleNetHander() {
             @Override
             public void netGo(int code, Object pojo, String text, Object obj) {
                 if (pojo == null) netSetError(code, "接口异常");
                 else {
                     TVStationPojo tvStationPojo = (TVStationPojo) pojo;
                     List<TVStation> tvStations = tvStationPojo.getDataList();
-                    if (tvStations!=null && tvStations.size()!=0) {
+                    if (tvStations != null && tvStations.size() != 0) {
                         String stationStr = AppHelper.getStationCodeStr(tvStations);
                         if (!StrUtils.isEmpty(stationStr)) {
                             netCountDevice(stationStr);
                         }
-                    }else {
+                    } else {
                         //电视台为空
                     }
                 }
@@ -236,6 +239,7 @@ public class HomeQwFragment extends BaseFragment implements OnRecycleItemClickLi
                 Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
             }
         });
+        CancelableCollector.add(cancelable);
     }
 
     private void netCountDevice(String stationCode) {

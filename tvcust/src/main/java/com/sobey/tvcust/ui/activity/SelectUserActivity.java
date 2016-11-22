@@ -21,7 +21,7 @@ public class SelectUserActivity extends BaseAppCompatActivity implements Activit
     private ViewPager viewPager;
     private MyPagerAdapter pagerAdapter;
     private String type = "xxx";
-    private String[] title = new String[]{"办事处", "电视台", "选择用户"};
+    private String[] title = new String[]{"地区", "电视台", "选择用户"};
 
     @Override
     public String[] getTitles() {

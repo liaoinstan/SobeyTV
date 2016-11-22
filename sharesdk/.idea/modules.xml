@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../SobeyTV.iml" filepath="$PROJECT_DIR$/../SobeyTV.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../common/common.iml" filepath="$PROJECT_DIR$/../common/common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../jpush/jpush.iml" filepath="$PROJECT_DIR$/../jpush/jpush.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../library_version/library_version.iml" filepath="$PROJECT_DIR$/../library_version/library_version.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sharesdk.iml" filepath="$PROJECT_DIR$/sharesdk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../spring/spring.iml" filepath="$PROJECT_DIR$/../spring/spring.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../tvcust/tvcust.iml" filepath="$PROJECT_DIR$/../tvcust/tvcust.iml" />
+    </modules>
+  </component>
+</project>

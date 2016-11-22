@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.liaoinstan.springview.container.AliFooter;
 import com.liaoinstan.springview.container.AliHeader;
 import com.liaoinstan.springview.widget.SpringView;
+import com.sobey.tvcust.common.CancelableCollector;
 import com.sobey.tvcust.common.CommonNet;
 import com.sobey.tvcust.R;
 import com.sobey.tvcust.common.AppConstant;
@@ -439,6 +440,7 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
                 springView.onFinishFreshAndLoad();
             }
         });
+        CancelableCollector.add(cancelablemore);
     }
 
     @Override
@@ -522,6 +524,7 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
                 }
             }
         });
+        CancelableCollector.add(cancelable);
     }
 
     private void netCancleOrder(final int pos) {
@@ -564,6 +567,7 @@ public class HomeOrderFragment extends BaseFragment implements View.OnClickListe
             public void netSetError(int code, String text) {
             }
         });
+        CancelableCollector.add(cancelablecount);
     }
 
     private void setTabCount(CountTab count) {

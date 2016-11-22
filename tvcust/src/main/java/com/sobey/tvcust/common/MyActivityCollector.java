@@ -19,15 +19,16 @@ public class MyActivityCollector {
     }  
   
     public static void removeActivity(Activity activity) {
-        activities.remove(activity);  
+        //activities.remove(activity);
     }  
   
-    public static void finishAll() {  
+    public static void finishAll() {
         for (Activity activity : activities) {
-            if (activity!=null && !activity.isFinishing()) {  
-                activity.finish();  
-            }  
-        }  
+            if (activity != null && !activity.isFinishing()) {
+                activity.finish();
+            }
+        }
+        activities.clear();
     }  
   
 }  
